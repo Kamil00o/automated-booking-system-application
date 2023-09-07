@@ -19,6 +19,7 @@
     <modules>
         <module>api-gateway</module>
 		<module>eureka-server-lb</module>
+		<module>spring-config-cloud</module>
 	</modules>
 
     <properties>
