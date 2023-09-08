@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class PassengerAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "name field can't be empty")
     @Size(min = 2, message = "The name should have at least 2 signs")

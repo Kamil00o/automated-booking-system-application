@@ -41,7 +41,7 @@ public class PassengerAccountController {
         return passengerAccount;
     }
 
-    @PostMapping(name = "/create")
+    @PostMapping(path = "/create")
     public ResponseEntity<Object> createNewPassengerAccount(@Valid @RequestBody PassengerAccount passengerAccount) {
         logger.info("Request added!!!!");
         PassengerAccount savedPassengerAccount = passengerAccountRepository.save(passengerAccount);
