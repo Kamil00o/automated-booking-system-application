@@ -1,16 +1,11 @@
 package pl.flywithbookedseats.passengeraccountservice.model.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 public class PassengerAccount {
@@ -28,17 +23,19 @@ public class PassengerAccount {
     @Size(min = 7, message = "The name should have at least 7 signs")
     private String email;
     @Past
+    @Column(name = "birth_date")
     private LocalDate birthDate;
+    @Column(name = "health_state")
     private String healthState;
+    @Column(name = "life_stage")
     private String lifeStage;
-    @JsonIgnore
-    private List<PassengerAccount> accompangingPassengers;
+
 
     protected PassengerAccount() {
 
     }
 
-    public PassengerAccount(Long id, String name, String surname, String email, LocalDate birthDate, String healthState, String lifeStage, List<PassengerAccount> accompangingPassengers) {
+    public PassengerAccount(Long id, String name, String surname, String email, LocalDate birthDate, String healthState, String lifeStage) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -46,7 +43,7 @@ public class PassengerAccount {
         this.birthDate = birthDate;
         this.healthState = healthState;
         this.lifeStage = lifeStage;
-        this.accompangingPassengers = accompangingPassengers;
+
     }
 
     public Long getId() {
@@ -105,13 +102,7 @@ public class PassengerAccount {
         this.lifeStage = lifeStage;
     }
 
-    public List<PassengerAccount> getAccompangingPassengers() {
-        return accompangingPassengers;
-    }
 
-    public void setAccompangingPassengers(List<PassengerAccount> accompangingPassengers) {
-        this.accompangingPassengers = accompangingPassengers;
-    }
 
     @Override
     public String toString() {
@@ -123,7 +114,6 @@ public class PassengerAccount {
                 ", birthDate=" + birthDate +
                 ", healthState='" + healthState + '\'' +
                 ", lifeStage='" + lifeStage + '\'' +
-                ", accompangingPassengers=" + accompangingPassengers +
                 '}';
     }
 }

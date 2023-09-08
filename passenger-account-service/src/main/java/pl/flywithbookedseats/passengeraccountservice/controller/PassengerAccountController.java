@@ -1,7 +1,12 @@
 package pl.flywithbookedseats.passengeraccountservice.controller;
 
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
@@ -15,6 +20,9 @@ import java.util.Optional;
 @RequestMapping(path = "/passenger-account")
 public class PassengerAccountController {
 
+    private static final Logger logger = LoggerFactory.getLogger(PassengerAccountController.class);
+
+    @Autowired
     private PassengerAccountRepository passengerAccountRepository;
 
     @GetMapping(path = "/test")
@@ -28,12 +36,14 @@ public class PassengerAccountController {
     }
 
     @GetMapping(path = "/id/{id}")
-    public void getPassengerAccountById(@PathVariable Long id) {
+    public Optional<PassengerAccount> getPassengerAccountById(@PathVariable Long id) {
         Optional<PassengerAccount> passengerAccount = passengerAccountRepository.findById(id);
+        return passengerAccount;
     }
 
     @PostMapping(name = "/create")
     public ResponseEntity<Object> createNewPassengerAccount(@Valid @RequestBody PassengerAccount passengerAccount) {
+        logger.info("Request added!!!!");
         PassengerAccount savedPassengerAccount = passengerAccountRepository.save(passengerAccount);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
