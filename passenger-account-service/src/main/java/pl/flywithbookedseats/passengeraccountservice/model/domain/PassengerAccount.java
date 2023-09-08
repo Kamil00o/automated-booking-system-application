@@ -1,9 +1,13 @@
 package pl.flywithbookedseats.passengeraccountservice.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,12 +18,20 @@ public class PassengerAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "name field can't be empty")
+    @Size(min = 2, message = "The name should have at least 2 signs")
     private String name;
+    @NotBlank(message = "surname field can't be empty")
+    @Size(min = 2, message = "The name should have at least 2 signs")
     private String surname;
+    @NotBlank(message = "email field can't be empty")
+    @Size(min = 7, message = "The name should have at least 7 signs")
     private String email;
+    @Past
     private LocalDate birthDate;
     private String healthState;
     private String lifeStage;
+    @JsonIgnore
     private List<PassengerAccount> accompangingPassengers;
 
     protected PassengerAccount() {
