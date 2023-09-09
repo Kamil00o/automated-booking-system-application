@@ -1,6 +1,10 @@
 package pl.flywithbookedseats.passengeraccountservice.model.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,11 +39,29 @@ public class PassengerAccount {
             updatable = false
     )
     private Long id;
+    @NotNull(message = "The name field can't be null")
+    @Size(min = 2, message = "The name should have at least 2 signs")
     private String name;
+    @NotBlank(message = "surname field can't be empty")
+    @NotNull
+    @Size(min = 2, message = "The name should have at least 2 signs")
     private String surname;
+    @NotBlank(message = "email field can't be empty")
+    @NotNull
+    @Size(min = 7, message = "The name should have at least 7 signs")
+    @Column(name = "email")
     private String email;
+    @Past
+    @NotNull
+    @Column(name = "birth_date")
     private LocalDate birthDate;
+    @NotNull
+    @NotBlank
+    @Column(name = "health_state")
     private String healthState;
+    @NotNull
+    @NotBlank
+    @Column(name = "life_stage")
     private String lifeStage;
 
     public Long getId() {

@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.model.domain;
+package pl.flywithbookedseats.passengeraccountservice.exceptions;
 
 public class PassengerAccountNotFoundException extends RuntimeException {
     public PassengerAccountNotFoundException(String message) {

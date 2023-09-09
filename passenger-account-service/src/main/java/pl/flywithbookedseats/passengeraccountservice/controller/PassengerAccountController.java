@@ -1,17 +1,16 @@
 package pl.flywithbookedseats.passengeraccountservice.controller;
 
+import jakarta.persistence.Column;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccountNotFoundException;
+import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
 
 import java.net.URI;
