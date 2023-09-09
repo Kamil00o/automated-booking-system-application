@@ -1,5 +1,6 @@
 package pl.flywithbookedseats.passengeraccountservice.controller;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ public class PassengerAccountController {
     }
 
     @GetMapping(path = "/all")
+    @Transactional
     public List<PassengerAccount> retrieveAllPassengerAccountsFromDb() {
         return passengerAccountRepository.findAll();
     }

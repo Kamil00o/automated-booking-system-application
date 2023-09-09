@@ -1,19 +1,39 @@
 package pl.flywithbookedseats.passengeraccountservice.model.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity(name = "passenger_account")
+@Table(
+        name = "passenger_account_TABLE",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "email", columnNames = "email")
+        }
+)
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class PassengerAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "passenger_account_squence",
+            sequenceName = "customized_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            generator =  "customized_sequence"
+    )
+    @Column(
+            name = "ID",
+            updatable = false
+    )
     private Long id;
     private String name;
     private String surname;
@@ -21,21 +41,6 @@ public class PassengerAccount {
     private LocalDate birthDate;
     private String healthState;
     private String lifeStage;
-
-    protected PassengerAccount() {
-
-    }
-
-    public PassengerAccount(Long id, String name, String surname, String email, LocalDate birthDate, String healthState, String lifeStage) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.birthDate = birthDate;
-        this.healthState = healthState;
-        this.lifeStage = lifeStage;
-
-    }
 
     public Long getId() {
         return id;
