@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
 
 import java.net.URI;
@@ -38,12 +39,19 @@ public class PassengerAccountController {
     @GetMapping(path = "/id/{id}")
     public Optional<PassengerAccount> getPassengerAccountById(@PathVariable Long id) {
         Optional<PassengerAccount> passengerAccount = passengerAccountRepository.findById(id);
+
+        if (passengerAccount.isEmpty()) {
+            throw new PassengerAccountNotFoundException(
+                    "Passenger account with specified id does not exist id: %s\", id");
+        }
+
         return passengerAccount;
     }
 
     @PostMapping(path = "/create")
     public ResponseEntity<Object> createNewPassengerAccount(@Valid @RequestBody PassengerAccount passengerAccount) {
-        logger.info("Request added!!!!");
+        logger.info("New passenger account for {} {} is being created!", passengerAccount.getName()
+                ,passengerAccount.getSurname());
         PassengerAccount savedPassengerAccount = passengerAccountRepository.save(passengerAccount);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
