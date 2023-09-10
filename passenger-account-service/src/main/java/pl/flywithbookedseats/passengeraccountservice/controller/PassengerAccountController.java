@@ -3,12 +3,15 @@ package pl.flywithbookedseats.passengeraccountservice.controller;
 import jakarta.persistence.Column;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
@@ -18,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/passenger-account")
 public class PassengerAccountController {
 
@@ -50,14 +54,29 @@ public class PassengerAccountController {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<Object> createNewPassengerAccount(@Valid @RequestBody PassengerAccount passengerAccount) {
-        logger.info("New passenger account for {} {} is being created!", passengerAccount.getName()
+    @Transactional
+    public ResponseEntity<Object> createNewPassengerAccount(@Valid @Argument CreatePassengerAccount createPassengerAccount) {
+
+        PassengerAccount passengerAccount = PassengerAccount.builder()
+                .name(createPassengerAccount.name())
+                .surname(createPassengerAccount.surname())
+                .email(createPassengerAccount.email())
+                .birthDate(createPassengerAccount.birthDate())
+                .healthState(createPassengerAccount.healthState())
+                .lifeStage(createPassengerAccount.lifeStage())
+                .build();
+
+        passengerAccountRepository.save(passengerAccount);
+
+        /*logger.info("New passenger account for {} {} is being created!", passengerAccount.getName()
                 ,passengerAccount.getSurname());
-        PassengerAccount savedPassengerAccount = passengerAccountRepository.save(passengerAccount);
+        PassengerAccount savedPassengerAccount = passengerAccountRepository.save(passengerAccount);*/
+
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/../{id}")
-                .buildAndExpand(savedPassengerAccount.getId())
+                .buildAndExpand(passengerAccount.getId())
                 .toUri()
                 .normalize();
         return ResponseEntity.created(location).build();
