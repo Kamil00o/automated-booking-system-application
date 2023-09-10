@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountAlreadyExistsException;
+import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
@@ -22,6 +24,9 @@ import java.util.Optional;
 public class PassengerAccountController {
 
     private static final Logger logger = LoggerFactory.getLogger(PassengerAccountController.class);
+    private static final String PASSENGER_ACCOUNT_NOT_FOUND = "Passenger account with specified %s not found!";
+    private static final String PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS =
+            "Passenger account with specified email: %s already exists!";
 
     @Autowired
     private PassengerAccountRepository passengerAccountRepository;
@@ -56,10 +61,30 @@ public class PassengerAccountController {
         PassengerAccount savedPassengerAccount = passengerAccountRepository.save(passengerAccount);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/../{id}")
+                .path("/{id}")
                 .buildAndExpand(savedPassengerAccount.getId())
                 .toUri()
                 .normalize();
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping(path = "/edit/{id}")
+    @Transactional
+    public void editPassengerAccount(@PathVariable long id,
+                                     @Valid @RequestBody UpdatePassengerAccount updatePassengerAccount) {
+        PassengerAccount passengerAccount = passengerAccountRepository.findById(id)
+                .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND.formatted(id)));
+
+        if (!passengerAccountRepository.existsByEmail(updatePassengerAccount.email())) {
+            passengerAccount.setName(updatePassengerAccount.name());
+            passengerAccount.setSurname(updatePassengerAccount.surname());
+            passengerAccount.setEmail(updatePassengerAccount.email());
+            passengerAccount.setBirthDate(updatePassengerAccount.birthDate());
+            passengerAccount.setHealthState(updatePassengerAccount.healthState());
+            passengerAccount.setLifeStage(updatePassengerAccount.lifeStage());
+        } else {
+            throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
+                    .formatted(updatePassengerAccount.email()));
+        }
     }
 }
