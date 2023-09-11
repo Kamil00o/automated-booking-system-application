@@ -21,7 +21,8 @@
 		<module>eureka-server-lb</module>
 		<module>spring-config-cloud</module>
 		<module>passenger-account-service</module>
-	</modules>
+        <module>seats-booking-system-service</module>
+    </modules>
 
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
