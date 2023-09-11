@@ -1,13 +1,12 @@
-package pl.flywithbookedseats.seatsbookingsystemservice.controller;
+package pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.controller;
 
 import jakarta.validation.Valid;
-import jakarta.ws.rs.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.seatsbookingsystemservice.model.command.CreateFlight;
-import pl.flywithbookedseats.seatsbookingsystemservice.model.command.UpdateFlight;
-import pl.flywithbookedseats.seatsbookingsystemservice.model.domain.Flight;
-import pl.flywithbookedseats.seatsbookingsystemservice.service.SeatsBookingSystemService;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateFlight;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.UpdateFlight;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain.Flight;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service.SeatsBookingSystemService;
 
 import java.util.LinkedList;
 import java.util.List;
