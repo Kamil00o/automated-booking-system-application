@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.seatsbookingsystemservice.model.domain;
+package pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
