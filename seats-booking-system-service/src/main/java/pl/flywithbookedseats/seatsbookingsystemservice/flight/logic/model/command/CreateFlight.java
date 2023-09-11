@@ -1,13 +1,11 @@
-package pl.flywithbookedseats.seatsbookingsystemservice.model.command;
+package pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command;
 
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 
 @SchemaMapping
-public record UpdateFlight(
+public record CreateFlight(
 
         @NotNull
         @NotBlank
