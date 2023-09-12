@@ -21,6 +21,7 @@ public class SeatsSchemeController {
     public String test() {
         return "test";
     }
+    
     @GetMapping(path = "/all")
     public List<SeatsScheme> retrieveAllSeatsSchemes() {
         return new LinkedList<>();
