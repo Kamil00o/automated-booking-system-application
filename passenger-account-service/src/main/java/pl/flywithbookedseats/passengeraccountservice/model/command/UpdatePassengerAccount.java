@@ -5,11 +5,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@SchemaMapping
+@Getter
+@Setter
 public record UpdatePassengerAccount(
 
         @NotNull(message = "The name field can't be null")
@@ -27,12 +31,13 @@ public record UpdatePassengerAccount(
         @NotNull
         @Column(name = "birth_date")
         LocalDate birthDate,
+        boolean disability,
         @NotNull
         @NotBlank
-        @Column(name = "health_state")
-        String healthState,
-        @NotNull
+        @Column(name = "reservation_id")
+        List<String> reservationId,
         @NotBlank
-        @Column(name = "life_stage")
-        String lifeStage
+        @NotNull
+        @Size(min = 2, message = "The nationality field should have at least 2 signs")
+        String nationality
 ) {}

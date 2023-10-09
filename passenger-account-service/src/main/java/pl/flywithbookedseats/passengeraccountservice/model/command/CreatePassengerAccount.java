@@ -8,8 +8,9 @@ import jakarta.validation.constraints.Size;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@SchemaMapping
+
 public record CreatePassengerAccount(
 
         @NotNull(message = "The name field can't be null")
@@ -27,12 +28,13 @@ public record CreatePassengerAccount(
         @NotNull
         @Column(name = "birth_date")
         LocalDate birthDate,
+        boolean disability,
         @NotNull
         @NotBlank
-        @Column(name = "health_state")
-        String healthState,
-        @NotNull
+        @Column(name = "reservation_id")
+        List<String> reservationId,
         @NotBlank
-        @Column(name = "life_stage")
-        String lifeStage
+        @NotNull
+        @Size(min = 2, message = "The nationality field should have at least 2 signs")
+        String nationality
 ) {}

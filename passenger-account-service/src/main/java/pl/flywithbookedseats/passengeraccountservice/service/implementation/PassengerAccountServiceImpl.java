@@ -72,12 +72,12 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
                 .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND.formatted(id)));
 
         if (!passengerAccountRepository.existsByEmail(updatePassengerAccount.email())) {
-            passengerAccount.setName(updatePassengerAccount.name());
-            passengerAccount.setSurname(updatePassengerAccount.surname());
-            passengerAccount.setEmail(updatePassengerAccount.email());
-            passengerAccount.setBirthDate(updatePassengerAccount.birthDate());
-            passengerAccount.setHealthState(updatePassengerAccount.healthState());
-            passengerAccount.setLifeStage(updatePassengerAccount.lifeStage());
+            passengerAccount.setName(updatePassengerAccount.getName());
+            passengerAccount.setSurname(updatePassengerAccount.getSurname());
+            passengerAccount.setEmail(updatePassengerAccount.getEmail());
+            passengerAccount.setBirthDate(updatePassengerAccount.getBirthDate());
+            passengerAccount.setDisability(updatePassengerAccount.isDisability());
+            passengerAccount.setReservationId(updatePassengerAccount.getReservationId());
         } else {
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
                     .formatted(updatePassengerAccount.email()));

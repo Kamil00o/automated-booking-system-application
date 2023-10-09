@@ -5,12 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "passenger_account")
 @Table(
@@ -23,6 +21,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Getter
+@Setter
 public class PassengerAccount {
 
     @Id
@@ -49,78 +49,24 @@ public class PassengerAccount {
     @NotBlank(message = "email field can't be empty")
     @NotNull
     @Size(min = 7, message = "The name should have at least 7 signs")
-    @Column(name = "email")
+    @Column(
+            name = "email",
+            unique = true
+    )
     private String email;
     @Past
     @NotNull
     @Column(name = "birth_date")
     private LocalDate birthDate;
+    private boolean disability;
     @NotNull
     @NotBlank
-    @Column(name = "health_state")
-    private String healthState;
-    @NotNull
+    @Column(name = "reservation_id")
+    private List<String> reservationId;
     @NotBlank
-    @Column(name = "life_stage")
-    private String lifeStage;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getHealthState() {
-        return healthState;
-    }
-
-    public void setHealthState(String healthState) {
-        this.healthState = healthState;
-    }
-
-    public String getLifeStage() {
-        return lifeStage;
-    }
-
-    public void setLifeStage(String lifeStage) {
-        this.lifeStage = lifeStage;
-    }
-
-
+    @NotNull
+    @Size(min = 2, message = "The nationality field should have at least 2 signs")
+    private String nationality;
 
     @Override
     public String toString() {
@@ -130,8 +76,9 @@ public class PassengerAccount {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", birthDate=" + birthDate +
-                ", healthState='" + healthState + '\'' +
-                ", lifeStage='" + lifeStage + '\'' +
+                ", disability=" + disability +
+                ", reservationId=" + reservationId +
+                ", nationality='" + nationality + '\'' +
                 '}';
     }
 }
