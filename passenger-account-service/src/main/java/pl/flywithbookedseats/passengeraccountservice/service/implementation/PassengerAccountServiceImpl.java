@@ -10,8 +10,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.flywithbookedseats.passengeraccountservice.controller.PassengerAccountController;
 import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountAlreadyExistsException;
 import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountNotFoundException;
+import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.model.mapper.CreatePassengerAccountMapper;
+import pl.flywithbookedseats.passengeraccountservice.model.mapper.PassengerAccountDtoMapper;
+import pl.flywithbookedseats.passengeraccountservice.model.mapper.UpdatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
 import pl.flywithbookedseats.passengeraccountservice.service.PassengerAccountService;
 
@@ -29,6 +34,8 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
             "Passenger account with specified email: %s already exists!";
 
     private final PassengerAccountRepository passengerAccountRepository;
+    private final CreatePassengerAccountMapper createPassengerAccountMapper;
+    private final PassengerAccountDtoMapper passengerAccountDtoMapper;
 
     @Transactional
     @Override
@@ -48,21 +55,30 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
         return passengerAccount;
     }
 
+    @Transactional
     @Override
-    public ResponseEntity<Object> createNewPassengerAccount(PassengerAccount passengerAccount) {
-        PassengerAccount savedPassengerAccount = passengerAccountRepository.save(passengerAccount);
+    public ResponseEntity<Object> createNewPassengerAccount(CreatePassengerAccount createPassengerAccount) {
+        if (!exists(createPassengerAccount)) {
+            PassengerAccount savedPassengerAccount = createPassengerAccountMapper
+                    .apply(createPassengerAccount);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedPassengerAccount.getId())
-                .toUri()
-                .normalize();
+            passengerAccountRepository.save(savedPassengerAccount);
 
-        logger.info("New passenger account for {} {} is being created!", passengerAccount.getName()
-                ,passengerAccount.getSurname());
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(savedPassengerAccount.getId())
+                    .toUri()
+                    .normalize();
 
-        return ResponseEntity.created(location).build();
+            logger.info("New passenger account for {} {} is being created!", savedPassengerAccount.getName()
+                    , savedPassengerAccount.getSurname());
+
+            return ResponseEntity.created(location).build();
+        } else {
+            throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
+                    .formatted(createPassengerAccount.getEmail()));
+        }
     }
 
     @Transactional
@@ -71,7 +87,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
         PassengerAccount passengerAccount = passengerAccountRepository.findById(id)
                 .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND.formatted(id)));
 
-        if (!passengerAccountRepository.existsByEmail(updatePassengerAccount.email())) {
+        if (!exists(updatePassengerAccount)) {
             passengerAccount.setName(updatePassengerAccount.getName());
             passengerAccount.setSurname(updatePassengerAccount.getSurname());
             passengerAccount.setEmail(updatePassengerAccount.getEmail());
@@ -82,5 +98,13 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
                     .formatted(updatePassengerAccount.email()));
         }
+    }
+
+    private boolean exists(CreatePassengerAccount createPassengerAccount) {
+        return passengerAccountRepository.existsByEmail(createPassengerAccount.getEmail());
+    }
+
+    private boolean exists(UpdatePassengerAccount updatePassengerAccount) {
+        return passengerAccountRepository.existsByEmail(updatePassengerAccount.getEmail());
     }
 }

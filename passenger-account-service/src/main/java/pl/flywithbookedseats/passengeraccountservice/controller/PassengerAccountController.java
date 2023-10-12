@@ -5,8 +5,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.service.implementation.PassengerAccountServiceImpl;
 
 import java.util.List;
@@ -35,12 +37,11 @@ public class PassengerAccountController {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<Object> createNewPassengerAccount(@Valid @RequestBody PassengerAccount passengerAccount) {
-        return passengerAccountServiceImpl.createNewPassengerAccount(passengerAccount);
+    public ResponseEntity<Object> createNewPassengerAccount(@Valid @RequestBody CreatePassengerAccount createPassengerAccount) {
+        return passengerAccountServiceImpl.createNewPassengerAccount(createPassengerAccount);
     }
 
     @PutMapping(path = "/edit/{id}")
-    @Transactional
     public void editPassengerAccount(@PathVariable long id,
                                      @Valid @RequestBody UpdatePassengerAccount updatePassengerAccount) {
         passengerAccountServiceImpl.editPassengerAccount(id, updatePassengerAccount);
