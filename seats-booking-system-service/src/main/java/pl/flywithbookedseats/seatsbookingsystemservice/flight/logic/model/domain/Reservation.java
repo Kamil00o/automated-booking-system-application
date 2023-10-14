@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import static pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.common.Consts.NOT_NULL_MESSAGE;
+
 @Builder
 @Data
 @Getter
@@ -15,7 +17,7 @@ import lombok.*;
 @Entity
 public class Reservation {
 
-    private static final String NOT_NULL_MESSAGE = "This field can't be null";
+
 
     @Id
     @SequenceGenerator(
@@ -35,6 +37,10 @@ public class Reservation {
     @NotNull(message = NOT_NULL_MESSAGE)
     @Size(min = 3, message = "The seatNumber field should consists of 3 signs", max = 3)
     private String seatNumber;
+    @Column(name = "seat_type_class")
+    @NotNull(message = NOT_NULL_MESSAGE)
+    @Size(min = 3, message = "The seatNumber field should consists of 3 signs", max = 3)
+    private String seatTypeClass;
     @Column(name = "passenger_email")
     @NotNull(message = NOT_NULL_MESSAGE)
     @Size(min = 9, message = "The passengerEmail field should have at least 9 signs")
