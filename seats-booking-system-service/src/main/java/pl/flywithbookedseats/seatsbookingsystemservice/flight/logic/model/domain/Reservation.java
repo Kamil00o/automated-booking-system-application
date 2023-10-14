@@ -14,6 +14,7 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.commo
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "reservation_TABLE")
 @Entity
 public class Reservation {
 
