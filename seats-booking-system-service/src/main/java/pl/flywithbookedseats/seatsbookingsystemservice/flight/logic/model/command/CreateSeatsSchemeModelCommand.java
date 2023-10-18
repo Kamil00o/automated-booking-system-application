@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.relational.core.sql.In;
 
 import java.util.List;
 
