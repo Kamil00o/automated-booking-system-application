@@ -39,6 +39,7 @@ public class SeatsSchemeModel {
     private String planeModel;
     @NotNull(message = NOT_NULL_MESSAGE)
     @Column(name = "seats_scheme")
+    @ElementCollection
     private HashMap<String, HashMap<String, Long>> seatsScheme = new HashMap<>();
 
     @Override

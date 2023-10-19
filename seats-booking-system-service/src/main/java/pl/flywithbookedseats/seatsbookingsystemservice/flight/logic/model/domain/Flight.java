@@ -52,6 +52,7 @@ public class Flight {
     @Column(name = "passenger_name_surname")
     private List<String> passengerNameSurname;
     @Column(name = "plane_seats_scheme_model")
+    @ElementCollection
     private HashMap<String, HashMap<String, Long>> seatsSchemePlaneModel;
 
     @Override

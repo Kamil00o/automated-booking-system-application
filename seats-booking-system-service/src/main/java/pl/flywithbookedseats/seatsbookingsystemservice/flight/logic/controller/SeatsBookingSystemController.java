@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateFlight;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.UpdateFlight;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain.Flight;
-import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service.SeatsBookingSystemService;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service.implementation.SeatsBookingSystemServiceImpl;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(path = "/seats-booking")
 public class SeatsBookingSystemController {
 
-    private final SeatsBookingSystemService seatsBookingSystemService;
+    private final SeatsBookingSystemServiceImpl seatsBookingSystemService;
 
     @GetMapping(path = "/test")
     public String test() {
