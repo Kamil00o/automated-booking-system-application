@@ -6,5 +6,5 @@ import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain
 
 @Repository
 public interface SeatsSchemeModelRepository extends JpaRepository<SeatsSchemeModel, Long> {
-    
+
 }
