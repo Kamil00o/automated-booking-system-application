@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,8 +11,6 @@ import java.util.List;
 import static pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.common.Consts.NOT_NULL_MESSAGE;
 
 @Builder
-@Setter
-@Getter
 public record UpdatePassengerCommand(
         @NotNull(message = NOT_NULL_MESSAGE)
         @Size(min = 9, message = "The email field should have at least 9 signs")

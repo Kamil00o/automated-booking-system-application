@@ -3,11 +3,9 @@ package pl.flywithbookedseats.seatsbookingsystemservice.seats.logic.model.comman
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 
 @SchemaMapping
-@Getter
 public record CreateSeatsScheme(
 
         @NotBlank

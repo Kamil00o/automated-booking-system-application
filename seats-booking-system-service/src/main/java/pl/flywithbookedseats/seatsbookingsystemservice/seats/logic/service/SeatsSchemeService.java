@@ -18,16 +18,17 @@ public class SeatsSchemeService {
     @Transactional
     public SeatsScheme createSeatsScheme(CreateSeatsScheme createSeatsScheme) {
         if (!exists(createSeatsScheme)) {
-            SeatsScheme seatsScheme = SeatsScheme.builder()
-                    .planeModel(createSeatsScheme.getPlaneModel())
+            /*SeatsScheme seatsScheme = SeatsScheme.builder()
+                    .planeModel(createSeatsScheme.getPlaneModel());*/
         }
+        return null;
     }
 
     private boolean exists(CreateSeatsScheme createSeatsScheme) {
-        return seatsSchemeRepository.existsByPlaneModel(createSeatsScheme.getPlaneModel());
+        return seatsSchemeRepository.existsByPlaneModel(createSeatsScheme.planeModel());
     }
 
     private HashMap<String, Long> attachPlaneSeatsScheme() {
-
+        return null;
     }
 }
