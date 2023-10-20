@@ -6,6 +6,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.comman
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.dto.SeatsSchemeModelDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SeatsBookingSystemService {
 
@@ -13,9 +14,9 @@ public interface SeatsBookingSystemService {
 
     List<SeatsSchemeModelDto> retrieveAllSavedSeatsSchemeModelsFromDb();
 
-    SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(String planeModel);
+    Optional<SeatsSchemeModelDto> retrieveSeatsSchemeModelByPlaneModel(String planeModel);
 
-    SeatsSchemeModelDto retrieveSeatsSchemeModelById(Long id);
+    Optional<SeatsSchemeModelDto> retrieveSeatsSchemeModelById(Long id);
 
     SeatsSchemeModelDto updateSeatsSchemeModel(Long id);
 }
