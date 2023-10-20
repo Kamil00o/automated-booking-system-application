@@ -11,12 +11,12 @@ public class UpdatePassengerAccountMapper implements Function<UpdatePassengerAcc
     @Override
     public PassengerAccount apply(UpdatePassengerAccount updatePassengerAccount) {
         return PassengerAccount.builder()
-                .name(updatePassengerAccount.getName())
-                .surname(updatePassengerAccount.getSurname())
-                .email(updatePassengerAccount.getEmail())
-                .birthDate(updatePassengerAccount.getBirthDate())
-                .disability(updatePassengerAccount.isDisability())
-                .nationality(updatePassengerAccount.getNationality())
+                .name(updatePassengerAccount.name())
+                .surname(updatePassengerAccount.surname())
+                .email(updatePassengerAccount.email())
+                .birthDate(updatePassengerAccount.birthDate())
+                .disability(updatePassengerAccount.disability())
+                .nationality(updatePassengerAccount.nationality())
                 .build();
     }
 }

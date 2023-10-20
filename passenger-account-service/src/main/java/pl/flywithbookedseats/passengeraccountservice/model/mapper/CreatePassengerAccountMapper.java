@@ -11,13 +11,13 @@ public class CreatePassengerAccountMapper implements Function<CreatePassengerAcc
     @Override
     public PassengerAccount apply(CreatePassengerAccount createPassengerAccount) {
         return PassengerAccount.builder()
-                .name(createPassengerAccount.getName())
-                .surname(createPassengerAccount.getSurname())
-                .email(createPassengerAccount.getEmail())
-                .birthDate(createPassengerAccount.getBirthDate())
-                .disability(createPassengerAccount.isDisability())
-                .reservationId(createPassengerAccount.getReservationId())
-                .nationality(createPassengerAccount.getNationality())
+                .name(createPassengerAccount.name())
+                .surname(createPassengerAccount.surname())
+                .email(createPassengerAccount.email())
+                .birthDate(createPassengerAccount.birthDate())
+                .disability(createPassengerAccount.disability())
+                .reservationId(createPassengerAccount.reservationId())
+                .nationality(createPassengerAccount.nationality())
                 .build();
     }
 }

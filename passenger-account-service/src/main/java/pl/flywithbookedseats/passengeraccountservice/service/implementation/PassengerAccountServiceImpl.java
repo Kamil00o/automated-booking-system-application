@@ -77,7 +77,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
             return ResponseEntity.created(location).build();
         } else {
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
-                    .formatted(createPassengerAccount.getEmail()));
+                    .formatted(createPassengerAccount.email()));
         }
     }
 
@@ -88,12 +88,12 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
                 .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND.formatted(id)));
 
         if (!exists(updatePassengerAccount)) {
-            passengerAccount.setName(updatePassengerAccount.getName());
-            passengerAccount.setSurname(updatePassengerAccount.getSurname());
-            passengerAccount.setEmail(updatePassengerAccount.getEmail());
-            passengerAccount.setBirthDate(updatePassengerAccount.getBirthDate());
-            passengerAccount.setDisability(updatePassengerAccount.isDisability());
-            passengerAccount.setReservationId(updatePassengerAccount.getReservationId());
+            passengerAccount.setName(updatePassengerAccount.name());
+            passengerAccount.setSurname(updatePassengerAccount.surname());
+            passengerAccount.setEmail(updatePassengerAccount.email());
+            passengerAccount.setBirthDate(updatePassengerAccount.birthDate());
+            passengerAccount.setDisability(updatePassengerAccount.disability());
+            passengerAccount.setReservationId(updatePassengerAccount.reservationId());
         } else {
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
                     .formatted(updatePassengerAccount.email()));
@@ -101,10 +101,10 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     }
 
     private boolean exists(CreatePassengerAccount createPassengerAccount) {
-        return passengerAccountRepository.existsByEmail(createPassengerAccount.getEmail());
+        return passengerAccountRepository.existsByEmail(createPassengerAccount.email());
     }
 
     private boolean exists(UpdatePassengerAccount updatePassengerAccount) {
-        return passengerAccountRepository.existsByEmail(updatePassengerAccount.getEmail());
+        return passengerAccountRepository.existsByEmail(updatePassengerAccount.email());
     }
 }

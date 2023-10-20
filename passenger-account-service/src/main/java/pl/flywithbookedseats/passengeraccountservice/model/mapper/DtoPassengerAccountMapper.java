@@ -11,12 +11,12 @@ public class DtoPassengerAccountMapper implements Function<PassengerAccountDto, 
     @Override
     public PassengerAccount apply(PassengerAccountDto passengerAccountDto) {
         return PassengerAccount.builder()
-                .name(passengerAccountDto.getName())
-                .surname(passengerAccountDto.getSurname())
-                .email(passengerAccountDto.getEmail())
+                .name(passengerAccountDto.name())
+                .surname(passengerAccountDto.surname())
+                .email(passengerAccountDto.email())
                 .birthDate(passengerAccountDto.birthDate())
-                .disability(passengerAccountDto.isDisability())
-                .reservationId(passengerAccountDto.getReservationId())
+                .disability(passengerAccountDto.disability())
+                .reservationId(passengerAccountDto.reservationId())
                 .build();
     }
 }
