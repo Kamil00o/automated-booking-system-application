@@ -40,14 +40,14 @@ public class SeatsSchemeModel {
     @NotNull(message = NOT_NULL_MESSAGE)
     @Column(name = "seats_scheme")
     @ElementCollection
-    private HashMap<String, HashMap<String, Long>> seatsScheme = new HashMap<>();
+    private HashMap<String, HashMap<String, Long>> seatsSchemeMap = new HashMap<>();
 
     @Override
     public String toString() {
         return "SeatsSchemeModel{" +
                 "id=" + id +
                 ", planeModel='" + planeModel + '\'' +
-                ", seatsScheme=" + seatsScheme +
+                ", seatsScheme=" + seatsSchemeMap +
                 '}';
     }
 }
