@@ -21,11 +21,7 @@ public class SeatsSchemeController {
     public String test() {
         return "test";
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 46712cfa5a0cc499ba1c94c14cc5148366b8eb62
     @GetMapping(path = "/all")
     public List<SeatsScheme> retrieveAllSeatsSchemes() {
         return new LinkedList<>();

@@ -2,16 +2,11 @@ package pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateFlight;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateSeatsSchemeModelCommand;
-=======
-import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateFlight;
->>>>>>> 46712cfa5a0cc499ba1c94c14cc5148366b8eb62
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.UpdateFlight;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain.Flight;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service.implementation.SeatsBookingSystemServiceImpl;
@@ -54,7 +49,6 @@ public class SeatsBookingSystemController {
 
     //Methods related with assigning seats & plane seats schemes to flights:
 
-<<<<<<< HEAD
     @PostMapping(path = "/add-new-seats-model")
     public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
         String planeModel = createSeatsSchemeModelCommand.planeModel();
