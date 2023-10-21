@@ -19,7 +19,7 @@ public class SeatsSchemeService {
     public SeatsScheme createSeatsScheme(CreateSeatsScheme createSeatsScheme) {
         if (!exists(createSeatsScheme)) {
             /*SeatsScheme seatsScheme = SeatsScheme.builder()
-                    .planeModel(createSeatsScheme.getPlaneModel());*/
+                    .planeModelName(createSeatsScheme.getPlaneModel());*/
         }
         return null;
     }

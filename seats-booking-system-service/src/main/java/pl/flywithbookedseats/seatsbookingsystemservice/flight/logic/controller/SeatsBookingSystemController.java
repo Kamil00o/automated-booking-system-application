@@ -51,10 +51,10 @@ public class SeatsBookingSystemController {
 
     @PostMapping(path = "/add-new-seats-model")
     public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
-        String planeModel = createSeatsSchemeModelCommand.planeModel();
-        logger.info("Adding new seats scheme to database for {} plane model.", planeModel);
+        String planeModelName = createSeatsSchemeModelCommand.planeModelName();
+        logger.info("Adding new seats scheme to database for {} plane model.", planeModelName);
         seatsBookingSystemServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeModelCommand);
-        logger.info("Seats scheme for {} added succesfully!!", planeModel);
+        logger.info("Seats scheme for {} added succesfully!!", planeModelName);
     }
 
     @PostMapping(path = "/add-seats-scheme-to-flight")

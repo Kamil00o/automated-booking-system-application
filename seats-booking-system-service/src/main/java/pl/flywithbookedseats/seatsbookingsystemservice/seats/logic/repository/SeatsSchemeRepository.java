@@ -7,5 +7,5 @@ import pl.flywithbookedseats.seatsbookingsystemservice.seats.logic.model.domain.
 @Repository
 public interface SeatsSchemeRepository extends JpaRepository<SeatsScheme, String> {
 
-    public boolean existsByPlaneModel(String planeModel);
+    public boolean existsByPlaneModel(String planeModelName);
 }

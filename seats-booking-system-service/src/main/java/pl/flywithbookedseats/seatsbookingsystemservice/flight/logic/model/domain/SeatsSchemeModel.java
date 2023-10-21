@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.common.Consts.NOT_NULL_MESSAGE;
 
@@ -18,8 +19,8 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.commo
         name = "seats_scheme_model_TABLE",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "planeModel",
-                        columnNames = "plane_model")
+                        name = "planeModelName",
+                        columnNames = "plane_model_name")
         }
 )
 @Data
@@ -28,26 +29,35 @@ public class SeatsSchemeModel {
 
     @Id
     @SequenceGenerator(
-            name = "seats_scheme_id_sequence",
-            sequenceName = "seats_scheme_id_gen",
+            name = "seats_scheme_id_seq_generator",
+            sequenceName = "seats_scheme_id_sequence",
             allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "seats_scheme_id_seq_generator"
     )
     private Long id;
     @NotNull(message = NOT_NULL_MESSAGE)
-    @Size(min = 3, message = "The planeModel field should have at least 3 signs")
-    @Column(name = "plane_model")
-    private String planeModel;
+    @Size(min = 3, message = "The planeModelName field should have at least 3 signs")
+    @Column(name = "plane_model_name")
+    private String planeModelName;
     @NotNull(message = NOT_NULL_MESSAGE)
-    @Column(name = "seats_scheme")
     @ElementCollection
-    private HashMap<String, HashMap<String, Long>> seatsSchemeMap = new HashMap<>();
+    @CollectionTable(
+            name = "seats_scheme_mapping_table",
+            joinColumns = {@JoinColumn(name = "seats_scheme_model_id", referencedColumnName = "id")}
+    )
+    @MapKeyColumn(name = "seat_name")
+    @Column(name = "seat_class_name")
+    private Map<String, String> seatsSchemeMap;
 
     @Override
     public String toString() {
         return "SeatsSchemeModel{" +
                 "id=" + id +
-                ", planeModel='" + planeModel + '\'' +
-                ", seatsScheme=" + seatsSchemeMap +
+                ", planeModelName='" + planeModelName + '\'' +
+                ", seatsSchemeMap=" + seatsSchemeMap +
                 '}';
     }
 }

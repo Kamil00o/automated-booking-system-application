@@ -8,7 +8,7 @@ import java.util.List;
 @Builder
 public record SeatsSchemeModelDto(
         Long id,
-        String planeModel,
-        List<String> seatClassType,
-        HashMap<String, String> seatsAndRowsInTheSeatsClassType
+        String planeModelName,
+        List<String> seatClassTypeList,
+        HashMap<String, String> seatsSchemeMap
 ) {}

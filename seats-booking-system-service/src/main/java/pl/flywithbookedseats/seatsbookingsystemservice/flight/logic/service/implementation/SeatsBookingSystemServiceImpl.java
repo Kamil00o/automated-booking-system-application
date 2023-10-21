@@ -53,6 +53,6 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
     }
 
     private boolean exists(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
-        return seatsSchemeModelRepository.existsByPlaneModel(createSeatsSchemeModelCommand.planeModel());
+        return seatsSchemeModelRepository.existsByPlaneModelName(createSeatsSchemeModelCommand.planeModelName());
     }
 }

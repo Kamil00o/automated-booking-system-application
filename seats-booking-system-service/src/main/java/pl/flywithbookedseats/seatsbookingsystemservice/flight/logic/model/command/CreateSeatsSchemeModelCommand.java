@@ -10,7 +10,7 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.commo
 @Builder
 public record CreateSeatsSchemeModelCommand(
         @NotNull(message = NOT_NULL_MESSAGE)
-        String planeModel,
+        String planeModelName,
         @NotNull(message = NOT_NULL_MESSAGE)
         List<String> seatClassTypeList,
         @NotNull(message = NOT_NULL_MESSAGE)

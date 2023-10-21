@@ -53,7 +53,7 @@ public class Flight {
     private List<String> passengerNameSurname;
     @Column(name = "plane_seats_scheme_model")
     @ElementCollection
-    private HashMap<String, HashMap<String, Long>> seatsSchemePlaneModel;
+    private HashMap<String, String> seatsSchemePlaneModel; //It needs to be redesigned probably
 
     @Override
     public String toString() {

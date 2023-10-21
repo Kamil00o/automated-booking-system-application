@@ -32,7 +32,7 @@ public class SeatsSchemeController {
         return new SeatsScheme();
     }
 
-    @GetMapping(path = "/get/by-plane-model/{planeModel}")
+    @GetMapping(path = "/get/by-plane-model/{planeModelName}")
     public SeatsScheme retireveSeatsSchemeByPlaneModel(@PathVariable String planeModel) {
         return new SeatsScheme();
     }
