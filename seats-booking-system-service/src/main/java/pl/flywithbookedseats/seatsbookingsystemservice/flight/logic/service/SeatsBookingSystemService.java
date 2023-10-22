@@ -12,9 +12,9 @@ public interface SeatsBookingSystemService {
 
     List<SeatsSchemeModelDto> retrieveAllSavedSeatsSchemeModelsFromDb();
 
-    Optional<SeatsSchemeModelDto> retrieveSeatsSchemeModelByPlaneModel(String planeModel);
+    SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(String planeModel);
 
-    Optional<SeatsSchemeModelDto> retrieveSeatsSchemeModelById(Long id);
+    SeatsSchemeModelDto retrieveSeatsSchemeModelById(Long id);
 
     SeatsSchemeModelDto updateSeatsSchemeModel(Long id);
 }

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.exceptions.SeatsSchemeModelNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.mapper.CreateSeatsSchemeModelMapper;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.mapper.SeatsSchemeModelDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain.SeatsSchemeModel;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.dto.SeatsSchemeModelDto;
@@ -23,6 +24,7 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
 
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
     private final CreateSeatsSchemeModelMapper createSeatsSchemeModelMapper;
+    private final SeatsSchemeModelDtoMapper seatsSchemeModelDtoMapper;
 
     @Transactional
     @Override
@@ -41,16 +43,16 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
     }
 
     @Override
-    public Optional<SeatsSchemeModelDto> retrieveSeatsSchemeModelByPlaneModel(String planeModelName) {
+    public SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(String planeModelName) {
         SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findByPlaneModelName(planeModelName)
                 .orElseThrow(() -> new SeatsSchemeModelNotFoundException(SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION
                         .formatted(planeModelName)));
-        
-        return null;
+
+        return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeModel);
     }
 
     @Override
-    public Optional<SeatsSchemeModelDto> retrieveSeatsSchemeModelById(Long id) {
+    public SeatsSchemeModelDto retrieveSeatsSchemeModelById(Long id) {
         return null;
     }
 
