@@ -3,6 +3,7 @@ package pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service.imp
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.exceptions.SeatsSchemeModelNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.mapper.CreateSeatsSchemeModelMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain.SeatsSchemeModel;
@@ -16,6 +17,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService {
+
+    private static final String SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION =
+            "Seats scheme model with specified plane model name: %s has not been found!!!";
 
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
     private final CreateSeatsSchemeModelMapper createSeatsSchemeModelMapper;
@@ -37,7 +41,11 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
     }
 
     @Override
-    public Optional<SeatsSchemeModelDto> retrieveSeatsSchemeModelByPlaneModel(String planeModel) {
+    public Optional<SeatsSchemeModelDto> retrieveSeatsSchemeModelByPlaneModel(String planeModelName) {
+        SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findByPlaneModelName(planeModelName)
+                .orElseThrow(() -> new SeatsSchemeModelNotFoundException(SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION
+                        .formatted(planeModelName)));
+        
         return null;
     }
 
