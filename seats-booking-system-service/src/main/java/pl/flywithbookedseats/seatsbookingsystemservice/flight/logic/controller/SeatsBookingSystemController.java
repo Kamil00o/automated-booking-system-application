@@ -9,6 +9,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.comman
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.UpdateFlight;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain.Flight;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.dto.SeatsSchemeModelDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service.implementation.SeatsBookingSystemServiceImpl;
 
 import java.util.LinkedList;
@@ -55,6 +56,12 @@ public class SeatsBookingSystemController {
         logger.info("Adding new seats scheme to database for {} plane model.", planeModelName);
         seatsBookingSystemServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeModelCommand);
         logger.info("Seats scheme for {} added succesfully!!", planeModelName);
+    }
+
+    @GetMapping(path = "/get-seats-model-by-plane-model-name/{planeModelName}")
+    public SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(@PathVariable String planeModelName) {
+        logger.info("Retrieving seat scheme model data for {} plane model.", planeModelName);
+        return seatsBookingSystemServiceImpl.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
     }
 
     @PostMapping(path = "/add-seats-scheme-to-flight")
