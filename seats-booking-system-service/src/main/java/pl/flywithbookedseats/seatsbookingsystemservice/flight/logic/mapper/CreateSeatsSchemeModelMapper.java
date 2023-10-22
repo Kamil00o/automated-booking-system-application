@@ -32,7 +32,10 @@ public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeM
             generateSeatsSchemeModelMap(classType, localSeatsSchemeMap, seatsNamesList);
             iterationCounter++;
         }
-        return localSeatsSchemeMap;
+
+        TreeMap<String, String> sortedSeatsTreeMap = new TreeMap<String, String>(localSeatsSchemeMap);
+        localSeatsSchemeMap.clear();
+        return sortedSeatsTreeMap;
     }
 
     private Map<String, String> generateSeatsSchemeModelMap(String classTypeName,
@@ -47,24 +50,38 @@ public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeM
 
     private List<String> generateSeatsNames(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand,
                                             int iterationCounter) {
-
         List<String> localSeatsNamesList = new LinkedList<>();
         List<Integer> amountOfSeatsInARowList = createSeatsSchemeModelCommand.amountOfSeatsInARowPerSeatClassTypeList();
         List<Integer> amountOfRowsList = createSeatsSchemeModelCommand.amountOfRowsPerSeatClassTypeList();
-
         StringBuilder seatNumber = new StringBuilder();
+        int secondRowLetters = 2;
         int seatsRowCounter = prevclassSeatNumber;
-        for (int i = 0; i < amountOfSeatsInARowList.get(iterationCounter); i++) {
-            for (int j = prevclassSeatNumber ; j < (amountOfRowsList.get(iterationCounter) + 1); j++) {
+
+        for (int i = 0; i < (amountOfSeatsInARowList.get(iterationCounter) * secondRowLetters); i++) {
+            for (int j = prevclassSeatNumber ; j <
+                    (amountOfRowsList.get(iterationCounter) + prevclassSeatNumber); j++) {
                 seatNumber.append(j)
                         .append(SEATS_FOLLOWING_LETTERS.substring(i, i + 1));
                 localSeatsNamesList.add(seatNumber.toString());
                 seatNumber.delete(0, seatNumber.length());
-                seatsRowCounter++;
+
+                if (i == 0) {
+                    seatsRowCounter++;
+                }
             }
         }
 
         prevclassSeatNumber = seatsRowCounter;
         return localSeatsNamesList;
+    }
+
+    //Currently method not used but it's chance that it will be used in serivce impl class
+    private Map<String, String> returnSortedMap(TreeMap<String, String> sortedTreeMap) {
+        Map<String, String> localSortedSeatsMap = new HashMap<String, String>();
+        for (Map.Entry<String, String> entry : sortedTreeMap.entrySet()) {
+            localSortedSeatsMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return localSortedSeatsMap;
     }
 }

@@ -5,8 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.common.Consts.NOT_NULL_MESSAGE;
 
