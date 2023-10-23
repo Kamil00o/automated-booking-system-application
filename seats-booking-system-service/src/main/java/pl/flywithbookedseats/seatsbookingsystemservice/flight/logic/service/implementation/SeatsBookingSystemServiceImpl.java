@@ -12,8 +12,8 @@ import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.dto.Se
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.repository.SeatsSchemeModelRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service.SeatsBookingSystemService;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +38,12 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
     @Transactional
     @Override
     public List<SeatsSchemeModelDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
+        List<SeatsSchemeModel> seatsSchemeModelList = seatsSchemeModelRepository.findAll();
+        List<SeatsSchemeModelDto> seatsSchemeModelDtoList = new LinkedList<>();
+        seatsSchemeModelList.forEach(seatsSchemeModel -> seatsSchemeModelDtoList
+                .add(seatsSchemeModelDtoMapper.apply(seatsSchemeModel)));
 
-        return null;
+        return seatsSchemeModelDtoList;
     }
 
     @Override
