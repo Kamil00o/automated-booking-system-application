@@ -19,8 +19,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService {
 
-    private static final String SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION =
+    private static final String SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_PLANE_NAME =
             "Seats scheme model with specified plane model name: %s has not been found!!!";
+    private static final String SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID =
+            "Seats scheme model with specified ID: %s has not been found!!!";
 
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
     private final CreateSeatsSchemeModelMapper createSeatsSchemeModelMapper;
@@ -49,15 +51,20 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
     @Override
     public SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(String planeModelName) {
         SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findByPlaneModelName(planeModelName)
-                .orElseThrow(() -> new SeatsSchemeModelNotFoundException(SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION
-                        .formatted(planeModelName)));
+                .orElseThrow(() ->
+                        new SeatsSchemeModelNotFoundException(SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_PLANE_NAME
+                                .formatted(planeModelName)));
 
         return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeModel);
     }
 
     @Override
     public SeatsSchemeModelDto retrieveSeatsSchemeModelById(Long id) {
-        return null;
+        SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findById(id)
+                .orElseThrow(() -> new SeatsSchemeModelNotFoundException(SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID
+                        .formatted(id)));
+
+        return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeModel);
     }
 
     @Transactional

@@ -11,4 +11,6 @@ public interface SeatsSchemeModelRepository extends JpaRepository<SeatsSchemeMod
 
     boolean existsByPlaneModelName(String PlaneModelName);
     Optional<SeatsSchemeModel> findByPlaneModelName(String planeModelName);
+
+    Optional<SeatsSchemeModel> findById(Long id);
 }
