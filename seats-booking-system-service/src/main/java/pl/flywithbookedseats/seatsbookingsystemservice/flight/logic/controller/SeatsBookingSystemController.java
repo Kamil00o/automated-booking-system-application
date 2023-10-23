@@ -64,6 +64,12 @@ public class SeatsBookingSystemController {
         return seatsBookingSystemServiceImpl.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
     }
 
+    @GetMapping(path = "/get-seats-model/all")
+    public List<SeatsSchemeModelDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
+        logger.info("Retrieving seat scheme model data for all saved plane models.");
+        return seatsBookingSystemServiceImpl.retrieveAllSavedSeatsSchemeModelsFromDb();
+    }
+
     @PostMapping(path = "/add-seats-scheme-to-flight")
     public void addSeatsSchemeToFlight() {
 
