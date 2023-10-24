@@ -11,6 +11,7 @@ import java.util.function.Function;
 public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeModelCommand, SeatsSchemeModel> {
 
     int prevclassSeatNumber;
+    int savedSeatNumberAutoIncrementation = 0;
     private static final String SEATS_FOLLOWING_LETTERS = "ABCDEFGHIJK";
     @Override
     public SeatsSchemeModel apply(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
@@ -53,15 +54,23 @@ public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeM
         List<String> localSeatsNamesList = new LinkedList<>();
         List<Integer> amountOfSeatsInARowList = createSeatsSchemeModelCommand.amountOfSeatsInARowPerSeatClassTypeList();
         List<Integer> amountOfRowsList = createSeatsSchemeModelCommand.amountOfRowsPerSeatClassTypeList();
+        List<Integer> seatNumbersToSkipList = createSeatsSchemeModelCommand.numbersOfExcludedSeatsList();
         StringBuilder seatNumber = new StringBuilder();
         int secondRowLetters = 2;
         int seatsRowCounter = prevclassSeatNumber;
+        int seatNumberAutoIncrementation = 0;
 
         for (int i = 0; i < (amountOfSeatsInARowList.get(iterationCounter) * secondRowLetters); i++) {
+            seatNumberAutoIncrementation = savedSeatNumberAutoIncrementation;
             for (int j = prevclassSeatNumber ; j <
                     (amountOfRowsList.get(iterationCounter) + prevclassSeatNumber); j++) {
-                seatNumber.append(j)
-                        .append(SEATS_FOLLOWING_LETTERS.substring(i, i + 1));
+                while (seatNumbersToSkipList.contains(j + seatNumberAutoIncrementation)) {
+                    seatNumberAutoIncrementation++;
+                }
+
+                int updatedJ = j + seatNumberAutoIncrementation;
+                seatNumber.append(updatedJ)
+                        .append(SEATS_FOLLOWING_LETTERS.charAt(i));
                 localSeatsNamesList.add(seatNumber.toString());
                 seatNumber.delete(0, seatNumber.length());
 
@@ -71,6 +80,7 @@ public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeM
             }
         }
 
+        savedSeatNumberAutoIncrementation = seatNumberAutoIncrementation;
         prevclassSeatNumber = seatsRowCounter;
         return localSeatsNamesList;
     }

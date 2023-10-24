@@ -16,5 +16,7 @@ public record CreateSeatsSchemeModelCommand(
         @NotNull(message = NOT_NULL_MESSAGE)
         List<Integer> amountOfSeatsInARowPerSeatClassTypeList,
         @NotNull(message = NOT_NULL_MESSAGE)
-        List<Integer> amountOfRowsPerSeatClassTypeList
+        List<Integer> amountOfRowsPerSeatClassTypeList,
+        @NotNull(message = NOT_NULL_MESSAGE)
+        List<Integer> numbersOfExcludedSeatsList
 ) {}
