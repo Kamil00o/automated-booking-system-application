@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface SeatsSchemeModelRepository extends JpaRepository<SeatsSchemeModel, Long> {
 
     boolean existsByPlaneModelName(String PlaneModelName);
+    boolean existsById(Long id);
     Optional<SeatsSchemeModel> findByPlaneModelName(String planeModelName);
-
     Optional<SeatsSchemeModel> findById(Long id);
 }

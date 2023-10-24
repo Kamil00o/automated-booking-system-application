@@ -1,6 +1,7 @@
 package pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service;
 
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.UpdateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.dto.SeatsSchemeModelDto;
 
 import java.util.List;
@@ -15,6 +16,5 @@ public interface SeatsBookingSystemService {
     SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(String planeModel);
 
     SeatsSchemeModelDto retrieveSeatsSchemeModelById(Long id);
-
-    SeatsSchemeModelDto updateSeatsSchemeModel(Long id);
+    SeatsSchemeModelDto updateSeatsSchemeModel(Long id, UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand);
 }

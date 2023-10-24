@@ -3,10 +3,12 @@ package pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service.imp
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.exceptions.SeatsSchemeModelAlreadyExistsException;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.exceptions.SeatsSchemeModelNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.mapper.CreateSeatsSchemeModelMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.mapper.SeatsSchemeModelDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.UpdateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain.SeatsSchemeModel;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.dto.SeatsSchemeModelDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.repository.SeatsSchemeModelRepository;
@@ -74,11 +76,28 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
 
     @Transactional
     @Override
-    public SeatsSchemeModelDto updateSeatsSchemeModel(Long id) {
-        return null;
+    public SeatsSchemeModelDto updateSeatsSchemeModel(Long id,
+                                                      UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
+        String planeModelName = updateSeatsSchemeModelCommand.planeModelName();
+        SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findById(id)
+                .orElseThrow(() -> new SeatsSchemeModelNotFoundException(SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID
+                        .formatted(id)));
+
+        if (!exists(updateSeatsSchemeModelCommand)) {
+            savedSeatsSchemeModel.setPlaneModelName(planeModelName);
+            seatsSchemeModelRepository.saveAndFlush(savedSeatsSchemeModel);
+            return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeModel);
+        } else {
+            throw new SeatsSchemeModelAlreadyExistsException(SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION
+                    .formatted(planeModelName));
+        }
     }
 
     private boolean exists(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
         return seatsSchemeModelRepository.existsByPlaneModelName(createSeatsSchemeModelCommand.planeModelName());
+    }
+
+    private boolean exists(UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
+        return seatsSchemeModelRepository.existsByPlaneModelName(updateSeatsSchemeModelCommand.planeModelName());
     }
 }
