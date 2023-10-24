@@ -74,14 +74,4 @@ public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeM
         prevclassSeatNumber = seatsRowCounter;
         return localSeatsNamesList;
     }
-
-    //Currently method not used but it's chance that it will be used in serivce impl class
-    private Map<String, String> returnSortedMap(TreeMap<String, String> sortedTreeMap) {
-        Map<String, String> localSortedSeatsMap = new HashMap<String, String>();
-        for (Map.Entry<String, String> entry : sortedTreeMap.entrySet()) {
-            localSortedSeatsMap.put(entry.getKey(), entry.getValue());
-        }
-
-        return localSortedSeatsMap;
-    }
 }
