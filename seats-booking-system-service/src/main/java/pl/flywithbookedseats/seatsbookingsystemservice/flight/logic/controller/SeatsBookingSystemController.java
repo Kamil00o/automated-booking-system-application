@@ -64,6 +64,12 @@ public class SeatsBookingSystemController {
         return seatsBookingSystemServiceImpl.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
     }
 
+    @GetMapping(path = "/get-seats-model-by-id/{id}")
+    public SeatsSchemeModelDto retrieveSeatsSchemeModelById(@PathVariable Long id) {
+        logger.info("Retrieving seat scheme model data for plane model with id {}.", id);
+        return seatsBookingSystemServiceImpl.retrieveSeatsSchemeModelById(id);
+    }
+
     @GetMapping(path = "/get-seats-model/all")
     public List<SeatsSchemeModelDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
         logger.info("Retrieving seat scheme model data for all saved plane models.");
