@@ -23,6 +23,8 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
             "Seats scheme model with specified plane model name: %s has not been found!!!";
     private static final String SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID =
             "Seats scheme model with specified ID: %s has not been found!!!";
+    private static final String SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION =
+            "Seats scheme model for %s plane model name already exists !!!";
 
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
     private final CreateSeatsSchemeModelMapper createSeatsSchemeModelMapper;
@@ -34,6 +36,9 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
         if (!exists(createSeatsSchemeModelCommand)) {
             SeatsSchemeModel seatsSchemeModel = createSeatsSchemeModelMapper.apply(createSeatsSchemeModelCommand);
             seatsSchemeModelRepository.save(seatsSchemeModel);
+        } else {
+            String planeModelName = createSeatsSchemeModelCommand.planeModelName();
+            throw new SeatsSchemeModelNotFoundException(SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION.formatted(planeModelName));
         }
     }
 
