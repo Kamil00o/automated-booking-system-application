@@ -18,7 +18,7 @@ public class SeatsSchemeModelDtoMapper implements Function<SeatsSchemeModel, Sea
                 .id(seatsSchemeModel.getId())
                 .planeModelName(seatsSchemeModel.getPlaneModelName())
                 .seatClassTypeList(generateseatClassTypeList(seatsSchemeModel.getSeatsSchemeMap()))
-                .seatsSchemeMap(generateSortedSeatSchemeMap(seatsSchemeModel.getSeatsSchemeMap()))
+                .seatsSchemeMap(new TreeMap<String, String>(seatsSchemeModel.getSeatsSchemeMap()))
                 .build();
     }
 
@@ -31,9 +31,5 @@ public class SeatsSchemeModelDtoMapper implements Function<SeatsSchemeModel, Sea
         }
 
         return localSeatClassTypeList;
-    }
-
-    private Map<String, String> generateSortedSeatSchemeMap(Map<String, String> notSortedSeatsSchemeMap) {
-        return new TreeMap<String, String>(notSortedSeatsSchemeMap);
     }
 }
