@@ -7,6 +7,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.dto.Se
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 
 @Component
@@ -17,7 +18,7 @@ public class SeatsSchemeModelDtoMapper implements Function<SeatsSchemeModel, Sea
                 .id(seatsSchemeModel.getId())
                 .planeModelName(seatsSchemeModel.getPlaneModelName())
                 .seatClassTypeList(generateseatClassTypeList(seatsSchemeModel.getSeatsSchemeMap()))
-                .seatsSchemeMap(seatsSchemeModel.getSeatsSchemeMap())
+                .seatsSchemeMap(generateSortedSeatSchemeMap(seatsSchemeModel.getSeatsSchemeMap()))
                 .build();
     }
 
@@ -30,5 +31,9 @@ public class SeatsSchemeModelDtoMapper implements Function<SeatsSchemeModel, Sea
         }
 
         return localSeatClassTypeList;
+    }
+
+    private Map<String, String> generateSortedSeatSchemeMap(Map<String, String> notSortedSeatsSchemeMap) {
+        return new TreeMap<String, String>(notSortedSeatsSchemeMap);
     }
 }
