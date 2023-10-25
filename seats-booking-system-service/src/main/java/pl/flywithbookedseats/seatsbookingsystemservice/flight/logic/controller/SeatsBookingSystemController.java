@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateFlight;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.CreateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.UpdateFlight;
+import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.command.UpdateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.domain.Flight;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.model.dto.SeatsSchemeModelDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.flight.logic.service.implementation.SeatsBookingSystemServiceImpl;
@@ -76,6 +77,13 @@ public class SeatsBookingSystemController {
         return seatsBookingSystemServiceImpl.retrieveAllSavedSeatsSchemeModelsFromDb();
     }
 
+    @PutMapping(path = "/update-seats-scheme-model/{id}")
+    public SeatsSchemeModelDto updateSeatsSchemeModel(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
+        logger.info("Updating seat scheme model data with ID: {}.", id);
+        return seatsBookingSystemServiceImpl.updateSeatsSchemeModel(id, updateSeatsSchemeModelCommand);
+    }
     @PostMapping(path = "/add-seats-scheme-to-flight")
     public void addSeatsSchemeToFlight() {
 
