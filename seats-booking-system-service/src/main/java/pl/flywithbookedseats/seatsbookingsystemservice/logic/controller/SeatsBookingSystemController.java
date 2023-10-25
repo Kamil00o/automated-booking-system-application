@@ -11,7 +11,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.fligh
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.seatsschememodel.UpdateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Flight;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSchemeModelDto;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsSchemeModel.SeatsBookingSystemServiceImpl;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel.SeatsBookingSystemServiceImpl;
 
 import java.util.LinkedList;
 import java.util.List;

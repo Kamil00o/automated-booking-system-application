@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsSchemeModel;
+package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel;
 
 public class ConstsImpl {
     public static final String SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_PLANE_NAME =

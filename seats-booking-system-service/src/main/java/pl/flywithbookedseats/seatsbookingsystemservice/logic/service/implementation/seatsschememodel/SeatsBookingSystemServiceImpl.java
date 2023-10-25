@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsSchemeModel;
+package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
