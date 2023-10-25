@@ -11,4 +11,6 @@ public class ConstsImpl {
             "Seats scheme model with ID: %s has been removed from database !!!";
     public static final String SEATS_SCHEME_MODEL_REMOVAL_PLANE_NAME =
             "Seats scheme model with %s plane model name has been removed from database !!!";
+    public static final String SEATS_SCHEME_MODEL_ALL_REMOVED =
+            "All Seats scheme models have been removed from database";
 }

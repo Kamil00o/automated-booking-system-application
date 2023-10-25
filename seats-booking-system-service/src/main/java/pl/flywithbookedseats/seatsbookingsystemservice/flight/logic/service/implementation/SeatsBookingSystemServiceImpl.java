@@ -112,6 +112,13 @@ public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService 
         logger.info(SEATS_SCHEME_MODEL_REMOVAL_PLANE_NAME.formatted(planeModelName));
     }
 
+    @Transactional
+    @Override
+    public void deleteAllSavedSeatsSchemeModelsFromDb() {
+        seatsSchemeModelRepository.deleteAll();
+        logger.info(SEATS_SCHEME_MODEL_ALL_REMOVED);
+    }
+
     private boolean exists(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
         return seatsSchemeModelRepository.existsByPlaneModelName(createSeatsSchemeModelCommand.planeModelName());
     }

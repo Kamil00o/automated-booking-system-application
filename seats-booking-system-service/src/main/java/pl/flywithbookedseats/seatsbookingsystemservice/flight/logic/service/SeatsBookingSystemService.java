@@ -22,4 +22,6 @@ public interface SeatsBookingSystemService {
     void deleteSeatsSchemeModelById(Long id);
 
     void deleteSeatsSchemeModelByPlaneModelName(String planeModelName);
+
+    void deleteAllSavedSeatsSchemeModelsFromDb();
 }
