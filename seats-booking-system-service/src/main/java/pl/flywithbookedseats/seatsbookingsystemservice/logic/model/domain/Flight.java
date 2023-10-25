@@ -56,7 +56,7 @@ public class Flight {
     )
     @MapKeyColumn(name = "seat_name")
     @Column(name = "passenger_name_surname")
-    private Map<String, String> bookedSeatsInPlaneList;
+    private Map<String, String> bookedSeatsInPlaneMap;
 
     @Override
     public String toString() {
@@ -65,7 +65,7 @@ public class Flight {
                 ", flightServiceId=" + flightServiceId +
                 ", flightName='" + flightName + '\'' +
                 ", planeType='" + planeTypeName + '\'' +
-                ", bookedSeatsInPlaneList=" + bookedSeatsInPlaneList +
+                ", bookedSeatsInPlaneList=" + bookedSeatsInPlaneMap +
                 '}';
     }
 }
