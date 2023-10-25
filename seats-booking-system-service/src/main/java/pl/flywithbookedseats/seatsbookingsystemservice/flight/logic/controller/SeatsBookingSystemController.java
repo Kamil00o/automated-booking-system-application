@@ -95,6 +95,11 @@ public class SeatsBookingSystemController {
         seatsBookingSystemServiceImpl.deleteSeatsSchemeModelByPlaneModelName(planeModelName);
     }
 
+    @DeleteMapping(path = "/delete-all-seats-scheme-models")
+    public void deleteAllSavedSeatsSchemeModelsFromDb() {
+        seatsBookingSystemServiceImpl.deleteAllSavedSeatsSchemeModelsFromDb();
+    }
+
     @PostMapping(path = "/add-seats-scheme-to-flight")
     public void addSeatsSchemeToFlight() {
 
