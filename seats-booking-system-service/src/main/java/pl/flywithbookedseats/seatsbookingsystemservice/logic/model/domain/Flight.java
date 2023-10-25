@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.common.Consts;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.common.Consts.NOT_NULL_MESSAGE;
 
 
 @Builder
@@ -30,38 +31,47 @@ public class Flight {
 
     @Id
     @SequenceGenerator(
-            name = "flight_id_sequence",
-            sequenceName = "flight_id_gen",
+            name = "flight_id_gen",
+            sequenceName = "flight_id_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             generator = "flight_id_gen"
     )
     private Long id;
-    @NotNull(message = Consts.NOT_NULL_MESSAGE)
+    @Column(name = "flight_service_id")
+    private Long flightSerivceId;
+    @NotNull(message = NOT_NULL_MESSAGE)
     @Size(min = 3, message = "The flightName field should have at least 3 signs")
     @Column(name = "flight_name")
     private String flightName;
-    @NotNull(message = Consts.NOT_NULL_MESSAGE)
+    @NotNull(message = NOT_NULL_MESSAGE)
     @Size(min = 3, message = "The planeType field should have at least 3 signs")
     @Column(name = "plane_type")
     private String planeType;
-    @NotNull(message = Consts.NOT_NULL_MESSAGE)
+    @NotNull(message = NOT_NULL_MESSAGE)
     @Size(min = 5, message = "The passengerNameSurname field should have at least 5 signs")
-    @Column(name = "passenger_name_surname")
-    private List<String> passengerNameSurname;
-    @Column(name = "plane_seats_scheme_model")
+    @Column(name = "flight_passenger_name_surname")
+    private List<String> flightPassengerNameSurnameList;
+    @NotNull(message = NOT_NULL_MESSAGE)
     @ElementCollection
-    private HashMap<String, String> seatsSchemePlaneModel; //It needs to be redesigned probably
+    @CollectionTable(
+            name = "flight_mapping_table",
+            joinColumns = {@JoinColumn(name = "flight_id", referencedColumnName = "id")}
+    )
+    @MapKeyColumn(name = "seat_name")
+    @Column(name = "passenger_name_surname")
+    private Map<String, String> bookedSeatsInPlaneList;
 
     @Override
     public String toString() {
         return "Flight{" +
                 "id=" + id +
+                ", flightSerivceId=" + flightSerivceId +
                 ", flightName='" + flightName + '\'' +
                 ", planeType='" + planeType + '\'' +
-                ", passengerNameSurname=" + passengerNameSurname +
-                ", seatsSchemePlaneModel=" + seatsSchemePlaneModel +
+                ", flightPassengerNameSurnameList=" + flightPassengerNameSurnameList +
+                ", bookedSeatsInPlaneList=" + bookedSeatsInPlaneList +
                 '}';
     }
 }
