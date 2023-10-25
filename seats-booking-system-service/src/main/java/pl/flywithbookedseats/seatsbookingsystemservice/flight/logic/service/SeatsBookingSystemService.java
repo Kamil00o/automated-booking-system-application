@@ -16,5 +16,10 @@ public interface SeatsBookingSystemService {
     SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(String planeModel);
 
     SeatsSchemeModelDto retrieveSeatsSchemeModelById(Long id);
+
     SeatsSchemeModelDto updateSeatsSchemeModel(Long id, UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand);
+
+    void deleteSeatsSchemeModelById(Long id);
+
+    void deleteSeatsSchemeModelByPlaneModelName(String planeModelName);
 }
