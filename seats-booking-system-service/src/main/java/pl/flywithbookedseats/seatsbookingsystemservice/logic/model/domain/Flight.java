@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.List;
 import java.util.Map;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.common.Consts.NOT_NULL_MESSAGE;
@@ -40,19 +39,15 @@ public class Flight {
     )
     private Long id;
     @Column(name = "flight_service_id")
-    private Long flightSerivceId;
+    private Long flightServiceId;
     @NotNull(message = NOT_NULL_MESSAGE)
-    @Size(min = 3, message = "The flightName field should have at least 3 signs")
+    @Size(min = 4, message = "The flightName field should have at least 4 signs")
     @Column(name = "flight_name")
     private String flightName;
     @NotNull(message = NOT_NULL_MESSAGE)
-    @Size(min = 3, message = "The planeType field should have at least 3 signs")
-    @Column(name = "plane_type")
-    private String planeType;
-    @NotNull(message = NOT_NULL_MESSAGE)
-    @Size(min = 5, message = "The passengerNameSurname field should have at least 5 signs")
-    @Column(name = "flight_passenger_name_surname")
-    private List<String> flightPassengerNameSurnameList;
+    @Size(min = 4, message = "The planeTypeName field should have at least 4 signs")
+    @Column(name = "plane_type_name")
+    private String planeTypeName;
     @NotNull(message = NOT_NULL_MESSAGE)
     @ElementCollection
     @CollectionTable(
@@ -67,10 +62,9 @@ public class Flight {
     public String toString() {
         return "Flight{" +
                 "id=" + id +
-                ", flightSerivceId=" + flightSerivceId +
+                ", flightServiceId=" + flightServiceId +
                 ", flightName='" + flightName + '\'' +
-                ", planeType='" + planeType + '\'' +
-                ", flightPassengerNameSurnameList=" + flightPassengerNameSurnameList +
+                ", planeType='" + planeTypeName + '\'' +
                 ", bookedSeatsInPlaneList=" + bookedSeatsInPlaneList +
                 '}';
     }

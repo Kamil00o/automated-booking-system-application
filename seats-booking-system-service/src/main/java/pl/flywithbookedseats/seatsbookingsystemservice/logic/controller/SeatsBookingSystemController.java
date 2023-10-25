@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlight;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.seatsschememodel.CreateSeatsSchemeModelCommand;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.UpdateFlight;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.seatsschememodel.UpdateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Flight;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSchemeModelDto;
@@ -40,12 +40,12 @@ public class SeatsBookingSystemController {
     }
 
     @PostMapping(path = "/create-flight")
-    public Flight createNewFlight(@Valid @RequestBody CreateFlight createFlight) {
+    public Flight createNewFlight(@Valid @RequestBody CreateFlightCommand createFlightCommand) {
         return new Flight();
     }
 
     @PutMapping(path = "/edit-flight/id/{id}")
-    public Flight editExistingFlight(@Valid @RequestBody UpdateFlight updateFlight, @PathVariable Long id) {
+    public Flight editExistingFlight(@Valid @RequestBody UpdateFlightCommand updateFlightCommand, @PathVariable Long id) {
         return new Flight();
     }
 
