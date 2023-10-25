@@ -84,6 +84,17 @@ public class SeatsBookingSystemController {
         logger.info("Updating seat scheme model data with ID: {}.", id);
         return seatsBookingSystemServiceImpl.updateSeatsSchemeModel(id, updateSeatsSchemeModelCommand);
     }
+
+    @DeleteMapping(path = "/delete-seats-scheme-model-by-id/{id}")
+    public void deleteSeatsSchemeModelById(@PathVariable Long id) {
+        seatsBookingSystemServiceImpl.deleteSeatsSchemeModelById(id);
+    }
+
+    @DeleteMapping(path = "/delete-seats-scheme-model-by-plane-name/{planeModelName}")
+    public void deleteSeatsSchemeModelByPlaneModelName(@PathVariable String planeModelName) {
+        seatsBookingSystemServiceImpl.deleteSeatsSchemeModelByPlaneModelName(planeModelName);
+    }
+
     @PostMapping(path = "/add-seats-scheme-to-flight")
     public void addSeatsSchemeToFlight() {
 
