@@ -10,7 +10,9 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.seats
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.seatsschememodel.UpdateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Flight;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSchemeModelDto;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel.SeatsBookingSystemServiceImpl;
 
 import java.util.LinkedList;
@@ -23,6 +25,7 @@ public class SeatsBookingSystemController {
 
     private static final Logger logger = LoggerFactory.getLogger(SeatsBookingSystemController.class);
     private final SeatsBookingSystemServiceImpl seatsBookingSystemServiceImpl;
+    private final FlightServiceImpl flightService;
 
     @GetMapping(path = "/test")
     public String test() {
@@ -40,8 +43,8 @@ public class SeatsBookingSystemController {
     }
 
     @PostMapping(path = "/create-flight")
-    public Flight createNewFlight(@Valid @RequestBody CreateFlightCommand createFlightCommand) {
-        return new Flight();
+    public FlightDto createNewFlight(@Valid @RequestBody CreateFlightCommand createFlightCommand) {
+        return flightService.createNewFlight(createFlightCommand);
     }
 
     @PutMapping(path = "/edit-flight/id/{id}")

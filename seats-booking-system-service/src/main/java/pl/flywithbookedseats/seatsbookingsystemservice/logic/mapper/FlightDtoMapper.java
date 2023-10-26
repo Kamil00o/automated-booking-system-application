@@ -7,7 +7,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.FlightDto
 import java.util.function.Function;
 
 @Component
-public class FlightModelMapper implements Function<Flight, FlightDto> {
+public class FlightDtoMapper implements Function<Flight, FlightDto> {
     @Override
     public FlightDto apply(Flight flight) {
         return FlightDto.builder()
