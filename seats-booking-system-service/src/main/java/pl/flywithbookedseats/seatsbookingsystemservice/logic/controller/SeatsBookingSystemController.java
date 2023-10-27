@@ -38,9 +38,9 @@ public class SeatsBookingSystemController {
         return flightService.retrieveAllFlightsFromDb();
     }
 
-    @GetMapping(path = "/get/id/{id}")
-    public Flight retrieveFlightByFlightName(@PathVariable Long id) {
-        return new Flight();
+    @GetMapping(path = "/get-flight-by-flight-name/{flightName}")
+    public FlightDto retrieveFlightByFlightName(@PathVariable String flightName) {
+        return flightService.retrieveFlightByFlightName(flightName);
     }
 
     @PostMapping(path = "/create-flight")
