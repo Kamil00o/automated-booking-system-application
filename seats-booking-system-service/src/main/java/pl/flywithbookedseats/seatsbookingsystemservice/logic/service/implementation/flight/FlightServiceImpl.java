@@ -87,7 +87,9 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDto retrieveFlightByFlightServiceId(Long flightServiceId) {
-        return null;
+        Flight savedFlight = flightRepository.findByFlightServiceId(flightServiceId)
+                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightServiceId)));
+        return flightDtoMapper.apply(savedFlight);
     }
 
     @Transactional
