@@ -10,4 +10,8 @@ public class FlightConstImpl {
             "Flight Database is empty!!!";
     public static final String FLIGHTS_NOT_RETRIEVED =
             "Flights haven't been retrieved!";
+    public static final String FLIGHT_NOT_FOUND_FLIGHT_NAME =
+            "Flight with %s flight name has not been found!!!";
+    public static final String FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID =
+            "Flight with %s flight service ID has not been found!!!";
 }

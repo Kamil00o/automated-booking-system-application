@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotCreatedException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.CreateFlightMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.FlightDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
@@ -79,7 +80,9 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDto retrieveFlightByFlightName(String flightName) {
-        return null;
+        Flight savedFlight = flightRepository.findByFlightName(flightName)
+                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName)));
+        return flightDtoMapper.apply(savedFlight);
     }
 
     @Override
@@ -117,7 +120,6 @@ public class FlightServiceImpl implements FlightService {
             savedSeatsSchemeMap = new TreeMap<>(savedSeatsSchemeModel.getSeatsSchemeMap());
             generatedBookedSeatsInPlaneMap = createReservedSeatsSchemeMap(savedSeatsSchemeMap);
             flight.setBookedSeatsInPlaneMap(generatedBookedSeatsInPlaneMap);
-            System.out.println(flight.getBookedSeatsInPlaneMap());
         }
     }
 
@@ -131,6 +133,7 @@ public class FlightServiceImpl implements FlightService {
             localBookedSeatsInPlaneMap.put(fullSeatName.toString(), "empty");
             fullSeatName.delete(0, fullSeatName.length());
         }
+
         return localBookedSeatsInPlaneMap;
     }
 
