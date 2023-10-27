@@ -92,17 +92,32 @@ public class FlightServiceImpl implements FlightService {
     }
 
     private void retrieveSeatsSchemeForPlaneTypeIfNeeded(Flight flight) {
-        Map<String, String> seatSchemeMap;
+        Map<String, String> savedSeatsSchemeMap;
+        Map<String, String> generatedBookedSeatsInPlaneMap;
         String planeTypeName = flight.getPlaneTypeName();
         if (flight.getBookedSeatsInPlaneMap() == null) {
             SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository
                     .findByPlaneModelName(planeTypeName)
                     .orElseThrow(() -> new FlightNotCreatedException(SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION
                             .formatted(planeTypeName, flight.getFlightName())));
-            seatSchemeMap = new TreeMap<>(savedSeatsSchemeModel.getSeatsSchemeMap());
-            flight.setBookedSeatsInPlaneMap(seatSchemeMap);
+            savedSeatsSchemeMap = new TreeMap<>(savedSeatsSchemeModel.getSeatsSchemeMap());
+            generatedBookedSeatsInPlaneMap = createReservedSeatsSchemeMap(savedSeatsSchemeMap);
+            flight.setBookedSeatsInPlaneMap(generatedBookedSeatsInPlaneMap);
             System.out.println(flight.getBookedSeatsInPlaneMap());
         }
+    }
+
+    private Map<String, String> createReservedSeatsSchemeMap(Map<String, String> savedSeatsSchemeMap) {
+        Map<String, String> localBookedSeatsInPlaneMap = new TreeMap<>();
+        for (Map.Entry<String, String> entry : savedSeatsSchemeMap.entrySet()) {
+            StringBuilder fullSeatName = new StringBuilder();
+            fullSeatName.append(entry.getValue())
+                    .append(" ")
+                    .append(entry.getKey());
+            localBookedSeatsInPlaneMap.put(fullSeatName.toString(), "empty");
+            fullSeatName.delete(0, fullSeatName.length());
+        }
+        return localBookedSeatsInPlaneMap;
     }
 
     private boolean exists(CreateFlightCommand createFlightCommand) {
