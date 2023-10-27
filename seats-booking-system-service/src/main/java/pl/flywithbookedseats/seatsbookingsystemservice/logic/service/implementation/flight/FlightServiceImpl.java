@@ -2,8 +2,11 @@ package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementa
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotCreatedException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.CreateFlightMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.FlightDtoMapper;
@@ -18,6 +21,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.FlightServi
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightConstImpl.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -25,6 +29,8 @@ import java.util.TreeMap;
 @RequiredArgsConstructor
 @Service
 public class FlightServiceImpl implements FlightService {
+
+    private static final Logger logger = LoggerFactory.getLogger(FlightConstImpl.class);
 
     private final FlightRepository flightRepository;
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
@@ -60,7 +66,15 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public List<FlightDto> retrieveAllFlightsFromDb() {
-        return null;
+        List<Flight> savedFlightList = flightRepository.findAll();
+        if (!savedFlightList.isEmpty()) {
+            List<FlightDto> savedFlightDtoList = new ArrayList<>();
+            savedFlightList.forEach(flight -> savedFlightDtoList.add(flightDtoMapper.apply(flight)));
+            return savedFlightDtoList;
+        } else {
+            logger.warn(FLIGHTS_NOT_RETRIEVED);
+            throw new FlightDatabaseIsEmptyException(FLIGHT_DATABASE_IS_EMPTY_EXCEPTION);
+        }
     }
 
     @Override

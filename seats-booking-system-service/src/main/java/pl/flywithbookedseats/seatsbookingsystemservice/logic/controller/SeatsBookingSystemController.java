@@ -32,9 +32,10 @@ public class SeatsBookingSystemController {
         return "TEST";
     }
 
-    @GetMapping(path = "/get/all")
-    public List<Flight> retrieveAllFlights() {
-        return new LinkedList<>();
+    @GetMapping(path = "/get-flight/all")
+    public List<FlightDto> retrieveAllFlightsFromDb() {
+        logger.info("Retrieving all available flights from database:");
+        return flightService.retrieveAllFlightsFromDb();
     }
 
     @GetMapping(path = "/get/id/{id}")
