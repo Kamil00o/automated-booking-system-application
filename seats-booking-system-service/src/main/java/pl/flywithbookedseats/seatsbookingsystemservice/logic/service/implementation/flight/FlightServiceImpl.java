@@ -131,7 +131,8 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public void deleteAllFlights() {
-
+        flightRepository.deleteAll();
+        logger.info(FLIGHT_REMOVED_ALL);
     }
 
     @Transactional

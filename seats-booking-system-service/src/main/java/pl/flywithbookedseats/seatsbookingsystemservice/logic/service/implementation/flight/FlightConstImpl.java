@@ -20,4 +20,6 @@ public class FlightConstImpl {
             "Flight %s has not been UPDATED !!!";
     public static final String FLIGHT_UPDATED =
             "Flight %s has been updated";
+    public static final String FLIGHT_REMOVED_ALL =
+            "All Flights have been removed from database !";
 }
