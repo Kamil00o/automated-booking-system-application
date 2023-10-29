@@ -15,7 +15,6 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSche
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel.SeatsBookingSystemServiceImpl;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -44,7 +43,7 @@ public class SeatsBookingSystemController {
         return flightService.retrieveFlightByFlightName(flightName);
     }
 
-    @GetMapping(path = "/get-flight-by-flight-service-is/{id}")
+    @GetMapping(path = "/get-flight-by-flight-service-id/{id}")
     public FlightDto retrieveFlightByFlightServiceId(@PathVariable Long id) {
         logger.info("Retrieving flight with flight-service ID {}:", id);
         return flightService.retrieveFlightByFlightServiceId(id);
