@@ -14,4 +14,8 @@ public class FlightConstImpl {
             "Flight with %s flight name has not been found!!!";
     public static final String FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID =
             "Flight with %s flight service ID has not been found!!!";
+    public static final String FLIGHT_NOT_UPDATED =
+            "Flight %s has not been UPDATED !!!";
+    public static final String FLIGHT_UPDATED =
+            "Flight %s has been updated";
 }

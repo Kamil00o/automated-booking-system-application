@@ -55,7 +55,18 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public FlightDto updateFlightByFlightName(UpdateFlightCommand updateFlightCommand, String flightName) {
-        return null;
+        Flight savedFlight = flightRepository.findByFlightName(flightName)
+                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName)));
+
+        if (!exists(updateFlightCommand)) {
+            savedFlight.setFlightName(updateFlightCommand.flightName());
+            flightRepository.saveAndFlush(savedFlight);
+            logger.info(FLIGHT_UPDATED.formatted(savedFlight.getFlightName()));
+            return flightDtoMapper.apply(savedFlight);
+        } else {
+            throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME
+                    .formatted(updateFlightCommand.flightName()));
+        }
     }
 
     @Transactional
@@ -88,7 +99,8 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public FlightDto retrieveFlightByFlightServiceId(Long flightServiceId) {
         Flight savedFlight = flightRepository.findByFlightServiceId(flightServiceId)
-                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightServiceId)));
+                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID
+                        .formatted(flightServiceId)));
         return flightDtoMapper.apply(savedFlight);
     }
 
@@ -141,5 +153,13 @@ public class FlightServiceImpl implements FlightService {
 
     private boolean exists(CreateFlightCommand createFlightCommand) {
         return flightRepository.existsByFlightName(createFlightCommand.flightName());
+    }
+
+    private boolean exists(UpdateFlightCommand updateFlightCommand) {
+        return flightRepository.existsByFlightName(updateFlightCommand.flightName());
+    }
+
+    private boolean existsByFlightServiceId(UpdateFlightCommand updateFlightCommand) {
+        return flightRepository.existsByFlightServiceId(updateFlightCommand.flightServiceId());
     }
 }
