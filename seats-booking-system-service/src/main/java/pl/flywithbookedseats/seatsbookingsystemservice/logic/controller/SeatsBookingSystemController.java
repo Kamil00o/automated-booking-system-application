@@ -60,6 +60,11 @@ public class SeatsBookingSystemController {
         return flightService.updateFlightByFlightName(updateFlightCommand, flightName);
     }
 
+    @PutMapping(path = "/update-flight/flight-service-id/{id}")
+    public FlightDto updateFlightByFlightServiceId(UpdateFlightCommand updateFlightCommand, Long flightServiceId) {
+        return flightService.updateFlightByFlightServiceId(updateFlightCommand, flightServiceId);
+    }
+
     //Methods related with seats scheme Model domain:
 
     @PostMapping(path = "/add-new-seats-model")
