@@ -55,8 +55,9 @@ public class SeatsBookingSystemController {
     }
 
     @PutMapping(path = "/edit-flight/id/{id}")
-    public Flight editExistingFlight(@Valid @RequestBody UpdateFlightCommand updateFlightCommand, @PathVariable Long id) {
-        return new Flight();
+    public FlightDto updateFlightByFlightName(@Valid @RequestBody UpdateFlightCommand updateFlightCommand,
+                                           @PathVariable String flightName) {
+        return flightService.updateFlightByFlightName(updateFlightCommand, flightName);
     }
 
     //Methods related with seats scheme Model domain:
