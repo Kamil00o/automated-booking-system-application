@@ -138,13 +138,20 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public void deleteFlightByFlightName(String flightName) {
-
+        Flight savedFlight = flightRepository.findByFlightName(flightName)
+                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName)));
+        flightRepository.delete(savedFlight);
+        logger.info(FLIGHT_REMOVED_NAME.formatted(flightName));
     }
 
     @Transactional
     @Override
     public void deleteFlightByFlyServiceId(Long flightServiceId) {
-
+        Flight savedFlight = flightRepository.findByFlightServiceId(flightServiceId)
+                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID
+                        .formatted(flightServiceId)));
+        flightRepository.delete(savedFlight);
+        logger.info(FLIGHT_REMOVED_SERVICE_ID.formatted(flightServiceId));
     }
 
     private void retrieveSeatsSchemeForPlaneTypeIfNeeded(Flight flight) {

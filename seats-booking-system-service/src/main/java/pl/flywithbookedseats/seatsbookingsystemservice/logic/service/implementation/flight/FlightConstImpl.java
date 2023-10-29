@@ -22,4 +22,8 @@ public class FlightConstImpl {
             "Flight %s has been updated";
     public static final String FLIGHT_REMOVED_ALL =
             "All Flights have been removed from database !";
+    public static final String FLIGHT_REMOVED_NAME =
+            "Flight with %s flight name has been removed from database!";
+    public static final String FLIGHT_REMOVED_SERVICE_ID =
+            "Flight with %s flight service ID has been removed from database!";
 }
