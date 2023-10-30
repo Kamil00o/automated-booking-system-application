@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.UpdateReservationCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.ReservationDto;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.ReservationRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.ReservationService;
 
 import java.util.List;
@@ -14,9 +15,12 @@ import java.util.List;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
+    private final ReservationRepository reservationRepository;
+
     @Transactional
     @Override
     public ReservationDto createNewReservation(CreateReservationCommand createReservationCommand) {
+
         return null;
     }
 
