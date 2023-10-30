@@ -10,11 +10,13 @@ public interface PassengerService {
 
     PassengerDto createNewPassenger(CreatePassengerCommand createPassengerCommand);
 
-    List<PassengerDto> updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand);
+    PassengerDto updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand);
 
     PassengerDto retrievePassengerByEmail(String email);
 
+    List<PassengerDto> retrieveAllPassengers();
+
     void deleteAllPassengers();
 
-    void deletePassengerByEmail();
+    void deletePassengerByEmail(String email);
 }
