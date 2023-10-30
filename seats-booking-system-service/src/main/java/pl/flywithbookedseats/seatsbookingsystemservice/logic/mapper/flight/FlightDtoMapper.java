@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper;
+package pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight;
 
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Flight;

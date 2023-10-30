@@ -7,4 +7,6 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passen
 @Repository
 public interface PassengerRepository extends JpaRepository<Passenger, Long> {
 
+    boolean existsByEmail(String email);
+
 }

@@ -9,8 +9,8 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAl
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotCreatedException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotFoundException;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.CreateFlightMapper;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.FlightDtoMapper;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.CreateFlightMapper;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.FlightDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Flight;
