@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ReservationService {
 
-    ReservationDto createNewReservation(CreateReservationCommand createReservationCommand);
+    ReservationDto addNewReservationToDb(CreateReservationCommand createReservationCommand);
 
     ReservationDto updateReservationById(UpdateReservationCommand updateReservationCommand);
 

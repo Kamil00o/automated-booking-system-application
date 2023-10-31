@@ -54,6 +54,10 @@ public class PassengerServiceImpl implements PassengerService {
 
     }
 
+    public boolean exists(String email) {
+        return passengerRepository.existsByEmail(email);
+    }
+
     private boolean exists(CreatePassengerCommand createPassengerCommand) {
         return passengerRepository.existsByEmail(createPassengerCommand.email());
     }

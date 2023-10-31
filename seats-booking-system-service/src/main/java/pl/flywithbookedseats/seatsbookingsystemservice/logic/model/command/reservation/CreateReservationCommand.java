@@ -23,9 +23,6 @@ public record CreateReservationCommand(
         String seatTypeClass,
         @NotNull(message = Consts.NOT_NULL_MESSAGE)
         @Size(min = 9, message = "The passengerEmail field should have at least 9 signs")
-        String passengerEmail,
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JsonIgnore
-        Passenger passenger
+        String passengerEmail
 )
 {}
