@@ -2,8 +2,11 @@ package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementa
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.CreateReservationMapper;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.ReservationDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.UpdateReservationCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passenger;
@@ -15,23 +18,36 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementat
 
 import java.util.List;
 
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.*;
+
 @RequiredArgsConstructor
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ReservationServiceImpl.class);
+
     private final ReservationRepository reservationRepository;
-    private final CreateReservationMapper createReservationMapper;
     private final PassengerServiceImpl passengerServiceImpl;
+    private final CreateReservationMapper createReservationMapper;
+    private final ReservationDtoMapper reservationDtoMapper;
+
 
     @Transactional
     @Override
     public ReservationDto addNewReservationToDb(CreateReservationCommand createReservationCommand) {
-        Reservation newReservation = createReservationMapper.apply(createReservationCommand);
-        if (passengerServiceImpl.exists(newReservation.getPassengerEmail())) {
-            //TODO: retrievePassengerByEmail method in passengerServiceImpl need to be added first
-            passengerServiceImpl.retrievePassengerByEmail(newReservation.getPassengerEmail());
-        }
-        return null;
+            Reservation newReservation = createReservationMapper.apply(createReservationCommand);
+            String passengerEmail = newReservation.getPassengerEmail();
+            if (passengerServiceImpl.exists(passengerEmail)) {
+                Passenger savedPassenger = passengerServiceImpl.getPassengerByEmail(passengerEmail);
+                newReservation.setPassenger(savedPassenger);
+                reservationRepository.save(newReservation);
+                logger.info(RESERVATION_ADDED_PASSENGER);
+            } else {
+                reservationRepository.save(newReservation);
+                logger.info(RESERVATION_ADDED_NO_PASSENGER);
+            }
+
+            return reservationDtoMapper.apply(newReservation);
     }
 
     @Transactional

@@ -3,14 +3,16 @@ package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementa
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerNotFoundException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passenger;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.PassengerRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.PassengerService;
+
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.*;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ import java.util.List;
 public class PassengerServiceImpl implements PassengerService {
 
     private final PassengerRepository passengerRepository;
+    private final PassengerDtoMapper passengerDtoMapper;
 
     @Transactional
     @Override
@@ -38,8 +41,9 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public PassengerDto retrievePassengerByEmail(String email) {
         Passenger savedPassenger = passengerRepository.findByEmail(email)
-                .orElseThrow(() -> new PassengerNotFoundException())
-        return null;
+                .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
+
+        return passengerDtoMapper.apply(savedPassenger);
     }
 
     @Override
@@ -57,6 +61,13 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public void deletePassengerByEmail(String email) {
 
+    }
+
+    public Passenger getPassengerByEmail(String email) {
+        Passenger savedPassenger = passengerRepository.findByEmail(email)
+                .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
+
+        return savedPassenger;
     }
 
     public boolean exists(String email) {
