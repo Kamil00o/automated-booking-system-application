@@ -3,8 +3,11 @@ package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementa
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotFoundException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.UpdatePassengerCommand;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passenger;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.PassengerRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.PassengerService;
@@ -34,6 +37,8 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public PassengerDto retrievePassengerByEmail(String email) {
+        Passenger savedPassenger = passengerRepository.findByEmail(email)
+                .orElseThrow(() -> new PassengerNotFoundException())
         return null;
     }
 
