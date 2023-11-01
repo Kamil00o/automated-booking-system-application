@@ -27,7 +27,7 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public PassengerDto createNewPassenger(CreatePassengerCommand createPassengerCommand) {
         if (exists(createPassengerCommand)) {
-            //TODO: RESERVATION DOMAIN NEED TO BE DONE FIRST
+
         }
         return null;
     }
