@@ -38,9 +38,7 @@ public class ReservationServiceImpl implements ReservationService {
             Reservation newReservation = createReservationMapper.apply(createReservationCommand);
             String passengerEmail = newReservation.getPassengerEmail();
             if (passengerServiceImpl.exists(passengerEmail)) {
-                Passenger savedPassenger = passengerServiceImpl.getPassengerByEmail(passengerEmail);
-                newReservation.setPassenger(savedPassenger);
-                reservationRepository.save(newReservation);
+                reservationRepository.save(setPassengerDataToReservation(passengerEmail, newReservation));
                 logger.info(RESERVATION_ADDED_PASSENGER);
             } else {
                 reservationRepository.save(newReservation);
@@ -81,5 +79,11 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void deleteReservationById(Long id) {
 
+    }
+
+    private Reservation setPassengerDataToReservation(String passengerEmail, Reservation newReservation) {
+        Passenger savedPassenger = passengerServiceImpl.getPassengerByEmail(passengerEmail);
+        newReservation.setPassenger(savedPassenger);
+        return newReservation;
     }
 }
