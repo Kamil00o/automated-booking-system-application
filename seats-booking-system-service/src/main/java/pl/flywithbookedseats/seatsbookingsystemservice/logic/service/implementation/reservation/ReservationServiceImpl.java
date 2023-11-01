@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.ReservationDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.ReservationNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.CreateReservationMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.ReservationDtoMapper;
@@ -19,6 +20,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.Reservat
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.ReservationService;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.*;
@@ -82,7 +84,16 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<ReservationDto> retrieveAllReservations() {
-        return null;
+        List<Reservation> savedReservationList = reservationRepository.findAll();
+        if (!savedReservationList.isEmpty()) {
+            List<ReservationDto> savedReservationDtoList = new ArrayList<>();
+            savedReservationList.forEach(reservation -> savedReservationDtoList
+                    .add(reservationDtoMapper.apply(reservation)));
+            return savedReservationDtoList;
+        } else {
+            logger.warn(RESERVATIONS_NOT_RETRIEVED);
+            throw new ReservationDatabaseIsEmptyException(RESERVATION_DATABASE_IS_EMPTY_EXCEPTION);
+        }
     }
 
     @Override

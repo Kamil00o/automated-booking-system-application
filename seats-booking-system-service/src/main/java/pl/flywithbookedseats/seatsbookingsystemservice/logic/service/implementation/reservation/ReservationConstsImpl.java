@@ -12,4 +12,8 @@ public class ReservationConstsImpl {
             "Reservation with seat number: %s already exists!";
     public static final String RESERVATION_NOT_UPDATED =
             "Reservation with ID: %s has not been updated!!";
+    public static final String RESERVATION_DATABASE_IS_EMPTY_EXCEPTION =
+            "Reservation Database is empty!!!";
+    public static final String RESERVATIONS_NOT_RETRIEVED =
+            "Reservations haven't been retrieved!";
 }
