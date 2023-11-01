@@ -64,7 +64,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation savedReservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
 
-        if (exists(updateReservationCommand)) {
+        if (!exists(updateReservationCommand)) {
             savedReservation.setSeatNumber(updateReservationCommand.seatNumber());
             savedReservation.setSeatTypeClass(updateReservationCommand.seatTypeClass());
             savedReservation.setPassengerEmail(passengerEmail);
