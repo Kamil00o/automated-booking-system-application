@@ -6,14 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.seatsschememodel.CreateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.seatsschememodel.UpdateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.PassengerDto;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.ReservationDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSchemeModelDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerServiceImpl;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel.SeatsBookingSystemServiceImpl;
 
 import java.util.List;
@@ -27,10 +30,19 @@ public class SeatsBookingSystemController {
     private final SeatsBookingSystemServiceImpl seatsBookingSystemServiceImpl;
     private final FlightServiceImpl flightService;
     private final PassengerServiceImpl passengerService;
+    private final ReservationServiceImpl reservationService;
 
     @GetMapping(path = "/test")
     public String test() {
         return "TEST";
+    }
+
+    //Methods related with reservation domain:
+
+    @PostMapping(path = "/add-reservation")
+    public ReservationDto addNewReservationToDb(@Valid @RequestBody CreateReservationCommand createReservationCommand) {
+        logger.info("Adding new reservation for {} flight to database", createReservationCommand.flightNumber());
+        return reservationService.addNewReservationToDb(createReservationCommand);
     }
 
     //Methods related with flight domain:
