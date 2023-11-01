@@ -22,12 +22,12 @@ public class Reservation {
 
     @Id
     @SequenceGenerator(
-            name = "reservation_seq",
-            sequenceName = "reservation_seq_gen",
+            name = "reservation_id_gen",
+            sequenceName = "reservation_id_seq",
             allocationSize = 1
     )
     @GeneratedValue(
-            generator = "reservation_seq_gen"
+            generator = "reservation_id_gen"
     )
     private Long id;
     @Column(name = "flight_number")
@@ -36,11 +36,11 @@ public class Reservation {
     private String flightNumber;
     @Column(name = "seat_number")
     @NotNull(message = NOT_NULL_MESSAGE)
-    @Size(min = 3, message = "The seatNumber field should consists of 3 signs", max = 3)
+    @Size(min = 3, message = "The seatNumber field should consists of 4 signs", max = 4)
     private String seatNumber;
     @Column(name = "seat_type_class")
     @NotNull(message = NOT_NULL_MESSAGE)
-    @Size(min = 3, message = "The seatNumber field should consists of 3 signs", max = 3)
+    @Size(min = 3, message = "The seatTypeClass field should consists of 20 signs", max = 20)
     private String seatTypeClass;
     @Column(name = "passenger_email")
     @NotNull(message = NOT_NULL_MESSAGE)

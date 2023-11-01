@@ -14,10 +14,10 @@ public record UpdateReservationCommand(
         @Size(min = 4, message = "The flightNumber field should have at least 4 signs")
         String flightNumber,
         @NotNull(message = NOT_NULL_MESSAGE)
-        @Size(min = 3, message = "The seatNumber field should consists of 3 signs", max = 3)
+        @Size(min = 3, message = "The seatNumber field should consists of 4 signs", max = 4)
         String seatNumber,
         @NotNull(message = NOT_NULL_MESSAGE)
-        @Size(min = 3, message = "The seatNumber field should consists of 3 signs", max = 3)
+        @Size(min = 3, message = "The seatTypeClass field should consists of 20 signs", max = 20)
         String seatTypeClass,
         @NotNull(message = NOT_NULL_MESSAGE)
         @Size(min = 9, message = "The passengerEmail field should have at least 9 signs")
