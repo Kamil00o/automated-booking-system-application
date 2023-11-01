@@ -105,13 +105,16 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     @Override
     public void deleteAllReservations() {
-
+        reservationRepository.deleteAll();
     }
 
     @Transactional
     @Override
     public void deleteReservationById(Long id) {
-
+        Reservation savedReservation = reservationRepository
+                .findById(id).orElseThrow(() ->
+                    new ReservationNotFoundException(RESERVATION_NOT_DELETED_ID.formatted(id)));
+        reservationRepository.delete(savedReservation);
     }
 
     private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {

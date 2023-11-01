@@ -58,7 +58,7 @@ public class SeatsBookingSystemController {
         return reservationService.retrieveAllReservations();
     }
 
-    @GetMapping(path = "/get-reservation/id/{id]")
+    @GetMapping(path = "/get-reservation/id/{id}")
     public ReservationDto retrieveReservationById(@PathVariable Long id) {
         logger.info("Retrieving reservation for ID: {}:", id);
         return reservationService.retrieveReservationById(id);

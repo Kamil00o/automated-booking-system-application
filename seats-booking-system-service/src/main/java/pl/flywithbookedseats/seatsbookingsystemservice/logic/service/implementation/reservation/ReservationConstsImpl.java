@@ -18,4 +18,6 @@ public class ReservationConstsImpl {
             "Reservation Database is empty!!!";
     public static final String RESERVATIONS_NOT_RETRIEVED =
             "Reservations haven't been retrieved!";
+    public static final String RESERVATION_NOT_DELETED_ID =
+            "Reservation for ID: %s has not been deleted!";
 }
