@@ -52,6 +52,11 @@ public class SeatsBookingSystemController {
         return reservationService.updateReservationById(updateReservationCommand, id);
     }
 
+    @GetMapping(path = "/get-reservation/all")
+    public List<ReservationDto> retrieveAllReservations() {
+        return reservationService.retrieveAllReservations();
+    }
+
     //Methods related with flight domain:
 
     @GetMapping(path = "/get-flight/all")
