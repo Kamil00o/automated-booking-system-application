@@ -1,6 +1,7 @@
 package pl.flywithbookedseats.seatsbookingsystemservice.logic.controller;
 
 import jakarta.validation.Valid;
+import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +56,18 @@ public class SeatsBookingSystemController {
     @GetMapping(path = "/get-reservation/all")
     public List<ReservationDto> retrieveAllReservations() {
         return reservationService.retrieveAllReservations();
+    }
+
+    @GetMapping(path = "/get-reservation/id/{id]")
+    public ReservationDto retrieveReservationById(@PathVariable Long id) {
+        logger.info("Retrieving reservation for ID: {}:", id);
+        return reservationService.retrieveReservationById(id);
+    }
+
+    @GetMapping(path = "/get-reservation/email/{email}")
+    public List<ReservationDto> retrieveReservationByEmail(@PathVariable String email) {
+        logger.info("Retrieving reservation for email: {}:", email);
+        return reservationService.retrieveReservationByEmail(email);
     }
 
     //Methods related with flight domain:
