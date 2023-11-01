@@ -1,8 +1,9 @@
 package pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command;
 
+import lombok.Builder;
 import org.springframework.stereotype.Component;
 
-@Component
+@Builder
 public record BookingEnterDataCommand(
         String name,
         String surname,

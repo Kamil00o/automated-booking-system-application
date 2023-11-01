@@ -10,7 +10,7 @@ public interface ReservationService {
 
     ReservationDto addNewReservationToDb(CreateReservationCommand createReservationCommand);
 
-    ReservationDto updateReservationById(UpdateReservationCommand updateReservationCommand);
+    ReservationDto updateReservationById(UpdateReservationCommand updateReservationCommand, Long id);
 
     List<ReservationDto> retrieveAllReservations();
 

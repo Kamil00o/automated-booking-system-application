@@ -7,4 +7,6 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Reserv
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
+    boolean existsBySeatNumber(String seatNumber);
+
 }

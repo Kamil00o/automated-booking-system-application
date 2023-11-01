@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.ReservationNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.CreateReservationMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.ReservationDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.BookingEnterDataCommand;
@@ -32,6 +34,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final CreateReservationMapper createReservationMapper;
     private final ReservationDtoMapper reservationDtoMapper;
 
+    @Transactional
     public ReservationDto bookSeatsInThePlane(BookingEnterDataCommand bookingEnterDataCommand) {
         //CreateReservationCommand createReservationCommand = new CreateReservationCommand()
         return null;
@@ -43,7 +46,8 @@ public class ReservationServiceImpl implements ReservationService {
             Reservation newReservation = createReservationMapper.apply(createReservationCommand);
             String passengerEmail = newReservation.getPassengerEmail();
             if (passengerServiceImpl.exists(passengerEmail)) {
-                reservationRepository.save(setPassengerDataToReservation(passengerEmail, newReservation));
+                setPassengerDataToReservation(passengerEmail, newReservation);
+                reservationRepository.save(newReservation);
                 logger.info(RESERVATION_ADDED_PASSENGER);
             } else {
                 reservationRepository.save(newReservation);
@@ -55,8 +59,25 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional
     @Override
-    public ReservationDto updateReservationById(UpdateReservationCommand updateReservationCommand) {
-        return null;
+    public ReservationDto updateReservationById(UpdateReservationCommand updateReservationCommand, Long id) {
+        String passengerEmail = updateReservationCommand.passengerEmail();
+        Reservation savedReservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
+
+        if (exists(updateReservationCommand)) {
+            savedReservation.setSeatNumber(updateReservationCommand.seatNumber());
+            savedReservation.setSeatTypeClass(updateReservationCommand.seatTypeClass());
+            savedReservation.setPassengerEmail(passengerEmail);
+            if (passengerServiceImpl.exists(passengerEmail)) {
+                setPassengerDataToReservation(passengerEmail, savedReservation);
+            }
+            reservationRepository.saveAndFlush(savedReservation);
+            return reservationDtoMapper.apply(savedReservation);
+        } else {
+            logger.warn(RESERVATION_NOT_UPDATED.formatted(id));
+            throw new FlightAlreadyExistsException(RESERVATION_ALREADY_EXISTS_SEAT_NUMBER
+                    .formatted(updateReservationCommand.seatNumber()));
+        }
     }
 
     @Override
@@ -86,9 +107,12 @@ public class ReservationServiceImpl implements ReservationService {
 
     }
 
-    private Reservation setPassengerDataToReservation(String passengerEmail, Reservation newReservation) {
+    private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {
         Passenger savedPassenger = passengerServiceImpl.getPassengerByEmail(passengerEmail);
-        newReservation.setPassenger(savedPassenger);
-        return newReservation;
+        reservation.setPassenger(savedPassenger);
+    }
+
+    private boolean exists(UpdateReservationCommand updateReservationCommand) {
+        return reservationRepository.existsBySeatNumber(updateReservationCommand.seatNumber());
     }
 }
