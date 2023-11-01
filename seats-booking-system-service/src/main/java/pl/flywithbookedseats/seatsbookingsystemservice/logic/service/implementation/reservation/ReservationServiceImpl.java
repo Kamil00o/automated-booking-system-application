@@ -61,14 +61,8 @@ public class ReservationServiceImpl implements ReservationService {
                 .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
 
         if (!exists(updateReservationCommand)) {
-            savedReservation.setSeatNumber(updateReservationCommand.seatNumber());
-            savedReservation.setSeatTypeClass(updateReservationCommand.seatTypeClass());
-            savedReservation.setPassengerEmail(passengerEmail);
-            if (passengerServiceImpl.exists(passengerEmail)) {
-                setPassengerDataToReservation(passengerEmail, savedReservation);
-            }
-            reservationRepository.saveAndFlush(savedReservation);
-            return reservationDtoMapper.apply(savedReservation);
+            return reservationDtoMapper.apply(updateSpecifiedReservation(updateReservationCommand,
+                    savedReservation, passengerEmail));
         } else {
             logger.warn(RESERVATION_NOT_UPDATED.formatted(id));
             throw new FlightAlreadyExistsException(RESERVATION_ALREADY_EXISTS_SEAT_NUMBER
@@ -146,6 +140,19 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         return newReservation;
+    }
+
+    private Reservation updateSpecifiedReservation(UpdateReservationCommand updateReservationCommand,
+                                                   Reservation savedReservation, String passengerEmail) {
+        savedReservation.setSeatNumber(updateReservationCommand.seatNumber());
+        savedReservation.setSeatTypeClass(updateReservationCommand.seatTypeClass());
+        savedReservation.setPassengerEmail(passengerEmail);
+        if (passengerServiceImpl.exists(passengerEmail)) {
+            setPassengerDataToReservation(passengerEmail, savedReservation);
+        }
+        reservationRepository.saveAndFlush(savedReservation);
+
+        return savedReservation;
     }
 
     private boolean exists(UpdateReservationCommand updateReservationCommand) {
