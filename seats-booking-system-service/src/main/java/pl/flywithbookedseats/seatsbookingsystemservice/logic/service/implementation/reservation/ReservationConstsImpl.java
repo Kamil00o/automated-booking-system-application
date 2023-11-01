@@ -8,6 +8,8 @@ public class ReservationConstsImpl {
             "Reservation without passenger entity has been added to database.";
     public static final String RESERVATION_NOT_FOUND_ID =
             "Reservation with ID: %s has not been found!";
+    public static final String RESERVATION_NOT_FOUND_EMAIL =
+            "Reservation with for email: %s has not been found!";
     public static final String RESERVATION_ALREADY_EXISTS_SEAT_NUMBER =
             "Reservation with seat number: %s already exists!";
     public static final String RESERVATION_NOT_UPDATED =

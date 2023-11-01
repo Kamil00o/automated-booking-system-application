@@ -85,25 +85,21 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationDto> retrieveAllReservations() {
         List<Reservation> savedReservationList = reservationRepository.findAll();
-        if (!savedReservationList.isEmpty()) {
-            List<ReservationDto> savedReservationDtoList = new ArrayList<>();
-            savedReservationList.forEach(reservation -> savedReservationDtoList
-                    .add(reservationDtoMapper.apply(reservation)));
-            return savedReservationDtoList;
-        } else {
-            logger.warn(RESERVATIONS_NOT_RETRIEVED);
-            throw new ReservationDatabaseIsEmptyException(RESERVATION_DATABASE_IS_EMPTY_EXCEPTION);
-        }
+        return convertIntoListReservationDto(savedReservationList);
     }
 
     @Override
     public ReservationDto retrieveReservationById(Long id) {
-        return null;
+        Reservation savedReservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
+
+        return reservationDtoMapper.apply(savedReservation);
     }
 
     @Override
     public List<ReservationDto> retrieveReservationByEmail(String email) {
-        return null;
+        List<Reservation> savedReservationList = reservationRepository.findAllByPassengerEmail(email);
+        return convertIntoListReservationDto(savedReservationList);
     }
 
     @Transactional
@@ -121,6 +117,18 @@ public class ReservationServiceImpl implements ReservationService {
     private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {
         Passenger savedPassenger = passengerServiceImpl.getPassengerByEmail(passengerEmail);
         reservation.setPassenger(savedPassenger);
+    }
+
+    private List<ReservationDto> convertIntoListReservationDto(List<Reservation> localSavedReservationList) {
+        if (!localSavedReservationList.isEmpty()) {
+            List<ReservationDto> savedReservationDtoList = new ArrayList<>();
+            localSavedReservationList.forEach(reservation -> savedReservationDtoList
+                    .add(reservationDtoMapper.apply(reservation)));
+            return savedReservationDtoList;
+        } else {
+            logger.warn(RESERVATIONS_NOT_RETRIEVED);
+            throw new ReservationDatabaseIsEmptyException(RESERVATION_DATABASE_IS_EMPTY_EXCEPTION);
+        }
     }
 
     private boolean exists(UpdateReservationCommand updateReservationCommand) {
