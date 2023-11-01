@@ -20,4 +20,6 @@ public class ReservationConstsImpl {
             "Reservations haven't been retrieved!";
     public static final String RESERVATION_NOT_DELETED_ID =
             "Reservation for ID: %s has not been deleted!";
+    public static final String REMOVING_RESERVATION_COMPLETE =
+            "Specified Reservations have been deleted!";
 }

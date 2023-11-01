@@ -23,6 +23,8 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementat
 
 import java.util.List;
 
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/seats-booking")
@@ -68,6 +70,20 @@ public class SeatsBookingSystemController {
     public List<ReservationDto> retrieveReservationByEmail(@PathVariable String email) {
         logger.info("Retrieving reservation for email: {}:", email);
         return reservationService.retrieveReservationByEmail(email);
+    }
+
+    @DeleteMapping(path = "delete-reservation/all")
+    public void deleteAllReservations() {
+        logger.info("Removing all reservations:");
+        reservationService.deleteAllReservations();
+        logger.info(REMOVING_RESERVATION_COMPLETE);
+    }
+
+    @DeleteMapping(path = "delete-reservation/id/{id}")
+    public void deleteReservationById(@PathVariable Long id) {
+        logger.info("Removing reservation for ID: {}:", id);
+        reservationService.deleteReservationById(id);
+        logger.info(REMOVING_RESERVATION_COMPLETE);
     }
 
     //Methods related with flight domain:
