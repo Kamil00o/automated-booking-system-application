@@ -22,4 +22,6 @@ public class ReservationConstsImpl {
             "Reservation for ID: %s has not been deleted!";
     public static final String REMOVING_RESERVATION_COMPLETE =
             "Specified Reservations have been deleted!";
+    public static final String RESERVATION_NOT_CREATED =
+            "Reservation has not been created!";
 }

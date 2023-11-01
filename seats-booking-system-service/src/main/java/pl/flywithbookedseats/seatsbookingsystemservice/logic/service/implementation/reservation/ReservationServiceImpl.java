@@ -45,18 +45,12 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     @Override
     public ReservationDto addNewReservationToDb(CreateReservationCommand createReservationCommand) {
-            Reservation newReservation = createReservationMapper.apply(createReservationCommand);
-            String passengerEmail = newReservation.getPassengerEmail();
-            if (passengerServiceImpl.exists(passengerEmail)) {
-                setPassengerDataToReservation(passengerEmail, newReservation);
-                reservationRepository.save(newReservation);
-                logger.info(RESERVATION_ADDED_PASSENGER);
-            } else {
-                reservationRepository.save(newReservation);
-                logger.info(RESERVATION_ADDED_NO_PASSENGER);
-            }
-
-            return reservationDtoMapper.apply(newReservation);
+        if (!exists(createReservationCommand)) {
+            return reservationDtoMapper.apply(generateNewReservation(createReservationCommand));
+        }
+        logger.warn(RESERVATION_NOT_CREATED);
+        throw new FlightAlreadyExistsException(RESERVATION_ALREADY_EXISTS_SEAT_NUMBER
+                .formatted(createReservationCommand.seatNumber()));
     }
 
     @Transactional
@@ -134,7 +128,26 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
+    private Reservation generateNewReservation(CreateReservationCommand createReservationCommand) {
+        Reservation newReservation = createReservationMapper.apply(createReservationCommand);
+        String passengerEmail = newReservation.getPassengerEmail();
+        if (passengerServiceImpl.exists(passengerEmail)) {
+            setPassengerDataToReservation(passengerEmail, newReservation);
+            reservationRepository.save(newReservation);
+            logger.info(RESERVATION_ADDED_PASSENGER);
+        } else {
+            reservationRepository.save(newReservation);
+            logger.info(RESERVATION_ADDED_NO_PASSENGER);
+        }
+
+        return newReservation;
+    }
+
     private boolean exists(UpdateReservationCommand updateReservationCommand) {
         return reservationRepository.existsBySeatNumber(updateReservationCommand.seatNumber());
+    }
+
+    private boolean exists(CreateReservationCommand createReservationCommand) {
+        return reservationRepository.existsBySeatNumber(createReservationCommand.seatNumber());
     }
 }
