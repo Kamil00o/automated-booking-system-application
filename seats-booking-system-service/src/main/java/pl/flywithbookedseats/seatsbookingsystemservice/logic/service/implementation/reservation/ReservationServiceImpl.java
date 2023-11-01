@@ -93,7 +93,12 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationDto> retrieveReservationByEmail(String email) {
         List<Reservation> savedReservationList = reservationRepository.findAllByPassengerEmail(email);
-        return convertIntoListReservationDto(savedReservationList);
+        if (!savedReservationList.isEmpty()) {
+            return convertIntoListReservationDto(savedReservationList);
+        } else {
+            logger.warn(RESERVATIONS_NOT_RETRIEVED);
+            throw new ReservationNotFoundException(RESERVATION_NOT_FOUND_EMAIL.formatted(email));
+        }
     }
 
     @Transactional
