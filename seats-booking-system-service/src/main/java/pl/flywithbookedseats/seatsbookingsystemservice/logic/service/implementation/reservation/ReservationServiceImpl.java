@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.CreateReservationMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.ReservationDtoMapper;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.UpdateReservationCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passenger;
@@ -31,6 +32,10 @@ public class ReservationServiceImpl implements ReservationService {
     private final CreateReservationMapper createReservationMapper;
     private final ReservationDtoMapper reservationDtoMapper;
 
+    public ReservationDto bookSeatsInThePlane(BookingEnterDataCommand bookingEnterDataCommand) {
+        //CreateReservationCommand createReservationCommand = new CreateReservationCommand()
+        return null;
+    }
 
     @Transactional
     @Override
