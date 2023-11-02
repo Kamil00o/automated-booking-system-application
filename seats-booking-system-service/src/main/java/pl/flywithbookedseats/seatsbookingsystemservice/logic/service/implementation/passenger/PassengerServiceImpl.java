@@ -52,6 +52,7 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public List<PassengerDto> retrieveAllPassengers() {
+        
         return null;
     }
 
