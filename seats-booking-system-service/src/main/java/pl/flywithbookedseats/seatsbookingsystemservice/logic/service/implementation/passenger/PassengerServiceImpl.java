@@ -8,12 +8,14 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.Pa
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passenger;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Reservation;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.PassengerRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.PassengerService;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,6 +23,8 @@ import java.util.List;
 public class PassengerServiceImpl implements PassengerService {
 
     private final PassengerRepository passengerRepository;
+    //Adding ReservationServiceImpl instance causes circular references with ReservationServiceImpl Bean:
+    //private final ReservationServiceImpl reservationService;
     private final PassengerDtoMapper passengerDtoMapper;
 
     @Transactional
@@ -68,6 +72,18 @@ public class PassengerServiceImpl implements PassengerService {
                 .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
 
         return savedPassenger;
+    }
+
+    private List<Reservation> parseReservationIdToEntity(CreatePassengerCommand createPassengerCommand) {
+        List<Reservation> parsedReservationList = new ArrayList<>();
+        List<Long> reservationIdList = createPassengerCommand.reservationsIdList();
+        /*if (!reservationIdList.isEmpty()) {
+            reservationIdList.forEach(id -> {
+                reservationService.retrieveReservationById(id);
+                parsedReservationList.add();
+            });
+        }*/
+        return null;
     }
 
     public boolean exists(String email) {
