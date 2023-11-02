@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.ReservationDatabaseIsEmptyException;
@@ -32,7 +33,7 @@ public class ReservationServiceImpl implements ReservationService {
     private static final Logger logger = LoggerFactory.getLogger(ReservationServiceImpl.class);
 
     private final ReservationRepository reservationRepository;
-    private final PassengerServiceImpl passengerServiceImpl;
+    private final PassengerServiceImpl passengerService;
     private final CreateReservationMapper createReservationMapper;
     private final ReservationDtoMapper reservationDtoMapper;
 
@@ -78,10 +79,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDto retrieveReservationById(Long id) {
-        Reservation savedReservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
-
-        return reservationDtoMapper.apply(savedReservation);
+        return reservationDtoMapper.apply(retrieveReservationEntityFromDb(id));
     }
 
     @Override
@@ -111,7 +109,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {
-        Passenger savedPassenger = passengerServiceImpl.getPassengerByEmail(passengerEmail);
+        Passenger savedPassenger = passengerService.getPassengerByEmail(passengerEmail);
         reservation.setPassenger(savedPassenger);
     }
 
@@ -130,7 +128,7 @@ public class ReservationServiceImpl implements ReservationService {
     private Reservation generateNewReservation(CreateReservationCommand createReservationCommand) {
         Reservation newReservation = createReservationMapper.apply(createReservationCommand);
         String passengerEmail = newReservation.getPassengerEmail();
-        if (passengerServiceImpl.exists(passengerEmail)) {
+        if (passengerService.exists(passengerEmail)) {
             setPassengerDataToReservation(passengerEmail, newReservation);
             reservationRepository.save(newReservation);
             logger.info(RESERVATION_ADDED_PASSENGER);
@@ -147,10 +145,17 @@ public class ReservationServiceImpl implements ReservationService {
         savedReservation.setSeatNumber(updateReservationCommand.seatNumber());
         savedReservation.setSeatTypeClass(updateReservationCommand.seatTypeClass());
         savedReservation.setPassengerEmail(passengerEmail);
-        if (passengerServiceImpl.exists(passengerEmail)) {
+        if (passengerService.exists(passengerEmail)) {
             setPassengerDataToReservation(passengerEmail, savedReservation);
         }
         reservationRepository.saveAndFlush(savedReservation);
+
+        return savedReservation;
+    }
+
+    private Reservation retrieveReservationEntityFromDb(Long id) {
+        Reservation savedReservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
 
         return savedReservation;
     }
