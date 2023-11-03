@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.UpdateReservationCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.seatsschememodel.CreateSeatsSchemeModelCommand;
@@ -173,6 +174,13 @@ public class SeatsBookingSystemController {
     }
 
     //Methods related with passenger domain:
+
+    @PutMapping(path = "/update-passenger/email/{email}")
+    public PassengerDto updatePassengerByEmail(@Valid @RequestBody UpdatePassengerCommand updatePassengerCommand,
+                                               @PathVariable String email) {
+        logger.info("Updating passenger data for emai: {}: ", email);
+        return passengerService.updatePassengerByEmail(updatePassengerCommand, email);
+    }
 
     @GetMapping(path = "get-passenger/email/{email}")
     public PassengerDto retrievePassengerByEmail(@PathVariable String email) {
