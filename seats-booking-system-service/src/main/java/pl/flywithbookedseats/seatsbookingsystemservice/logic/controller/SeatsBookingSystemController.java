@@ -179,4 +179,9 @@ public class SeatsBookingSystemController {
         logger.info("Retrieving passenger data for email {}:", email);
         return passengerService.retrievePassengerByEmail(email);
     }
+
+    @GetMapping(path = "/get-passenger/all")
+    public List<PassengerDto> retrieveAllPassengers() {
+        return passengerService.retrieveAllPassengers();
+    }
 }
