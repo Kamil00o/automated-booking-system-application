@@ -2,7 +2,10 @@ package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementa
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
@@ -21,6 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class PassengerServiceImpl implements PassengerService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PassengerServiceImpl.class);
 
     private final PassengerRepository passengerRepository;
     //Adding ReservationServiceImpl instance causes circular references with ReservationServiceImpl Bean:
@@ -52,8 +57,8 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public List<PassengerDto> retrieveAllPassengers() {
-        
-        return null;
+        List<Passenger> savedPassengerList = passengerRepository.findAll();
+        return convertIntoListPassengerDto(savedPassengerList);
     }
 
     @Transactional
@@ -85,6 +90,18 @@ public class PassengerServiceImpl implements PassengerService {
             });
         }*/
         return null;
+    }
+
+    private List<PassengerDto> convertIntoListPassengerDto(List<Passenger> localSavedPassengerList) {
+        if (!localSavedPassengerList.isEmpty()) {
+            List<PassengerDto> savedPassengerDtoList = new ArrayList<>();
+            localSavedPassengerList.forEach(passenger -> savedPassengerDtoList
+                    .add(passengerDtoMapper.apply(passenger)));
+            return savedPassengerDtoList;
+        } else {
+            logger.warn(PASSENGERS_NOT_RETRIEVED);
+            throw new PassengerDatabaseIsEmptyException(PASSENGER_DATABASE_IS_EMPTY_EXCEPTION);
+        }
     }
 
     public boolean exists(String email) {
