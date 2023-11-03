@@ -109,7 +109,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {
-        Passenger savedPassenger = passengerService.getPassengerByEmail(passengerEmail);
+        Passenger savedPassenger = passengerService.retrievePassengerEntityFromDb(passengerEmail);
         reservation.setPassenger(savedPassenger);
     }
 

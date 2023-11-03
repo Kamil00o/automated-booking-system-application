@@ -19,8 +19,6 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.Passenge
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.PassengerService;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.*;
-import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_ALREADY_EXISTS_SEAT_NUMBER;
-import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_UPDATED;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,20 +69,13 @@ public class PassengerServiceImpl implements PassengerService {
     @Transactional
     @Override
     public void deleteAllPassengers() {
-
+        passengerRepository.deleteAll();
     }
 
     @Transactional
     @Override
     public void deletePassengerByEmail(String email) {
-
-    }
-
-    public Passenger getPassengerByEmail(String email) {
-        Passenger savedPassenger = passengerRepository.findByEmail(email)
-                .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
-
-        return savedPassenger;
+        passengerRepository.delete(retrievePassengerEntityFromDb(email));
     }
 
     private List<Reservation> parseReservationIdToEntity(CreatePassengerCommand createPassengerCommand) {
@@ -132,7 +123,7 @@ public class PassengerServiceImpl implements PassengerService {
         }
     }
 
-    private Passenger retrievePassengerEntityFromDb(String email) {
+    public Passenger retrievePassengerEntityFromDb(String email) {
         return passengerRepository.findByEmail(email)
                 .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
     }
