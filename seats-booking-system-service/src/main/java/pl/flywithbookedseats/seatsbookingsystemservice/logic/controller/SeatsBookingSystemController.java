@@ -192,4 +192,14 @@ public class SeatsBookingSystemController {
     public List<PassengerDto> retrieveAllPassengers() {
         return passengerService.retrieveAllPassengers();
     }
+
+    @DeleteMapping(path = "/delete-passenger/all")
+    public void deleteAllPassengers() {
+        passengerService.deleteAllPassengers();
+    }
+
+    @DeleteMapping(path = "/delete-passenger/email/{email}")
+    public void deletePassengerByEmail(@PathVariable String email) {
+        passengerService.deletePassengerByEmail(email);
+    }
 }
