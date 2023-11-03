@@ -10,7 +10,7 @@ public interface PassengerService {
 
     PassengerDto createNewPassenger(CreatePassengerCommand createPassengerCommand);
 
-    PassengerDto updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand);
+    PassengerDto updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand, String email);
 
     PassengerDto retrievePassengerByEmail(String email);
 

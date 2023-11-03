@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.PassengerDtoMapper;
@@ -17,6 +19,8 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.Passenge
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.PassengerService;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.*;
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_ALREADY_EXISTS_SEAT_NUMBER;
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_UPDATED;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,23 +40,26 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public PassengerDto createNewPassenger(CreatePassengerCommand createPassengerCommand) {
         if (exists(createPassengerCommand)) {
-
+        //TODO:method will be finished after redesigning!
         }
         return null;
     }
 
     @Transactional
     @Override
-    public PassengerDto updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand) {
-        return null;
+    public PassengerDto updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand, String email) {
+        Passenger savedPassenger = retrievePassengerEntityFromDb(updatePassengerCommand.email());
+        if (exists(email)) {
+            return passengerDtoMapper.apply(updateSpecifiedPassenger(updatePassengerCommand, savedPassenger));
+        } else {
+            logger.warn(PASSENGER_NOT_UPDATED);
+            throw new FlightAlreadyExistsException(PASSENGER_NOT_FOUND_EMAIL.formatted(email));
+        }
     }
 
     @Override
     public PassengerDto retrievePassengerByEmail(String email) {
-        Passenger savedPassenger = passengerRepository.findByEmail(email)
-                .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
-
-        return passengerDtoMapper.apply(savedPassenger);
+        return passengerDtoMapper.apply(retrievePassengerEntityFromDb(email));
     }
 
     @Override
@@ -104,11 +111,41 @@ public class PassengerServiceImpl implements PassengerService {
         }
     }
 
+    private Passenger updateSpecifiedPassenger(UpdatePassengerCommand updatePassengerCommand,
+                                               Passenger savedPassenger) {
+        String email = updatePassengerCommand.email();
+        if (exists(updatePassengerCommand)) {
+            if (!updatePassengerCommand.reservationsIdList().isEmpty()) {
+                //TODO: Will be finished, when ReservationService's method retrieveReservationEntityFromDb()
+                // will be extracted to separated method to enable using it here
+            }
+            savedPassenger.setBirthDate(updatePassengerCommand.birthDate());
+            savedPassenger.setName(updatePassengerCommand.name());
+            savedPassenger.setSurname(updatePassengerCommand.surname());
+            savedPassenger.setEmail(email);
+            savedPassenger.setDisability(updatePassengerCommand.disability());
+            passengerRepository.saveAndFlush(savedPassenger);
+            return savedPassenger;
+        } else {
+            logger.warn(PASSENGER_NOT_UPDATED);
+            throw new PassengerAlreadyExistsException(PASSENGER_ALREADY_EXISTS_EMAIL.formatted(email));
+        }
+    }
+
+    private Passenger retrievePassengerEntityFromDb(String email) {
+        return passengerRepository.findByEmail(email)
+                .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
+    }
+
     public boolean exists(String email) {
         return passengerRepository.existsByEmail(email);
     }
 
     private boolean exists(CreatePassengerCommand createPassengerCommand) {
         return passengerRepository.existsByEmail(createPassengerCommand.email());
+    }
+
+    private boolean exists(UpdatePassengerCommand updatePassengerCommand) {
+        return passengerRepository.existsByEmail(updatePassengerCommand.email());
     }
 }
