@@ -14,8 +14,10 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passen
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Reservation;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.PassengerRepository;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationBusinessLogic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.*;
@@ -27,6 +29,7 @@ public class PassengerBusinessLogic {
 
     private final PassengerRepository passengerRepository;
     private final PassengerDtoMapper passengerDtoMapper;
+    private final ReservationBusinessLogic reservationBL;
 
     public List<Reservation> parseReservationIdToEntity(CreatePassengerCommand createPassengerCommand) {
         List<Reservation> parsedReservationList = new ArrayList<>();
@@ -56,9 +59,12 @@ public class PassengerBusinessLogic {
                                                Passenger savedPassenger) {
         String email = updatePassengerCommand.email();
         if (exists(updatePassengerCommand)) {
-            if (!updatePassengerCommand.reservationsIdList().isEmpty()) {
-                //TODO: Will be finished, when ReservationService's method retrieveReservationEntityFromDb()
-                // will be extracted to separated method to enable using it here
+            List<Long> updatedReservationsIdList = updatePassengerCommand.reservationsIdList();
+            if (!updatedReservationsIdList.isEmpty()) {
+                for (Long reservationId : updatedReservationsIdList) {
+                    addReservationEntityToPassengerEntity(savedPassenger
+                            , reservationBL.retrieveReservationEntityFromDb(reservationId));
+                }
             }
             savedPassenger.setBirthDate(updatePassengerCommand.birthDate());
             savedPassenger.setName(updatePassengerCommand.name());
@@ -88,5 +94,14 @@ public class PassengerBusinessLogic {
 
     public boolean exists(UpdatePassengerCommand updatePassengerCommand) {
         return passengerRepository.existsByEmail(updatePassengerCommand.email());
+    }
+
+    private void addReservationEntityToPassengerEntity(Passenger savedPassenger, Reservation reservationToAdd) {
+        List<Reservation> reservationList = savedPassenger.getReservationsList();
+        if (reservationList == null) {
+            savedPassenger.setReservationsList(Collections.singletonList(reservationToAdd));
+        } else {
+            reservationList.add(reservationToAdd);
+        }
     }
 }
