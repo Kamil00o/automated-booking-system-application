@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.ReservationNotFoundException;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.CreateReservationMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.ReservationDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reservation.CreateReservationCommand;
@@ -16,7 +15,6 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Reserv
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.ReservationDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.ReservationRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.ReservationService;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerServiceImpl;
 
 import java.util.List;
 
@@ -29,8 +27,6 @@ public class ReservationServiceImpl implements ReservationService {
     private static final Logger logger = LoggerFactory.getLogger(ReservationServiceImpl.class);
 
     private final ReservationRepository reservationRepository;
-    private final PassengerServiceImpl passengerService;
-    private final CreateReservationMapper createReservationMapper;
     private final ReservationDtoMapper reservationDtoMapper;
     private final ReservationBusinessLogic reservationBL;
 

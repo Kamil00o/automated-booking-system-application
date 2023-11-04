@@ -14,6 +14,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passen
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Reservation;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.ReservationDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.ReservationRepository;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerBusinessLogic;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerServiceImpl;
 
 import java.util.ArrayList;
@@ -28,9 +29,9 @@ public class ReservationBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(ReservationBusinessLogic.class);
 
     private final ReservationRepository reservationRepository;
-    private final PassengerServiceImpl passengerService;
     private final CreateReservationMapper createReservationMapper;
     private final ReservationDtoMapper reservationDtoMapper;
+    private final PassengerBusinessLogic passengerBL;
 
 
     public List<ReservationDto> convertIntoListReservationDto(List<Reservation> localSavedReservationList) {
@@ -48,7 +49,7 @@ public class ReservationBusinessLogic {
     public Reservation generateNewReservation(CreateReservationCommand createReservationCommand) {
         Reservation newReservation = createReservationMapper.apply(createReservationCommand);
         String passengerEmail = newReservation.getPassengerEmail();
-        if (passengerService.exists(passengerEmail)) {
+        if (passengerBL.exists(passengerEmail)) {
             setPassengerDataToReservation(passengerEmail, newReservation);
             reservationRepository.save(newReservation);
             logger.info(RESERVATION_ADDED_PASSENGER);
@@ -65,7 +66,7 @@ public class ReservationBusinessLogic {
         savedReservation.setSeatNumber(updateReservationCommand.seatNumber());
         savedReservation.setSeatTypeClass(updateReservationCommand.seatTypeClass());
         savedReservation.setPassengerEmail(passengerEmail);
-        if (passengerService.exists(passengerEmail)) {
+        if (passengerBL.exists(passengerEmail)) {
             setPassengerDataToReservation(passengerEmail, savedReservation);
         }
         reservationRepository.saveAndFlush(savedReservation);
@@ -86,7 +87,7 @@ public class ReservationBusinessLogic {
     }
 
     private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {
-        Passenger savedPassenger = passengerService.retrievePassengerEntityFromDb(passengerEmail);
+        Passenger savedPassenger = passengerBL.retrievePassengerEntityFromDb(passengerEmail);
         reservation.setPassenger(savedPassenger);
     }
 }
