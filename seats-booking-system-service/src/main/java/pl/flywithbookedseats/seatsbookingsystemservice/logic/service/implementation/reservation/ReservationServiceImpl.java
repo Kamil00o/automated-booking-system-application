@@ -58,12 +58,10 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationDto updateReservationById(UpdateReservationCommand updateReservationCommand, Long id) {
         String passengerEmail = updateReservationCommand.passengerEmail();
-        Reservation savedReservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
 
         if (!exists(updateReservationCommand)) {
             return reservationDtoMapper.apply(updateSpecifiedReservation(updateReservationCommand,
-                    savedReservation, passengerEmail));
+                    retrieveReservationEntityFromDb(id), passengerEmail));
         } else {
             logger.warn(RESERVATION_NOT_UPDATED.formatted(id));
             throw new FlightAlreadyExistsException(RESERVATION_ALREADY_EXISTS_SEAT_NUMBER
@@ -102,10 +100,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     @Override
     public void deleteReservationById(Long id) {
-        Reservation savedReservation = reservationRepository
-                .findById(id).orElseThrow(() ->
-                    new ReservationNotFoundException(RESERVATION_NOT_DELETED_ID.formatted(id)));
-        reservationRepository.delete(savedReservation);
+        reservationRepository.delete(retrieveReservationEntityFromDb(id));
     }
 
     private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {
@@ -154,10 +149,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     private Reservation retrieveReservationEntityFromDb(Long id) {
-        Reservation savedReservation = reservationRepository.findById(id)
+        return reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
-
-        return savedReservation;
     }
 
     private boolean exists(UpdateReservationCommand updateReservationCommand) {
