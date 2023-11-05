@@ -34,21 +34,17 @@ public class FlightServiceImpl implements FlightService {
     private static final Logger logger = LoggerFactory.getLogger(FlightConstImpl.class);
 
     private final FlightRepository flightRepository;
-    private final CreateFlightMapper createFlightMapper;
     private final FlightDtoMapper flightDtoMapper;
     private final FlightBusinessLogic flightBL;
 
     @Transactional
     @Override
     public FlightDto createNewFlight(CreateFlightCommand createFlightCommand) {
-        String flightName = createFlightCommand.flightName();
         if (!flightBL.exists(createFlightCommand)) {
-            Flight newFlight = createFlightMapper.apply(createFlightCommand);
-            flightBL.retrieveSeatsSchemeForPlaneTypeIfNeeded(newFlight);
-            flightRepository.save(newFlight);
-            return flightDtoMapper.apply(newFlight);
+            return flightDtoMapper.apply(flightBL.generateNewFlight(createFlightCommand));
         } else {
-            throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME.formatted(flightName));
+            throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME
+                    .formatted(createFlightCommand.flightName()));
         }
     }
 

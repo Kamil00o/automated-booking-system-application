@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotCreatedException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.CreateFlightMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Flight;
@@ -25,6 +26,14 @@ public class FlightBusinessLogic {
 
     private final FlightRepository flightRepository;
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
+    private final CreateFlightMapper createFlightMapper;
+
+    public Flight generateNewFlight(CreateFlightCommand createFlightCommand) {
+        Flight newFlight = createFlightMapper.apply(createFlightCommand);
+        retrieveSeatsSchemeForPlaneTypeIfNeeded(newFlight);
+        flightRepository.save(newFlight);
+        return newFlight;
+    }
 
     public void retrieveSeatsSchemeForPlaneTypeIfNeeded(Flight flight) {
         Map<String, String> savedSeatsSchemeMap;
