@@ -79,7 +79,14 @@ public class ReservationBusinessLogic {
                 .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
     }
     public boolean exists(UpdateReservationCommand updateReservationCommand) {
-        return reservationRepository.existsBySeatNumber(updateReservationCommand.seatNumber());
+        String seatNumber = updateReservationCommand.seatNumber();
+        if (reservationRepository.existsBySeatNumber(seatNumber)) {
+            if (!retrieveReservationEntityFromDb(seatNumber).getPassengerEmail()
+                    .equals(updateReservationCommand.passengerEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean exists(CreateReservationCommand createReservationCommand) {
@@ -95,6 +102,12 @@ public class ReservationBusinessLogic {
     private Passenger retrievePassengerEntityFromDb(String email) {
         return passengerRepository.findByEmail(email)
                 .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
+    }
+
+    private Reservation retrieveReservationEntityFromDb(String seatNumber) {
+        return reservationRepository.findBySeatNumber(seatNumber)
+                .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_SEAT_NUMBER
+                        .formatted(seatNumber)));
     }
 
     //duplicated - PassengerBL//
