@@ -20,7 +20,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSche
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationServiceImpl;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel.SeatsBookingSystemServiceImpl;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel.SeatsSchemeModelServiceImpl;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.impl
 public class SeatsBookingSystemController {
 
     private static final Logger logger = LoggerFactory.getLogger(SeatsBookingSystemController.class);
-    private final SeatsBookingSystemServiceImpl seatsBookingSystemServiceImpl;
+    private final SeatsSchemeModelServiceImpl seatsSchemeModelServiceImpl;
     private final FlightServiceImpl flightService;
     private final PassengerServiceImpl passengerService;
     private final ReservationServiceImpl reservationService;
@@ -148,26 +148,26 @@ public class SeatsBookingSystemController {
     public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
         String planeModelName = createSeatsSchemeModelCommand.planeModelName();
         logger.info("Adding new seats scheme to database for {} plane model.", planeModelName);
-        seatsBookingSystemServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeModelCommand);
+        seatsSchemeModelServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeModelCommand);
         logger.info("Seats scheme for {} added successfully!!", planeModelName);
     }
 
     @GetMapping(path = "/get-seats-model/plane-model-name/{planeModelName}")
     public SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(@PathVariable String planeModelName) {
         logger.info("Retrieving seat scheme model data for {} plane model.", planeModelName);
-        return seatsBookingSystemServiceImpl.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
+        return seatsSchemeModelServiceImpl.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
     }
 
     @GetMapping(path = "/get-seats-model/id/{id}")
     public SeatsSchemeModelDto retrieveSeatsSchemeModelById(@PathVariable Long id) {
         logger.info("Retrieving seat scheme model data for plane model with id {}.", id);
-        return seatsBookingSystemServiceImpl.retrieveSeatsSchemeModelById(id);
+        return seatsSchemeModelServiceImpl.retrieveSeatsSchemeModelById(id);
     }
 
     @GetMapping(path = "/get-seats-model/all")
     public List<SeatsSchemeModelDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
         logger.info("Retrieving seat scheme model data for all saved plane models.");
-        return seatsBookingSystemServiceImpl.retrieveAllSavedSeatsSchemeModelsFromDb();
+        return seatsSchemeModelServiceImpl.retrieveAllSavedSeatsSchemeModelsFromDb();
     }
 
     @PutMapping(path = "/update-seats-scheme-model/{id}")
@@ -175,22 +175,22 @@ public class SeatsBookingSystemController {
             @PathVariable Long id,
             @Valid @RequestBody UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
         logger.info("Updating seat scheme model data with ID: {}.", id);
-        return seatsBookingSystemServiceImpl.updateSeatsSchemeModel(id, updateSeatsSchemeModelCommand);
+        return seatsSchemeModelServiceImpl.updateSeatsSchemeModel(id, updateSeatsSchemeModelCommand);
     }
 
     @DeleteMapping(path = "/delete-seats-scheme-model/id/{id}")
     public void deleteSeatsSchemeModelById(@PathVariable Long id) {
-        seatsBookingSystemServiceImpl.deleteSeatsSchemeModelById(id);
+        seatsSchemeModelServiceImpl.deleteSeatsSchemeModelById(id);
     }
 
     @DeleteMapping(path = "/delete-seats-scheme-model/plane-name/{planeModelName}")
     public void deleteSeatsSchemeModelByPlaneModelName(@PathVariable String planeModelName) {
-        seatsBookingSystemServiceImpl.deleteSeatsSchemeModelByPlaneModelName(planeModelName);
+        seatsSchemeModelServiceImpl.deleteSeatsSchemeModelByPlaneModelName(planeModelName);
     }
 
     @DeleteMapping(path = "/delete-all-seats-scheme-models")
     public void deleteAllSavedSeatsSchemeModelsFromDb() {
-        seatsBookingSystemServiceImpl.deleteAllSavedSeatsSchemeModelsFromDb();
+        seatsSchemeModelServiceImpl.deleteAllSavedSeatsSchemeModelsFromDb();
     }
 
     //Methods related with passenger domain:

@@ -6,7 +6,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSche
 
 import java.util.List;
 
-public interface SeatsBookingSystemService {
+public interface SeatsSchemeModelService {
 
     void addNewSeatsSchemeModel(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand);
 

@@ -14,16 +14,16 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.seats
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.SeatsSchemeModel;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSchemeModelDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.SeatsSchemeModelRepository;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.SeatsBookingSystemService;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.SeatsSchemeModelService;
 
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SeatsBookingSystemServiceImpl implements SeatsBookingSystemService {
+public class SeatsSchemeModelServiceImpl implements SeatsSchemeModelService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SeatsBookingSystemService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SeatsSchemeModelServiceImpl.class);
 
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
     private final CreateSeatsSchemeModelMapper createSeatsSchemeModelMapper;
