@@ -95,15 +95,7 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public List<FlightDto> retrieveAllFlightsFromDb() {
-        List<Flight> savedFlightList = flightRepository.findAll();
-        if (!savedFlightList.isEmpty()) {
-            List<FlightDto> savedFlightDtoList = new ArrayList<>();
-            savedFlightList.forEach(flight -> savedFlightDtoList.add(flightDtoMapper.apply(flight)));
-            return savedFlightDtoList;
-        } else {
-            logger.warn(FLIGHTS_NOT_RETRIEVED);
-            throw new FlightDatabaseIsEmptyException(FLIGHT_DATABASE_IS_EMPTY_EXCEPTION);
-        }
+        return flightBL.convertIntoListFlightDto(flightRepository.findAll());
     }
 
     @Override
@@ -126,19 +118,14 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public void deleteFlightByFlightName(String flightName) {
-        Flight savedFlight = flightRepository.findByFlightName(flightName)
-                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName)));
-        flightRepository.delete(savedFlight);
+        flightRepository.delete(flightBL.retrieveFlightEntityFromDb(flightName));
         logger.info(FLIGHT_REMOVED_NAME.formatted(flightName));
     }
 
     @Transactional
     @Override
     public void deleteFlightByFlyServiceId(Long flightServiceId) {
-        Flight savedFlight = flightRepository.findByFlightServiceId(flightServiceId)
-                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID
-                        .formatted(flightServiceId)));
-        flightRepository.delete(savedFlight);
+        flightRepository.delete(flightBL.retrieveFlightEntityFromDb(flightServiceId));
         logger.info(FLIGHT_REMOVED_SERVICE_ID.formatted(flightServiceId));
     }
 }

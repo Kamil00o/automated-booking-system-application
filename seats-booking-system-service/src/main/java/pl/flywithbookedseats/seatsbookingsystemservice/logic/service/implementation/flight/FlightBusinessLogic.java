@@ -4,16 +4,21 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotCreatedException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.CreateFlightMapper;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.FlightDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Flight;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.SeatsSchemeModel;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.FlightRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.SeatsSchemeModelRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -28,6 +33,7 @@ public class FlightBusinessLogic {
     private final FlightRepository flightRepository;
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
     private final CreateFlightMapper createFlightMapper;
+    private final FlightDtoMapper flightDtoMapper;
 
     public Flight generateNewFlight(CreateFlightCommand createFlightCommand) {
         Flight newFlight = createFlightMapper.apply(createFlightCommand);
@@ -63,6 +69,17 @@ public class FlightBusinessLogic {
         }
 
         return localBookedSeatsInPlaneMap;
+    }
+
+    public List<FlightDto> convertIntoListFlightDto(List<Flight> flightList) {
+        if (!flightList.isEmpty()) {
+            List<FlightDto> savedFlightDtoList = new ArrayList<>();
+            flightList.forEach(flight -> savedFlightDtoList.add(flightDtoMapper.apply(flight)));
+            return savedFlightDtoList;
+        } else {
+            logger.warn(FLIGHTS_NOT_RETRIEVED);
+            throw new FlightDatabaseIsEmptyException(FLIGHT_DATABASE_IS_EMPTY_EXCEPTION);
+        }
     }
 
     public Flight retrieveFlightEntityFromDb(String flightName) {
