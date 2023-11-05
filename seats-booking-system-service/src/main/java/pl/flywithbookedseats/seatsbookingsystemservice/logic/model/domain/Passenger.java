@@ -46,8 +46,13 @@ public class Passenger {
     private LocalDate birthDate;
     @NotNull(message = NOT_NULL_MESSAGE)
     private boolean disability;
-    @OneToMany(mappedBy = "passenger")
     @JsonIgnore
+    @OneToMany
+    @JoinTable(
+            name = "passenger_attached_reservations_table",
+            joinColumns = @JoinColumn(name = "passenger_id"),
+            inverseJoinColumns = @JoinColumn(name = "reservation_id")
+    )
     private List<Reservation> reservationsList;
 
     @Override
