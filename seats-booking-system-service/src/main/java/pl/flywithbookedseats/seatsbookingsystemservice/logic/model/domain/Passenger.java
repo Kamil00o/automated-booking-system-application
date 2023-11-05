@@ -24,12 +24,12 @@ public class Passenger {
 
     @Id
     @SequenceGenerator(
-            name = "passenger_seq",
-            sequenceName = "passenger_seq_gen",
+            name = "passenger_id_gen",
+            sequenceName = "passenger_id_seq",
             allocationSize = 1
     )
     @GeneratedValue(
-            generator = "passenger_seq_gen"
+            generator = "passenger_id_gen"
     )
     private Long id;
     @NotNull(message = NOT_NULL_MESSAGE)

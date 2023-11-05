@@ -24,9 +24,11 @@ public class PassengerDtoMapper implements Function<Passenger, PassengerDto> {
 
     private List<Long> generateReservationIdList(Passenger passenger) {
         List<Long> localReservationIdList = new ArrayList<Long>();
-        passenger.getReservationsList().forEach(reservation -> {
-            localReservationIdList.add(reservation.getId());
-        });
+        if (passenger.getReservationsList() != null) {
+            passenger.getReservationsList().forEach(reservation -> {
+                localReservationIdList.add(reservation.getId());
+            });
+        }
 
         return localReservationIdList;
     }

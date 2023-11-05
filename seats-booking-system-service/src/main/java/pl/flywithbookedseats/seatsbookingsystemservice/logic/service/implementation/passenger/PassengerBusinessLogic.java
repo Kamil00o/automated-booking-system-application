@@ -39,7 +39,10 @@ public class PassengerBusinessLogic {
         Passenger newPassenger = createPassengerMapper.apply(createPassengerCommand);
         List<Reservation> reservationsToAddList = parseReservationIdToReservationEntity(createPassengerCommand
                 .reservationsIdList());
-        reservationsToAddList.forEach(reservation -> addReservationEntityToPassengerEntity(newPassenger, reservation));
+        if (reservationsToAddList != null) {
+            reservationsToAddList.forEach(reservation -> addReservationEntityToPassengerEntity(newPassenger, reservation));
+        }
+
         passengerRepository.save(newPassenger);
         return newPassenger;
     }
@@ -63,11 +66,8 @@ public class PassengerBusinessLogic {
             List<Reservation> reservationsToUpdateList = parseReservationIdToReservationEntity(updatePassengerCommand
                     .reservationsIdList());
             if (!reservationsToUpdateList.isEmpty()) {
-                reservationsToUpdateList.forEach(reservation -> addReservationEntityToPassengerEntity(savedPassenger, reservation));
-                /*for (Long reservationId : updatedReservationsIdList) {
-                    addReservationEntityToPassengerEntity(savedPassenger
-                            , reservationBL.retrieveReservationEntityFromDb(reservationId));
-                }*/
+                reservationsToUpdateList.forEach(reservation ->
+                        addReservationEntityToPassengerEntity(savedPassenger, reservation));
             }
             savedPassenger.setBirthDate(updatePassengerCommand.birthDate());
             savedPassenger.setName(updatePassengerCommand.name());
@@ -110,15 +110,22 @@ public class PassengerBusinessLogic {
 
     private List<Reservation> parseReservationIdToReservationEntity(List<Long> reservationIdList) {
         List<Reservation> parsedReservationList = new ArrayList<>();
-        if (!reservationIdList.isEmpty()) {
-            reservationIdList.forEach(id -> {
-                parsedReservationList.add(retrieveReservationEntityFromDb(id));
-            });
+        if (reservationIdList != null) {
+            if (!reservationIdList.isEmpty()) {
+                reservationIdList.forEach(id -> parsedReservationList.add(retrieveReservationEntityFromDb(id)));
+            }
+
+            return parsedReservationList;
+        } else {
+            logger.debug("Passed reservationIdList is null!");
+            return null;
         }
-        return parsedReservationList;
     }
 
     //duplicated - ReservationBL//
+    //What with the case, where some bad ID will be passed ? IF throwing exception in this case will be ok ?
+    //Probably not, because we will interrupt code execution during iteration through the list & we will not
+    //retrieve the rest of reservations entities for correct IDs, which left...
     private Reservation retrieveReservationEntityFromDb(Long id) {
         return reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
