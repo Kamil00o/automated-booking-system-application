@@ -51,45 +51,15 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public FlightDto updateFlightByFlightName(UpdateFlightCommand updateFlightCommand, String flightName) {
-        Flight savedFlight = flightBL.retrieveFlightEntityFromDb(flightName);
-
-        if (!(flightBL.exists(updateFlightCommand) || flightBL.existsByFlightServiceId(updateFlightCommand))) {
-            savedFlight.setFlightName(updateFlightCommand.flightName());
-            savedFlight.setPlaneTypeName(updateFlightCommand.planeTypeName());
-            savedFlight.setFlightServiceId(updateFlightCommand.flightServiceId());
-            if (!updateFlightCommand.bookedSeatsInPlaneMap().isEmpty()) {
-                savedFlight.setBookedSeatsInPlaneMap(updateFlightCommand.bookedSeatsInPlaneMap());
-            }
-            flightRepository.saveAndFlush(savedFlight);
-            logger.info(FLIGHT_UPDATED.formatted(savedFlight.getFlightName()));
-            return flightDtoMapper.apply(savedFlight);
-        } else {
-            logger.warn(FLIGHT_NOT_UPDATED.formatted(flightName));
-            throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME
-                    .formatted(updateFlightCommand.flightName()));
-        }
+        return flightDtoMapper.apply(flightBL
+                .updateSpecigiedFlight(updateFlightCommand, flightBL.retrieveFlightEntityFromDb(flightName)));
     }
 
     @Transactional
     @Override
     public FlightDto updateFlightByFlightServiceId(UpdateFlightCommand updateFlightCommand, Long flightServiceId) {
-        Flight savedFlight = flightBL.retrieveFlightEntityFromDb(flightServiceId);
-
-        if (!(flightBL.exists(updateFlightCommand) || flightBL.existsByFlightServiceId(updateFlightCommand))) {
-            savedFlight.setFlightName(updateFlightCommand.flightName());
-            savedFlight.setPlaneTypeName(updateFlightCommand.planeTypeName());
-            savedFlight.setFlightServiceId(updateFlightCommand.flightServiceId());
-            if (!updateFlightCommand.bookedSeatsInPlaneMap().isEmpty()) {
-                savedFlight.setBookedSeatsInPlaneMap(updateFlightCommand.bookedSeatsInPlaneMap());
-            }
-            flightRepository.saveAndFlush(savedFlight);
-            logger.info(FLIGHT_UPDATED.formatted(savedFlight.getFlightName()));
-            return flightDtoMapper.apply(savedFlight);
-        } else {
-            logger.warn(FLIGHT_NOT_UPDATED.formatted(flightServiceId));
-            throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME
-                    .formatted(updateFlightCommand.flightName()));
-        }
+        return flightDtoMapper.apply(flightBL
+                .updateSpecigiedFlight(updateFlightCommand, flightBL.retrieveFlightEntityFromDb(flightServiceId)));
     }
 
     @Transactional

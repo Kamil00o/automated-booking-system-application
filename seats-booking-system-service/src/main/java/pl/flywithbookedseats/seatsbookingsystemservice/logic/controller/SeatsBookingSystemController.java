@@ -118,8 +118,9 @@ public class SeatsBookingSystemController {
         return flightService.updateFlightByFlightName(updateFlightCommand, flightName);
     }
 
-    @PutMapping(path = "/update-flight/flight-service-id/{id}")
-    public FlightDto updateFlightByFlightServiceId(UpdateFlightCommand updateFlightCommand, Long flightServiceId) {
+    @PutMapping(path = "/update-flight/flight-service-id/{flightServiceId}")
+    public FlightDto updateFlightByFlightServiceId(@Valid @RequestBody UpdateFlightCommand updateFlightCommand,
+                                                   @PathVariable Long flightServiceId) {
         return flightService.updateFlightByFlightServiceId(updateFlightCommand, flightServiceId);
     }
 
@@ -130,7 +131,7 @@ public class SeatsBookingSystemController {
         String planeModelName = createSeatsSchemeModelCommand.planeModelName();
         logger.info("Adding new seats scheme to database for {} plane model.", planeModelName);
         seatsBookingSystemServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeModelCommand);
-        logger.info("Seats scheme for {} added succesfully!!", planeModelName);
+        logger.info("Seats scheme for {} added successfully!!", planeModelName);
     }
 
     @GetMapping(path = "/get-seats-model/plane-model-name/{planeModelName}")
@@ -185,7 +186,7 @@ public class SeatsBookingSystemController {
     @PutMapping(path = "/update-passenger/email/{email}")
     public PassengerDto updatePassengerByEmail(@Valid @RequestBody UpdatePassengerCommand updatePassengerCommand,
                                                @PathVariable String email) {
-        logger.info("Updating passenger data for emai: {}: ", email);
+        logger.info("Updating passenger data for email: {}: ", email);
         return passengerService.updatePassengerByEmail(updatePassengerCommand, email);
     }
 
