@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.ReservationDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.ReservationNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.reservation.CreateReservationMapper;
@@ -13,12 +14,13 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.reser
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passenger;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Reservation;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.ReservationDto;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.PassengerRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.ReservationRepository;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerBusinessLogic;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.PASSENGER_NOT_FOUND_EMAIL;
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.*;
 
 @AllArgsConstructor
@@ -28,9 +30,9 @@ public class ReservationBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(ReservationBusinessLogic.class);
 
     private final ReservationRepository reservationRepository;
+    private final PassengerRepository passengerRepository;
     private final CreateReservationMapper createReservationMapper;
     private final ReservationDtoMapper reservationDtoMapper;
-    private final PassengerBusinessLogic passengerBL;
 
     public List<ReservationDto> convertIntoListReservationDto(List<Reservation> localSavedReservationList) {
         if (!localSavedReservationList.isEmpty()) {
@@ -47,7 +49,7 @@ public class ReservationBusinessLogic {
     public Reservation generateNewReservation(CreateReservationCommand createReservationCommand) {
         Reservation newReservation = createReservationMapper.apply(createReservationCommand);
         String passengerEmail = newReservation.getPassengerEmail();
-        if (passengerBL.exists(passengerEmail)) {
+        if (passengerExists(passengerEmail)) {
             setPassengerDataToReservation(passengerEmail, newReservation);
             reservationRepository.save(newReservation);
             logger.info(RESERVATION_ADDED_PASSENGER);
@@ -64,7 +66,7 @@ public class ReservationBusinessLogic {
         savedReservation.setSeatNumber(updateReservationCommand.seatNumber());
         savedReservation.setSeatTypeClass(updateReservationCommand.seatTypeClass());
         savedReservation.setPassengerEmail(passengerEmail);
-        if (passengerBL.exists(passengerEmail)) {
+        if (passengerExists(passengerEmail)) {
             setPassengerDataToReservation(passengerEmail, savedReservation);
         }
         reservationRepository.saveAndFlush(savedReservation);
@@ -85,7 +87,18 @@ public class ReservationBusinessLogic {
     }
 
     private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {
-        Passenger savedPassenger = passengerBL.retrievePassengerEntityFromDb(passengerEmail);
+        Passenger savedPassenger = retrievePassengerEntityFromDb(passengerEmail);
         reservation.setPassenger(savedPassenger);
+    }
+
+    //duplicated - PassengerBL//
+    private Passenger retrievePassengerEntityFromDb(String email) {
+        return passengerRepository.findByEmail(email)
+                .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
+    }
+
+    //duplicated - PassengerBL//
+    private boolean passengerExists(String email) {
+        return passengerRepository.existsByEmail(email);
     }
 }

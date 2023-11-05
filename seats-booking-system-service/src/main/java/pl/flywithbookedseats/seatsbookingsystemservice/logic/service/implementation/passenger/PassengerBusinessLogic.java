@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerNotFoundException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.ReservationNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.CreatePassengerMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
@@ -15,13 +16,14 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passen
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Reservation;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.PassengerRepository;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationBusinessLogic;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.ReservationRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.*;
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_FOUND_ID;
 
 @AllArgsConstructor
 @Component
@@ -29,7 +31,7 @@ public class PassengerBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(PassengerBusinessLogic.class);
 
     private final PassengerRepository passengerRepository;
-    private final ReservationBusinessLogic reservationBL;
+    private final ReservationRepository reservationRepository;
     private final PassengerDtoMapper passengerDtoMapper;
     private final CreatePassengerMapper createPassengerMapper;
 
@@ -110,9 +112,15 @@ public class PassengerBusinessLogic {
         List<Reservation> parsedReservationList = new ArrayList<>();
         if (!reservationIdList.isEmpty()) {
             reservationIdList.forEach(id -> {
-                parsedReservationList.add(reservationBL.retrieveReservationEntityFromDb(id));
+                parsedReservationList.add(retrieveReservationEntityFromDb(id));
             });
         }
         return parsedReservationList;
+    }
+
+    //duplicated - ReservationBL//
+    private Reservation retrieveReservationEntityFromDb(Long id) {
+        return reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
     }
 }
