@@ -34,17 +34,17 @@ public class FlightServiceImpl implements FlightService {
     private static final Logger logger = LoggerFactory.getLogger(FlightConstImpl.class);
 
     private final FlightRepository flightRepository;
-    private final SeatsSchemeModelRepository seatsSchemeModelRepository;
     private final CreateFlightMapper createFlightMapper;
     private final FlightDtoMapper flightDtoMapper;
+    private final FlightBusinessLogic flightBL;
 
     @Transactional
     @Override
     public FlightDto createNewFlight(CreateFlightCommand createFlightCommand) {
         String flightName = createFlightCommand.flightName();
-        if (!exists(createFlightCommand)) {
+        if (!flightBL.exists(createFlightCommand)) {
             Flight newFlight = createFlightMapper.apply(createFlightCommand);
-            retrieveSeatsSchemeForPlaneTypeIfNeeded(newFlight);
+            flightBL.retrieveSeatsSchemeForPlaneTypeIfNeeded(newFlight);
             flightRepository.save(newFlight);
             return flightDtoMapper.apply(newFlight);
         } else {
@@ -58,7 +58,7 @@ public class FlightServiceImpl implements FlightService {
         Flight savedFlight = flightRepository.findByFlightName(flightName)
                 .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName)));
 
-        if (!(exists(updateFlightCommand) || existsByFlightServiceId(updateFlightCommand))) {
+        if (!(flightBL.exists(updateFlightCommand) || flightBL.existsByFlightServiceId(updateFlightCommand))) {
             savedFlight.setFlightName(updateFlightCommand.flightName());
             savedFlight.setPlaneTypeName(updateFlightCommand.planeTypeName());
             savedFlight.setFlightServiceId(updateFlightCommand.flightServiceId());
@@ -82,7 +82,7 @@ public class FlightServiceImpl implements FlightService {
                 .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID
                         .formatted(flightServiceId)));
 
-        if (!(exists(updateFlightCommand) || existsByFlightServiceId(updateFlightCommand))) {
+        if (!(flightBL.exists(updateFlightCommand) || flightBL.existsByFlightServiceId(updateFlightCommand))) {
             savedFlight.setFlightName(updateFlightCommand.flightName());
             savedFlight.setPlaneTypeName(updateFlightCommand.planeTypeName());
             savedFlight.setFlightServiceId(updateFlightCommand.flightServiceId());
@@ -152,46 +152,5 @@ public class FlightServiceImpl implements FlightService {
                         .formatted(flightServiceId)));
         flightRepository.delete(savedFlight);
         logger.info(FLIGHT_REMOVED_SERVICE_ID.formatted(flightServiceId));
-    }
-
-    private void retrieveSeatsSchemeForPlaneTypeIfNeeded(Flight flight) {
-        Map<String, String> savedSeatsSchemeMap;
-        Map<String, String> generatedBookedSeatsInPlaneMap;
-        String planeTypeName = flight.getPlaneTypeName();
-        if (flight.getBookedSeatsInPlaneMap() == null) {
-            SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository
-                    .findByPlaneModelName(planeTypeName)
-                    .orElseThrow(() -> new FlightNotCreatedException(SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION
-                            .formatted(planeTypeName, flight.getFlightName())));
-            savedSeatsSchemeMap = new TreeMap<>(savedSeatsSchemeModel.getSeatsSchemeMap());
-            generatedBookedSeatsInPlaneMap = createReservedSeatsSchemeMap(savedSeatsSchemeMap);
-            flight.setBookedSeatsInPlaneMap(generatedBookedSeatsInPlaneMap);
-        }
-    }
-
-    private Map<String, String> createReservedSeatsSchemeMap(Map<String, String> savedSeatsSchemeMap) {
-        Map<String, String> localBookedSeatsInPlaneMap = new TreeMap<>();
-        for (Map.Entry<String, String> entry : savedSeatsSchemeMap.entrySet()) {
-            StringBuilder fullSeatName = new StringBuilder();
-            fullSeatName.append(entry.getValue())
-                    .append(" ")
-                    .append(entry.getKey());
-            localBookedSeatsInPlaneMap.put(fullSeatName.toString(), "empty");
-            fullSeatName.delete(0, fullSeatName.length());
-        }
-
-        return localBookedSeatsInPlaneMap;
-    }
-
-    private boolean exists(CreateFlightCommand createFlightCommand) {
-        return flightRepository.existsByFlightName(createFlightCommand.flightName());
-    }
-
-    private boolean exists(UpdateFlightCommand updateFlightCommand) {
-        return flightRepository.existsByFlightName(updateFlightCommand.flightName());
-    }
-
-    private boolean existsByFlightServiceId(UpdateFlightCommand updateFlightCommand) {
-        return flightRepository.existsByFlightServiceId(updateFlightCommand.flightServiceId());
     }
 }
