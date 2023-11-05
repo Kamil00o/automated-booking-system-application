@@ -3,10 +3,7 @@ package pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passenger;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Reservation;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
 
 @Component

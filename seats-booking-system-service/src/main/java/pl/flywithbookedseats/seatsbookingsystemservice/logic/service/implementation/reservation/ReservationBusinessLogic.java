@@ -15,7 +15,6 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Reserv
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.ReservationDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.ReservationRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerBusinessLogic;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,6 @@ public class ReservationBusinessLogic {
     private final CreateReservationMapper createReservationMapper;
     private final ReservationDtoMapper reservationDtoMapper;
     private final PassengerBusinessLogic passengerBL;
-
 
     public List<ReservationDto> convertIntoListReservationDto(List<Reservation> localSavedReservationList) {
         if (!localSavedReservationList.isEmpty()) {

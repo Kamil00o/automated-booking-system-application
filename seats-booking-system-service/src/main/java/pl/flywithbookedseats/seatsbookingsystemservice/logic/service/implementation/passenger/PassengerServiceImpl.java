@@ -4,8 +4,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.UpdatePassengerCommand;
@@ -31,10 +33,13 @@ public class PassengerServiceImpl implements PassengerService {
     @Transactional
     @Override
     public PassengerDto createNewPassenger(CreatePassengerCommand createPassengerCommand) {
-        if (passengerBL.exists(createPassengerCommand)) {
-        //TODO:method will be finished after redesigning!
+        if (!passengerBL.exists(createPassengerCommand)) {
+            return passengerDtoMapper.apply(passengerBL.generateNewPassenger(createPassengerCommand));
+        } else {
+            logger.warn(PASSENGER_NOT_CREATED);
+            throw new PassengerAlreadyExistsException(PASSENGER_ALREADY_EXISTS_EMAIL
+                    .formatted(createPassengerCommand.email()));
         }
-        return null;
     }
 
     @Transactional

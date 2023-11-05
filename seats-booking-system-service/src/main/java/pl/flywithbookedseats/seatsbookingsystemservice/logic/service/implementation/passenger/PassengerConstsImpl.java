@@ -12,4 +12,6 @@ public class PassengerConstsImpl {
             "Passenger with email: %s already exists!";
     public static final String PASSENGER_NOT_UPDATED =
             "Passenger has not been updated!";
+    public static final String PASSENGER_NOT_CREATED =
+            "Passenger hasn't been created!";
 }

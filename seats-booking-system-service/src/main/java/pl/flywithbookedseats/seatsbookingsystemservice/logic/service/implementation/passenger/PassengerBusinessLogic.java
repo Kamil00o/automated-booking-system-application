@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerDatabaseIsEmptyException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerNotFoundException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.CreatePassengerMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.UpdatePassengerCommand;
@@ -28,19 +29,17 @@ public class PassengerBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(PassengerBusinessLogic.class);
 
     private final PassengerRepository passengerRepository;
-    private final PassengerDtoMapper passengerDtoMapper;
     private final ReservationBusinessLogic reservationBL;
+    private final PassengerDtoMapper passengerDtoMapper;
+    private final CreatePassengerMapper createPassengerMapper;
 
-    public List<Reservation> parseReservationIdToEntity(CreatePassengerCommand createPassengerCommand) {
-        List<Reservation> parsedReservationList = new ArrayList<>();
-        List<Long> reservationIdList = createPassengerCommand.reservationsIdList();
-        /*if (!reservationIdList.isEmpty()) {
-            reservationIdList.forEach(id -> {
-                reservationService.retrieveReservationById(id);
-                parsedReservationList.add();
-            });
-        }*/
-        return null;
+    public Passenger generateNewPassenger(CreatePassengerCommand createPassengerCommand) {
+        Passenger newPassenger = createPassengerMapper.apply(createPassengerCommand);
+        List<Reservation> reservationsToAddList = parseReservationIdToReservationEntity(createPassengerCommand
+                .reservationsIdList());
+        reservationsToAddList.forEach(reservation -> addReservationEntityToPassengerEntity(newPassenger, reservation));
+        passengerRepository.save(newPassenger);
+        return newPassenger;
     }
 
     public List<PassengerDto> convertIntoListPassengerDto(List<Passenger> localSavedPassengerList) {
@@ -59,12 +58,14 @@ public class PassengerBusinessLogic {
                                                Passenger savedPassenger) {
         String email = updatePassengerCommand.email();
         if (exists(updatePassengerCommand)) {
-            List<Long> updatedReservationsIdList = updatePassengerCommand.reservationsIdList();
-            if (!updatedReservationsIdList.isEmpty()) {
-                for (Long reservationId : updatedReservationsIdList) {
+            List<Reservation> reservationsToUpdateList = parseReservationIdToReservationEntity(updatePassengerCommand
+                    .reservationsIdList());
+            if (!reservationsToUpdateList.isEmpty()) {
+                reservationsToUpdateList.forEach(reservation -> addReservationEntityToPassengerEntity(savedPassenger, reservation));
+                /*for (Long reservationId : updatedReservationsIdList) {
                     addReservationEntityToPassengerEntity(savedPassenger
                             , reservationBL.retrieveReservationEntityFromDb(reservationId));
-                }
+                }*/
             }
             savedPassenger.setBirthDate(updatePassengerCommand.birthDate());
             savedPassenger.setName(updatePassengerCommand.name());
@@ -96,12 +97,22 @@ public class PassengerBusinessLogic {
         return passengerRepository.existsByEmail(updatePassengerCommand.email());
     }
 
-    private void addReservationEntityToPassengerEntity(Passenger savedPassenger, Reservation reservationToAdd) {
-        List<Reservation> reservationList = savedPassenger.getReservationsList();
+    private void addReservationEntityToPassengerEntity(Passenger passengerEntity, Reservation reservationToAdd) {
+        List<Reservation> reservationList = passengerEntity.getReservationsList();
         if (reservationList == null) {
-            savedPassenger.setReservationsList(Collections.singletonList(reservationToAdd));
+            passengerEntity.setReservationsList(Collections.singletonList(reservationToAdd));
         } else {
             reservationList.add(reservationToAdd);
         }
+    }
+
+    private List<Reservation> parseReservationIdToReservationEntity(List<Long> reservationIdList) {
+        List<Reservation> parsedReservationList = new ArrayList<>();
+        if (!reservationIdList.isEmpty()) {
+            reservationIdList.forEach(id -> {
+                parsedReservationList.add(reservationBL.retrieveReservationEntityFromDb(id));
+            });
+        }
+        return parsedReservationList;
     }
 }
