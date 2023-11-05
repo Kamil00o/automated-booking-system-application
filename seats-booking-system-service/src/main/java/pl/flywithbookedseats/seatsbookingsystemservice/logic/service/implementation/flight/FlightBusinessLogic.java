@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotCreatedException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.CreateFlightMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.UpdateFlightCommand;
@@ -16,7 +17,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.SeatsSch
 import java.util.Map;
 import java.util.TreeMap;
 
-import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightConstImpl.SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION;
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightConstImpl.*;
 
 @AllArgsConstructor
 @Component
@@ -62,6 +63,17 @@ public class FlightBusinessLogic {
         }
 
         return localBookedSeatsInPlaneMap;
+    }
+
+    public Flight retrieveFlightEntityFromDb(String flightName) {
+        return flightRepository.findByFlightName(flightName)
+                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName)));
+    }
+
+    public Flight retrieveFlightEntityFromDb(Long flightServiceId) {
+        return flightRepository.findByFlightServiceId(flightServiceId)
+                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID
+                        .formatted(flightServiceId)));
     }
 
     public boolean exists(CreateFlightCommand createFlightCommand) {

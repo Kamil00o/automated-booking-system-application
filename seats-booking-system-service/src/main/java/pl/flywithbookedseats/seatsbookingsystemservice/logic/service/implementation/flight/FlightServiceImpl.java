@@ -51,8 +51,7 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public FlightDto updateFlightByFlightName(UpdateFlightCommand updateFlightCommand, String flightName) {
-        Flight savedFlight = flightRepository.findByFlightName(flightName)
-                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName)));
+        Flight savedFlight = flightBL.retrieveFlightEntityFromDb(flightName);
 
         if (!(flightBL.exists(updateFlightCommand) || flightBL.existsByFlightServiceId(updateFlightCommand))) {
             savedFlight.setFlightName(updateFlightCommand.flightName());
@@ -74,9 +73,7 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public FlightDto updateFlightByFlightServiceId(UpdateFlightCommand updateFlightCommand, Long flightServiceId) {
-        Flight savedFlight = flightRepository.findByFlightServiceId(flightServiceId)
-                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID
-                        .formatted(flightServiceId)));
+        Flight savedFlight = flightBL.retrieveFlightEntityFromDb(flightServiceId);
 
         if (!(flightBL.exists(updateFlightCommand) || flightBL.existsByFlightServiceId(updateFlightCommand))) {
             savedFlight.setFlightName(updateFlightCommand.flightName());
@@ -111,17 +108,12 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDto retrieveFlightByFlightName(String flightName) {
-        Flight savedFlight = flightRepository.findByFlightName(flightName)
-                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName)));
-        return flightDtoMapper.apply(savedFlight);
+        return flightDtoMapper.apply(flightBL.retrieveFlightEntityFromDb(flightName));
     }
 
     @Override
     public FlightDto retrieveFlightByFlightServiceId(Long flightServiceId) {
-        Flight savedFlight = flightRepository.findByFlightServiceId(flightServiceId)
-                .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID
-                        .formatted(flightServiceId)));
-        return flightDtoMapper.apply(savedFlight);
+        return flightDtoMapper.apply(flightBL.retrieveFlightEntityFromDb(flightServiceId));
     }
 
     @Transactional
