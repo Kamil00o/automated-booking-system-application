@@ -46,7 +46,8 @@ public class Reservation {
     @NotNull(message = NOT_NULL_MESSAGE)
     @Size(min = 9, message = "The passengerEmail field should have at least 9 signs")
     private String passengerEmail;
-    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "passenger_id", referencedColumnName = "id")
     private Passenger passenger;
 }
