@@ -101,10 +101,10 @@ public class SeatsBookingSystemController {
         return flightService.retrieveFlightByFlightName(flightName);
     }
 
-    @GetMapping(path = "/get-flight/flight-service-id/{id}")
-    public FlightDto retrieveFlightByFlightServiceId(@PathVariable Long id) {
-        logger.info("Retrieving flight with flight-service ID {}:", id);
-        return flightService.retrieveFlightByFlightServiceId(id);
+    @GetMapping(path = "/get-flight/flight-service-id/{flightServiceId}")
+    public FlightDto retrieveFlightByFlightServiceId(@PathVariable Long flightServiceId) {
+        logger.info("Retrieving flight with flight-service ID {}:", flightServiceId);
+        return flightService.retrieveFlightByFlightServiceId(flightServiceId);
     }
 
     @PostMapping(path = "/create-flight")
@@ -122,6 +122,24 @@ public class SeatsBookingSystemController {
     public FlightDto updateFlightByFlightServiceId(@Valid @RequestBody UpdateFlightCommand updateFlightCommand,
                                                    @PathVariable Long flightServiceId) {
         return flightService.updateFlightByFlightServiceId(updateFlightCommand, flightServiceId);
+    }
+
+    @DeleteMapping(path = "/delete-flight/all")
+    public void deleteAllFlights() {
+        logger.info("Removing all flights:");
+        flightService.deleteAllFlights();
+    }
+
+    @DeleteMapping(path = "/delete-flight/flight-name/{flightName}")
+    public void deleteFlightByFlightName(@PathVariable String flightName) {
+        logger.info("Removing {} flight:", flightName);
+        flightService.deleteFlightByFlightName(flightName);
+    }
+
+    @DeleteMapping(path = "/delete-flight/flight-service-id/{flightServiceId}")
+    public void deleteFlightByFlyServiceId(@PathVariable Long flightServiceId) {
+        logger.info("Removing flight with flight service ID: {}:", flightServiceId);
+        flightService.deleteFlightByFlyServiceId(flightServiceId);
     }
 
     //Methods related with seats scheme Model domain:
