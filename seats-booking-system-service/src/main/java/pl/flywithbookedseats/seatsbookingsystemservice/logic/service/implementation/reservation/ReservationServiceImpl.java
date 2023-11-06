@@ -31,12 +31,6 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationBusinessLogic reservationBL;
 
     @Transactional
-    public ReservationDto bookSeatsInThePlane(BookingEnterDataCommand bookingEnterDataCommand) {
-        //CreateReservationCommand createReservationCommand = new CreateReservationCommand()
-        return null;
-    }
-
-    @Transactional
     @Override
     public ReservationDto addNewReservationToDb(CreateReservationCommand createReservationCommand) {
         if (!reservationBL.exists(createReservationCommand)) {
