@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightDatabaseIsEmptyException;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotCreatedException;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotFoundException;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.*;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.CreateFlightMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.FlightDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
@@ -17,6 +14,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passen
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.SeatsSchemeModel;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.FlightRepository;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.PassengerRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.SeatsSchemeModelRepository;
 
 import java.util.ArrayList;
@@ -25,6 +23,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightConstImpl.*;
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.*;
 
 @AllArgsConstructor
 @Component
@@ -33,6 +32,7 @@ public class FlightBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(FlightBusinessLogic.class);
 
     private final FlightRepository flightRepository;
+    private final PassengerRepository passengerRepository;
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
     private final CreateFlightMapper createFlightMapper;
     private final FlightDtoMapper flightDtoMapper;
@@ -82,6 +82,11 @@ public class FlightBusinessLogic {
                         .formatted(flightServiceId)));
     }
 
+    public Passenger retrievePassengerEntityFromDb(Long passengerId) {
+        return passengerRepository.findById(passengerId)
+                .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_ID.formatted(passengerId)));
+    }
+
     public boolean exists(CreateFlightCommand createFlightCommand) {
         return flightRepository.existsByFlightName(createFlightCommand.flightName());
     }
@@ -96,7 +101,7 @@ public class FlightBusinessLogic {
 
     private void retrieveSeatsSchemeForPlaneTypeIfNeeded(Flight flight) {
         Map<String, String> savedSeatsSchemeMap;
-        Map<String, String> generatedBookedSeatsInPlaneMap;
+        Map<String, Long> generatedBookedSeatsInPlaneMap;
         String planeTypeName = flight.getPlaneTypeName();
         if (flight.getBookedSeatsInPlaneMap() == null) {
             SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository
@@ -106,24 +111,25 @@ public class FlightBusinessLogic {
             savedSeatsSchemeMap = new TreeMap<>(savedSeatsSchemeModel.getSeatsSchemeMap());
             generatedBookedSeatsInPlaneMap = createReservedSeatsSchemeMap(savedSeatsSchemeMap);
             flight.setBookedSeatsInPlaneMap(generatedBookedSeatsInPlaneMap);
+            System.out.println(flight);
         }
     }
 
-    private Map<String, String> createReservedSeatsSchemeMap(Map<String, String> savedSeatsSchemeMap) {
-        Map<String, String> localBookedSeatsInPlaneMap = new TreeMap<>();
+    private Map<String, Long> createReservedSeatsSchemeMap(Map<String, String> savedSeatsSchemeMap) {
+        Map<String, Long> localBookedSeatsInPlaneMap = new TreeMap<>();
         for (Map.Entry<String, String> entry : savedSeatsSchemeMap.entrySet()) {
             StringBuilder fullSeatName = new StringBuilder();
             fullSeatName.append(entry.getValue())
                     .append(" ")
                     .append(entry.getKey());
-            localBookedSeatsInPlaneMap.put(fullSeatName.toString(), "empty");
+            localBookedSeatsInPlaneMap.put(fullSeatName.toString(), Long.valueOf(0));
             fullSeatName.delete(0, fullSeatName.length());
         }
 
         return localBookedSeatsInPlaneMap;
     }
 
-    private void setBookedSeatsInPlaneMapIfPossible(Map<String, String> bookedSeatsInPlaneMapToSet
+    private void setBookedSeatsInPlaneMapIfPossible(Map<String, Long> bookedSeatsInPlaneMapToSet
             , Flight flightToUpdate) {
         if (bookedSeatsInPlaneMapToSet != null) {
             if (!bookedSeatsInPlaneMapToSet.isEmpty()) {

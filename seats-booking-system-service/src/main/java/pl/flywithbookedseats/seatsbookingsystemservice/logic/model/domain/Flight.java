@@ -55,8 +55,8 @@ public class Flight {
             joinColumns = {@JoinColumn(name = "flight_id", referencedColumnName = "id")}
     )
     @MapKeyColumn(name = "seat_name")
-    @Column(name = "passenger_name_surname")
-    private Map<String, String> bookedSeatsInPlaneMap;
+    @Column(name = "passenger_id")
+    private Map<String, Long> bookedSeatsInPlaneMap;
 
     @Override
     public String toString() {

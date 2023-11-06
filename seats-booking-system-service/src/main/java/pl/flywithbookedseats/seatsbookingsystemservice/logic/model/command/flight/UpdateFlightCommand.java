@@ -17,5 +17,5 @@ public record UpdateFlightCommand(
         @NotNull(message = NOT_NULL_MESSAGE)
         @Size(min = 4, message = "The planeTypeName field should have at least 4 signs")
         String planeTypeName,
-        Map<String, String> bookedSeatsInPlaneMap
+        Map<String, Long> bookedSeatsInPlaneMap
 ) {}
