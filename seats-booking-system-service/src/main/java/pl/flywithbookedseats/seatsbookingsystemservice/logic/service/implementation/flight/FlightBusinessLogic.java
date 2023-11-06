@@ -82,6 +82,7 @@ public class FlightBusinessLogic {
                         .formatted(flightServiceId)));
     }
 
+    //Duplicated - PassengerBL
     public Passenger retrievePassengerEntityFromDb(Long passengerId) {
         return passengerRepository.findById(passengerId)
                 .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_ID.formatted(passengerId)));
@@ -104,11 +105,9 @@ public class FlightBusinessLogic {
         Map<String, Long> generatedBookedSeatsInPlaneMap;
         String planeTypeName = flight.getPlaneTypeName();
         if (flight.getBookedSeatsInPlaneMap() == null) {
-            SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository
-                    .findByPlaneModelName(planeTypeName)
-                    .orElseThrow(() -> new FlightNotCreatedException(SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION
-                            .formatted(planeTypeName, flight.getFlightName())));
-            savedSeatsSchemeMap = new TreeMap<>(savedSeatsSchemeModel.getSeatsSchemeMap());
+
+            savedSeatsSchemeMap = new TreeMap<>(retrieveSeatsSchemeModelFromDb(planeTypeName, flight)
+                    .getSeatsSchemeMap());
             generatedBookedSeatsInPlaneMap = createReservedSeatsSchemeMap(savedSeatsSchemeMap);
             flight.setBookedSeatsInPlaneMap(generatedBookedSeatsInPlaneMap);
             System.out.println(flight);
@@ -136,5 +135,12 @@ public class FlightBusinessLogic {
                 flightToUpdate.setBookedSeatsInPlaneMap(bookedSeatsInPlaneMapToSet);
             }
         }
+    }
+
+    //Duplicated - SeatsSchemeModelServiceImp - if not, it's going to be after SeatsSchemeModelServiceImpl redesign
+    private SeatsSchemeModel retrieveSeatsSchemeModelFromDb(String planeTypeName, Flight flight) {
+        return seatsSchemeModelRepository.findByPlaneModelName(planeTypeName)
+                .orElseThrow(() -> new FlightNotCreatedException(SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION
+                        .formatted(planeTypeName, flight.getFlightName())));
     }
 }
