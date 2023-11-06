@@ -98,4 +98,9 @@ public class FlightServiceImpl implements FlightService {
         flightRepository.delete(flightBL.retrieveFlightEntityFromDb(flightServiceId));
         logger.info(FLIGHT_REMOVED_SERVICE_ID.formatted(flightServiceId));
     }
+
+    public void testFindSeatForPassengerMethod() {
+        flightBL.findSeatForPassenger( "United First Class", null, false, null,
+                flightBL.retrieveFlightEntityFromDb("FR2001").getBookedSeatsInPlaneMap());
+    }
 }

@@ -142,6 +142,11 @@ public class SeatsBookingSystemController {
         flightService.deleteFlightByFlyServiceId(flightServiceId);
     }
 
+    @GetMapping(path = "/flight-test/find-seat")
+    public void testFindSeatForPassengerMethod() {
+        flightService.testFindSeatForPassengerMethod();
+    }
+
     //Methods related with seats scheme Model domain:
 
     @PostMapping(path = "/add-new-seats-model")

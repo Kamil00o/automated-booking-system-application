@@ -17,10 +17,10 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.FlightRe
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.PassengerRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.SeatsSchemeModelRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightConstImpl.*;
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.*;
@@ -30,6 +30,8 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.impl
 public class FlightBusinessLogic {
 
     private static final Logger logger = LoggerFactory.getLogger(FlightBusinessLogic.class);
+
+    private static final String CLASS = "class";
 
     private final FlightRepository flightRepository;
     private final PassengerRepository passengerRepository;
@@ -58,6 +60,18 @@ public class FlightBusinessLogic {
             throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME
                     .formatted(updateFlightCommand.flightName()));
         }
+    }
+
+    public String findSeatForPassenger(String seatClassType, Long passengerId, boolean disability,
+                                       LocalDate birthDate, Map<String, Long> bookedSeatsInPlaneMap) {
+         List<String> retrievedSeatsFromSpecifiedClassList = retrieveSeatsFromSpecifiedClass(bookedSeatsInPlaneMap,
+                 seatClassType);
+         retrievedSeatsFromSpecifiedClassList.sort(new SortSeats());
+
+         System.out.println(retrievedSeatsFromSpecifiedClassList);
+         String[][] convertedSeats = convertTo2DArray(retrievedSeatsFromSpecifiedClassList);
+
+        return "";
     }
 
     public List<FlightDto> convertIntoListFlightDto(List<Flight> flightList) {
@@ -121,7 +135,7 @@ public class FlightBusinessLogic {
             fullSeatName.append(entry.getValue())
                     .append(" ")
                     .append(entry.getKey());
-            localBookedSeatsInPlaneMap.put(fullSeatName.toString(), Long.valueOf(0));
+            localBookedSeatsInPlaneMap.put(fullSeatName.toString(), 0L);
             fullSeatName.delete(0, fullSeatName.length());
         }
 
@@ -142,5 +156,53 @@ public class FlightBusinessLogic {
         return seatsSchemeModelRepository.findByPlaneModelName(planeTypeName)
                 .orElseThrow(() -> new FlightNotCreatedException(SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION
                         .formatted(planeTypeName, flight.getFlightName())));
+    }
+
+    private List<String> retrieveSeatsFromSpecifiedClass(Map<String, Long> bookedSeatsInPlaneMap,
+                                                         String seatClassType) {
+        List<String> retrievedSeats = new ArrayList<>();
+        for (Map.Entry<String, Long> entry : bookedSeatsInPlaneMap.entrySet()) {
+            String seat = entry.getKey().toLowerCase();
+            if (seat.contains(seatClassType.toLowerCase())) {
+                retrievedSeats.add(findPattern(seat, CLASS));
+            }
+        }
+        return retrievedSeats;
+    }
+
+    private String findPattern(String inputString, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(inputString);
+        matcher.find();
+        return inputString.substring(matcher.end() + 1).toUpperCase();
+    }
+
+    private String[][] convertTo2DArray(List<String> seatsInThePlane) {
+        int seatCounter = 0;
+        String[][] seatsScheme = new String[countSeatsInTheRow(seatsInThePlane)][countSeatsRows(seatsInThePlane)];
+        for (int i = 0; i < seatsScheme.length; i++) {
+            for (int j = 0; j < seatsScheme[0].length; j++) {
+                seatsScheme[i][j] = seatsInThePlane.get(seatCounter);
+                seatCounter++;
+            }
+        }
+        logger.info(Arrays.deepToString(seatsScheme));
+
+        return seatsScheme;
+    }
+
+    private int countSeatsInTheRow(List<String> seatsInThePlaneList) {
+        int i = 0;
+        int seatCounter = 1;
+        while (Integer.parseInt(seatsInThePlaneList.get(i).replaceAll("\\D", ""))
+                == Integer.parseInt(seatsInThePlaneList.get(i + 1).replaceAll("\\D", ""))) {
+            seatCounter++;
+            i++;
+        }
+        return seatCounter;
+    }
+
+    private int countSeatsRows(List<String> seatsInThePlaneList) {
+        return seatsInThePlaneList.size()/countSeatsInTheRow(seatsInThePlaneList);
     }
 }

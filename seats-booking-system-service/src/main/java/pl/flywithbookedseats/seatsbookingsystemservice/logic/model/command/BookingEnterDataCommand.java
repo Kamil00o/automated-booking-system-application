@@ -9,5 +9,6 @@ public record BookingEnterDataCommand(
         String surname,
         boolean disability,
         String passengerEmail,
-        String flightNumber
+        String flightNumber,
+        String seatClassType
 ) {}
