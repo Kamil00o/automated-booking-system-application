@@ -6,26 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightAlreadyExistsException;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightDatabaseIsEmptyException;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotCreatedException;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.FlightNotFoundException;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.CreateFlightMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight.FlightDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.UpdateFlightCommand;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Flight;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.SeatsSchemeModel;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.FlightRepository;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.SeatsSchemeModelRepository;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.FlightService;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightConstImpl.*;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 @RequiredArgsConstructor
 @Service
@@ -99,8 +91,11 @@ public class FlightServiceImpl implements FlightService {
         logger.info(FLIGHT_REMOVED_SERVICE_ID.formatted(flightServiceId));
     }
 
+    @Transactional
     public void testFindSeatForPassengerMethod() {
-        flightBL.findSeatForPassenger( "United First Class", null, false, null,
-                flightBL.retrieveFlightEntityFromDb("FR2001").getBookedSeatsInPlaneMap());
+        Map<String, Long> bookedSeatsInTheFlight = flightBL.retrieveFlightEntityFromDb("FR2001").getBookedSeatsInPlaneMap();
+        flightBL.findAndAssignSeatForPassenger( "Economy Class", 15L, false, LocalDate.of(1998, 7, 29),
+                bookedSeatsInTheFlight);
+        flightBL.retrieveFlightEntityFromDb("FR2001").setBookedSeatsInPlaneMap(bookedSeatsInTheFlight);
     }
 }

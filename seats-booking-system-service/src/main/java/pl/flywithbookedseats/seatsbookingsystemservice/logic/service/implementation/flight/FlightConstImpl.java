@@ -26,4 +26,11 @@ public class FlightConstImpl {
             "Flight with %s flight name has been removed from database!";
     public static final String FLIGHT_REMOVED_SERVICE_ID =
             "Flight with %s flight service ID has been removed from database!";
+    public static final String NO_SEATS_AVAILABLE =
+            "no seats available";
+    public static final String NO_SEATS_AVAILABLE_MSG =
+            "There are no seats available for flight !!!";
+
+    public static final String RESERVATION_NOT_MADE_FULL_FLIGHT =
+            "Reservatiom has not been made due to the lack of free seats in the plane!";
 }

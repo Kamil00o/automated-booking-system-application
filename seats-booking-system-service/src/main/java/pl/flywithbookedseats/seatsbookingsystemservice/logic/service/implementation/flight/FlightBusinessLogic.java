@@ -62,16 +62,21 @@ public class FlightBusinessLogic {
         }
     }
 
-    public String findSeatForPassenger(String seatClassType, Long passengerId, boolean disability,
-                                       LocalDate birthDate, Map<String, Long> bookedSeatsInPlaneMap) {
-         List<String> retrievedSeatsFromSpecifiedClassList = retrieveSeatsFromSpecifiedClass(bookedSeatsInPlaneMap,
+    public String findAndAssignSeatForPassenger(String seatClassType, Long passengerId, boolean disability,
+                                                LocalDate birthDate, Map<String, Long> bookedSeatsInPlaneMap) {
+        List<String> retrievedSeatsFromSpecifiedClassList = retrieveSeatsFromSpecifiedClass(bookedSeatsInPlaneMap,
                  seatClassType);
-         retrievedSeatsFromSpecifiedClassList.sort(new SortSeats());
+        retrievedSeatsFromSpecifiedClassList.sort(new SortSeats());
+        logger.info(retrievedSeatsFromSpecifiedClassList.toString());
+        String seatToAssign = searchSeatForPassenger(convertTo2DArray(retrievedSeatsFromSpecifiedClassList),
+                bookedSeatsInPlaneMap, disability, passengerId, retrievedSeatsFromSpecifiedClassList, birthDate);
+        if (!seatToAssign.equals(NO_SEATS_AVAILABLE)) {
+            return seatToAssign;
+        } else {
+            logger.warn(NO_SEATS_AVAILABLE_MSG);
+            throw new FullFlightException(RESERVATION_NOT_MADE_FULL_FLIGHT);
+        }
 
-         System.out.println(retrievedSeatsFromSpecifiedClassList);
-         String[][] convertedSeats = convertTo2DArray(retrievedSeatsFromSpecifiedClassList);
-
-        return "";
     }
 
     public List<FlightDto> convertIntoListFlightDto(List<Flight> flightList) {
@@ -167,9 +172,70 @@ public class FlightBusinessLogic {
                 retrievedSeats.add(findPattern(seat, CLASS));
             }
         }
+
         return retrievedSeats;
     }
 
+    private String searchSeatForPassenger(String[][] convertedSeatsDataArray, Map<String, Long> bookedSeatsInPlaneMap,
+                                          boolean disability, Long passengerId, List<String> seatsInThePlaneList,
+                                          LocalDate birthDate) {
+        String seatFound = "";
+        boolean disabilitySearchingModeDone = false;
+        boolean kidSearchingModeDone = false;
+        boolean kidUnder10 = LocalDate.now().getYear() - birthDate.getYear() <= 10;
+        int seatsInTheRowAmount = countSeatsInTheRow(seatsInThePlaneList);
+        while (seatFound.isEmpty()) {
+            if ((disability) && !disabilitySearchingModeDone) {
+                List<Integer> seatsToCheckForDisabled = findCorridorSeats(seatsInTheRowAmount);
+                seatFound = assignSeatToPassengerInThePlane(convertedSeatsDataArray, bookedSeatsInPlaneMap, seatsToCheckForDisabled, passengerId, seatFound);
+                disabilitySearchingModeDone = true;
+            } else if (kidUnder10 && !kidSearchingModeDone) {
+                List<Integer> seatsToCheckForKids = findWindowSeats(seatsInTheRowAmount);
+                seatFound = assignSeatToPassengerInThePlane(convertedSeatsDataArray, bookedSeatsInPlaneMap, seatsToCheckForKids, passengerId, seatFound);
+                kidSearchingModeDone = true;
+            } else {
+                List<Integer> remainingSeatsToCheck = findRemainingEmptySeats(seatsInTheRowAmount);
+                seatFound = assignSeatToPassengerInThePlane(convertedSeatsDataArray, bookedSeatsInPlaneMap, remainingSeatsToCheck, passengerId, seatFound);
+                if (seatFound.isEmpty()) {
+                    seatFound = NO_SEATS_AVAILABLE;
+                }
+            }
+        }
+
+        return seatFound;
+    }
+
+    private String assignSeatToPassengerInThePlane(String[][] convertedSeatsDataArray,
+                                                   Map<String, Long> bookedSeatsInPlaneMap,
+                                                   List<Integer> seatsToCheckFirst,
+                                                   Long passengerId, String seatFound) {
+        int seatsInTheRow = convertedSeatsDataArray[0].length;
+
+        stopSeatSearching:
+        for (String[] strings : convertedSeatsDataArray) {
+            for (int j = 0; j < seatsInTheRow; j++) {
+                Iterator<Integer> iterator = seatsToCheckFirst.iterator();
+                while (iterator.hasNext() && seatFound.isEmpty()) {
+                    if ((j + 1) == iterator.next()) {
+                        System.out.println(strings[j] + " " + bookedSeatsInPlaneMap.get(strings[j]) + " " + bookedSeatsInPlaneMap.get("7C"));
+                        String seatToCheck = " " + strings[j];
+                        for (Map.Entry<String, Long> entry : bookedSeatsInPlaneMap.entrySet()) {
+                            System.out.println(entry.getKey() + ": " + entry.getValue());
+                            if (entry.getKey().contains(seatToCheck)) {
+                                if (entry.getValue() == 0L) {
+                                    entry.setValue(passengerId);
+                                    seatFound = seatToCheck;
+                                    break stopSeatSearching;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return seatFound;
+    }
     private String findPattern(String inputString, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(inputString);
@@ -179,14 +245,14 @@ public class FlightBusinessLogic {
 
     private String[][] convertTo2DArray(List<String> seatsInThePlane) {
         int seatCounter = 0;
-        String[][] seatsScheme = new String[countSeatsInTheRow(seatsInThePlane)][countSeatsRows(seatsInThePlane)];
+        String[][] seatsScheme = new String[countSeatsRows(seatsInThePlane)][countSeatsInTheRow(seatsInThePlane)];
         for (int i = 0; i < seatsScheme.length; i++) {
             for (int j = 0; j < seatsScheme[0].length; j++) {
                 seatsScheme[i][j] = seatsInThePlane.get(seatCounter);
                 seatCounter++;
             }
         }
-        logger.info(Arrays.deepToString(seatsScheme));
+        logger.debug(Arrays.deepToString(seatsScheme));
 
         return seatsScheme;
     }
@@ -199,10 +265,72 @@ public class FlightBusinessLogic {
             seatCounter++;
             i++;
         }
+
         return seatCounter;
     }
 
     private int countSeatsRows(List<String> seatsInThePlaneList) {
         return seatsInThePlaneList.size()/countSeatsInTheRow(seatsInThePlaneList);
+    }
+
+    /**
+     * The improvement for this method is planned. To make this algorithm more flexible for any type of seats
+     * combination on the plane, during creating seats scheme for specified plane, additional param need to be passed -
+     * sequence of seats in the row groups (row groups are separated each other by corridor in the plane between rows).
+     * This information will allow to modify algorithm below to find corridor seats for disabled people for any plane
+     * type.
+     * @param seatsInTheRowsNumber
+     * @return
+     */
+    private List<Integer> findCorridorSeats(int seatsInTheRowsNumber) {
+        int corridorSeatsNumber = 0;
+        List<Integer> seatsNumbersToCheck = new ArrayList<>();
+        if (seatsInTheRowsNumber % 3 == 0 && seatsInTheRowsNumber % 2 == 0) {
+            corridorSeatsNumber = (seatsInTheRowsNumber / 3 - 1) * 2;
+            for (int i = 1; i < (corridorSeatsNumber / 2) + 1; i++) {
+                seatsNumbersToCheck.add(i * 3);
+                seatsNumbersToCheck.add(i * (3 + i));
+            }
+
+            return seatsNumbersToCheck;
+        } else if (seatsInTheRowsNumber % 3 == 0 && seatsInTheRowsNumber % 2 != 0) {
+            corridorSeatsNumber = (seatsInTheRowsNumber / 3 - 1) * 2;
+            for (int i = 1; i < (corridorSeatsNumber / 2) + 1; i++) {
+                seatsNumbersToCheck.add(i * 3);
+                seatsNumbersToCheck.add(i * (3 + i));
+            }
+
+            return seatsNumbersToCheck;
+        } else if (seatsInTheRowsNumber % 3 != 0 && seatsInTheRowsNumber % 2 == 0) {
+            corridorSeatsNumber = seatsInTheRowsNumber - 2;
+            for (int i = 1; i < (corridorSeatsNumber / 2) + 1; i++) {
+                if (!seatsNumbersToCheck.contains(i * 2)) {
+                    seatsNumbersToCheck.add(i * 2);
+                }
+
+                if (!seatsNumbersToCheck.contains(i * 2 + 1)) {
+                    seatsNumbersToCheck.add(i * 2 + 1);
+                }
+            }
+
+            return seatsNumbersToCheck;
+        }
+
+        return null;
+    }
+
+    private List<Integer> findWindowSeats(int seatsInTheRowsNumber) {
+        return Arrays.asList(1, seatsInTheRowsNumber);
+    }
+
+    private List<Integer> findRemainingEmptySeats(int seatsInTheRowsNumber) {
+        List<Integer> remainingSeatsList = new ArrayList<>();
+        for (int i = 1; i <= seatsInTheRowsNumber; i++) {
+            if (!(findWindowSeats(seatsInTheRowsNumber).contains(i)
+                    || findCorridorSeats(seatsInTheRowsNumber).contains(i))) {
+                remainingSeatsList.add(i);
+            }
+        }
+        return remainingSeatsList;
     }
 }
