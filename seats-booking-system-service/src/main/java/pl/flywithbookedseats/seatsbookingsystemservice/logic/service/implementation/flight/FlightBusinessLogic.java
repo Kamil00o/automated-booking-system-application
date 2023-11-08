@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightConstImpl.*;
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.*;
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_CREATED;
 
 @AllArgsConstructor
 @Component
@@ -62,6 +63,21 @@ public class FlightBusinessLogic {
         }
     }
 
+    public String bookSeatInFlightSeatsScheme(String flightName, String seatClassType, Long passengerId,
+                                             boolean disability, LocalDate birthDate) {
+        if (exists(flightName)) {
+            Flight savedFlight = retrieveFlightEntityFromDb(flightName);
+            Map<String, Long> currentBookedSeatsInTheFlight = savedFlight.getBookedSeatsInPlaneMap();
+            String assignedSeat = findAndAssignSeatForPassenger(seatClassType, passengerId, disability,
+                    birthDate, currentBookedSeatsInTheFlight);
+            savedFlight.setBookedSeatsInPlaneMap(currentBookedSeatsInTheFlight);
+            flightRepository.save(savedFlight);
+            return assignedSeat;
+        } else {
+            logger.warn(RESERVATION_NOT_CREATED);
+            throw new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName));
+        }
+    }
     public String findAndAssignSeatForPassenger(String seatClassType, Long passengerId, boolean disability,
                                                 LocalDate birthDate, Map<String, Long> bookedSeatsInPlaneMap) {
         List<String> retrievedSeatsFromSpecifiedClassList = retrieveSeatsFromSpecifiedClass(bookedSeatsInPlaneMap,
@@ -105,6 +121,10 @@ public class FlightBusinessLogic {
     public Passenger retrievePassengerEntityFromDb(Long passengerId) {
         return passengerRepository.findById(passengerId)
                 .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_ID.formatted(passengerId)));
+    }
+
+    public boolean exists(String flightName) {
+        return flightRepository.existsByFlightName(flightName);
     }
 
     public boolean exists(CreateFlightCommand createFlightCommand) {
@@ -217,10 +237,9 @@ public class FlightBusinessLogic {
                 Iterator<Integer> iterator = seatsToCheckFirst.iterator();
                 while (iterator.hasNext() && seatFound.isEmpty()) {
                     if ((j + 1) == iterator.next()) {
-                        System.out.println(strings[j] + " " + bookedSeatsInPlaneMap.get(strings[j]) + " " + bookedSeatsInPlaneMap.get("7C"));
                         String seatToCheck = " " + strings[j];
                         for (Map.Entry<String, Long> entry : bookedSeatsInPlaneMap.entrySet()) {
-                            System.out.println(entry.getKey() + ": " + entry.getValue());
+                            logger.debug(entry.getKey() + ": " + entry.getValue());
                             if (entry.getKey().contains(seatToCheck)) {
                                 if (entry.getValue() == 0L) {
                                     entry.setValue(passengerId);

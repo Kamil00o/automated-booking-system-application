@@ -17,7 +17,6 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.impl
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -92,10 +91,8 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Transactional
-    public void testFindSeatForPassengerMethod() {
-        Map<String, Long> bookedSeatsInTheFlight = flightBL.retrieveFlightEntityFromDb("FR2001").getBookedSeatsInPlaneMap();
-        flightBL.findAndAssignSeatForPassenger( "Economy Class", 15L, false, LocalDate.of(1998, 7, 29),
-                bookedSeatsInTheFlight);
-        flightBL.retrieveFlightEntityFromDb("FR2001").setBookedSeatsInPlaneMap(bookedSeatsInTheFlight);
+    public String testBookSeatInFlightSeatsScheme() {
+        return flightBL.bookSeatInFlightSeatsScheme("FR2001", "Economy Class", 15L,
+                true, LocalDate.of(1998, 7, 29));
     }
 }

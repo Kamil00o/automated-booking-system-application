@@ -143,8 +143,8 @@ public class SeatsBookingSystemController {
     }
 
     @GetMapping(path = "/flight-test/find-seat")
-    public void testFindSeatForPassengerMethod() {
-        flightService.testFindSeatForPassengerMethod();
+    public String testFindSeatForPassengerMethod() {
+        return flightService.testBookSeatInFlightSeatsScheme();
     }
 
     //Methods related with seats scheme Model domain:
