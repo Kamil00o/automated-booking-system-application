@@ -9,7 +9,6 @@ import lombok.*;
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.common.Consts.NOT_NULL_MESSAGE;
 
 @Builder
-@Data
 @Getter
 @Setter
 @NoArgsConstructor

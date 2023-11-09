@@ -14,7 +14,6 @@ public class SeatsBookingServiceImpl {
 
     @Transactional
     public ReservationDto bookSeatsInThePlane(BookingEnterDataCommand bookingEnterDataCommand) {
-        seatsBookingBL.bookSeatsInThePlane(bookingEnterDataCommand);
-        return null;
+        return seatsBookingBL.bookSeatsInThePlane(bookingEnterDataCommand);
     }
 }

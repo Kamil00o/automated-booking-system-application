@@ -60,9 +60,9 @@ public class PassengerBusinessLogic {
     }
 
     public Passenger updateSpecifiedPassenger(UpdatePassengerCommand updatePassengerCommand,
-                                               Passenger savedPassenger) {
+                                              Passenger savedPassenger, boolean doNotSaveInDb) {
         String email = updatePassengerCommand.email();
-        if (exists(updatePassengerCommand)) {
+        if (exists(updatePassengerCommand) || doNotSaveInDb) {
             List<Reservation> reservationsToUpdateList = parseReservationIdToReservationEntity(updatePassengerCommand
                     .reservationsIdList());
             if (!reservationsToUpdateList.isEmpty()) {
@@ -74,10 +74,11 @@ public class PassengerBusinessLogic {
             savedPassenger.setSurname(updatePassengerCommand.surname());
             savedPassenger.setEmail(email);
             savedPassenger.setDisability(updatePassengerCommand.disability());
-            passengerRepository.saveAndFlush(savedPassenger);
+            savePassengerEntityInDb(doNotSaveInDb, savedPassenger);
             return savedPassenger;
         } else {
             logger.warn(PASSENGER_NOT_UPDATED);
+            //exception to change!!!!
             throw new PassengerAlreadyExistsException(PASSENGER_ALREADY_EXISTS_EMAIL.formatted(email));
         }
     }
@@ -129,5 +130,11 @@ public class PassengerBusinessLogic {
     private Reservation retrieveReservationEntityFromDb(Long id) {
         return reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
+    }
+
+    public void savePassengerEntityInDb(boolean skipSaving, Passenger passengerEntity) {
+        if (!skipSaving) {
+            passengerRepository.save(passengerEntity);
+        }
     }
 }

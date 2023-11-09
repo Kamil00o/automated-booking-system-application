@@ -17,7 +17,6 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.logic.common.Const
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Table(name = "passenger_TABLE")
 @Entity
 public class Passenger {
@@ -55,7 +54,7 @@ public class Passenger {
     )
     private List<Reservation> reservationsList;
 
-    @Override
+  /*  @Override
     public String toString() {
         return "Passenger{" +
                 "id=" + id +
@@ -66,5 +65,5 @@ public class Passenger {
                 ", disability=" + disability +
                 ", reservationsList=" + reservationsList +
                 '}';
-    }
+    }*/
 }

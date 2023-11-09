@@ -47,7 +47,7 @@ public class PassengerServiceImpl implements PassengerService {
         Passenger savedPassenger = passengerBL.retrievePassengerEntityFromDb(updatePassengerCommand.email());
         if (passengerBL.exists(email)) {
             return passengerDtoMapper.apply(passengerBL
-                    .updateSpecifiedPassenger(updatePassengerCommand, savedPassenger));
+                    .updateSpecifiedPassenger(updatePassengerCommand, savedPassenger, false));
         } else {
             logger.warn(PASSENGER_NOT_UPDATED);
             throw new FlightAlreadyExistsException(PASSENGER_NOT_FOUND_EMAIL.formatted(email));

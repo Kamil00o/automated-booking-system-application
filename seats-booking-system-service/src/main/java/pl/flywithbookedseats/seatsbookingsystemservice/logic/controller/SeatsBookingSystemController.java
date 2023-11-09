@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.UpdatePassengerCommand;
@@ -20,6 +21,8 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSche
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationServiceImpl;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsbookingsystem.SeatsBookingBusinessLogic;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsbookingsystem.SeatsBookingServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel.SeatsSchemeModelServiceImpl;
 
 import java.util.List;
@@ -36,10 +39,18 @@ public class SeatsBookingSystemController {
     private final FlightServiceImpl flightService;
     private final PassengerServiceImpl passengerService;
     private final ReservationServiceImpl reservationService;
+    private final SeatsBookingServiceImpl bookingService;
 
     @GetMapping(path = "/test")
     public String test() {
         return "TEST";
+    }
+
+    //Methods related with booking process:
+
+    @PostMapping(path = "/book-seats")
+    public ReservationDto bookSeatsInThePlane(@Valid @RequestBody BookingEnterDataCommand bookingEnterDataCommand) {
+        return bookingService.bookSeatsInThePlane(bookingEnterDataCommand);
     }
 
     //Methods related with reservation domain:
