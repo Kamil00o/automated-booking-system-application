@@ -44,7 +44,7 @@ public class PassengerServiceImpl implements PassengerService {
     @Transactional
     @Override
     public PassengerDto updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand, String email) {
-        Passenger savedPassenger = passengerBL.retrievePassengerEntityFromDb(updatePassengerCommand.email());
+        Passenger savedPassenger = passengerBL.retrievePassengerEntityFromDb(email);
         if (passengerBL.exists(email)) {
             return passengerDtoMapper.apply(passengerBL
                     .updateSpecifiedPassenger(updatePassengerCommand, savedPassenger, false));
