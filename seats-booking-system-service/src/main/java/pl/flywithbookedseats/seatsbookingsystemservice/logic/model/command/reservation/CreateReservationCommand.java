@@ -10,7 +10,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.common.Consts;
 @Builder
 public record CreateReservationCommand(
         @NotNull(message = Consts.NOT_NULL_MESSAGE)
-        @Size(min = 4, message = "The flightNumber field should have at least 4 signs")
+        @Size(min = 4, message = "The flightName field should have at least 4 signs")
         String flightNumber,
         @Size(min = 3, message = "The seatNumber field should consists of 4 signs", max = 3)
         String seatNumber,

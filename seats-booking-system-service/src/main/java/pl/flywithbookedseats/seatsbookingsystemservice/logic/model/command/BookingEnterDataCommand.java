@@ -1,7 +1,8 @@
 package pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command;
 
 import lombok.Builder;
-import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Builder
 public record BookingEnterDataCommand(
@@ -9,6 +10,7 @@ public record BookingEnterDataCommand(
         String surname,
         boolean disability,
         String passengerEmail,
-        String flightNumber,
+        LocalDate passengerBirthDate,
+        String flightName,
         String seatClassType
 ) {}

@@ -18,8 +18,6 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.logic.common.Const
 @Entity
 public class Reservation {
 
-
-
     @Id
     @SequenceGenerator(
             name = "reservation_id_gen",
@@ -32,7 +30,7 @@ public class Reservation {
     private Long id;
     @Column(name = "flight_number")
     @NotNull(message = NOT_NULL_MESSAGE)
-    @Size(min = 4, message = "The flightNumber field should have at least 4 signs")
+    @Size(min = 4, message = "The flightName field should have at least 4 signs")
     private String flightNumber;
     @Column(name = "seat_number")
     @NotNull(message = NOT_NULL_MESSAGE)
