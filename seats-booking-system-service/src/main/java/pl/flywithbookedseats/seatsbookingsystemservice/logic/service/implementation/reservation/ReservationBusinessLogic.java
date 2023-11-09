@@ -62,7 +62,8 @@ public class ReservationBusinessLogic {
     }
 
     public Reservation updateSpecifiedReservation(UpdateReservationCommand updateReservationCommand,
-                                                   Reservation savedReservation, String passengerEmail) {
+                                                   Reservation savedReservation) {
+        String passengerEmail = updateReservationCommand.passengerEmail();
         savedReservation.setSeatNumber(updateReservationCommand.seatNumber());
         savedReservation.setSeatTypeClass(updateReservationCommand.seatTypeClass());
         savedReservation.setPassengerEmail(passengerEmail);

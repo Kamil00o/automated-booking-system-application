@@ -47,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDto updateReservationById(UpdateReservationCommand updateReservationCommand, Long id) {
         if (!reservationBL.exists(updateReservationCommand)) {
             return reservationDtoMapper.apply(reservationBL.updateSpecifiedReservation(updateReservationCommand,
-                    reservationBL.retrieveReservationEntityFromDb(id), updateReservationCommand.passengerEmail()));
+                    reservationBL.retrieveReservationEntityFromDb(id)));
         } else {
             logger.warn(RESERVATION_NOT_UPDATED.formatted(id));
             throw new FlightAlreadyExistsException(RESERVATION_ALREADY_EXISTS_SEAT_NUMBER
