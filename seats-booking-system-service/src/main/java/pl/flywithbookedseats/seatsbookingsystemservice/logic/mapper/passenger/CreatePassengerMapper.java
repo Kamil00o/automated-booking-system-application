@@ -11,6 +11,7 @@ public class CreatePassengerMapper implements Function<CreatePassengerCommand, P
     @Override
     public Passenger apply(CreatePassengerCommand createPassengerCommand) {
         return Passenger.builder()
+                .passengerServiceId(createPassengerCommand.passengerServiceId())
                 .email(createPassengerCommand.email())
                 .name(createPassengerCommand.name())
                 .surname(createPassengerCommand.surname())

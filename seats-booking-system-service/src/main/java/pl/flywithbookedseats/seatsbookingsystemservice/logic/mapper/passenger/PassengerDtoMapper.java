@@ -13,6 +13,7 @@ public class PassengerDtoMapper implements Function<Passenger, PassengerDto> {
     @Override
     public PassengerDto apply(Passenger passenger) {
         return PassengerDto.builder()
+                .passengerServiceId(passenger.getPassengerServiceId())
                 .email(passenger.getEmail())
                 .name(passenger.getName())
                 .surname(passenger.getSurname())
