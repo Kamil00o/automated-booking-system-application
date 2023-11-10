@@ -11,6 +11,7 @@ import java.util.List;
 
 @Builder
 public record CreatePassengerCommand(
+        Long passengerServiceId,
         @NotNull(message = Consts.NOT_NULL_MESSAGE)
         @Size(min = 9, message = "The email field should have at least 9 signs")
                 String email,

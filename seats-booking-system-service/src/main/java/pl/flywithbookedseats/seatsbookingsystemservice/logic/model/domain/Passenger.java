@@ -31,6 +31,7 @@ public class Passenger {
             generator = "passenger_id_gen"
     )
     private Long id;
+    private Long passengerServiceId;
     @NotNull(message = NOT_NULL_MESSAGE)
     @Size(min = 9, message = "The email field should have at least 9 signs")
     private String email;
@@ -53,17 +54,4 @@ public class Passenger {
             inverseJoinColumns = @JoinColumn(name = "reservation_id")
     )
     private List<Reservation> reservationsList;
-
-  /*  @Override
-    public String toString() {
-        return "Passenger{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", birthDate=" + birthDate +
-                ", disability=" + disability +
-                ", reservationsList=" + reservationsList +
-                '}';
-    }*/
 }

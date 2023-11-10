@@ -7,6 +7,7 @@ import java.util.List;
 
 @Builder
 public record PassengerDto(
+        Long passengerServiceId,
         String email,
         String name,
         String surname,

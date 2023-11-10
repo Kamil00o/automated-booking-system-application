@@ -63,7 +63,8 @@ public class SeatsBookingBusinessLogic {
     }
 
     private CreatePassengerCommand parsePassengerData(BookingEnterDataCommand bookingEnterDataCommand) {
-        return new CreatePassengerCommand(bookingEnterDataCommand.passengerEmail(),
+        return new CreatePassengerCommand(null,
+                bookingEnterDataCommand.passengerEmail(),
                 bookingEnterDataCommand.name(),
                 bookingEnterDataCommand.surname(),
                 bookingEnterDataCommand.passengerBirthDate(),
@@ -73,7 +74,8 @@ public class SeatsBookingBusinessLogic {
 
     private UpdatePassengerCommand parseUpdatedPassengerData(BookingEnterDataCommand bookingEnterDataCommand,
                                                              Reservation newReservation) {
-        return new UpdatePassengerCommand(bookingEnterDataCommand.passengerEmail(),
+        return new UpdatePassengerCommand(null,
+                bookingEnterDataCommand.passengerEmail(),
                 bookingEnterDataCommand.name(),
                 bookingEnterDataCommand.surname(),
                 bookingEnterDataCommand.passengerBirthDate(),
