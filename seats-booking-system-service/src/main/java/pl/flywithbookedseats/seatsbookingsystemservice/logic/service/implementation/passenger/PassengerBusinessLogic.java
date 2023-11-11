@@ -9,6 +9,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.Passenge
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.ReservationNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.CreatePassengerMapper;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.DtoPassengerMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.UpdatePassengerCommand;
@@ -35,6 +36,8 @@ public class PassengerBusinessLogic {
     private final ReservationRepository reservationRepository;
     private final PassengerDtoMapper passengerDtoMapper;
     private final CreatePassengerMapper createPassengerMapper;
+    private final PassengerAccountProxy passengerAccountProxy;
+    private final DtoPassengerMapper dtoPassengerMapper;
 
     public Passenger generateNewPassenger(CreatePassengerCommand createPassengerCommand) {
         Passenger newPassenger = createPassengerMapper.apply(createPassengerCommand);
@@ -83,6 +86,10 @@ public class PassengerBusinessLogic {
             logger.warn(PASSENGER_NOT_UPDATED);
             throw new PassengerAlreadyExistsException(PASSENGER_ALREADY_EXISTS_EMAIL.formatted(email));
         }
+    }
+
+    public Passenger getPassengerAccountDtoData(String email) {
+        return dtoPassengerMapper.apply(passengerAccountProxy.getPassengerAccountDtoData(email));
     }
 
     public Passenger retrievePassengerEntityFromDb(String email) {
