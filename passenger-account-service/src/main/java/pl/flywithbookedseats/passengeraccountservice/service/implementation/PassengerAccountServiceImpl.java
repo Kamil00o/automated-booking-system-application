@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.flywithbookedseats.passengeraccountservice.controller.PassengerAccountController;
 import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountAlreadyExistsException;
 import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
@@ -19,17 +17,16 @@ import pl.flywithbookedseats.passengeraccountservice.model.mapper.PassengerAccou
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
 import pl.flywithbookedseats.passengeraccountservice.service.PassengerAccountService;
 
-import java.net.URI;
 import java.util.List;
+
+import static pl.flywithbookedseats.passengeraccountservice.service.implementation.PassengerAccountConsts.*;
 
 @Service
 @RequiredArgsConstructor
 public class PassengerAccountServiceImpl implements PassengerAccountService {
 
     private static final Logger logger = LoggerFactory.getLogger(PassengerAccountServiceImpl.class);
-    private static final String PASSENGER_ACCOUNT_NOT_FOUND = "Passenger account with specified %s not found!";
-    private static final String PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS =
-            "Passenger account with specified email: %s already exists!";
+
 
     private final PassengerAccountRepository passengerAccountRepository;
     private final CreatePassengerAccountMapper createPassengerAccountMapper;
@@ -55,34 +52,15 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     @Transactional
     @Override
     public ResponseEntity<Object> createNewPassengerAccount(CreatePassengerAccount createPassengerAccount) {
-        if (!passengerAccountBL.exists(createPassengerAccount)) {
-            PassengerAccount savedPassengerAccount = createPassengerAccountMapper
-                    .apply(createPassengerAccount);
-
-            passengerAccountRepository.save(savedPassengerAccount);
-
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(savedPassengerAccount.getId())
-                    .toUri()
-                    .normalize();
-
-            logger.info("New passenger account for {} {} is being created!", savedPassengerAccount.getName()
-                    , savedPassengerAccount.getSurname());
-
-            return ResponseEntity.created(location).build();
-        } else {
-            throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
-                    .formatted(createPassengerAccount.email()));
-        }
+        return passengerAccountBL.generateResponseEntity(passengerAccountBL
+                .generateNewPassengerAccount(createPassengerAccount));
     }
 
     @Transactional
     @Override
     public void editPassengerAccount(long id, UpdatePassengerAccount updatePassengerAccount) {
         PassengerAccount passengerAccount = passengerAccountRepository.findById(id)
-                .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND.formatted(id)));
+                .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND_ID.formatted(id)));
 
         if (!passengerAccountBL.exists(updatePassengerAccount)) {
             passengerAccount.setName(updatePassengerAccount.name());
