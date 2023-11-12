@@ -12,6 +12,7 @@ public class PassengerAccountDtoMapper implements Function<PassengerAccount, Pas
     @Override
     public PassengerAccountDto apply(PassengerAccount passengerAccount) {
         return PassengerAccountDto.builder()
+                .passengerServiceId(passengerAccount.getId())
                 .name(passengerAccount.getName())
                 .surname(passengerAccount.getSurname())
                 .email(passengerAccount.getEmail())

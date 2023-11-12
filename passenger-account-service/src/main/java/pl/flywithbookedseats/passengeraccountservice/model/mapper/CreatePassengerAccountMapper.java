@@ -18,6 +18,7 @@ public class CreatePassengerAccountMapper implements Function<CreatePassengerAcc
                 .disability(createPassengerAccount.disability())
                 .reservationIdList(createPassengerAccount.reservationIdList())
                 .nationality(createPassengerAccount.nationality())
+                .gender(createPassengerAccount.gender())
                 .build();
     }
 }

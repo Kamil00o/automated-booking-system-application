@@ -17,6 +17,7 @@ public class UpdatePassengerAccountMapper implements Function<UpdatePassengerAcc
                 .birthDate(updatePassengerAccount.birthDate())
                 .disability(updatePassengerAccount.disability())
                 .nationality(updatePassengerAccount.nationality())
+                .gender(updatePassengerAccount.gender())
                 .build();
     }
 }
