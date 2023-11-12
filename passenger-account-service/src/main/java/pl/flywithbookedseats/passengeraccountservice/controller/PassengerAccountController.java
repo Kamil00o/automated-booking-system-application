@@ -1,6 +1,5 @@
 package pl.flywithbookedseats.passengeraccountservice.controller;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountD
 import pl.flywithbookedseats.passengeraccountservice.service.implementation.PassengerAccountServiceImpl;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,8 +30,8 @@ public class PassengerAccountController {
     }
 
     @GetMapping(path = "/id/{id}")
-    public Optional<PassengerAccount> getPassengerAccountById(@PathVariable Long id) {
-        return passengerAccountServiceImpl.getPassengerAccountById(id);
+    public PassengerAccountDto getPassengerAccountById(@PathVariable Long id) {
+        return passengerAccountServiceImpl.retrievePassengerAccountById(id);
     }
 
     @PostMapping(path = "/create")

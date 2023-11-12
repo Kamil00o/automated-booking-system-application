@@ -13,6 +13,7 @@ import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccount
 import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.model.mapper.CreatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.model.mapper.PassengerAccountDtoMapper;
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
@@ -20,7 +21,6 @@ import pl.flywithbookedseats.passengeraccountservice.service.PassengerAccountSer
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,15 +43,13 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     }
 
     @Override
-    public Optional<PassengerAccount> getPassengerAccountById(Long id) {
-        Optional<PassengerAccount> passengerAccount = passengerAccountRepository.findById(id);
+    public PassengerAccountDto retrievePassengerAccountById(Long id) {
+        return passengerAccountDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(id));
+    }
 
-        if (passengerAccount.isEmpty()) {
-            throw new PassengerAccountNotFoundException(
-                    "Passenger account with specified id does not exist id: %s\", id");
-        }
-
-        return passengerAccount;
+    @Override
+    public PassengerAccountDto retrievePassengerAccountByEmail(String email) {
+        return passengerAccountDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(email));
     }
 
     @Transactional
