@@ -18,6 +18,8 @@ public interface PassengerAccountService {
 
     public ResponseEntity<Object> createNewPassengerAccount(CreatePassengerAccount createPassengerAccount);
 
-    void editPassengerAccount(long id, UpdatePassengerAccount updatePassengerAccount);
+    PassengerAccountDto updatePassengerAccountById(long id, UpdatePassengerAccount updatePassengerAccount);
+
+    PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerAccount updatePassengerAccount, String email);
 
 }

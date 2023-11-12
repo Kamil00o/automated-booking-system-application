@@ -53,6 +53,6 @@ public class PassengerAccountController {
     @PutMapping(path = "/edit/{id}")
     public void editPassengerAccount(@PathVariable long id,
                                      @Valid @RequestBody UpdatePassengerAccount updatePassengerAccount) {
-        passengerAccountServiceImpl.editPassengerAccount(id, updatePassengerAccount);
+        passengerAccountServiceImpl.updatePassengerAccountById(id, updatePassengerAccount);
     }
 }

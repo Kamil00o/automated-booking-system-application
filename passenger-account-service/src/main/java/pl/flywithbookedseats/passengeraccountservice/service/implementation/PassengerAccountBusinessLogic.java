@@ -15,6 +15,7 @@ import pl.flywithbookedseats.passengeraccountservice.model.mapper.CreatePassenge
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
 
 import java.net.URI;
+import java.util.Objects;
 
 import static pl.flywithbookedseats.passengeraccountservice.service.implementation.PassengerAccountConsts.*;
 
@@ -52,6 +53,26 @@ public class PassengerAccountBusinessLogic {
         return ResponseEntity.created(location).build();
     }
 
+    public PassengerAccount updatedSpecifiedPassengerAccount(UpdatePassengerAccount updatePassengerAccount,
+                                                             PassengerAccount savedPassengerAccount) {
+        if (!exists(updatePassengerAccount, savedPassengerAccount)) {
+            savedPassengerAccount.setName(updatePassengerAccount.name());
+            savedPassengerAccount.setSurname(updatePassengerAccount.surname());
+            savedPassengerAccount.setEmail(updatePassengerAccount.email());
+            savedPassengerAccount.setBirthDate(updatePassengerAccount.birthDate());
+            savedPassengerAccount.setDisability(updatePassengerAccount.disability());
+            savedPassengerAccount.setReservationIdList(updatePassengerAccount.reservationIdList());
+            savedPassengerAccount.setGender(updatePassengerAccount.gender());
+            passengerAccountRepository.save(savedPassengerAccount);
+            return savedPassengerAccount;
+        } else {
+            logger.warn("Passenger account with ID: {} and email: {} has not been updated!",
+                    savedPassengerAccount.getId(), savedPassengerAccount.getEmail());
+            throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
+                    .formatted(updatePassengerAccount.email()));
+        }
+    }
+
     public PassengerAccount retrievePassengerAccountFromDb(Long id) {
         return passengerAccountRepository.findById(id)
                 .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND_ID
@@ -67,7 +88,12 @@ public class PassengerAccountBusinessLogic {
         return passengerAccountRepository.existsByEmail(createPassengerAccount.email());
     }
 
-    public boolean exists(UpdatePassengerAccount updatePassengerAccount) {
-        return passengerAccountRepository.existsByEmail(updatePassengerAccount.email());
+    public boolean exists(UpdatePassengerAccount updatePassengerAccount,
+                          PassengerAccount existingPassengerAccount) {
+        String email = updatePassengerAccount.email();
+        if (passengerAccountRepository.existsByEmail(email)) {
+            return !Objects.equals(retrievePassengerAccountFromDb(email).getId(), existingPassengerAccount.getId());
+        }
+        return true;
     }
 }
