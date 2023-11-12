@@ -13,10 +13,8 @@ import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccount
 import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.model.mapper.CreatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.model.mapper.PassengerAccountDtoMapper;
-import pl.flywithbookedseats.passengeraccountservice.model.mapper.UpdatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
 import pl.flywithbookedseats.passengeraccountservice.service.PassengerAccountService;
 
@@ -93,7 +91,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
             passengerAccount.setEmail(updatePassengerAccount.email());
             passengerAccount.setBirthDate(updatePassengerAccount.birthDate());
             passengerAccount.setDisability(updatePassengerAccount.disability());
-            passengerAccount.setReservationId(updatePassengerAccount.reservationId());
+            passengerAccount.setReservationIdList(updatePassengerAccount.reservationIdList());
         } else {
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
                     .formatted(updatePassengerAccount.email()));

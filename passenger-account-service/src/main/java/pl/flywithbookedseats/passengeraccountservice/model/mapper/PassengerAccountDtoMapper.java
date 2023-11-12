@@ -17,7 +17,7 @@ public class PassengerAccountDtoMapper implements Function<PassengerAccount, Pas
                 .email(passengerAccount.getEmail())
                 .birthDate(passengerAccount.getBirthDate())
                 .disability(passengerAccount.isDisability())
-                .reservationId(passengerAccount.getReservationId())
+                .reservationId(passengerAccount.getReservationIdList())
                 .build();
     }
 }

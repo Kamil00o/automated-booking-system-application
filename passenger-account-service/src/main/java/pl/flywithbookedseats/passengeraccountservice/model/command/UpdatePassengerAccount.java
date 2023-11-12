@@ -1,6 +1,5 @@
 package pl.flywithbookedseats.passengeraccountservice.model.command;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -9,30 +8,33 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
+import static pl.flywithbookedseats.passengeraccountservice.common.Consts.*;
+
 public record UpdatePassengerAccount(
 
-        @NotNull(message = "The name field can't be null")
-        @Size(min = 2, message = "The name should have at least 2 signs")
+        @NotNull(message = NOT_NULL_MESSAGE)
+        @NotBlank(message = NOT_BLANK_MESSAGE)
+        @Size(min = 2, message = NAME_MIN_FIELD_SIZE_MSG)
         String name,
-        @NotBlank(message = "surname field can't be empty")
-        @NotNull
-        @Size(min = 2, message = "The name should have at least 2 signs")
+        @NotBlank(message = NOT_BLANK_MESSAGE)
+        @NotNull(message = NOT_NULL_MESSAGE)
+        @Size(min = 2, message = SURNAME_MIN_FIELD_SIZE_MSG)
         String surname,
-        @NotBlank(message = "email field can't be empty")
-        @NotNull
-        @Size(min = 7, message = "The name should have at least 7 signs")
+        @NotBlank(message = NOT_BLANK_MESSAGE)
+        @NotNull(message = NOT_NULL_MESSAGE)
+        @Size(min = 7, message = EMAIL_MIN_FIELD_SIZE_MSG)
         String email,
-        @Past
-        @NotNull
-        @Column(name = "birth_date")
+        @Past(message = PAST_MESSAGE)
+        @NotNull(message = NOT_NULL_MESSAGE)
         LocalDate birthDate,
         boolean disability,
-        @NotNull
-        @NotBlank
-        @Column(name = "reservation_id")
-        List<String> reservationId,
-        @NotBlank
-        @NotNull
-        @Size(min = 2, message = "The nationality field should have at least 2 signs")
-        String nationality
+        List<String> reservationIdList,
+        @NotBlank(message = NOT_BLANK_MESSAGE)
+        @NotNull(message = NOT_NULL_MESSAGE)
+        @Size(min = 2, message = NATIONALITY_MIN_FIELD_SIZE_MSG)
+        String nationality,
+        @NotBlank(message = NOT_BLANK_MESSAGE)
+        @NotNull(message = NOT_NULL_MESSAGE)
+        @Size(min = 4, message = GENDER_MIN_FIELD_SIZE_MSG)
+        String gender
 ) {}

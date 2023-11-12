@@ -10,6 +10,8 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import static pl.flywithbookedseats.passengeraccountservice.common.Consts.*;
+
 @Entity(name = "passenger_account")
 @Table(
         name = "passenger_account_TABLE",
@@ -20,65 +22,54 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Getter
 @Setter
 public class PassengerAccount {
 
     @Id
     @SequenceGenerator(
-            name = "passenger_account_squence",
-            sequenceName = "customized_sequence",
+            name = "passenger_account_id_gen",
+            sequenceName = "passenger_account_seq_gen",
             allocationSize = 1
     )
     @GeneratedValue(
-            generator =  "customized_sequence"
+            generator =  "passenger_account_id_gen"
     )
     @Column(
             name = "ID",
             updatable = false
     )
     private Long id;
-    @NotNull(message = "The name field can't be null")
-    @Size(min = 2, message = "The name should have at least 2 signs")
+    @NotBlank(message = NOT_BLANK_MESSAGE)
+    @NotNull(message = NOT_NULL_MESSAGE)
+    @Size(min = 2, message = NAME_MIN_FIELD_SIZE_MSG)
     private String name;
-    @NotBlank(message = "surname field can't be empty")
-    @NotNull
-    @Size(min = 2, message = "The name should have at least 2 signs")
+    @NotBlank(message = NOT_BLANK_MESSAGE)
+    @NotNull(message = NOT_NULL_MESSAGE)
+    @Size(min = 2, message = SURNAME_MIN_FIELD_SIZE_MSG)
     private String surname;
-    @NotBlank(message = "email field can't be empty")
-    @NotNull
-    @Size(min = 7, message = "The name should have at least 7 signs")
+    @NotBlank(message = NOT_BLANK_MESSAGE)
+    @NotNull(message = NOT_NULL_MESSAGE)
+    @Size(min = 7, message = EMAIL_MIN_FIELD_SIZE_MSG)
     @Column(
             name = "email",
             unique = true
     )
     private String email;
-    @Past
-    @NotNull
+    @Past(message = PAST_MESSAGE)
+    @NotNull(message = NOT_NULL_MESSAGE)
     @Column(name = "birth_date")
     private LocalDate birthDate;
+    @NotNull(message = NOT_NULL_MESSAGE)
     private boolean disability;
-    @NotNull
-    @NotBlank
     @Column(name = "reservation_id")
-    private List<String> reservationId;
-    @NotBlank
-    @NotNull
-    @Size(min = 2, message = "The nationality field should have at least 2 signs")
+    private List<String> reservationIdList;
+    @NotBlank(message = NOT_BLANK_MESSAGE)
+    @NotNull(message = NOT_NULL_MESSAGE)
+    @Size(min = 2, message = NATIONALITY_MIN_FIELD_SIZE_MSG)
     private String nationality;
-
-    @Override
-    public String toString() {
-        return "PassengerAccount{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", birthDate=" + birthDate +
-                ", disability=" + disability +
-                ", reservationId=" + reservationId +
-                ", nationality='" + nationality + '\'' +
-                '}';
-    }
+    @NotBlank(message = NOT_BLANK_MESSAGE)
+    @NotNull(message = NOT_NULL_MESSAGE)
+    @Size(min = 4, message = GENDER_MIN_FIELD_SIZE_MSG)
+    private String gender;
 }
