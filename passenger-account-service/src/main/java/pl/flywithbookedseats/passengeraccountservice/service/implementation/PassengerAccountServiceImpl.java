@@ -34,6 +34,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     private final PassengerAccountRepository passengerAccountRepository;
     private final CreatePassengerAccountMapper createPassengerAccountMapper;
     private final PassengerAccountDtoMapper passengerAccountDtoMapper;
+    private final PassengerAccountBusinessLogic passengerAccountBL;
 
     @Transactional
     @Override
@@ -56,7 +57,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     @Transactional
     @Override
     public ResponseEntity<Object> createNewPassengerAccount(CreatePassengerAccount createPassengerAccount) {
-        if (!exists(createPassengerAccount)) {
+        if (!passengerAccountBL.exists(createPassengerAccount)) {
             PassengerAccount savedPassengerAccount = createPassengerAccountMapper
                     .apply(createPassengerAccount);
 
@@ -85,7 +86,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
         PassengerAccount passengerAccount = passengerAccountRepository.findById(id)
                 .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND.formatted(id)));
 
-        if (!exists(updatePassengerAccount)) {
+        if (!passengerAccountBL.exists(updatePassengerAccount)) {
             passengerAccount.setName(updatePassengerAccount.name());
             passengerAccount.setSurname(updatePassengerAccount.surname());
             passengerAccount.setEmail(updatePassengerAccount.email());
@@ -98,11 +99,5 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
         }
     }
 
-    private boolean exists(CreatePassengerAccount createPassengerAccount) {
-        return passengerAccountRepository.existsByEmail(createPassengerAccount.email());
-    }
 
-    private boolean exists(UpdatePassengerAccount updatePassengerAccount) {
-        return passengerAccountRepository.existsByEmail(updatePassengerAccount.email());
-    }
 }
