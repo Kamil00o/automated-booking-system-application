@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PassengerAccountServiceImpl implements PassengerAccountService {
 
-    private static final Logger logger = LoggerFactory.getLogger(PassengerAccountController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PassengerAccountServiceImpl.class);
     private static final String PASSENGER_ACCOUNT_NOT_FOUND = "Passenger account with specified %s not found!";
     private static final String PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS =
             "Passenger account with specified email: %s already exists!";

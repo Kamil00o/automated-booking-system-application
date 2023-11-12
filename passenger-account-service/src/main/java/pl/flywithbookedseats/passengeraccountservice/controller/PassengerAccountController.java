@@ -2,6 +2,8 @@ package pl.flywithbookedseats.passengeraccountservice.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
@@ -17,6 +19,8 @@ import java.util.List;
 @RequestMapping(path = "/passenger-account")
 public class PassengerAccountController {
 
+    private static final Logger logger = LoggerFactory.getLogger(PassengerAccountController.class);
+
     private final PassengerAccountServiceImpl passengerAccountServiceImpl;
 
     @GetMapping(path = "/test")
@@ -29,9 +33,16 @@ public class PassengerAccountController {
         return passengerAccountServiceImpl.retrieveAllPassengerAccountsFromDb();
     }
 
-    @GetMapping(path = "/id/{id}")
-    public PassengerAccountDto getPassengerAccountById(@PathVariable Long id) {
+    @GetMapping(path = "/get/id/{id}")
+    public PassengerAccountDto retrievePassengerAccountById(@PathVariable Long id) {
+        logger.info("retrieving passenger account for ID: {}:", id);
         return passengerAccountServiceImpl.retrievePassengerAccountById(id);
+    }
+
+    @GetMapping(path = "/get/email/{email}")
+    public PassengerAccountDto retrievePassengerAccountByEmail(@PathVariable String email) {
+        logger.info("retrieving passenger account for email: {}:", email);
+        return passengerAccountServiceImpl.retrievePassengerAccountByEmail(email);
     }
 
     @PostMapping(path = "/create")

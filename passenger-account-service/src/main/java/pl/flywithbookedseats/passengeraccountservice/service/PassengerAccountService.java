@@ -11,7 +11,7 @@ import java.util.List;
 public interface PassengerAccountService {
 
     List<PassengerAccount> retrieveAllPassengerAccountsFromDb();
-    
+
     PassengerAccountDto retrievePassengerAccountById(Long id);
 
     PassengerAccountDto retrievePassengerAccountByEmail(String email);
