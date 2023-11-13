@@ -1,6 +1,7 @@
 package pl.flywithbookedseats.passengeraccountservice.controller;
 
 import jakarta.validation.Valid;
+import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,21 @@ public class PassengerAccountController {
     public PassengerAccountDto retrievePassengerAccountByEmail(@PathVariable String email) {
         logger.info("Retrieving passenger account for email: {}:", email);
         return passengerAccountServiceImpl.retrievePassengerAccountByEmail(email);
+    }
+
+    @DeleteMapping(path = "/delete/all")
+    public void deleteAllPassengerAccounts() {
+        passengerAccountServiceImpl.deleteAllPassengerAccounts();
+    }
+
+    @DeleteMapping(path = "/delete/id/{id}")
+    public void deletePassengerAccountById(@PathVariable Long id) {
+        passengerAccountServiceImpl.deletePassengerAccountById(id);
+    }
+
+    @DeleteMapping(path = "/delete/email/{email}")
+    public void deletePassengerAccountByEmail(@PathVariable String email) {
+        passengerAccountServiceImpl.deletePassengerAccountByEmail(email);
     }
 
     @GetMapping(path = "/test-get/email/{email}")
