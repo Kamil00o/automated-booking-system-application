@@ -28,6 +28,26 @@ public class PassengerAccountController {
         return "test string";
     }
 
+    @PostMapping(path = "/create")
+    public ResponseEntity<Object> createNewPassengerAccount(@Valid @RequestBody CreatePassengerAccount createPassengerAccount) {
+        return passengerAccountServiceImpl.createNewPassengerAccount(createPassengerAccount);
+    }
+
+    @PutMapping(path = "/edit/id/{id}")
+    public PassengerAccountDto updatePassengerAccountById(@PathVariable long id,
+                                           @Valid @RequestBody UpdatePassengerAccount updatePassengerAccount) {
+        logger.info("Editing passenger account for ID: {}:", id);
+        return passengerAccountServiceImpl.updatePassengerAccountById(id, updatePassengerAccount);
+    }
+
+    @PutMapping(path = "/edit/email/{email}")
+    public PassengerAccountDto updatePassengerAccountByEmail(
+            @Valid @RequestBody UpdatePassengerAccount updatePassengerAccount,
+            @PathVariable String email) {
+        logger.info("Editing passenger account for email: {}:", email);
+        return passengerAccountServiceImpl.updatePassengerAccountByEmail(updatePassengerAccount, email);
+    }
+
     @GetMapping(path = "/all")
     public List<PassengerAccount> retrieveAllPassengerAccountsFromDb() {
         return passengerAccountServiceImpl.retrieveAllPassengerAccountsFromDb();
@@ -35,24 +55,13 @@ public class PassengerAccountController {
 
     @GetMapping(path = "/get/id/{id}")
     public PassengerAccountDto retrievePassengerAccountById(@PathVariable Long id) {
-        logger.info("retrieving passenger account for ID: {}:", id);
+        logger.info("Retrieving passenger account for ID: {}:", id);
         return passengerAccountServiceImpl.retrievePassengerAccountById(id);
     }
 
     @GetMapping(path = "/get/email/{email}")
     public PassengerAccountDto retrievePassengerAccountByEmail(@PathVariable String email) {
-        logger.info("retrieving passenger account for email: {}:", email);
+        logger.info("Retrieving passenger account for email: {}:", email);
         return passengerAccountServiceImpl.retrievePassengerAccountByEmail(email);
-    }
-
-    @PostMapping(path = "/create")
-    public ResponseEntity<Object> createNewPassengerAccount(@Valid @RequestBody CreatePassengerAccount createPassengerAccount) {
-        return passengerAccountServiceImpl.createNewPassengerAccount(createPassengerAccount);
-    }
-
-    @PutMapping(path = "/edit/{id}")
-    public void editPassengerAccount(@PathVariable long id,
-                                     @Valid @RequestBody UpdatePassengerAccount updatePassengerAccount) {
-        passengerAccountServiceImpl.updatePassengerAccountById(id, updatePassengerAccount);
     }
 }

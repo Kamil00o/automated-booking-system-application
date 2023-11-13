@@ -44,6 +44,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
                         .retrievePassengerAccountFromDb(id)));
     }
 
+    @Transactional
     @Override
     public PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerAccount updatePassengerAccount, String email) {
         return passengerAccountDtoMapper.apply(passengerAccountBL
@@ -51,7 +52,6 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
                         .retrievePassengerAccountFromDb(email)));
     }
 
-    @Transactional
     @Override
     public List<PassengerAccount> retrieveAllPassengerAccountsFromDb() {
         return passengerAccountRepository.findAll();
