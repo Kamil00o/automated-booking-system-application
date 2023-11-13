@@ -79,7 +79,7 @@ public class PassengerAccountBusinessLogic {
         }
     }
 
-    private PassengerAccountDto getPassengerDataFromBookingService(String email) {
+    public PassengerAccountDto getPassengerDataFromBookingService(String email) {
         return bookingPassengerDtoProxy.getPassengerDtoData(email);
     }
 

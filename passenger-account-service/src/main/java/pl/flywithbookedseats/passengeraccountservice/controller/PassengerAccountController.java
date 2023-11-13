@@ -64,4 +64,9 @@ public class PassengerAccountController {
         logger.info("Retrieving passenger account for email: {}:", email);
         return passengerAccountServiceImpl.retrievePassengerAccountByEmail(email);
     }
+
+    @GetMapping(path = "/test-get/email/{email}")
+    public PassengerAccountDto getPassengerDataFromBookingSystem(@PathVariable String email) {
+        return passengerAccountServiceImpl.getPassengerDataFromBookingSystem(email);
+    }
 }

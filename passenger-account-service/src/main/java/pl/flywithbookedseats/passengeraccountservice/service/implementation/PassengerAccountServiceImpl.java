@@ -52,6 +52,10 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
                         .retrievePassengerAccountFromDb(email)));
     }
 
+    public PassengerAccountDto getPassengerDataFromBookingSystem(String email) {
+        return passengerAccountBL.getPassengerDataFromBookingService(email);
+    }
+
     @Override
     public List<PassengerAccount> retrieveAllPassengerAccountsFromDb() {
         return passengerAccountRepository.findAll();
