@@ -22,4 +22,10 @@ public interface PassengerAccountService {
 
     PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerAccount updatePassengerAccount, String email);
 
+    void deleteAllPassengerAccounts();
+
+    void deletePassengerAccountById(Long id);
+
+    void deletePassengerAccountByEmail(String email);
+
 }

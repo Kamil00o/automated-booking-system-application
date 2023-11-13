@@ -79,6 +79,14 @@ public class PassengerAccountBusinessLogic {
         }
     }
 
+    public void deletePassengerAccountById(Long id) {
+        passengerAccountRepository.deleteById(id);
+    }
+
+    public void deletePassengerAccountByEmail(String email) {
+        passengerAccountRepository.deleteByEmail(email);
+    }
+
     public PassengerAccountDto getPassengerDataFromBookingService(String email) {
         return bookingPassengerDtoProxy.getPassengerDtoData(email);
     }

@@ -52,6 +52,24 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
                         .retrievePassengerAccountFromDb(email)));
     }
 
+    @Transactional
+    @Override
+    public void deleteAllPassengerAccounts() {
+        passengerAccountRepository.deleteAll();
+    }
+
+    @Transactional
+    @Override
+    public void deletePassengerAccountById(Long id) {
+        passengerAccountBL.deletePassengerAccountById(id);
+    }
+
+    @Transactional
+    @Override
+    public void deletePassengerAccountByEmail(String email) {
+        passengerAccountBL.deletePassengerAccountByEmail(email);
+    }
+
     public PassengerAccountDto getPassengerDataFromBookingSystem(String email) {
         return passengerAccountBL.getPassengerDataFromBookingService(email);
     }
