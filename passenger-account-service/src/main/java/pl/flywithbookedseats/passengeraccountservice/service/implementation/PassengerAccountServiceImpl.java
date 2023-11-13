@@ -40,7 +40,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     @Override
     public PassengerAccountDto updatePassengerAccountById(long id, UpdatePassengerAccount updatePassengerAccount) {
         return passengerAccountDtoMapper.apply(passengerAccountBL
-                .updatedSpecifiedPassengerAccount(updatePassengerAccount, passengerAccountBL
+                .updateSpecifiedPassengerAccount(updatePassengerAccount, passengerAccountBL
                         .retrievePassengerAccountFromDb(id)));
     }
 
@@ -48,7 +48,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     @Override
     public PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerAccount updatePassengerAccount, String email) {
         return passengerAccountDtoMapper.apply(passengerAccountBL
-                .updatedSpecifiedPassengerAccount(updatePassengerAccount, passengerAccountBL
+                .updateSpecifiedPassengerAccount(updatePassengerAccount, passengerAccountBL
                         .retrievePassengerAccountFromDb(email)));
     }
 
