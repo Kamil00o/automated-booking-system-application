@@ -95,6 +95,17 @@ public class FlightBusinessLogic {
 
     }
 
+    public Flight makeSpecifiedBookedSeatFree(String bookedSeat, String flightName) {
+        Flight savedFlight = retrieveFlightEntityFromDb(flightName);
+        Map<String, Long> assignedBookedSeatsInPlaneMap = savedFlight.getBookedSeatsInPlaneMap();
+        assignedBookedSeatsInPlaneMap.remove(bookedSeat);
+        savedFlight.setBookedSeatsInPlaneMap(assignedBookedSeatsInPlaneMap);
+        return savedFlight;
+        /*for (Map.Entry<String, Long> entry : assignedBookedSeatsInPlaneMap.entrySet()) {
+            if(entry.)
+        }*/
+    }
+
     public List<FlightDto> convertIntoListFlightDto(List<Flight> flightList) {
         if (!flightList.isEmpty()) {
             List<FlightDto> savedFlightDtoList = new ArrayList<>();

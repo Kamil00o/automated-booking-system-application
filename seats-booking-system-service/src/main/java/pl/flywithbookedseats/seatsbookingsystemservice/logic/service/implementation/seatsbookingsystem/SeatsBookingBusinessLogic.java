@@ -18,6 +18,7 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementat
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationBusinessLogic;
 
 import java.util.Collections;
+import java.util.List;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightConstImpl.FLIGHT_NOT_FOUND_FLIGHT_NAME;
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_CREATED;
@@ -58,6 +59,22 @@ public class SeatsBookingBusinessLogic {
             logger.warn(RESERVATION_NOT_CREATED);
             throw new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName));
         }
+    }
+
+    public void deleteReservationAndAssociatedData(Long reservationId) {
+        Reservation savedReservation = reservationBL.retrieveReservationEntityFromDb(reservationId);
+        Passenger associatedPassengerData = passengerBL.retrievePassengerEntityFromDb(savedReservation
+                .getPassengerEmail());
+        String bookedSeat = savedReservation.getSeatTypeClass() + " " + savedReservation.getSeatNumber();
+        flightBL.makeSpecifiedBookedSeatFree(bookedSeat, savedReservation.getFlightNumber());
+        List<Reservation> associatedPassengerReservationList = associatedPassengerData.getReservationsList();
+        associatedPassengerReservationList.remove(savedReservation);
+        if (associatedPassengerReservationList.isEmpty()) {
+            //delete Passenger entity from db
+        } else {
+            passengerBL.savePassengerEntityInDb(false, associatedPassengerData);
+        }
+
     }
 
     private CreatePassengerCommand parsePassengerData(BookingEnterDataCommand bookingEnterDataCommand) {

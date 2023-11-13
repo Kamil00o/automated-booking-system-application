@@ -3,6 +3,7 @@ package pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementa
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerDatabaseIsEmptyException;
@@ -28,6 +29,7 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.impl
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_FOUND_ID;
 
 @AllArgsConstructor
+@EnableFeignClients
 @Component
 public class PassengerBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(PassengerBusinessLogic.class);
