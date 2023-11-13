@@ -3,6 +3,7 @@ package pl.flywithbookedseats.passengeraccountservice.service.implementation;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,6 +23,7 @@ import java.util.Objects;
 import static pl.flywithbookedseats.passengeraccountservice.service.implementation.PassengerAccountConsts.*;
 
 @AllArgsConstructor
+@EnableFeignClients
 @Component
 public class PassengerAccountBusinessLogic {
 
