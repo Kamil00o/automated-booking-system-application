@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -47,11 +49,6 @@ public class Passenger {
     @NotNull(message = NOT_NULL_MESSAGE)
     private boolean disability;
     @JsonIgnore
-    @OneToMany
-    @JoinTable(
-            name = "passenger_attached_reservations_table",
-            joinColumns = @JoinColumn(name = "passenger_id"),
-            inverseJoinColumns = @JoinColumn(name = "reservation_id")
-    )
+    @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
     private List<Reservation> reservationsList;
 }

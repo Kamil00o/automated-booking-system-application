@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import static pl.flywithbookedseats.seatsbookingsystemservice.logic.common.Consts.NOT_NULL_MESSAGE;
 
@@ -44,7 +46,7 @@ public class Reservation {
     @Size(min = 9, message = "The passengerEmail field should have at least 9 signs")
     private String passengerEmail;
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "passenger_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 }
