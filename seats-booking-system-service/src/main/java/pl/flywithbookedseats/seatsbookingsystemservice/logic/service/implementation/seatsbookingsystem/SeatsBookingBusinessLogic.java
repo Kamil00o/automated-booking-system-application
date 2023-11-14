@@ -70,11 +70,10 @@ public class SeatsBookingBusinessLogic {
         List<Reservation> associatedPassengerReservationList = associatedPassengerData.getReservationsList();
         associatedPassengerReservationList.remove(savedReservation);
         if (associatedPassengerReservationList.isEmpty()) {
-            //delete Passenger entity from db
+            passengerBL.deletePassengerByEmail(savedReservation.getPassengerEmail());
         } else {
             passengerBL.savePassengerEntityInDb(false, associatedPassengerData);
         }
-
     }
 
     private CreatePassengerCommand parsePassengerData(BookingEnterDataCommand bookingEnterDataCommand) {
