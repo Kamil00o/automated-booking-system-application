@@ -16,4 +16,9 @@ public class SeatsBookingServiceImpl {
     public ReservationDto bookSeatsInThePlane(BookingEnterDataCommand bookingEnterDataCommand) {
         return seatsBookingBL.bookSeatsInThePlane(bookingEnterDataCommand);
     }
+
+    @Transactional
+    public void deleteReservationAndAssociatedData(Long reservationId) {
+        seatsBookingBL.deleteReservationAndAssociatedData(reservationId);
+    }
 }

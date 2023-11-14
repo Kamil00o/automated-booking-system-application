@@ -69,6 +69,7 @@ public class SeatsBookingBusinessLogic {
         flightBL.makeSpecifiedBookedSeatFree(bookedSeat, savedReservation.getFlightNumber());
         List<Reservation> associatedPassengerReservationList = associatedPassengerData.getReservationsList();
         associatedPassengerReservationList.remove(savedReservation);
+        reservationBL.deleteReservationById(savedReservation.getId());
         if (associatedPassengerReservationList.isEmpty()) {
             passengerBL.deletePassengerByEmail(savedReservation.getPassengerEmail());
         } else {

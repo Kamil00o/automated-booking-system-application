@@ -1,6 +1,7 @@
 package pl.flywithbookedseats.seatsbookingsystemservice.logic.controller;
 
 import jakarta.validation.Valid;
+import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,12 @@ public class SeatsBookingSystemController {
     @PostMapping(path = "/book-seats")
     public ReservationDto bookSeatsInThePlane(@Valid @RequestBody BookingEnterDataCommand bookingEnterDataCommand) {
         return bookingService.bookSeatsInThePlane(bookingEnterDataCommand);
+    }
+
+    @DeleteMapping(path = "/delete-booking/reservationId/{reservationId}")
+    public void deleteReservationAndAssociatedData(@PathVariable Long reservationId) {
+        bookingService.deleteReservationAndAssociatedData(reservationId);
+        logger.info("Reservation and its data have been removed.");
     }
 
     //Methods related with reservation domain:
