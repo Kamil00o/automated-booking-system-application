@@ -43,6 +43,10 @@ public class PassengerBusinessLogic {
 
     public Passenger generateNewPassenger(CreatePassengerCommand createPassengerCommand) {
         Passenger newPassenger = createPassengerMapper.apply(createPassengerCommand);
+        if (newPassenger.getPassengerServiceId() == null) {
+            newPassenger.setPassengerServiceId(getPassengerServiceId(newPassenger.getEmail()));
+        }
+        
         List<Reservation> reservationsToAddList = parseReservationIdToReservationEntity(createPassengerCommand
                 .reservationsIdList());
         if (reservationsToAddList != null) {
@@ -88,6 +92,10 @@ public class PassengerBusinessLogic {
             logger.warn(PASSENGER_NOT_UPDATED);
             throw new PassengerAlreadyExistsException(PASSENGER_ALREADY_EXISTS_EMAIL.formatted(email));
         }
+    }
+
+    public Long getPassengerServiceId(String email) {
+        return getPassengerAccountDtoData(email).getId();
     }
 
     public Passenger getPassengerAccountDtoData(String email) {

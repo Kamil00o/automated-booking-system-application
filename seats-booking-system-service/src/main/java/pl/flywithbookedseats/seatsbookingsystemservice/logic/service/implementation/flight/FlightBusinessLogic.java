@@ -78,7 +78,7 @@ public class FlightBusinessLogic {
             throw new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName));
         }
     }
-    
+
     public String findAndAssignSeatForPassenger(String seatClassType, Long passengerId, boolean disability,
                                                 LocalDate birthDate, Map<String, Long> bookedSeatsInPlaneMap) {
         List<String> retrievedSeatsFromSpecifiedClassList = retrieveSeatsFromSpecifiedClass(bookedSeatsInPlaneMap,
