@@ -61,7 +61,7 @@ public class SeatsBookingBusinessLogic {
         }
     }
 
-    public void deleteReservationAndAssociatedData(Long reservationId) {
+    public void deleteBookedReservationAndAssociatedData(Long reservationId) {
         Reservation savedReservation = reservationBL.retrieveReservationEntityFromDb(reservationId);
         Passenger associatedPassengerData = passengerBL.retrievePassengerEntityFromDb(savedReservation
                 .getPassengerEmail());

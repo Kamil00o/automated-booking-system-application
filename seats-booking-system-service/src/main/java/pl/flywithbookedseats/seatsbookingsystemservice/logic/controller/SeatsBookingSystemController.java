@@ -1,7 +1,6 @@
 package pl.flywithbookedseats.seatsbookingsystemservice.logic.controller;
 
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,6 @@ import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.dto.SeatsSche
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.flight.FlightServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.reservation.ReservationServiceImpl;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsbookingsystem.SeatsBookingBusinessLogic;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsbookingsystem.SeatsBookingServiceImpl;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.seatsschememodel.SeatsSchemeModelServiceImpl;
 
@@ -55,8 +53,8 @@ public class SeatsBookingSystemController {
     }
 
     @DeleteMapping(path = "/delete-booking/reservationId/{reservationId}")
-    public void deleteReservationAndAssociatedData(@PathVariable Long reservationId) {
-        bookingService.deleteReservationAndAssociatedData(reservationId);
+    public void deleteBookedReservationAndAssociatedData(@PathVariable Long reservationId) {
+        bookingService.deleteBookedReservationAndAssociatedData(reservationId);
         logger.info("Reservation and its data have been removed.");
     }
 

@@ -18,7 +18,7 @@ public class SeatsBookingServiceImpl {
     }
 
     @Transactional
-    public void deleteReservationAndAssociatedData(Long reservationId) {
-        seatsBookingBL.deleteReservationAndAssociatedData(reservationId);
+    public void deleteBookedReservationAndAssociatedData(Long reservationId) {
+        seatsBookingBL.deleteBookedReservationAndAssociatedData(reservationId);
     }
 }
