@@ -94,6 +94,14 @@ public class PassengerBusinessLogic {
         return dtoPassengerMapper.apply(passengerAccountProxy.getPassengerAccountDtoData(email));
     }
 
+    public void deletePassengerById(Long id) {
+        passengerRepository.deleteById(id);
+    }
+
+    public void deletePassengerByEmail(String email) {
+        passengerRepository.deleteByEmail(email);
+    }
+
     public Passenger retrievePassengerEntityFromDb(String email) {
         return passengerRepository.findByEmail(email)
                 .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));

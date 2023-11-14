@@ -72,7 +72,13 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Transactional
     @Override
+    public void deletePassengerById(Long id) {
+        passengerBL.deletePassengerById(id);
+    }
+
+    @Transactional
+    @Override
     public void deletePassengerByEmail(String email) {
-        passengerRepository.delete(passengerBL.retrievePassengerEntityFromDb(email));
+        passengerBL.deletePassengerByEmail(email);
     }
 }

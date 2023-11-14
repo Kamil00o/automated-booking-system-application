@@ -18,5 +18,7 @@ public interface PassengerService {
 
     void deleteAllPassengers();
 
+    void deletePassengerById(Long id);
+
     void deletePassengerByEmail(String email);
 }
