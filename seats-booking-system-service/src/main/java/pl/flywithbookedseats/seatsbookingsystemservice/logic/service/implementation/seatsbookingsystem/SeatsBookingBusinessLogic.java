@@ -65,7 +65,7 @@ public class SeatsBookingBusinessLogic {
         Reservation savedReservation = reservationBL.retrieveReservationEntityFromDb(reservationId);
         Passenger associatedPassengerData = passengerBL.retrievePassengerEntityFromDb(savedReservation
                 .getPassengerEmail());
-        String bookedSeat = savedReservation.getSeatTypeClass() + " " + savedReservation.getSeatNumber();
+        String bookedSeat = savedReservation.getSeatNumber();
         flightBL.makeSpecifiedBookedSeatFree(bookedSeat, savedReservation.getFlightNumber());
         List<Reservation> associatedPassengerReservationList = associatedPassengerData.getReservationsList();
         associatedPassengerReservationList.remove(savedReservation);

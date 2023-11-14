@@ -78,6 +78,7 @@ public class FlightBusinessLogic {
             throw new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName));
         }
     }
+    
     public String findAndAssignSeatForPassenger(String seatClassType, Long passengerId, boolean disability,
                                                 LocalDate birthDate, Map<String, Long> bookedSeatsInPlaneMap) {
         List<String> retrievedSeatsFromSpecifiedClassList = retrieveSeatsFromSpecifiedClass(bookedSeatsInPlaneMap,
@@ -98,12 +99,16 @@ public class FlightBusinessLogic {
     public Flight makeSpecifiedBookedSeatFree(String bookedSeat, String flightName) {
         Flight savedFlight = retrieveFlightEntityFromDb(flightName);
         Map<String, Long> assignedBookedSeatsInPlaneMap = savedFlight.getBookedSeatsInPlaneMap();
-        assignedBookedSeatsInPlaneMap.remove(bookedSeat);
+        stopIterating:
+        for (Map.Entry<String, Long> entry : assignedBookedSeatsInPlaneMap.entrySet()) {
+            if (entry.getKey().contains(bookedSeat)) {
+                entry.setValue(0L);
+                break stopIterating;
+            }
+        }
+
         savedFlight.setBookedSeatsInPlaneMap(assignedBookedSeatsInPlaneMap);
         return savedFlight;
-        /*for (Map.Entry<String, Long> entry : assignedBookedSeatsInPlaneMap.entrySet()) {
-            if(entry.)
-        }*/
     }
 
     public List<FlightDto> convertIntoListFlightDto(List<Flight> flightList) {
