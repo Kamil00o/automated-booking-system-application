@@ -240,6 +240,11 @@ public class SeatsBookingSystemController {
         passengerService.deleteAllPassengers();
     }
 
+    @DeleteMapping(path = "/delete-passenger/id/{id}")
+    public void deletePassengerById(@PathVariable Long id) {
+        passengerService.deletePassengerById(id);
+    }
+
     @DeleteMapping(path = "/delete-passenger/email/{email}")
     public void deletePassengerByEmail(@PathVariable String email) {
         passengerService.deletePassengerByEmail(email);
