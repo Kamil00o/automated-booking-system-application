@@ -75,6 +75,10 @@ public class ReservationBusinessLogic {
         return savedReservation;
     }
 
+    public void deleteReservationById(Long id) {
+        reservationRepository.deleteById(id);
+    }
+
     public Reservation retrieveReservationEntityFromDb(Long id) {
         return reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));

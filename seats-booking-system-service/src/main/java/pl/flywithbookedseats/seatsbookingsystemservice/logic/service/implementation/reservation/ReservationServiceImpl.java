@@ -85,6 +85,6 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     @Override
     public void deleteReservationById(Long id) {
-        reservationRepository.delete(reservationBL.retrieveReservationEntityFromDb(id));
+        reservationBL.deleteReservationById(id);
     }
 }
