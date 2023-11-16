@@ -1,3 +1,4 @@
+/*
 package pl.flywithbookedseats.seatsbookingsystemservice.config.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -44,3 +45,4 @@ public class KafkaConsumerConfig {
         return factory;
     }
 }
+*/
