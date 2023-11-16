@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.kafka.JsonKafkaProducer;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.kafka.KafkaProducer;
@@ -272,7 +273,7 @@ public class SeatsBookingSystemController {
     }
 
     @PostMapping(path = "/kafka/post-dto")
-    public ResponseEntity<String> publishPassengerDtoFromDb(@RequestBody PassengerDto passengerDto) {
+    public ResponseEntity<String> publishPassengerDtoFromDb(@RequestBody @Payload PassengerDto passengerDto) {
         PassengerDtoEvent passengerDtoEvent = new PassengerDtoEvent();
         passengerDtoEvent.setMessage("Pending");
         passengerDtoEvent.setStatus("PassengerDto status is in pending state");

@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice;
+package pl.flywithbookedseats.passengeraccountservice.logic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
