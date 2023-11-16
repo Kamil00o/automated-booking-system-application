@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.kafka.JsonKafkaProducer;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.kafka.KafkaProducer;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
@@ -43,6 +45,7 @@ public class SeatsBookingSystemController {
     private final ReservationServiceImpl reservationService;
     private final SeatsBookingServiceImpl bookingService;
     private final KafkaProducer kafkaProducer;
+    private final JsonKafkaProducer jsonKafkaProducer;
 
     @GetMapping(path = "/test")
     public String test() {
@@ -265,5 +268,11 @@ public class SeatsBookingSystemController {
     public String publish(@RequestParam("message") String message) {
         kafkaProducer.sendMessage(message);
         return message;
+    }
+
+    @PostMapping(path = "/kafka/post-dto")
+    public ResponseEntity<String> publishPassengerDtoFromDb(@RequestBody PassengerDto passengerDto) {
+        jsonKafkaProducer.sendMessage(passengerDto);
+        return ResponseEntity.ok("Json message sent to kafka topic");
     }
 }

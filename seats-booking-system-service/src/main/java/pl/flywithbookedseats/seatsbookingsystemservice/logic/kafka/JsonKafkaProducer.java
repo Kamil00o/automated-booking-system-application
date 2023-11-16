@@ -3,6 +3,7 @@ package pl.flywithbookedseats.seatsbookingsystemservice.logic.kafka;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
@@ -16,13 +17,15 @@ public class JsonKafkaProducer {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonKafkaProducer.class);
 
+    @Value("${spring.kafka.topic-json.name}")
+    private String kafkaTopicJson;
     private final KafkaTemplate<String, PassengerDto> kafkaTemplate;
 
     public void sendMessage(PassengerDto passengerDto) {
         logger.info("PassengerDto to send: {}", passengerDto);
         Message<PassengerDto> message = MessageBuilder
                 .withPayload(passengerDto)
-                .setHeader(KafkaHeaders.TOPIC, "kafkaTopic")
+                .setHeader(KafkaHeaders.TOPIC, kafkaTopicJson)
                 .build();
         kafkaTemplate.send(message);
     }
