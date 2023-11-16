@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.kafka.JsonKafkaProducer;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.kafka.KafkaProducer;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.kafka.PassengerDtoEvent;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
@@ -272,7 +273,11 @@ public class SeatsBookingSystemController {
 
     @PostMapping(path = "/kafka/post-dto")
     public ResponseEntity<String> publishPassengerDtoFromDb(@RequestBody PassengerDto passengerDto) {
-        jsonKafkaProducer.sendMessage(passengerDto);
+        PassengerDtoEvent passengerDtoEvent = new PassengerDtoEvent();
+        passengerDtoEvent.setMessage("Pending");
+        passengerDtoEvent.setStatus("PassengerDto status is in pending state");
+        passengerDtoEvent.setPassengerDto(passengerDto);
+        jsonKafkaProducer.sendMessage(passengerDtoEvent);
         return ResponseEntity.ok("Json message sent to kafka topic");
     }
 }
