@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.seatsbookingsystemservice.logic.kafka.KafkaProducer;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.passenger.CreatePassengerCommand;
@@ -41,6 +42,7 @@ public class SeatsBookingSystemController {
     private final PassengerServiceImpl passengerService;
     private final ReservationServiceImpl reservationService;
     private final SeatsBookingServiceImpl bookingService;
+    private final KafkaProducer kafkaProducer;
 
     @GetMapping(path = "/test")
     public String test() {
@@ -255,5 +257,13 @@ public class SeatsBookingSystemController {
     @DeleteMapping(path = "/delete-passenger/email/{email}")
     public void deletePassengerByEmail(@PathVariable String email) {
         passengerService.deletePassengerByEmail(email);
+    }
+
+    ////////////////kafka methods:
+
+    @GetMapping(path = "/kafka/test")
+    public String publish(@RequestParam("message") String message) {
+        kafkaProducer.sendMessage(message);
+        return message;
     }
 }
