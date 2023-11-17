@@ -2,14 +2,14 @@ package pl.flywithbookedseats.seatsbookingsystemservice.logic.mapper.flight;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.seatsbookingsystemservice.logic.exceptions.PassengerNotFoundException;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.domain.Passenger;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.repository.PassengerRepository;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.implementation.passenger.PassengerConstsImpl.PASSENGER_NOT_FOUND_ID;
+import static pl.flywithbookedseats.seatsbookingsystemservice.logic.common.Consts.SEAT_PASSENGER_DATA_UNAVAILABLE;
+
 
 @AllArgsConstructor
 @Component
@@ -28,9 +28,14 @@ public class FlightConverter {
         StringBuilder passengerNameSurname = new StringBuilder();
         if (passengerId != null && passengerId != 0L) {
             Passenger savedPassenger = retrievePassengerEntityFromDb(passengerId);
-            passengerNameSurname.append(savedPassenger.getName())
-                    .append(" ")
-                    .append(savedPassenger.getSurname());
+            if (savedPassenger != null) {
+                passengerNameSurname.append(savedPassenger.getName())
+                        .append(" ")
+                        .append(savedPassenger.getSurname());
+            } else {
+                passengerNameSurname.append(SEAT_PASSENGER_DATA_UNAVAILABLE);
+            }
+
             return passengerNameSurname.toString();
         } else {
             passengerNameSurname.append("free");
@@ -39,7 +44,6 @@ public class FlightConverter {
     }
 
     private Passenger retrievePassengerEntityFromDb(Long passengerId) {
-        return passengerRepository.findById(passengerId)
-                .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_ID.formatted(passengerId)));
+        return passengerRepository.findById(passengerId).orElse(null);
     }
 }
