@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
@@ -31,9 +31,9 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
 
     @Transactional
     @Override
-    public ResponseEntity<Object> createNewPassengerAccount(CreatePassengerAccount createPassengerAccount) {
+    public ResponseEntity<Object> createNewPassengerAccount(CreatePassengerAccountCommand createPassengerAccountCommand) {
         return passengerAccountBL.generateResponseEntity(passengerAccountBL
-                .generateNewPassengerAccount(createPassengerAccount));
+                .generateNewPassengerAccount(createPassengerAccountCommand));
     }
 
     @Transactional

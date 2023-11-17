@@ -1,7 +1,7 @@
 package pl.flywithbookedseats.passengeraccountservice.service;
 
 import org.springframework.http.ResponseEntity;
-import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
@@ -16,7 +16,7 @@ public interface PassengerAccountService {
 
     PassengerAccountDto retrievePassengerAccountByEmail(String email);
 
-    public ResponseEntity<Object> createNewPassengerAccount(CreatePassengerAccount createPassengerAccount);
+    public ResponseEntity<Object> createNewPassengerAccount(CreatePassengerAccountCommand createPassengerAccountCommand);
 
     PassengerAccountDto updatePassengerAccountById(long id, UpdatePassengerAccount updatePassengerAccount);
 
@@ -27,5 +27,7 @@ public interface PassengerAccountService {
     void deletePassengerAccountById(Long id);
 
     void deletePassengerAccountByEmail(String email);
+
+    PassengerAccountDto getPassengerDataFromBookingSystem(String email);
 
 }

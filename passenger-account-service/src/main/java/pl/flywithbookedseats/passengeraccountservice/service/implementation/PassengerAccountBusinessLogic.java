@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountAlreadyExistsException;
 import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountNotFoundException;
-import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
@@ -35,9 +35,9 @@ public class PassengerAccountBusinessLogic {
     private final DtoPassengerAccountMapper dtoPassengerAccountMapper;
     public final BookingPassengerDtoProxy bookingPassengerDtoProxy;
 
-    public PassengerAccount generateNewPassengerAccount(CreatePassengerAccount createPassengerAccount) {
-        if (!exists(createPassengerAccount)) {
-            PassengerAccount savedPassengerAccount = createPassengerAccountMapper.apply(createPassengerAccount);
+    public PassengerAccount generateNewPassengerAccount(CreatePassengerAccountCommand createPassengerAccountCommand) {
+        if (!exists(createPassengerAccountCommand)) {
+            PassengerAccount savedPassengerAccount = createPassengerAccountMapper.apply(createPassengerAccountCommand);
             try {
                 savedPassengerAccount
                         .setReservationIdList(retrieveReservationIdListFromPassengerDto(savedPassengerAccount
@@ -50,7 +50,7 @@ public class PassengerAccountBusinessLogic {
             return savedPassengerAccount;
         } else {
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
-                    .formatted(createPassengerAccount.email()));
+                    .formatted(createPassengerAccountCommand.email()));
         }
     }
 
@@ -115,8 +115,8 @@ public class PassengerAccountBusinessLogic {
                         .formatted(email)));
     }
 
-    public boolean exists(CreatePassengerAccount createPassengerAccount) {
-        return passengerAccountRepository.existsByEmail(createPassengerAccount.email());
+    public boolean exists(CreatePassengerAccountCommand createPassengerAccountCommand) {
+        return passengerAccountRepository.existsByEmail(createPassengerAccountCommand.email());
     }
 
     public boolean exists(UpdatePassengerAccount updatePassengerAccount,
