@@ -44,7 +44,8 @@ public class PassengerBusinessLogic {
     public Passenger generateNewPassenger(CreatePassengerCommand createPassengerCommand) {
         Passenger newPassenger = createPassengerMapper.apply(createPassengerCommand);
         if (newPassenger.getPassengerServiceId() == null) {
-            newPassenger.setPassengerServiceId(getPassengerServiceId(newPassenger.getEmail()));
+            Long passengerServiceId = getPassengerServiceId(newPassenger.getEmail());
+            newPassenger.setPassengerServiceId(passengerServiceId);
         }
         
         List<Reservation> reservationsToAddList = parseReservationIdToReservationEntity(createPassengerCommand

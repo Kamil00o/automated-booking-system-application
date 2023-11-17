@@ -16,12 +16,14 @@ public class PassengerConverter {
 
     public List<Reservation> convertReservationIdListToEntityVersion(List<Long> reservationIdList) {
         List<Reservation> convertedReservationList = new ArrayList<>();
-        reservationIdList.forEach(id -> {
-            Reservation savedReservation = retrieveReservationEntityFromDb(id);
-            if (savedReservation != null) {
-                convertedReservationList.add(savedReservation);
-            }
-        });
+        if (reservationIdList != null) {
+            reservationIdList.forEach(id -> {
+                Reservation savedReservation = retrieveReservationEntityFromDb(id);
+                if (savedReservation != null) {
+                    convertedReservationList.add(savedReservation);
+                }
+            });
+        }
         return convertedReservationList;
     }
 

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.seatsbookingsystemservice.logic.model.command.flight.CreateFlightCommand;
@@ -30,6 +31,7 @@ import static pl.flywithbookedseats.seatsbookingsystemservice.logic.service.impl
 
 @RestController
 @RequiredArgsConstructor
+@EnableFeignClients
 @RequestMapping(path = "/seats-booking")
 public class SeatsBookingSystemController {
 
