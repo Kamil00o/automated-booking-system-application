@@ -45,8 +45,7 @@ public class PassengerBusinessLogic {
         Passenger newPassenger = createPassengerMapper.apply(createPassengerCommand);
         try {
             if (newPassenger.getPassengerServiceId() == null) {
-                Long passengerServiceId = getPassengerServiceId(newPassenger.getEmail());
-                newPassenger.setPassengerServiceId(passengerServiceId);
+                newPassenger.setPassengerServiceId(getPassengerServiceId(newPassenger.getEmail()));
             }
         } catch (Exception exception) {
             logger.info("passengerServiceId not retrieved from the passenger service");
@@ -100,7 +99,7 @@ public class PassengerBusinessLogic {
     }
 
     public Long getPassengerServiceId(String email) {
-        return getPassengerAccountDtoData(email).getId();
+        return getPassengerAccountDtoData(email).getPassengerServiceId();
     }
 
     public Passenger getPassengerAccountDtoData(String email) {
