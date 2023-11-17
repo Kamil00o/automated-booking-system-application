@@ -13,7 +13,7 @@ public class ApiGatewayConfiguration {
 
         return routeLocatorBuilder.routes()
                 .route(predicateSpec -> predicateSpec
-                        .path("/passenger-account/**")
+                        .path("/passengers/**")
                         .uri("lb://passenger-account-service"))
                 .route(predicateSpec -> predicateSpec
                         .path("/seats-booking/**")
