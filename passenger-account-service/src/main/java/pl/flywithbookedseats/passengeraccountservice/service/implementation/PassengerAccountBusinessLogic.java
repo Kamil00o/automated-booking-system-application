@@ -18,6 +18,7 @@ import pl.flywithbookedseats.passengeraccountservice.model.mapper.DtoPassengerAc
 import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Objects;
 
 import static pl.flywithbookedseats.passengeraccountservice.service.implementation.PassengerAccountConsts.*;
@@ -37,6 +38,14 @@ public class PassengerAccountBusinessLogic {
     public PassengerAccount generateNewPassengerAccount(CreatePassengerAccount createPassengerAccount) {
         if (!exists(createPassengerAccount)) {
             PassengerAccount savedPassengerAccount = createPassengerAccountMapper.apply(createPassengerAccount);
+            try {
+                savedPassengerAccount
+                        .setReservationIdList(retrieveReservationIdListFromPassengerDto(savedPassengerAccount
+                                .getEmail()));
+
+            } catch (Exception exception) {
+                logger.info("ReservationIdList has not been retrieved from booking service.");
+            }
             passengerAccountRepository.save(savedPassengerAccount);
             return savedPassengerAccount;
         } else {
@@ -87,6 +96,9 @@ public class PassengerAccountBusinessLogic {
         passengerAccountRepository.deleteByEmail(email);
     }
 
+    public List<Long> retrieveReservationIdListFromPassengerDto(String email) {
+        return getPassengerDataFromBookingService(email).reservationIdList();
+    }
     public PassengerAccountDto getPassengerDataFromBookingService(String email) {
         return bookingPassengerDtoProxy.getPassengerDtoData(email);
     }
