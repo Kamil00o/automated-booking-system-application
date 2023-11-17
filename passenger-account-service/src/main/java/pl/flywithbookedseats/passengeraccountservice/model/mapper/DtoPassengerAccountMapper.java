@@ -16,7 +16,7 @@ public class DtoPassengerAccountMapper implements Function<PassengerAccountDto, 
                 .email(passengerAccountDto.email())
                 .birthDate(passengerAccountDto.birthDate())
                 .disability(passengerAccountDto.disability())
-                .reservationIdList(passengerAccountDto.reservationIdList())
+                .reservationIdList(passengerAccountDto.reservationsIdList())
                 .build();
     }
 }

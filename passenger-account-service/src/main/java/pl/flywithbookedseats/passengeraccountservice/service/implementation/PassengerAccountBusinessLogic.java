@@ -97,7 +97,7 @@ public class PassengerAccountBusinessLogic {
     }
 
     public List<Long> retrieveReservationIdListFromPassengerDto(String email) {
-        return getPassengerDataFromBookingService(email).reservationIdList();
+        return getPassengerDataFromBookingService(email).reservationsIdList();
     }
     public PassengerAccountDto getPassengerDataFromBookingService(String email) {
         return bookingPassengerDtoProxy.getPassengerDtoData(email);

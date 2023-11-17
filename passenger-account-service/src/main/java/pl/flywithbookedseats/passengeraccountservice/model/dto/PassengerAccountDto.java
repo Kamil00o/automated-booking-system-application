@@ -13,5 +13,5 @@ public record PassengerAccountDto(
         String email,
         LocalDate birthDate,
         boolean disability,
-        List<Long> reservationIdList
+        List<Long> reservationsIdList
 ) {}
