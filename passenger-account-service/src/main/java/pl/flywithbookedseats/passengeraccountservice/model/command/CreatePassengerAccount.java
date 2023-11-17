@@ -25,7 +25,6 @@ public record CreatePassengerAccount(
         @Size(min = 7, message = EMAIL_MIN_FIELD_SIZE_MSG)
         String email,
         @Past(message = PAST_MESSAGE)
-        @NotBlank(message = NOT_BLANK_MESSAGE)
         @NotNull(message = NOT_NULL_MESSAGE)
         LocalDate birthDate,
         @NotNull(message = NOT_NULL_MESSAGE)
