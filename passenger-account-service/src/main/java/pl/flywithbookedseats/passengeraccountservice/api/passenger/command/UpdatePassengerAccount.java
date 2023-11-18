@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.model.command;
+package pl.flywithbookedseats.passengeraccountservice.api.passenger.command;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.service.implementation;
+package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation;
 
 public class PassengerAccountConsts {
 

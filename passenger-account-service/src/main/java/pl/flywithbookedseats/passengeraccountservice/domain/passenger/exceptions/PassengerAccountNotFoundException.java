@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.exceptions;
+package pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions;
 
 import jakarta.ws.rs.NotFoundException;
 

@@ -1,8 +1,8 @@
-package pl.flywithbookedseats.passengeraccountservice.model.mapper;
+package pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper;
 
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 
 import java.util.function.Function;
 

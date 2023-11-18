@@ -1,8 +1,8 @@
-package pl.flywithbookedseats.passengeraccountservice.repository;
+package pl.flywithbookedseats.passengeraccountservice.external.passenger.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 
 import java.util.Optional;
 

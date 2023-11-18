@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.service.implementation;
+package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -6,14 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
-import pl.flywithbookedseats.passengeraccountservice.model.mapper.CreatePassengerAccountMapper;
-import pl.flywithbookedseats.passengeraccountservice.model.mapper.PassengerAccountDtoMapper;
-import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
-import pl.flywithbookedseats.passengeraccountservice.service.PassengerAccountService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.PassengerAccountDtoMapper;
+import pl.flywithbookedseats.passengeraccountservice.external.passenger.repository.PassengerAccountRepository;
 
 import java.util.List;
 

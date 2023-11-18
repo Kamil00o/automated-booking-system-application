@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.service.implementation;
+package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -7,21 +7,21 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountAlreadyExistsException;
-import pl.flywithbookedseats.passengeraccountservice.exceptions.PassengerAccountNotFoundException;
-import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
-import pl.flywithbookedseats.passengeraccountservice.model.mapper.CreatePassengerAccountMapper;
-import pl.flywithbookedseats.passengeraccountservice.model.mapper.DtoPassengerAccountMapper;
-import pl.flywithbookedseats.passengeraccountservice.repository.PassengerAccountRepository;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountAlreadyExistsException;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountNotFoundException;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.DtoPassengerAccountMapper;
+import pl.flywithbookedseats.passengeraccountservice.external.passenger.repository.PassengerAccountRepository;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
-import static pl.flywithbookedseats.passengeraccountservice.service.implementation.PassengerAccountConsts.*;
+import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountConsts.*;
 
 @AllArgsConstructor
 @EnableFeignClients

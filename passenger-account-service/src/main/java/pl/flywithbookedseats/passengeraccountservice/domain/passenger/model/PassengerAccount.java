@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.model.domain;
+package pl.flywithbookedseats.passengeraccountservice.domain.passenger.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

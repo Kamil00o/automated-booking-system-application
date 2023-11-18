@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.controller;
+package pl.flywithbookedseats.passengeraccountservice.api.passenger.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -6,11 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.passengeraccountservice.model.command.CreatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.model.command.UpdatePassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.model.domain.PassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.model.dto.PassengerAccountDto;
-import pl.flywithbookedseats.passengeraccountservice.service.PassengerAccountService;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
 
 import java.util.List;
 

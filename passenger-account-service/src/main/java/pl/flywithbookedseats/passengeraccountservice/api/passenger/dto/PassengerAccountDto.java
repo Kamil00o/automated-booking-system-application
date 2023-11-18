@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.model.dto;
+package pl.flywithbookedseats.passengeraccountservice.api.passenger.dto;
 
 import lombok.Builder;
 
