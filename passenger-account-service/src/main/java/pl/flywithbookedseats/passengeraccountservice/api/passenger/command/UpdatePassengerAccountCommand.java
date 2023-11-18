@@ -10,7 +10,7 @@ import java.util.List;
 
 import static pl.flywithbookedseats.passengeraccountservice.common.Consts.*;
 
-public record UpdatePassengerAccount(
+public record UpdatePassengerAccountCommand(
 
         @NotNull(message = NOT_NULL_MESSAGE)
         @NotBlank(message = NOT_BLANK_MESSAGE)

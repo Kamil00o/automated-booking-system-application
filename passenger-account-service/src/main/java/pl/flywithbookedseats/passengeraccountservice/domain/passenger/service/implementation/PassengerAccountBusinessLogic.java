@@ -10,7 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountAlreadyExistsException;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
@@ -68,23 +68,23 @@ public class PassengerAccountBusinessLogic {
         return ResponseEntity.created(location).build();
     }
 
-    public PassengerAccount updateSpecifiedPassengerAccount(UpdatePassengerAccount updatePassengerAccount,
+    public PassengerAccount updateSpecifiedPassengerAccount(UpdatePassengerAccountCommand updatePassengerAccountCommand,
                                                             PassengerAccount savedPassengerAccount) {
-        if (!exists(updatePassengerAccount, savedPassengerAccount)) {
-            savedPassengerAccount.setName(updatePassengerAccount.name());
-            savedPassengerAccount.setSurname(updatePassengerAccount.surname());
-            savedPassengerAccount.setEmail(updatePassengerAccount.email());
-            savedPassengerAccount.setBirthDate(updatePassengerAccount.birthDate());
-            savedPassengerAccount.setDisability(updatePassengerAccount.disability());
-            savedPassengerAccount.setReservationIdList(updatePassengerAccount.reservationIdList());
-            savedPassengerAccount.setGender(updatePassengerAccount.gender());
+        if (!exists(updatePassengerAccountCommand, savedPassengerAccount)) {
+            savedPassengerAccount.setName(updatePassengerAccountCommand.name());
+            savedPassengerAccount.setSurname(updatePassengerAccountCommand.surname());
+            savedPassengerAccount.setEmail(updatePassengerAccountCommand.email());
+            savedPassengerAccount.setBirthDate(updatePassengerAccountCommand.birthDate());
+            savedPassengerAccount.setDisability(updatePassengerAccountCommand.disability());
+            savedPassengerAccount.setReservationIdList(updatePassengerAccountCommand.reservationIdList());
+            savedPassengerAccount.setGender(updatePassengerAccountCommand.gender());
             passengerAccountRepository.save(savedPassengerAccount);
             return savedPassengerAccount;
         } else {
             logger.warn(PASSENGER_ACCOUNT_NOT_UPDATED.formatted(savedPassengerAccount.getId(),
                     savedPassengerAccount.getEmail()));
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
-                    .formatted(updatePassengerAccount.email()));
+                    .formatted(updatePassengerAccountCommand.email()));
         }
     }
 
@@ -119,12 +119,12 @@ public class PassengerAccountBusinessLogic {
         return passengerAccountRepository.existsByEmail(createPassengerAccountCommand.email());
     }
 
-    public boolean exists(UpdatePassengerAccount updatePassengerAccount,
+    public boolean exists(UpdatePassengerAccountCommand updatePassengerAccountCommand,
                           PassengerAccount existingPassengerAccount) {
-        String email = updatePassengerAccount.email();
+        String email = updatePassengerAccountCommand.email();
         if (passengerAccountRepository.existsByEmail(email)) {
             return !Objects.equals(retrievePassengerAccountFromDb(email).getId(), existingPassengerAccount.getId());
         }
-        return true;
+        return false;
     }
 }

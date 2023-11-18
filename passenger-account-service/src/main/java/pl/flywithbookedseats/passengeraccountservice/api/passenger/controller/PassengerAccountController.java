@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
@@ -29,21 +29,26 @@ public class PassengerAccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createNewPassengerAccount(
+    public ResponseEntity<PassengerAccountDto> createNewPassengerAccount(
             @Valid @RequestBody CreatePassengerAccountCommand createPassengerAccountCommand) {
-        return passengerAccountService.createNewPassengerAccount(createPassengerAccountCommand);
+        PassengerAccountDto savedPassengerAccountDto = passengerAccountService
+                .createNewPassengerAccount(createPassengerAccountCommand);
+        return ResponseEntity.ok(savedPassengerAccountDto);
     }
 
     @PutMapping(path = "/{id}")
-    public PassengerAccountDto updatePassengerAccountById(@PathVariable long id,
-                                           @Valid @RequestBody UpdatePassengerAccount updatePassengerAccount) {
+    public ResponseEntity<PassengerAccountDto> updatePassengerAccountById(
+            @PathVariable long id,
+            @Valid @RequestBody UpdatePassengerAccountCommand updatePassengerAccountCommand) {
         logger.info("Editing passenger account for ID: {}:", id);
-        return passengerAccountService.updatePassengerAccountById(id, updatePassengerAccount);
+        PassengerAccountDto savedPassengerAccountDto = passengerAccountService.
+                updatePassengerAccountById(id, updatePassengerAccountCommand);
+        return ResponseEntity.ok(savedPassengerAccountDto);
     }
 
     /*@PutMapping(path = "/edit/email/{email}")
     public PassengerAccountDto updatePassengerAccountByEmail(
-            @Valid @RequestBody UpdatePassengerAccount updatePassengerAccount,
+            @Valid @RequestBody UpdatePassengerAccountCommand updatePassengerAccount,
             @PathVariable String email) {
         logger.info("Editing passenger account for email: {}:", email);
         return passengerAccountService.updatePassengerAccountByEmail(updatePassengerAccount, email);
@@ -55,9 +60,10 @@ public class PassengerAccountController {
     }
 
     @GetMapping(path = "/{id}")
-    public PassengerAccountDto retrievePassengerAccountById(@PathVariable Long id) {
+    public ResponseEntity<PassengerAccountDto> retrievePassengerAccountById(@PathVariable Long id) {
         logger.info("Retrieving passenger account for ID: {}:", id);
-        return passengerAccountService.retrievePassengerAccountById(id);
+        PassengerAccountDto savedPassengerAccountDto = passengerAccountService.retrievePassengerAccountById(id);
+        return ResponseEntity.ok(savedPassengerAccountDto);
     }
 
     /*@GetMapping(path = "/get/email/{email}")
@@ -67,13 +73,15 @@ public class PassengerAccountController {
     }*/
 
     @DeleteMapping
-    public void deleteAllPassengerAccounts() {
+    public ResponseEntity<Void> deleteAllPassengerAccounts() {
         passengerAccountService.deleteAllPassengerAccounts();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deletePassengerAccountById(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePassengerAccountById(@PathVariable Long id) {
         passengerAccountService.deletePassengerAccountById(id);
+        return ResponseEntity.ok().build();
     }
 
     /*@DeleteMapping(path = "/delete/email/{email}")
@@ -82,7 +90,8 @@ public class PassengerAccountController {
     }*/
 
     @GetMapping(path = "/seats-booking/{email}")
-    public PassengerAccountDto getPassengerDataFromBookingSystem(@PathVariable String email) {
-        return passengerAccountService.getPassengerDataFromBookingSystem(email);
+    public ResponseEntity<PassengerAccountDto> getPassengerDataFromBookingSystem(@PathVariable String email) {
+        PassengerAccountDto savedPassengerAccountDto = passengerAccountService.getPassengerDataFromBookingSystem(email);
+        return ResponseEntity.ok(savedPassengerAccountDto);
     }
 }
