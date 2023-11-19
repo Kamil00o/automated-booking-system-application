@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.domain.passenger.model;
+package pl.flywithbookedseats.passengeraccountservice.external.passenger.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -24,7 +24,7 @@ import static pl.flywithbookedseats.passengeraccountservice.common.Consts.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PassengerAccount {
+public class PassengerAccountEntity {
 
     @Id
     @SequenceGenerator(

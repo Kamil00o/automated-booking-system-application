@@ -1,24 +1,24 @@
 package pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper;
 
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.external.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 
 import java.util.function.Function;
 
 @Component
-public class PassengerAccountDtoMapper implements Function<PassengerAccount, PassengerAccountDto> {
+public class PassengerAccountDtoMapper implements Function<PassengerAccountEntity, PassengerAccountDto> {
 
     @Override
-    public PassengerAccountDto apply(PassengerAccount passengerAccount) {
+    public PassengerAccountDto apply(PassengerAccountEntity passengerAccountEntity) {
         return PassengerAccountDto.builder()
-                .passengerServiceId(passengerAccount.getId())
-                .name(passengerAccount.getName())
-                .surname(passengerAccount.getSurname())
-                .email(passengerAccount.getEmail())
-                .birthDate(passengerAccount.getBirthDate())
-                .disability(passengerAccount.isDisability())
-                .reservationsIdList(passengerAccount.getReservationIdList())
+                .passengerServiceId(passengerAccountEntity.getId())
+                .name(passengerAccountEntity.getName())
+                .surname(passengerAccountEntity.getSurname())
+                .email(passengerAccountEntity.getEmail())
+                .birthDate(passengerAccountEntity.getBirthDate())
+                .disability(passengerAccountEntity.isDisability())
+                .reservationsIdList(passengerAccountEntity.getReservationIdList())
                 .build();
     }
 }

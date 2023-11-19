@@ -2,14 +2,14 @@ package pl.flywithbookedseats.passengeraccountservice.external.passenger.reposit
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.external.passenger.entity.PassengerAccountEntity;
 
 import java.util.Optional;
 
 @Repository
-public interface PassengerAccountRepository extends JpaRepository<PassengerAccount, Long> {
+public interface PassengerAccountRepository extends JpaRepository<PassengerAccountEntity, Long> {
 
-    Optional<PassengerAccount> findByEmail(String email);
+    Optional<PassengerAccountEntity> findByEmail(String email);
 
     boolean existsByEmail(String email);
 

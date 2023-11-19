@@ -2,15 +2,15 @@ package pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper;
 
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.external.passenger.entity.PassengerAccountEntity;
 
 import java.util.function.Function;
 
 @Component
-public class CreatePassengerAccountMapper implements Function<CreatePassengerAccountCommand, PassengerAccount> {
+public class CreatePassengerAccountMapper implements Function<CreatePassengerAccountCommand, PassengerAccountEntity> {
     @Override
-    public PassengerAccount apply(CreatePassengerAccountCommand createPassengerAccountCommand) {
-        return PassengerAccount.builder()
+    public PassengerAccountEntity apply(CreatePassengerAccountCommand createPassengerAccountCommand) {
+        return PassengerAccountEntity.builder()
                 .name(createPassengerAccountCommand.name())
                 .surname(createPassengerAccountCommand.surname())
                 .email(createPassengerAccountCommand.email())

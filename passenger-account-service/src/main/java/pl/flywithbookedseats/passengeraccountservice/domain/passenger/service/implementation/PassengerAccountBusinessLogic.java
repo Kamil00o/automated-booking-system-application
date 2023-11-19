@@ -9,7 +9,7 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.external.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.DtoPassengerAccountMapper;
@@ -32,40 +32,40 @@ public class PassengerAccountBusinessLogic {
     private final DtoPassengerAccountMapper dtoPassengerAccountMapper;
     public final BookingPassengerDtoProxy bookingPassengerDtoProxy;
 
-    public PassengerAccount generateNewPassengerAccount(CreatePassengerAccountCommand createPassengerAccountCommand) {
+    public PassengerAccountEntity generateNewPassengerAccount(CreatePassengerAccountCommand createPassengerAccountCommand) {
         if (!exists(createPassengerAccountCommand)) {
-            PassengerAccount savedPassengerAccount = createPassengerAccountMapper.apply(createPassengerAccountCommand);
+            PassengerAccountEntity savedPassengerAccountEntity = createPassengerAccountMapper.apply(createPassengerAccountCommand);
             try {
-                savedPassengerAccount
-                        .setReservationIdList(retrieveReservationIdListFromPassengerDto(savedPassengerAccount
+                savedPassengerAccountEntity
+                        .setReservationIdList(retrieveReservationIdListFromPassengerDto(savedPassengerAccountEntity
                                 .getEmail()));
 
             } catch (Exception exception) {
                 logger.info("ReservationIdList has not been retrieved from booking service.");
             }
-            passengerAccountRepository.save(savedPassengerAccount);
-            return savedPassengerAccount;
+            passengerAccountRepository.save(savedPassengerAccountEntity);
+            return savedPassengerAccountEntity;
         } else {
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
                     .formatted(createPassengerAccountCommand.email()));
         }
     }
 
-    public PassengerAccount updateSpecifiedPassengerAccount(UpdatePassengerAccountCommand updatePassengerAccountCommand,
-                                                            PassengerAccount savedPassengerAccount) {
-        if (!exists(updatePassengerAccountCommand, savedPassengerAccount)) {
-            savedPassengerAccount.setName(updatePassengerAccountCommand.name());
-            savedPassengerAccount.setSurname(updatePassengerAccountCommand.surname());
-            savedPassengerAccount.setEmail(updatePassengerAccountCommand.email());
-            savedPassengerAccount.setBirthDate(updatePassengerAccountCommand.birthDate());
-            savedPassengerAccount.setDisability(updatePassengerAccountCommand.disability());
-            savedPassengerAccount.setReservationIdList(updatePassengerAccountCommand.reservationIdList());
-            savedPassengerAccount.setGender(updatePassengerAccountCommand.gender());
-            passengerAccountRepository.save(savedPassengerAccount);
-            return savedPassengerAccount;
+    public PassengerAccountEntity updateSpecifiedPassengerAccount(UpdatePassengerAccountCommand updatePassengerAccountCommand,
+                                                                  PassengerAccountEntity savedPassengerAccountEntity) {
+        if (!exists(updatePassengerAccountCommand, savedPassengerAccountEntity)) {
+            savedPassengerAccountEntity.setName(updatePassengerAccountCommand.name());
+            savedPassengerAccountEntity.setSurname(updatePassengerAccountCommand.surname());
+            savedPassengerAccountEntity.setEmail(updatePassengerAccountCommand.email());
+            savedPassengerAccountEntity.setBirthDate(updatePassengerAccountCommand.birthDate());
+            savedPassengerAccountEntity.setDisability(updatePassengerAccountCommand.disability());
+            savedPassengerAccountEntity.setReservationIdList(updatePassengerAccountCommand.reservationIdList());
+            savedPassengerAccountEntity.setGender(updatePassengerAccountCommand.gender());
+            passengerAccountRepository.save(savedPassengerAccountEntity);
+            return savedPassengerAccountEntity;
         } else {
-            logger.warn(PASSENGER_ACCOUNT_NOT_UPDATED.formatted(savedPassengerAccount.getId(),
-                    savedPassengerAccount.getEmail()));
+            logger.warn(PASSENGER_ACCOUNT_NOT_UPDATED.formatted(savedPassengerAccountEntity.getId(),
+                    savedPassengerAccountEntity.getEmail()));
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
                     .formatted(updatePassengerAccountCommand.email()));
         }
@@ -86,13 +86,13 @@ public class PassengerAccountBusinessLogic {
         return bookingPassengerDtoProxy.getPassengerDtoData(email);
     }
 
-    public PassengerAccount retrievePassengerAccountFromDb(Long id) {
+    public PassengerAccountEntity retrievePassengerAccountFromDb(Long id) {
         return passengerAccountRepository.findById(id)
                 .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND_ID
                         .formatted(id)));
     }
 
-    public PassengerAccount retrievePassengerAccountFromDb(String email) {
+    public PassengerAccountEntity retrievePassengerAccountFromDb(String email) {
         return passengerAccountRepository.findByEmail(email)
                 .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND_EMAIL
                         .formatted(email)));
@@ -103,10 +103,10 @@ public class PassengerAccountBusinessLogic {
     }
 
     public boolean exists(UpdatePassengerAccountCommand updatePassengerAccountCommand,
-                          PassengerAccount existingPassengerAccount) {
+                          PassengerAccountEntity existingPassengerAccountEntity) {
         String email = updatePassengerAccountCommand.email();
         if (passengerAccountRepository.existsByEmail(email)) {
-            return !Objects.equals(retrievePassengerAccountFromDb(email).getId(), existingPassengerAccount.getId());
+            return !Objects.equals(retrievePassengerAccountFromDb(email).getId(), existingPassengerAccountEntity.getId());
         }
         return false;
     }

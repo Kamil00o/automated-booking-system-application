@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.external.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
 
@@ -55,7 +55,7 @@ public class PassengerAccountController {
     }*/
 
     @GetMapping
-    public List<PassengerAccount> retrieveAllPassengerAccountsFromDb() {
+    public List<PassengerAccountEntity> retrieveAllPassengerAccountsFromDb() {
         return passengerAccountService.retrieveAllPassengerAccountsFromDb();
     }
 

@@ -1,16 +1,15 @@
 package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service;
 
-import org.springframework.http.ResponseEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.external.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 
 import java.util.List;
 
 public interface PassengerAccountService {
 
-    List<PassengerAccount> retrieveAllPassengerAccountsFromDb();
+    List<PassengerAccountEntity> retrieveAllPassengerAccountsFromDb();
 
     PassengerAccountDto retrievePassengerAccountById(Long id);
 
