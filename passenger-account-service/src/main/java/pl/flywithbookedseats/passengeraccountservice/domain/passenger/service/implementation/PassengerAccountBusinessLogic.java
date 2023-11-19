@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountAlreadyExistsException;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
@@ -17,7 +15,6 @@ import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.Create
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.DtoPassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.passenger.repository.PassengerAccountRepository;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,20 +49,6 @@ public class PassengerAccountBusinessLogic {
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
                     .formatted(createPassengerAccountCommand.email()));
         }
-    }
-
-    public ResponseEntity<Object> generateResponseEntity(PassengerAccount passengerAccount) {
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(passengerAccount.getId())
-                .toUri()
-                .normalize();
-
-        logger.info("New passenger account for {} {} is being created!", passengerAccount.getName(),
-                passengerAccount.getSurname());
-
-        return ResponseEntity.created(location).build();
     }
 
     public PassengerAccount updateSpecifiedPassengerAccount(UpdatePassengerAccountCommand updatePassengerAccountCommand,

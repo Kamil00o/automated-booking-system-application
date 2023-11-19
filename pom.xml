@@ -53,6 +53,7 @@
 		<spring-cloud-starter-bootstrap-version>4.0.4</spring-cloud-starter-bootstrap-version>
 		<spring-kafka-version>3.0.12</spring-kafka-version>
 		<spring-kafka-test-version>3.0.12</spring-kafka-test-version>
+		<mapstruct.version>1.4.2.Final</mapstruct.version>
 	</properties>
 
 	<dependencyManagement>
@@ -212,6 +213,18 @@
 				<artifactId>spring-kafka-test</artifactId>
 				<version>${spring-kafka-test-version}</version>
 				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct</artifactId>
+				<version>${mapstruct.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct-processor</artifactId>
+				<version>${mapstruct.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
