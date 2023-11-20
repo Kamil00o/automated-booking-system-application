@@ -7,7 +7,7 @@ import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.
 import java.util.Optional;
 
 @Repository
-public interface PassengerAccountRepository extends JpaRepository<PassengerAccountEntity, Long> {
+public interface JpaPassengerAccountRepository extends JpaRepository<PassengerAccountEntity, Long> {
 
     Optional<PassengerAccountEntity> findByEmail(String email);
 

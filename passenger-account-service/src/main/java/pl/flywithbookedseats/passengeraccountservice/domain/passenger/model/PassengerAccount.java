@@ -2,6 +2,7 @@ package pl.flywithbookedseats.passengeraccountservice.domain.passenger.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class PassengerAccount {
 

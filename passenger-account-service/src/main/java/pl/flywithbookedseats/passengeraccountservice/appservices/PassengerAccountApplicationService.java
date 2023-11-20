@@ -4,40 +4,42 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountEntityMapper;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountBusinessLogic;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountServiceImpl;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityDtoMapper;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.PassengerAccountRepository;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
 
 import java.util.List;
 
 @Service
+@EnableFeignClients
 @RequiredArgsConstructor
-public class PassengerAccountServiceImpl implements PassengerAccountService {
+public class PassengerAccountApplicationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(PassengerAccountServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(PassengerAccountApplicationService.class);
 
 
-    private final PassengerAccountRepository passengerAccountRepository;
-    private final CreatePassengerAccountMapper createPassengerAccountMapper;
+    private final JpaPassengerAccountRepository jpaPassengerAccountRepository;
+    private final CreatePassengerAccountEntityMapper createPassengerAccountEntityMapper;
     private final PassengerAccountEntityDtoMapper passengerAccountEntityDtoMapper;
     private final PassengerAccountBusinessLogic passengerAccountBL;
+    private final PassengerAccountService passengerAccountService;
 
     @Transactional
-    @Override
-    public PassengerAccountDto createNewPassengerAccount(CreatePassengerAccountCommand createPassengerAccountCommand) {
-        return passengerAccountEntityDtoMapper.apply(passengerAccountBL
-                .generateNewPassengerAccount(createPassengerAccountCommand));
+    public PassengerAccount createNewPassengerAccount(PassengerAccount passengerAccount) {
+        return passengerAccountService.createNewPassengerAccount(passengerAccount);
     }
 
     @Transactional
-    @Override
     public PassengerAccountDto updatePassengerAccountById(long id, UpdatePassengerAccountCommand updatePassengerAccountCommand) {
         return passengerAccountEntityDtoMapper.apply(passengerAccountBL
                 .updateSpecifiedPassengerAccount(updatePassengerAccountCommand, passengerAccountBL
@@ -45,7 +47,6 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     }
 
     @Transactional
-    @Override
     public PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerAccountCommand updatePassengerAccountCommand, String email) {
         return passengerAccountEntityDtoMapper.apply(passengerAccountBL
                 .updateSpecifiedPassengerAccount(updatePassengerAccountCommand, passengerAccountBL
@@ -53,39 +54,32 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     }
 
     @Transactional
-    @Override
     public void deleteAllPassengerAccounts() {
-        passengerAccountRepository.deleteAll();
+        jpaPassengerAccountRepository.deleteAll();
     }
 
     @Transactional
-    @Override
     public void deletePassengerAccountById(Long id) {
         passengerAccountBL.deletePassengerAccountById(id);
     }
 
     @Transactional
-    @Override
     public void deletePassengerAccountByEmail(String email) {
         passengerAccountBL.deletePassengerAccountByEmail(email);
     }
 
-    @Override
     public PassengerAccountDto getPassengerDataFromBookingSystem(String email) {
         return passengerAccountBL.getPassengerDataFromBookingService(email);
     }
 
-    @Override
     public List<PassengerAccountEntity> retrieveAllPassengerAccountsFromDb() {
-        return passengerAccountRepository.findAll();
+        return jpaPassengerAccountRepository.findAll();
     }
 
-    @Override
     public PassengerAccountDto retrievePassengerAccountById(Long id) {
         return passengerAccountEntityDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(id));
     }
 
-    @Override
     public PassengerAccountDto retrievePassengerAccountByEmail(String email) {
         return passengerAccountEntityDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(email));
     }

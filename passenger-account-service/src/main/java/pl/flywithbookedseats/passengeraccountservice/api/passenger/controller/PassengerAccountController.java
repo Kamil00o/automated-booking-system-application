@@ -4,10 +4,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountEntityMapper;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.PassengerAccountDtoMapper;
+import pl.flywithbookedseats.passengeraccountservice.appservices.PassengerAccountApplicationService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
@@ -16,12 +22,16 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@EnableFeignClients
 @RequestMapping(path = "/passengers")
 public class PassengerAccountController {
 
     private static final Logger logger = LoggerFactory.getLogger(PassengerAccountController.class);
 
     private final PassengerAccountService passengerAccountService;
+    private final PassengerAccountApplicationService service;
+    private final PassengerAccountDtoMapper passengerAccountDtoMapper;
+    private final CreatePassengerAccountMapper createPassengerAccountMapper;
 
     @GetMapping(path = "/test")
     public String getTestString() {
@@ -31,9 +41,9 @@ public class PassengerAccountController {
     @PostMapping
     public ResponseEntity<PassengerAccountDto> createNewPassengerAccount(
             @Valid @RequestBody CreatePassengerAccountCommand createPassengerAccountCommand) {
-        PassengerAccountDto savedPassengerAccountDto = passengerAccountService
-                .createNewPassengerAccount(createPassengerAccountCommand);
-        return ResponseEntity.ok(savedPassengerAccountDto);
+        PassengerAccount passengerAccount = service.
+                createNewPassengerAccount(createPassengerAccountMapper.toDomain(createPassengerAccountCommand));
+        return ResponseEntity.ok(passengerAccountDtoMapper.toDto(passengerAccount));
     }
 
     @PutMapping(path = "/{id}")
