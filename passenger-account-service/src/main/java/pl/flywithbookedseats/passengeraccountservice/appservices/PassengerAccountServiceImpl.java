@@ -12,7 +12,7 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.im
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.PassengerAccountDtoMapper;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityDtoMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.PassengerAccountRepository;
 
 import java.util.List;
@@ -26,20 +26,20 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
 
     private final PassengerAccountRepository passengerAccountRepository;
     private final CreatePassengerAccountMapper createPassengerAccountMapper;
-    private final PassengerAccountDtoMapper passengerAccountDtoMapper;
+    private final PassengerAccountEntityDtoMapper passengerAccountEntityDtoMapper;
     private final PassengerAccountBusinessLogic passengerAccountBL;
 
     @Transactional
     @Override
     public PassengerAccountDto createNewPassengerAccount(CreatePassengerAccountCommand createPassengerAccountCommand) {
-        return passengerAccountDtoMapper.apply(passengerAccountBL
+        return passengerAccountEntityDtoMapper.apply(passengerAccountBL
                 .generateNewPassengerAccount(createPassengerAccountCommand));
     }
 
     @Transactional
     @Override
     public PassengerAccountDto updatePassengerAccountById(long id, UpdatePassengerAccountCommand updatePassengerAccountCommand) {
-        return passengerAccountDtoMapper.apply(passengerAccountBL
+        return passengerAccountEntityDtoMapper.apply(passengerAccountBL
                 .updateSpecifiedPassengerAccount(updatePassengerAccountCommand, passengerAccountBL
                         .retrievePassengerAccountFromDb(id)));
     }
@@ -47,7 +47,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     @Transactional
     @Override
     public PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerAccountCommand updatePassengerAccountCommand, String email) {
-        return passengerAccountDtoMapper.apply(passengerAccountBL
+        return passengerAccountEntityDtoMapper.apply(passengerAccountBL
                 .updateSpecifiedPassengerAccount(updatePassengerAccountCommand, passengerAccountBL
                         .retrievePassengerAccountFromDb(email)));
     }
@@ -82,11 +82,11 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
 
     @Override
     public PassengerAccountDto retrievePassengerAccountById(Long id) {
-        return passengerAccountDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(id));
+        return passengerAccountEntityDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(id));
     }
 
     @Override
     public PassengerAccountDto retrievePassengerAccountByEmail(String email) {
-        return passengerAccountDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(email));
+        return passengerAccountEntityDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(email));
     }
 }

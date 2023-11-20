@@ -12,7 +12,7 @@ import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.Updat
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.DtoPassengerAccountMapper;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.DtoPassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.PassengerAccountRepository;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class PassengerAccountBusinessLogic {
 
     private final PassengerAccountRepository passengerAccountRepository;
     private final CreatePassengerAccountMapper createPassengerAccountMapper;
-    private final DtoPassengerAccountMapper dtoPassengerAccountMapper;
+    private final DtoPassengerAccountEntityMapper dtoPassengerAccountEntityMapper;
     public final BookingPassengerDtoProxy bookingPassengerDtoProxy;
 
     public PassengerAccountEntity generateNewPassengerAccount(CreatePassengerAccountCommand createPassengerAccountCommand) {

@@ -1,24 +1,13 @@
 package pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper;
 
-import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
+import org.mapstruct.Mapper;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 
-import java.util.function.Function;
+@Mapper(componentModel = "spring")
+public interface PassengerAccountDtoMapper {
 
-@Component
-public class PassengerAccountDtoMapper implements Function<PassengerAccountEntity, PassengerAccountDto> {
+    PassengerAccountDto toDto(PassengerAccount domain);
 
-    @Override
-    public PassengerAccountDto apply(PassengerAccountEntity passengerAccountEntity) {
-        return PassengerAccountDto.builder()
-                .passengerServiceId(passengerAccountEntity.getId())
-                .name(passengerAccountEntity.getName())
-                .surname(passengerAccountEntity.getSurname())
-                .email(passengerAccountEntity.getEmail())
-                .birthDate(passengerAccountEntity.getBirthDate())
-                .disability(passengerAccountEntity.isDisability())
-                .reservationsIdList(passengerAccountEntity.getReservationIdList())
-                .build();
-    }
+    PassengerAccount toDomain(PassengerAccountDto dto);
 }

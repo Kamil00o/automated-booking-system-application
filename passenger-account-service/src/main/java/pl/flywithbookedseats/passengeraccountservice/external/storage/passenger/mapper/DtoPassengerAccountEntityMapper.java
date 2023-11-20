@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper;
+package pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper;
 
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
@@ -7,7 +7,7 @@ import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.Passenger
 import java.util.function.Function;
 
 @Component
-public class DtoPassengerAccountMapper implements Function<PassengerAccountDto, PassengerAccountEntity> {
+public class DtoPassengerAccountEntityMapper implements Function<PassengerAccountDto, PassengerAccountEntity> {
     @Override
     public PassengerAccountEntity apply(PassengerAccountDto passengerAccountDto) {
         return PassengerAccountEntity.builder()

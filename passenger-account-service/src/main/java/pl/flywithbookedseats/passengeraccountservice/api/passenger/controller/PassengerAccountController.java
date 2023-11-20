@@ -47,7 +47,7 @@ public class PassengerAccountController {
     }
 
     /*@PutMapping(path = "/edit/email/{email}")
-    public PassengerAccountDto updatePassengerAccountByEmail(
+    public PassengerAccountDtoMapper updatePassengerAccountByEmail(
             @Valid @RequestBody UpdatePassengerAccountCommand updatePassengerAccount,
             @PathVariable String email) {
         logger.info("Editing passenger account for email: {}:", email);
@@ -67,7 +67,7 @@ public class PassengerAccountController {
     }
 
     /*@GetMapping(path = "/get/email/{email}")
-    public PassengerAccountDto retrievePassengerAccountByEmail(@PathVariable String email) {
+    public PassengerAccountDtoMapper retrievePassengerAccountByEmail(@PathVariable String email) {
         logger.info("Retrieving passenger account for email: {}:", email);
         return passengerAccountService.retrievePassengerAccountByEmail(email);
     }*/
