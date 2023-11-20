@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.external.passenger.entity;
+package pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

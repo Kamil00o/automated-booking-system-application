@@ -2,7 +2,7 @@ package pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper;
 
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.external.passenger.entity.PassengerAccountEntity;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 
 import java.util.function.Function;
 

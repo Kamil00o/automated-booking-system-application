@@ -9,11 +9,11 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.external.passenger.entity.PassengerAccountEntity;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.DtoPassengerAccountMapper;
-import pl.flywithbookedseats.passengeraccountservice.external.passenger.repository.PassengerAccountRepository;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.PassengerAccountRepository;
 
 import java.util.List;
 import java.util.Objects;
