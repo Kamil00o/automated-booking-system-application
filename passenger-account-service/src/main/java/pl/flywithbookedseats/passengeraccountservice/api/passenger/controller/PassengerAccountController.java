@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.PassengerAccountDtoMapper;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.UpdatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.appservices.PassengerAccountApplicationService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
@@ -32,6 +32,7 @@ public class PassengerAccountController {
     private final PassengerAccountApplicationService service;
     private final PassengerAccountDtoMapper passengerAccountDtoMapper;
     private final CreatePassengerAccountMapper createPassengerAccountMapper;
+    private final UpdatePassengerAccountMapper updatePassengerAccountMapper;
 
     @GetMapping(path = "/test")
     public String getTestString() {
@@ -51,9 +52,10 @@ public class PassengerAccountController {
             @PathVariable long id,
             @Valid @RequestBody UpdatePassengerAccountCommand updatePassengerAccountCommand) {
         logger.info("Editing passenger account for ID: {}:", id);
-        PassengerAccountDto savedPassengerAccountDto = passengerAccountService.
-                updatePassengerAccountById(id, updatePassengerAccountCommand);
-        return ResponseEntity.ok(savedPassengerAccountDto);
+        PassengerAccount savedPassengerAccount = service
+                .updatePassengerAccountById(id, updatePassengerAccountMapper.toDomain(updatePassengerAccountCommand));
+
+        return ResponseEntity.ok(passengerAccountDtoMapper.toDto(savedPassengerAccount));
     }
 
     /*@PutMapping(path = "/edit/email/{email}")

@@ -50,23 +50,24 @@ public class PassengerAccountBusinessLogic {
         }
     }
 
-    public PassengerAccountEntity updateSpecifiedPassengerAccount(UpdatePassengerAccountCommand updatePassengerAccountCommand,
-                                                                  PassengerAccountEntity savedPassengerAccountEntity) {
-        if (!exists(updatePassengerAccountCommand, savedPassengerAccountEntity)) {
-            savedPassengerAccountEntity.setName(updatePassengerAccountCommand.name());
-            savedPassengerAccountEntity.setSurname(updatePassengerAccountCommand.surname());
-            savedPassengerAccountEntity.setEmail(updatePassengerAccountCommand.email());
-            savedPassengerAccountEntity.setBirthDate(updatePassengerAccountCommand.birthDate());
-            savedPassengerAccountEntity.setDisability(updatePassengerAccountCommand.disability());
-            savedPassengerAccountEntity.setReservationIdList(updatePassengerAccountCommand.reservationIdList());
-            savedPassengerAccountEntity.setGender(updatePassengerAccountCommand.gender());
-            jpaPassengerAccountRepository.save(savedPassengerAccountEntity);
-            return savedPassengerAccountEntity;
+    protected PassengerAccount updateSpecifiedPassengerAccount(Long id, PassengerAccount passengerAccount) {
+        PassengerAccount savedPassengerAccount = retrievePassengerAccountFromDb(id);
+        if (!exists(passengerAccount, savedPassengerAccount)) {
+            savedPassengerAccount.setName(passengerAccount.getName());
+            savedPassengerAccount.setSurname(passengerAccount.getSurname());
+            savedPassengerAccount.setEmail(passengerAccount.getEmail());
+            savedPassengerAccount.setBirthDate(passengerAccount.getBirthDate());
+            savedPassengerAccount.setDisability(passengerAccount.isDisability());
+            savedPassengerAccount.setReservationIdList(passengerAccount.getReservationIdList());
+            savedPassengerAccount.setGender(passengerAccount.getGender());
+            savedPassengerAccount.setNationality(passengerAccount.getNationality());
+            passengerAccountRepository.save(savedPassengerAccount);
+            return savedPassengerAccount;
         } else {
-            logger.warn(PASSENGER_ACCOUNT_NOT_UPDATED.formatted(savedPassengerAccountEntity.getId(),
-                    savedPassengerAccountEntity.getEmail()));
+            logger.warn(PASSENGER_ACCOUNT_NOT_UPDATED.formatted(savedPassengerAccount.getId(),
+                    savedPassengerAccount.getEmail()));
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
-                    .formatted(updatePassengerAccountCommand.email()));
+                    .formatted(passengerAccount.getEmail()));
         }
     }
 
@@ -101,11 +102,11 @@ public class PassengerAccountBusinessLogic {
         return jpaPassengerAccountRepository.existsByEmail(passengerAccount.getEmail());
     }
 
-    public boolean exists(UpdatePassengerAccountCommand updatePassengerAccountCommand,
-                          PassengerAccountEntity existingPassengerAccountEntity) {
-        String email = updatePassengerAccountCommand.email();
+    public boolean exists(PassengerAccount passengerAccount,
+                          PassengerAccount existingPassengerAccount) {
+        String email = passengerAccount.getEmail();
         if (jpaPassengerAccountRepository.existsByEmail(email)) {
-            return !Objects.equals(retrievePassengerAccountFromDb(email).getId(), existingPassengerAccountEntity.getId());
+            return !Objects.equals(retrievePassengerAccountFromDb(email).getId(), existingPassengerAccount.getId());
         }
         return false;
     }

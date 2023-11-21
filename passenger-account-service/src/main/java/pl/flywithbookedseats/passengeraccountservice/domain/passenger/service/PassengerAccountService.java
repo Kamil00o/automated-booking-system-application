@@ -1,6 +1,5 @@
 package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service;
 
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
@@ -18,7 +17,7 @@ public interface PassengerAccountService {
 
     public PassengerAccount createNewPassengerAccount(PassengerAccount passengerAccount);
 
-    PassengerAccountDto updatePassengerAccountById(long id, UpdatePassengerAccountCommand updatePassengerAccountCommand);
+    PassengerAccount updatePassengerAccountById(long id, PassengerAccount passengerAccount);
 
     PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerAccountCommand updatePassengerAccountCommand, String email);
 

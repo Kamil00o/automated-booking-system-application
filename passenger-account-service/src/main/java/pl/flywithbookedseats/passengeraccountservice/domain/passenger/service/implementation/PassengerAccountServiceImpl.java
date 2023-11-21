@@ -35,8 +35,8 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     }
 
     @Override
-    public PassengerAccountDto updatePassengerAccountById(long id, UpdatePassengerAccountCommand updatePassengerAccountCommand) {
-        return null;
+    public PassengerAccount updatePassengerAccountById(long id, PassengerAccount passengerAccount) {
+        return passengerAccountBL.updateSpecifiedPassengerAccount(id, passengerAccount);
     }
 
     @Override
