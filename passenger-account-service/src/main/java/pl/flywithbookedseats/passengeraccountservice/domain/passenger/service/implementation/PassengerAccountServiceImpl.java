@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class PassengerAccountServiceImpl implements PassengerAccountService {
 
    private final PassengerAccountBusinessLogic passengerAccountBL;
+   private final PassengerAccountRepository passengerAccountRepository;
 
     @Override
     public List<PassengerAccountEntity> retrieveAllPassengerAccountsFromDb() {
@@ -46,7 +48,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
 
     @Override
     public void deleteAllPassengerAccounts() {
-
+        passengerAccountRepository.deleteAll();
     }
 
     @Override

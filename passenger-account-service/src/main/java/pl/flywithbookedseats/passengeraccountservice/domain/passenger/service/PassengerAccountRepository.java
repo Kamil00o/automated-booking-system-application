@@ -8,4 +8,6 @@ public interface PassengerAccountRepository {
     PassengerAccount save(PassengerAccount passengerAccount);
 
     PassengerAccount findById(Long id);
+
+    void deleteAll();
 }

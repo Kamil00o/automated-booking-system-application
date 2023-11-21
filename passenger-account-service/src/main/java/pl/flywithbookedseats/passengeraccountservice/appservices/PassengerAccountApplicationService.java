@@ -51,7 +51,7 @@ public class PassengerAccountApplicationService {
 
     @Transactional
     public void deleteAllPassengerAccounts() {
-        jpaPassengerAccountRepository.deleteAll();
+        passengerAccountService.deleteAllPassengerAccounts();
     }
 
     @Transactional

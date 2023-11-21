@@ -31,4 +31,9 @@ public class PassengerAccountStorageAdapter implements PassengerAccountRepositor
                 .formatted(id)));
         return mapper.toDomain(passengerAccountEntityToFind);
     }
+
+    @Override
+    public void deleteAll() {
+        passengerAccountRepository.deleteAll();
+    }
 }

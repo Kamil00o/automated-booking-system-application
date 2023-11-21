@@ -86,7 +86,7 @@ public class PassengerAccountController {
 
     @DeleteMapping
     public ResponseEntity<Void> deleteAllPassengerAccounts() {
-        passengerAccountService.deleteAllPassengerAccounts();
+        service.deleteAllPassengerAccounts();
         return ResponseEntity.ok().build();
     }
 
