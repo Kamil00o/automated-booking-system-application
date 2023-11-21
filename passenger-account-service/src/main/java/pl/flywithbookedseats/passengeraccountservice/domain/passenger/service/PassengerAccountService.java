@@ -11,7 +11,7 @@ public interface PassengerAccountService {
 
     List<PassengerAccountEntity> retrieveAllPassengerAccountsFromDb();
 
-    PassengerAccountDto retrievePassengerAccountById(Long id);
+    PassengerAccount retrievePassengerAccountById(Long id);
 
     PassengerAccountDto retrievePassengerAccountByEmail(String email);
 

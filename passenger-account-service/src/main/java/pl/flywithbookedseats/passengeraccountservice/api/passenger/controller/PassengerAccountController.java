@@ -72,10 +72,10 @@ public class PassengerAccountController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<PassengerAccountDto> retrievePassengerAccountById(@PathVariable Long id) {
+    public ResponseEntity<PassengerAccount> retrievePassengerAccountById(@PathVariable Long id) {
         logger.info("Retrieving passenger account for ID: {}:", id);
-        PassengerAccountDto savedPassengerAccountDto = passengerAccountService.retrievePassengerAccountById(id);
-        return ResponseEntity.ok(savedPassengerAccountDto);
+        PassengerAccount savedPassengerAccount = service.retrievePassengerAccountById(id);
+        return ResponseEntity.ok(savedPassengerAccount);
     }
 
     /*@GetMapping(path = "/get/email/{email}")

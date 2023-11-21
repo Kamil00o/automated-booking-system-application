@@ -6,4 +6,6 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Pass
 public interface PassengerAccountRepository {
 
     PassengerAccount save(PassengerAccount passengerAccount);
+
+    PassengerAccount findById(Long id);
 }

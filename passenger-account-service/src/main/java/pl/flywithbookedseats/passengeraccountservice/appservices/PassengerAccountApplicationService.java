@@ -72,8 +72,8 @@ public class PassengerAccountApplicationService {
         return jpaPassengerAccountRepository.findAll();
     }
 
-    public PassengerAccountDto retrievePassengerAccountById(Long id) {
-        return passengerAccountEntityDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(id));
+    public PassengerAccount retrievePassengerAccountById(Long id) {
+        return passengerAccountService.retrievePassengerAccountById(id);
     }
 
     public PassengerAccountDto retrievePassengerAccountByEmail(String email) {

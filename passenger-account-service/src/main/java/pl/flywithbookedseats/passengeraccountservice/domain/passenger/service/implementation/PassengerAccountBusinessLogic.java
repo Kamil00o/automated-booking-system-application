@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountAlreadyExistsException;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountNotFoundException;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
@@ -86,10 +85,8 @@ public class PassengerAccountBusinessLogic {
         return bookingPassengerDtoProxy.getPassengerDtoData(email);
     }
 
-    public PassengerAccountEntity retrievePassengerAccountFromDb(Long id) {
-        return jpaPassengerAccountRepository.findById(id)
-                .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND_ID
-                        .formatted(id)));
+    public PassengerAccount retrievePassengerAccountFromDb(Long id) {
+        return passengerAccountRepository.findById(id);
     }
 
     public PassengerAccountEntity retrievePassengerAccountFromDb(String email) {

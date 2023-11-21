@@ -20,8 +20,8 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     }
 
     @Override
-    public PassengerAccountDto retrievePassengerAccountById(Long id) {
-        return null;
+    public PassengerAccount retrievePassengerAccountById(Long id) {
+        return passengerAccountBL.retrievePassengerAccountFromDb(id);
     }
 
     @Override
