@@ -56,7 +56,7 @@ public class PassengerAccountApplicationService {
 
     @Transactional
     public void deletePassengerAccountById(Long id) {
-        passengerAccountBL.deletePassengerAccountById(id);
+        passengerAccountService.deletePassengerAccountById(id);
     }
 
     @Transactional

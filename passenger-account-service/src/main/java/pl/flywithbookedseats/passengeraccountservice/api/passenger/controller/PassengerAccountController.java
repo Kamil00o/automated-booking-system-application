@@ -92,7 +92,7 @@ public class PassengerAccountController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deletePassengerAccountById(@PathVariable Long id) {
-        passengerAccountService.deletePassengerAccountById(id);
+        service.deletePassengerAccountById(id);
         return ResponseEntity.ok().build();
     }
 

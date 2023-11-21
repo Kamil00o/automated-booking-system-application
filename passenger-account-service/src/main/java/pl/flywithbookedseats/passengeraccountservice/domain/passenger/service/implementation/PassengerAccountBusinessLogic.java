@@ -71,7 +71,7 @@ public class PassengerAccountBusinessLogic {
     }
 
     public void deletePassengerAccountById(Long id) {
-        jpaPassengerAccountRepository.deleteById(id);
+        passengerAccountRepository.deleteById(id);
     }
 
     public void deletePassengerAccountByEmail(String email) {

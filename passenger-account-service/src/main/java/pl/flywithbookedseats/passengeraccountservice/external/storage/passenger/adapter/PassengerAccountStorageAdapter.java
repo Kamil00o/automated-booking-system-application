@@ -36,4 +36,9 @@ public class PassengerAccountStorageAdapter implements PassengerAccountRepositor
     public void deleteAll() {
         passengerAccountRepository.deleteAll();
     }
+
+    @Override
+    public void deleteById(Long id) {
+        passengerAccountRepository.deleteById(id);
+    }
 }

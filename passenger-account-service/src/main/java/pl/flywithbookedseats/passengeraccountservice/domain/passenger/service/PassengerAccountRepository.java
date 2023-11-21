@@ -10,4 +10,6 @@ public interface PassengerAccountRepository {
     PassengerAccount findById(Long id);
 
     void deleteAll();
+
+    void deleteById(Long id);
 }

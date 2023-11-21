@@ -53,7 +53,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
 
     @Override
     public void deletePassengerAccountById(Long id) {
-
+        passengerAccountBL.deletePassengerAccountById(id);
     }
 
     @Override
