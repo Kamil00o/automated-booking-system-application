@@ -22,7 +22,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@EnableFeignClients
 @RequestMapping(path = "/passengers")
 public class PassengerAccountController {
 
@@ -102,8 +101,8 @@ public class PassengerAccountController {
     }*/
 
     @GetMapping(path = "/seats-booking/{email}")
-    public ResponseEntity<PassengerAccountDto> getPassengerDataFromBookingSystem(@PathVariable String email) {
-        PassengerAccountDto savedPassengerAccountDto = passengerAccountService.getPassengerDataFromBookingSystem(email);
-        return ResponseEntity.ok(savedPassengerAccountDto);
+    public ResponseEntity<PassengerAccount> getPassengerDataFromBookingSystem(@PathVariable String email) {
+        PassengerAccount obtainedPassengerAccount = service.getPassengerDataFromBookingSystem(email);
+        return ResponseEntity.ok(obtainedPassengerAccount);
     }
 }

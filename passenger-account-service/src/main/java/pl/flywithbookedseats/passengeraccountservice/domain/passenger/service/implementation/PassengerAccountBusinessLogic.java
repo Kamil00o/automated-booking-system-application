@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountAlreadyExistsException;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.BookingPassengerDtoProxyService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.DtoPassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
@@ -26,15 +26,15 @@ public class PassengerAccountBusinessLogic {
     private final JpaPassengerAccountRepository jpaPassengerAccountRepository;
     private final CreatePassengerAccountEntityMapper createPassengerAccountEntityMapper;
     private final DtoPassengerAccountEntityMapper dtoPassengerAccountEntityMapper;
-    private final BookingPassengerDtoProxy bookingPassengerDtoProxy;
     private final PassengerAccountRepository passengerAccountRepository;
+    private final BookingPassengerDtoProxyService bookingPassengerDtoProxyService;
 
     public PassengerAccount generateNewPassengerAccount(PassengerAccount passengerAccount) {
         if (!exists(passengerAccount)) {
             PassengerAccount createdPassengerAccount = passengerAccount;
             try {
                 createdPassengerAccount
-                        .setReservationIdList(retrieveReservationIdListFromPassengerDto(createdPassengerAccount
+                        .setReservationIdList(retrieveReservationIdListFromPassengerAccount(createdPassengerAccount
                                 .getEmail()));
 
             } catch (Exception exception) {
@@ -78,11 +78,12 @@ public class PassengerAccountBusinessLogic {
         jpaPassengerAccountRepository.deleteByEmail(email);
     }
 
-    public List<Long> retrieveReservationIdListFromPassengerDto(String email) {
-        return getPassengerDataFromBookingService(email).reservationsIdList();
+    public List<Long> retrieveReservationIdListFromPassengerAccount(String email) {
+        return getPassengerDataFromBookingService(email).getReservationIdList();
     }
-    public PassengerAccountDto getPassengerDataFromBookingService(String email) {
-        return bookingPassengerDtoProxy.getPassengerDtoData(email);
+
+    public PassengerAccount getPassengerDataFromBookingService(String email) {
+        return bookingPassengerDtoProxyService.getPassengerDtoFromBookingService(email);
     }
 
     public PassengerAccount retrievePassengerAccountFromDb(Long id) {

@@ -4,9 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
@@ -19,7 +17,6 @@ import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.
 import java.util.List;
 
 @Service
-@EnableFeignClients
 @RequiredArgsConstructor
 public class PassengerAccountApplicationService {
 
@@ -64,7 +61,7 @@ public class PassengerAccountApplicationService {
         passengerAccountBL.deletePassengerAccountByEmail(email);
     }
 
-    public PassengerAccountDto getPassengerDataFromBookingSystem(String email) {
+    public PassengerAccount getPassengerDataFromBookingSystem(String email) {
         return passengerAccountBL.getPassengerDataFromBookingService(email);
     }
 
