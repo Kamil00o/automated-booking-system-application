@@ -1,14 +1,13 @@
 package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PagePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 public class PassengerAccountServiceImpl implements PassengerAccountService {
@@ -17,8 +16,8 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
    private final PassengerAccountRepository passengerAccountRepository;
 
     @Override
-    public List<PassengerAccountEntity> retrieveAllPassengerAccountsFromDb() {
-        return null;
+    public PagePassengerAccount retrieveAllPassengerAccountsFromDb(Pageable pageable) {
+        return passengerAccountRepository.findAll(pageable);
     }
 
     @Override

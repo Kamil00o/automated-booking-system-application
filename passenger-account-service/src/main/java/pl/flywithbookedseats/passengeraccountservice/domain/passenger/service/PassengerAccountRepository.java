@@ -1,6 +1,7 @@
 package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service;
 
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
+import org.springframework.data.domain.Pageable;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PagePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 
 public interface PassengerAccountRepository {
@@ -12,4 +13,6 @@ public interface PassengerAccountRepository {
     void deleteAll();
 
     void deleteById(Long id);
+
+    PagePassengerAccount findAll(final Pageable pageable);
 }

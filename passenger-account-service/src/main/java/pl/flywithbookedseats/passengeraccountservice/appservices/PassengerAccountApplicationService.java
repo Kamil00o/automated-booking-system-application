@@ -4,17 +4,16 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountEntityMapper;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PagePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountBusinessLogic;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityDtoMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -65,8 +64,8 @@ public class PassengerAccountApplicationService {
         return passengerAccountBL.getPassengerDataFromBookingService(email);
     }
 
-    public List<PassengerAccountEntity> retrieveAllPassengerAccountsFromDb() {
-        return jpaPassengerAccountRepository.findAll();
+    public PagePassengerAccount retrieveAllPassengerAccountsFromDb(Pageable pageable) {
+        return passengerAccountService.retrieveAllPassengerAccountsFromDb(pageable);
     }
 
     public PassengerAccount retrievePassengerAccountById(Long id) {

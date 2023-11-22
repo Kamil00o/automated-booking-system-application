@@ -9,7 +9,7 @@ import java.util.List;
 public class PagePassengerAccount implements Serializable {
 
     List<PassengerAccount> passengerAccounts;
-    Long currentPage;
-    Long totalPages;
+    Integer currentPage;
+    Integer totalPages;
     Long totalElements;
 }

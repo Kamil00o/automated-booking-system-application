@@ -4,21 +4,21 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PagePassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountMapper;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.PagePassengerAccountDtoMapper;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.PassengerAccountDtoMapper;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.UpdatePassengerAccountMapper;
 import pl.flywithbookedseats.passengeraccountservice.appservices.PassengerAccountApplicationService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +32,7 @@ public class PassengerAccountController {
     private final PassengerAccountDtoMapper passengerAccountDtoMapper;
     private final CreatePassengerAccountMapper createPassengerAccountMapper;
     private final UpdatePassengerAccountMapper updatePassengerAccountMapper;
+    private final PagePassengerAccountDtoMapper pagePassengerAccountDtoMapper;
 
     @GetMapping(path = "/test")
     public String getTestString() {
@@ -43,6 +44,7 @@ public class PassengerAccountController {
             @Valid @RequestBody CreatePassengerAccountCommand createPassengerAccountCommand) {
         PassengerAccount passengerAccount = service.
                 createNewPassengerAccount(createPassengerAccountMapper.toDomain(createPassengerAccountCommand));
+
         return ResponseEntity.ok(passengerAccountDtoMapper.toDto(passengerAccount));
     }
 
@@ -66,14 +68,21 @@ public class PassengerAccountController {
     }*/
 
     @GetMapping
-    public List<PassengerAccountEntity> retrieveAllPassengerAccountsFromDb() {
-        return passengerAccountService.retrieveAllPassengerAccountsFromDb();
+    public ResponseEntity<PagePassengerAccountDto> retrieveAllPassengerAccountsFromDb(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "7") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        PagePassengerAccountDto passengerAccounts = pagePassengerAccountDtoMapper
+                .toDto(service.retrieveAllPassengerAccountsFromDb(pageable));
+
+        return ResponseEntity.ok(passengerAccounts);
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<PassengerAccount> retrievePassengerAccountById(@PathVariable Long id) {
         logger.info("Retrieving passenger account for ID: {}:", id);
         PassengerAccount savedPassengerAccount = service.retrievePassengerAccountById(id);
+
         return ResponseEntity.ok(savedPassengerAccount);
     }
 
@@ -86,12 +95,14 @@ public class PassengerAccountController {
     @DeleteMapping
     public ResponseEntity<Void> deleteAllPassengerAccounts() {
         service.deleteAllPassengerAccounts();
+
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deletePassengerAccountById(@PathVariable Long id) {
         service.deletePassengerAccountById(id);
+
         return ResponseEntity.ok().build();
     }
 
@@ -103,6 +114,7 @@ public class PassengerAccountController {
     @GetMapping(path = "/seats-booking/{email}")
     public ResponseEntity<PassengerAccount> getPassengerDataFromBookingSystem(@PathVariable String email) {
         PassengerAccount obtainedPassengerAccount = service.getPassengerDataFromBookingSystem(email);
+
         return ResponseEntity.ok(obtainedPassengerAccount);
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public record PagePassengerAccountDto(
         List<PassengerAccount> passengerAccounts,
-        Long currentPage,
-        Long totalPages,
+        Integer currentPage,
+        Integer totalPages,
         Long totalElements
 ) {}
