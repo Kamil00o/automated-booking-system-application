@@ -15,13 +15,14 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Pass
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
 
-@ActiveProfiles("it")
+@ActiveProfiles("basic")
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = PassengerAccountServiceApplication.class
 )
 @ExtendWith(SpringExtension.class)
 public class BaseIT {
+    //Maybe it's better to make these fields final & use @RequiredArgsConstructor ?
 
     @Autowired
     protected PassengerAccountService passengerAccountService;

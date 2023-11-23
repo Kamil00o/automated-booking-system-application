@@ -18,10 +18,10 @@ public class PassengerAccountTestFactory {
                 "testPassengerName",
                 "testPassengerSurname",
                 "testPassenger%s@gmail.com".formatted(passengerSequence++),
-                LocalDate.now(),
+                LocalDate.now().minusDays(1),
                 false,
                 null,
-                "",
-                "");
+                "european",
+                "male");
     }
 }

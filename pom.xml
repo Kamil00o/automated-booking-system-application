@@ -54,6 +54,8 @@
 		<spring-kafka-version>3.0.12</spring-kafka-version>
 		<spring-kafka-test-version>3.0.12</spring-kafka-test-version>
 		<mapstruct.version>1.4.2.Final</mapstruct.version>
+		<testng-version>7.8.0</testng-version>
+		<junit-jupiter-api-version>5.10.1</junit-jupiter-api-version>
 	</properties>
 
 	<dependencyManagement>
@@ -226,6 +228,20 @@
 				<artifactId>mapstruct-processor</artifactId>
 				<version>${mapstruct.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>${testng-version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-api</artifactId>
+				<version>${junit-jupiter-api-version}</version>
+				<scope>test</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -280,6 +296,16 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
 		</dependency>
 	</dependencies>
 
