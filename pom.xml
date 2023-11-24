@@ -56,6 +56,7 @@
 		<mapstruct.version>1.4.2.Final</mapstruct.version>
 		<testng-version>7.8.0</testng-version>
 		<junit-jupiter-api-version>5.10.1</junit-jupiter-api-version>
+		<archunit-junit5-version>1.2.0</archunit-junit5-version>
 	</properties>
 
 	<dependencyManagement>
@@ -240,6 +241,12 @@
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-api</artifactId>
 				<version>${junit-jupiter-api-version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.tngtech.archunit</groupId>
+				<artifactId>archunit-junit5</artifactId>
+				<version>${archunit-junit5-version}</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>

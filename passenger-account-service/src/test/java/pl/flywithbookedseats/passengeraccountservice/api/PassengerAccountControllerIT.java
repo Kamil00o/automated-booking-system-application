@@ -43,7 +43,7 @@ class PassengerAccountControllerIT extends BaseIT {
         PassengerAccount testPassengerAccount = PassengerAccountTestFactory.createPassenger();
         service.createNewPassengerAccount(testPassengerAccount);
         String id = service.retrievePassengerAccountByEmail(testPassengerAccount.getEmail()).getId().toString();
-        
+
         var response = callHttpMethod(HttpMethod.GET,
                 "/passengers/" + id,
                 null,
