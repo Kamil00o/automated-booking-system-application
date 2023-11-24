@@ -6,13 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PagePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountBusinessLogic;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityDtoMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
 
 @Service
@@ -23,8 +20,6 @@ public class PassengerAccountApplicationService {
 
 
     private final JpaPassengerAccountRepository jpaPassengerAccountRepository;
-    private final CreatePassengerAccountEntityMapper createPassengerAccountEntityMapper;
-    private final PassengerAccountEntityDtoMapper passengerAccountEntityDtoMapper;
     private final PassengerAccountBusinessLogic passengerAccountBL;
     private final PassengerAccountService passengerAccountService;
 

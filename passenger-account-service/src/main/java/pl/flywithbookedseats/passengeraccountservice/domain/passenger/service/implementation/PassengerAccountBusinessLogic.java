@@ -4,13 +4,9 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountAlreadyExistsException;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAccountNotFoundException;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.BookingPassengerDtoProxyService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountEntityMapper;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.DtoPassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
 
 import java.util.List;
@@ -24,8 +20,6 @@ public class PassengerAccountBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(PassengerAccountBusinessLogic.class);
 
     private final JpaPassengerAccountRepository jpaPassengerAccountRepository;
-    private final CreatePassengerAccountEntityMapper createPassengerAccountEntityMapper;
-    private final DtoPassengerAccountEntityMapper dtoPassengerAccountEntityMapper;
     private final PassengerAccountRepository passengerAccountRepository;
     private final BookingPassengerDtoProxyService bookingPassengerDtoProxyService;
 

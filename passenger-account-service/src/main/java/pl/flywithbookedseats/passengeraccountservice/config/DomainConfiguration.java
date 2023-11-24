@@ -3,7 +3,6 @@ package pl.flywithbookedseats.passengeraccountservice.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.CreatePassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.PassengerAccountDtoMapper;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.BookingPassengerDtoProxyService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
@@ -13,7 +12,6 @@ import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountBusinessLogic;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountServiceImpl;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.adapter.PassengerAccountStorageAdapter;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.DtoPassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityMapper1;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
 
@@ -30,13 +28,9 @@ public class DomainConfiguration {
     @Bean
     public PassengerAccountBusinessLogic passengerAccountBusinessLogic(
             JpaPassengerAccountRepository jpaPassengerAccountRepository,
-            CreatePassengerAccountEntityMapper createPassengerAccountEntityMapper,
-            DtoPassengerAccountEntityMapper dtoPassengerAccountEntityMapper,
             PassengerAccountRepository passengerAccountRepository,
             BookingPassengerDtoProxyService bookingPassengerDtoProxyService) {
         return new PassengerAccountBusinessLogic(jpaPassengerAccountRepository,
-                createPassengerAccountEntityMapper,
-                dtoPassengerAccountEntityMapper,
                 passengerAccountRepository,
                 bookingPassengerDtoProxyService);
     }
