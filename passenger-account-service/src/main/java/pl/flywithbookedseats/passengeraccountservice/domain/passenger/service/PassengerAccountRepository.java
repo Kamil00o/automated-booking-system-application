@@ -12,6 +12,10 @@ public interface PassengerAccountRepository {
 
     PassengerAccount findByEmail(String email);
 
+    boolean existsByEmail(String email);
+
+    boolean existsById(Long id);
+
     void deleteAll();
 
     void deleteById(Long id);

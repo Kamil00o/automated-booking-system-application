@@ -49,6 +49,16 @@ public class PassengerAccountStorageAdapter implements PassengerAccountRepositor
     }
 
     @Override
+    public boolean existsByEmail(String email) {
+        return passengerAccountRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return passengerAccountRepository.existsById(id);
+    }
+
+    @Override
     public void deleteAll() {
         passengerAccountRepository.deleteAll();
     }

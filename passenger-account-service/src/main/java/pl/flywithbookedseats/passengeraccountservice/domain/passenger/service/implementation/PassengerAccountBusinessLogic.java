@@ -100,13 +100,13 @@ public class PassengerAccountBusinessLogic {
     }
 
     public boolean exists(PassengerAccount passengerAccount) {
-        return jpaPassengerAccountRepository.existsByEmail(passengerAccount.getEmail());
+        return passengerAccountRepository.existsByEmail(passengerAccount.getEmail());
     }
 
     public boolean exists(PassengerAccount passengerAccount,
                           PassengerAccount existingPassengerAccount) {
         String email = passengerAccount.getEmail();
-        if (jpaPassengerAccountRepository.existsByEmail(email)) {
+        if (passengerAccountRepository.existsByEmail(email)) {
             return !Objects.equals(retrievePassengerAccountFromDb(email).getId(), existingPassengerAccount.getId());
         }
         return false;
