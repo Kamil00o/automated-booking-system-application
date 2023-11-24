@@ -20,5 +20,7 @@ public interface PassengerAccountRepository {
 
     void deleteById(Long id);
 
+    void deleteByEmail(String email);
+
     PagePassengerAccount findAll(final Pageable pageable);
 }

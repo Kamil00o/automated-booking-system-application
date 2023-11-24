@@ -16,5 +16,5 @@ public class DomainArchitectureTest {
     @ArchTest
     static final ArchRule domain_has_no_external_dependencies = noClasses().that().resideInAPackage("..domain..")
             .should().dependOnClassesThat()
-            .resideOutsideOfPackages("..domain..", "..java..", "", "..lombok..", "..slf4j..");
+            .resideOutsideOfPackages("..domain..", "..java..", "", "..lombok..", "..slf4j..", "..jakarta..");
 }

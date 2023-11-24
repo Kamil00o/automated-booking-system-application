@@ -7,7 +7,6 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.BookingPassengerDtoProxyService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +18,6 @@ public class PassengerAccountBusinessLogic {
 
     private static final Logger logger = LoggerFactory.getLogger(PassengerAccountBusinessLogic.class);
 
-    private final JpaPassengerAccountRepository jpaPassengerAccountRepository;
     private final PassengerAccountRepository passengerAccountRepository;
     private final BookingPassengerDtoProxyService bookingPassengerDtoProxyService;
 
@@ -80,7 +78,7 @@ public class PassengerAccountBusinessLogic {
     }
 
     public void deletePassengerAccountByEmail(String email) {
-        jpaPassengerAccountRepository.deleteByEmail(email);
+        passengerAccountRepository.deleteByEmail(email);
     }
 
     public List<Long> retrieveReservationIdListFromPassengerAccount(String email) {

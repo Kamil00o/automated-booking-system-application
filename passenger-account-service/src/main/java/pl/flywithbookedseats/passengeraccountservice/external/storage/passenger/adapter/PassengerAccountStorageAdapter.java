@@ -69,6 +69,11 @@ public class PassengerAccountStorageAdapter implements PassengerAccountRepositor
     }
 
     @Override
+    public void deleteByEmail(String email) {
+        passengerAccountRepository.deleteByEmail(email);
+    }
+
+    @Override
     public PagePassengerAccount findAll(final Pageable pageable) {
         Page<PassengerAccountEntity> pageOfPassengerAccountsEntity = passengerAccountRepository.findAll(pageable);
         List<PassengerAccount> passengerAccountsOnCurrentPage = pageOfPassengerAccountsEntity.getContent().stream()

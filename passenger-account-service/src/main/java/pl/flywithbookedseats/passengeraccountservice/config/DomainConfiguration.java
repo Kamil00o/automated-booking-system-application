@@ -27,11 +27,9 @@ public class DomainConfiguration {
 
     @Bean
     public PassengerAccountBusinessLogic passengerAccountBusinessLogic(
-            JpaPassengerAccountRepository jpaPassengerAccountRepository,
             PassengerAccountRepository passengerAccountRepository,
             BookingPassengerDtoProxyService bookingPassengerDtoProxyService) {
-        return new PassengerAccountBusinessLogic(jpaPassengerAccountRepository,
-                passengerAccountRepository,
+        return new PassengerAccountBusinessLogic(passengerAccountRepository,
                 bookingPassengerDtoProxyService);
     }
 
