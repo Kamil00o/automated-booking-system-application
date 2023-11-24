@@ -5,7 +5,7 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Pass
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
 
 @Mapper(componentModel = "spring")
-public interface PassengerAccountEntityMapper1 {
+public interface PassengerAccountEntityMapper {
 
     PassengerAccountEntity toEntity(PassengerAccount domain);
 

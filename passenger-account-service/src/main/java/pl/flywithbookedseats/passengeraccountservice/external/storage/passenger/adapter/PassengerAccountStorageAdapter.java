@@ -8,7 +8,7 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Page
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.entity.PassengerAccountEntity;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityMapper1;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.ser
 @RequiredArgsConstructor
 public class PassengerAccountStorageAdapter implements PassengerAccountRepository {
 
-    private final PassengerAccountEntityMapper1 mapper;
+    private final PassengerAccountEntityMapper mapper;
     private final JpaPassengerAccountRepository passengerAccountRepository;
 
     @Override

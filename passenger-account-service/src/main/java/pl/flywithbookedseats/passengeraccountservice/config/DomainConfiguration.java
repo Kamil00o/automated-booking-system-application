@@ -12,7 +12,7 @@ import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountBusinessLogic;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountServiceImpl;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.adapter.PassengerAccountStorageAdapter;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityMapper1;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
 
 @Configuration
@@ -37,9 +37,9 @@ public class DomainConfiguration {
 
     @Bean
     public PassengerAccountRepository passengerAccountRepository(
-            PassengerAccountEntityMapper1 mapper1,
+            PassengerAccountEntityMapper mapper,
             JpaPassengerAccountRepository jpaPassengerAccountRepository) {
-        return new PassengerAccountStorageAdapter(mapper1, jpaPassengerAccountRepository);
+        return new PassengerAccountStorageAdapter(mapper, jpaPassengerAccountRepository);
     }
 
     @Bean
