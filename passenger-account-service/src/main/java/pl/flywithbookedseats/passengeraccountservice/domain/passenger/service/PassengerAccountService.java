@@ -28,6 +28,6 @@ public interface PassengerAccountService {
 
     void deletePassengerAccountByEmail(String email);
 
-    PassengerAccountDto getPassengerDataFromBookingSystem(String email);
+    PassengerAccount getPassengerDataFromBookingSystem(String email);
 
 }

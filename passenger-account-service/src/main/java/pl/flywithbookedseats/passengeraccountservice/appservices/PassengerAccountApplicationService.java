@@ -56,7 +56,7 @@ public class PassengerAccountApplicationService {
     }
 
     public PassengerAccount getPassengerDataFromBookingSystem(String email) {
-        return passengerAccountBL.getPassengerDataFromBookingService(email);
+        return passengerAccountService.getPassengerDataFromBookingSystem(email);
     }
 
     public PagePassengerAccount retrieveAllPassengerAccountsFromDb(Pageable pageable) {

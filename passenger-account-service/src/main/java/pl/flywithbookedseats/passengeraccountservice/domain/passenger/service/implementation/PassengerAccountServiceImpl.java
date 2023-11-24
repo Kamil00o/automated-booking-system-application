@@ -61,7 +61,7 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     }
 
     @Override
-    public PassengerAccountDto getPassengerDataFromBookingSystem(String email) {
-        return null;
+    public PassengerAccount getPassengerDataFromBookingSystem(String email) {
+        return passengerAccountBL.getPassengerDataFromBookingService(email);
     }
 }
