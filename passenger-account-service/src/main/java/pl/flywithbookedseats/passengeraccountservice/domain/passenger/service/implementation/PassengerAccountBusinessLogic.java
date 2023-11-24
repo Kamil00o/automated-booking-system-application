@@ -43,24 +43,35 @@ public class PassengerAccountBusinessLogic {
         }
     }
 
-    protected PassengerAccount updateSpecifiedPassengerAccount(Long id, PassengerAccount passengerAccount) {
+    public PassengerAccount updatePassengerAccountById(Long id, PassengerAccount passengerAccountUpdateData) {
         PassengerAccount savedPassengerAccount = retrievePassengerAccountFromDb(id);
-        if (!exists(passengerAccount, savedPassengerAccount)) {
-            savedPassengerAccount.setName(passengerAccount.getName());
-            savedPassengerAccount.setSurname(passengerAccount.getSurname());
-            savedPassengerAccount.setEmail(passengerAccount.getEmail());
-            savedPassengerAccount.setBirthDate(passengerAccount.getBirthDate());
-            savedPassengerAccount.setDisability(passengerAccount.isDisability());
-            savedPassengerAccount.setReservationIdList(passengerAccount.getReservationIdList());
-            savedPassengerAccount.setGender(passengerAccount.getGender());
-            savedPassengerAccount.setNationality(passengerAccount.getNationality());
-            passengerAccountRepository.save(savedPassengerAccount);
-            return savedPassengerAccount;
+        return updateSpecifiedPassengerAccount(savedPassengerAccount, passengerAccountUpdateData);
+    }
+
+    public PassengerAccount updatePassengerAccountByEmail(String email, PassengerAccount passengerAccountUpdateData) {
+        PassengerAccount savedPassengerAccount = retrievePassengerAccountFromDb(email);
+        return updateSpecifiedPassengerAccount(savedPassengerAccount, passengerAccountUpdateData);
+    }
+
+    private PassengerAccount updateSpecifiedPassengerAccount(PassengerAccount passengerAccountToUpdate,
+                                                             PassengerAccount passengerAccountUpdateData) {
+
+        if (!exists(passengerAccountUpdateData, passengerAccountToUpdate)) {
+            passengerAccountToUpdate.setName(passengerAccountUpdateData.getName());
+            passengerAccountToUpdate.setSurname(passengerAccountUpdateData.getSurname());
+            passengerAccountToUpdate.setEmail(passengerAccountUpdateData.getEmail());
+            passengerAccountToUpdate.setBirthDate(passengerAccountUpdateData.getBirthDate());
+            passengerAccountToUpdate.setDisability(passengerAccountUpdateData.isDisability());
+            passengerAccountToUpdate.setReservationIdList(passengerAccountUpdateData.getReservationIdList());
+            passengerAccountToUpdate.setGender(passengerAccountUpdateData.getGender());
+            passengerAccountToUpdate.setNationality(passengerAccountUpdateData.getNationality());
+            passengerAccountRepository.save(passengerAccountToUpdate);
+            return passengerAccountToUpdate;
         } else {
-            logger.warn(PASSENGER_ACCOUNT_NOT_UPDATED.formatted(savedPassengerAccount.getId(),
-                    savedPassengerAccount.getEmail()));
+            logger.warn(PASSENGER_ACCOUNT_NOT_UPDATED.formatted(passengerAccountToUpdate.getId(),
+                    passengerAccountToUpdate.getEmail()));
             throw new PassengerAccountAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
-                    .formatted(passengerAccount.getEmail()));
+                    .formatted(passengerAccountUpdateData.getEmail()));
         }
     }
 

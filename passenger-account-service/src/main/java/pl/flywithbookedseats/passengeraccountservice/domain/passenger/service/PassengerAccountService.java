@@ -18,9 +18,9 @@ public interface PassengerAccountService {
 
     public PassengerAccount createNewPassengerAccount(PassengerAccount passengerAccount);
 
-    PassengerAccount updatePassengerAccountById(long id, PassengerAccount passengerAccount);
+    PassengerAccount updatePassengerAccountById(Long id, PassengerAccount passengerAccount);
 
-    PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerAccountCommand updatePassengerAccountCommand, String email);
+    PassengerAccount updatePassengerAccountByEmail(String email, PassengerAccount passengerAccount);
 
     void deleteAllPassengerAccounts();
 

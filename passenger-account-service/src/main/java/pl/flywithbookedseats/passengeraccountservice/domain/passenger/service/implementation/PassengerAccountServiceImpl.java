@@ -2,8 +2,6 @@ package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.i
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.UpdatePassengerAccountCommand;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PagePassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
@@ -36,13 +34,13 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     }
 
     @Override
-    public PassengerAccount updatePassengerAccountById(long id, PassengerAccount passengerAccount) {
-        return passengerAccountBL.updateSpecifiedPassengerAccount(id, passengerAccount);
+    public PassengerAccount updatePassengerAccountById(Long id, PassengerAccount passengerAccount) {
+        return passengerAccountBL.updatePassengerAccountById(id, passengerAccount);
     }
 
     @Override
-    public PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerAccountCommand updatePassengerAccountCommand, String email) {
-        return null;
+    public PassengerAccount updatePassengerAccountByEmail(String email, PassengerAccount passengerAccount) {
+        return passengerAccountBL.updatePassengerAccountByEmail(email, passengerAccount);
     }
 
     @Override
