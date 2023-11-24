@@ -90,10 +90,8 @@ public class PassengerAccountBusinessLogic {
         return passengerAccountRepository.findById(id);
     }
 
-    public PassengerAccountEntity retrievePassengerAccountFromDb(String email) {
-        return jpaPassengerAccountRepository.findByEmail(email)
-                .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND_EMAIL
-                        .formatted(email)));
+    public PassengerAccount retrievePassengerAccountFromDb(String email) {
+        return passengerAccountRepository.findByEmail(email);
     }
 
     public boolean exists(PassengerAccount passengerAccount) {

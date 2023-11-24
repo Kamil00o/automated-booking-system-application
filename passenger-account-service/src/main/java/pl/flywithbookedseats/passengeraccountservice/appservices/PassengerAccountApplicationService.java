@@ -72,7 +72,7 @@ public class PassengerAccountApplicationService {
         return passengerAccountService.retrievePassengerAccountById(id);
     }
 
-    public PassengerAccountDto retrievePassengerAccountByEmail(String email) {
-        return passengerAccountEntityDtoMapper.apply(passengerAccountBL.retrievePassengerAccountFromDb(email));
+    public PassengerAccount retrievePassengerAccountByEmail(String email) {
+        return passengerAccountService.retrievePassengerAccountByEmail(email);
     }
 }

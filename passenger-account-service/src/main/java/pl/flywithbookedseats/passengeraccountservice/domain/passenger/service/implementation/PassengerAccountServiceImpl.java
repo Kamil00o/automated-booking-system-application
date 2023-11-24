@@ -26,8 +26,8 @@ public class PassengerAccountServiceImpl implements PassengerAccountService {
     }
 
     @Override
-    public PassengerAccountDto retrievePassengerAccountByEmail(String email) {
-        return null;
+    public PassengerAccount retrievePassengerAccountByEmail(String email) {
+        return passengerAccountBL.retrievePassengerAccountFromDb(email);
     }
 
     @Override

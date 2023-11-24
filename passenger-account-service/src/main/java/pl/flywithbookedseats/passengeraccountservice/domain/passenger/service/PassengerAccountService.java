@@ -14,7 +14,7 @@ public interface PassengerAccountService {
 
     PassengerAccount retrievePassengerAccountById(Long id);
 
-    PassengerAccountDto retrievePassengerAccountByEmail(String email);
+    PassengerAccount retrievePassengerAccountByEmail(String email);
 
     public PassengerAccount createNewPassengerAccount(PassengerAccount passengerAccount);
 

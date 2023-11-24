@@ -14,6 +14,7 @@ import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountConsts.PASSENGER_ACCOUNT_NOT_FOUND_EMAIL;
 import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountConsts.PASSENGER_ACCOUNT_NOT_FOUND_ID;
 
 @RequiredArgsConstructor
@@ -34,7 +35,16 @@ public class PassengerAccountStorageAdapter implements PassengerAccountRepositor
         PassengerAccountEntity passengerAccountEntityToFind = passengerAccountRepository
                 .findById(id)
                 .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND_ID
-                .formatted(id)));
+                        .formatted(id)));
+        return mapper.toDomain(passengerAccountEntityToFind);
+    }
+
+    @Override
+    public PassengerAccount findByEmail(String email) {
+        PassengerAccountEntity passengerAccountEntityToFind = passengerAccountRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new PassengerAccountNotFoundException(PASSENGER_ACCOUNT_NOT_FOUND_EMAIL
+                        .formatted(email)));
         return mapper.toDomain(passengerAccountEntityToFind);
     }
 
