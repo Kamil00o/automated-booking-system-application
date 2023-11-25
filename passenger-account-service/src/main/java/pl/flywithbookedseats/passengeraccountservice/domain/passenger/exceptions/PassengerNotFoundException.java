@@ -1,8 +1,6 @@
 package pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions;
 
-import jakarta.ws.rs.NotFoundException;
-
-public class PassengerNotFoundException extends NotFoundException {
+public class PassengerNotFoundException extends BadRequestException {
     public PassengerNotFoundException(String message) {
         super((message));
     }
