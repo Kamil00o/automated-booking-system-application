@@ -24,7 +24,7 @@ import static pl.flywithbookedseats.passengeraccountservice.common.Consts.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PassengerAccountEntity {
+public class PassengerEntity {
 
     @Id
     @SequenceGenerator(

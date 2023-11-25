@@ -11,9 +11,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Passenger;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerService;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerRepository;
 
 @ActiveProfiles("basic")
 @SpringBootTest(
@@ -25,19 +25,19 @@ public class BaseIT {
     //Maybe it's better to make these fields final & use @RequiredArgsConstructor ?
 
     @Autowired
-    protected PassengerAccountService passengerAccountService;
+    protected PassengerService passengerService;
     @Autowired
     protected TestRestTemplate restTemplate;
     @Autowired
     private ServerPortService serverPortService;
     @Autowired
-    private JpaPassengerAccountRepository jpaPassengerAccountRepository;
+    private JpaPassengerRepository jpaPassengerRepository;
 
-    private final PassengerAccount userPassengerAccount = PassengerAccountTestFactory.createPassenger();
+    private final Passenger userPassenger = PassengerTestFactory.createPassenger();
 
     @BeforeEach
     void init() {
-        jpaPassengerAccountRepository.deleteAll();
+        jpaPassengerRepository.deleteAll();
     }
 
     protected String localUrl(String endpoint) {
@@ -47,7 +47,7 @@ public class BaseIT {
 
     protected void addTestPassengerAccounts() {
 
-        passengerAccountService.createNewPassengerAccount(userPassengerAccount);
+        passengerService.createNewPassengerAccount(userPassenger);
     }
 
     protected <T, U> ResponseEntity<U> callHttpMethod(

@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Value
-public class PagePassengerAccount implements Serializable {
+public class PagePassenger implements Serializable {
 
-    List<PassengerAccount> passengerAccounts;
+    List<Passenger> passengers;
     Integer currentPage;
     Integer totalPages;
     Long totalElements;

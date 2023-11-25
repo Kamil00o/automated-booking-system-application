@@ -3,47 +3,48 @@ package pl.flywithbookedseats.passengeraccountservice.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.PassengerAccountDtoMapper;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.BookingPassengerDtoProxyService;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountRepository;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerAccountService;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.adapter.BookingPassengerDtoProxyAdapter;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.PassengerDtoMapper;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.BookingDtoProxyService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerRepository;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerService;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.adapter.BookingDtoProxyAdapter;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.BookingPassengerDtoProxy;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountBusinessLogic;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountServiceImpl;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.adapter.PassengerAccountStorageAdapter;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerAccountEntityMapper;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerAccountRepository;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerBusinessLogic;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerServiceImpl;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.adapter.PassengerStorageAdapter;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.mapper.PassengerEntityMapper;
+import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerRepository;
 
 @Configuration
 @ConfigurationProperties("domain.properties")
 public class DomainConfiguration {
 
     @Bean
-    public PassengerAccountService passengerAccountService(PassengerAccountBusinessLogic passengerAccountBusinessLogic,
-                                                           PassengerAccountRepository passengerAccountRepository) {
-        return new PassengerAccountServiceImpl(passengerAccountBusinessLogic, passengerAccountRepository);
+    public PassengerService passengerAccountService(
+            PassengerBusinessLogic passengerBusinessLogic,
+            PassengerRepository passengerRepository) {
+        return new PassengerServiceImpl(passengerBusinessLogic, passengerRepository);
     }
 
     @Bean
-    public PassengerAccountBusinessLogic passengerAccountBusinessLogic(
-            PassengerAccountRepository passengerAccountRepository,
-            BookingPassengerDtoProxyService bookingPassengerDtoProxyService) {
-        return new PassengerAccountBusinessLogic(passengerAccountRepository,
-                bookingPassengerDtoProxyService);
+    public PassengerBusinessLogic passengerAccountBusinessLogic(
+            PassengerRepository passengerRepository,
+            BookingDtoProxyService bookingDtoProxyService) {
+        return new PassengerBusinessLogic(passengerRepository,
+                bookingDtoProxyService);
     }
 
     @Bean
-    public PassengerAccountRepository passengerAccountRepository(
-            PassengerAccountEntityMapper mapper,
-            JpaPassengerAccountRepository jpaPassengerAccountRepository) {
-        return new PassengerAccountStorageAdapter(mapper, jpaPassengerAccountRepository);
+    public PassengerRepository passengerAccountRepository(
+            PassengerEntityMapper mapper,
+            JpaPassengerRepository jpaPassengerRepository) {
+        return new PassengerStorageAdapter(mapper, jpaPassengerRepository);
     }
 
     @Bean
-    public BookingPassengerDtoProxyService bookingPassengerDtoProxyService(
+    public BookingDtoProxyService bookingPassengerDtoProxyService(
             BookingPassengerDtoProxy bookingPassengerDtoProxy,
-            PassengerAccountDtoMapper passengerAccountDtoMapper) {
-        return new BookingPassengerDtoProxyAdapter(bookingPassengerDtoProxy, passengerAccountDtoMapper);
+            PassengerDtoMapper passengerDtoMapper) {
+        return new BookingDtoProxyAdapter(bookingPassengerDtoProxy, passengerDtoMapper);
     }
 }

@@ -13,7 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PassengerAccount {
+public class Passenger {
 
     Long id;
     String name;
@@ -35,37 +35,37 @@ public class PassengerAccount {
             return false;
         }
 
-        final PassengerAccount passengerAccount = (PassengerAccount) o;
+        final Passenger passenger = (Passenger) o;
 
-        if (Objects.equals(id, passengerAccount.id)) {
+        if (Objects.equals(id, passenger.id)) {
             return false;
         }
 
-        if (Objects.equals(name, passengerAccount.name)) {
+        if (Objects.equals(name, passenger.name)) {
             return false;
         }
 
-        if (Objects.equals(surname, passengerAccount.surname)) {
+        if (Objects.equals(surname, passenger.surname)) {
             return false;
         }
 
-        if (Objects.equals(email, passengerAccount.email)) {
+        if (Objects.equals(email, passenger.email)) {
             return false;
         }
 
-        if (Objects.equals(disability, passengerAccount.disability)) {
+        if (Objects.equals(disability, passenger.disability)) {
             return false;
         }
 
-        if (Objects.equals(reservationIdList, passengerAccount.reservationIdList)) {
+        if (Objects.equals(reservationIdList, passenger.reservationIdList)) {
             return false;
         }
 
-        if (Objects.equals(nationality, passengerAccount.nationality)) {
+        if (Objects.equals(nationality, passenger.nationality)) {
             return false;
         }
 
-        if (Objects.equals(gender, passengerAccount.gender)) {
+        if (Objects.equals(gender, passenger.gender)) {
             return false;
         }
 

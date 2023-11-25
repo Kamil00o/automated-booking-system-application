@@ -6,24 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import pl.flywithbookedseats.passengeraccountservice.BaseIT;
-import pl.flywithbookedseats.passengeraccountservice.PassengerAccountTestFactory;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerAccountCommand;
+import pl.flywithbookedseats.passengeraccountservice.PassengerTestFactory;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PagePassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PassengerAccount;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerAccountServiceImpl;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Passenger;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 
-class PassengerAccountControllerIT extends BaseIT {
+class PassengerControllerIT extends BaseIT {
 
     @Autowired
-    PassengerAccountServiceImpl service;
+    PassengerServiceImpl service;
 
     @Test
     void testCreateNewPassengerAccountOkStatus() {
-        CreatePassengerAccountCommand createCommand = PassengerAccountTestFactory.createCreateCommand();
+        CreatePassengerCommand createCommand = PassengerTestFactory.createCreateCommand();
 
         var response = callHttpMethod(HttpMethod.POST,
                 "/passengers",
@@ -40,27 +40,27 @@ class PassengerAccountControllerIT extends BaseIT {
 
     @Test
     void testRetrievePassengerAccountByIdOkStatus() {
-        PassengerAccount testPassengerAccount = PassengerAccountTestFactory.createPassenger();
-        service.createNewPassengerAccount(testPassengerAccount);
-        String id = service.retrievePassengerAccountByEmail(testPassengerAccount.getEmail()).getId().toString();
+        Passenger testPassenger = PassengerTestFactory.createPassenger();
+        service.createNewPassengerAccount(testPassenger);
+        String id = service.retrievePassengerAccountByEmail(testPassenger.getEmail()).getId().toString();
 
         var response = callHttpMethod(HttpMethod.GET,
                 "/passengers/" + id,
                 null,
-                testPassengerAccount,
+                testPassenger,
                 PassengerAccountDto.class);
 
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
         PassengerAccountDto body = response.getBody();
         assertNotNull(body);
-        assertEqualsBodyAndPassengerAccount(testPassengerAccount, body);
+        assertEqualsBodyAndPassengerAccount(testPassenger, body);
     }
 
     @Test
     void testRetrieveAllPassengerAccountsFromDbOkStatus() {
-        PassengerAccount testPassengerAccount = PassengerAccountTestFactory.createPassenger();
-        service.createNewPassengerAccount(testPassengerAccount);
+        Passenger testPassenger = PassengerTestFactory.createPassenger();
+        service.createNewPassengerAccount(testPassenger);
 
         var response = callHttpMethod(HttpMethod.GET,
                 "/passengers",
@@ -72,23 +72,23 @@ class PassengerAccountControllerIT extends BaseIT {
 
         PagePassengerAccountDto body = response.getBody();
         assertNotNull(body);
-        Assertions.assertEquals(1, body.passengerAccounts().size());
+        Assertions.assertEquals(1, body.passengers().size());
         Assertions.assertEquals(1, body.totalElements());
         Assertions.assertEquals(1, body.totalPages());
         Assertions.assertEquals(1, body.currentPage());
     }
 
-    private void assertEqualsBodyAndPassengerAccount(PassengerAccount passedPassengerAccount,
+    private void assertEqualsBodyAndPassengerAccount(Passenger passedPassenger,
                                                      PassengerAccountDto passedBody) {
-        assertEquals(passedBody.email(), passedPassengerAccount.getEmail());
-        assertEquals(passedBody.name(), passedPassengerAccount.getName());
-        assertEquals(passedBody.birthDate(), passedPassengerAccount.getBirthDate());
-        assertEquals(passedBody.surname(), passedPassengerAccount.getSurname());
-        assertEquals(passedBody.disability(), passedPassengerAccount.isDisability());
+        assertEquals(passedBody.email(), passedPassenger.getEmail());
+        assertEquals(passedBody.name(), passedPassenger.getName());
+        assertEquals(passedBody.birthDate(), passedPassenger.getBirthDate());
+        assertEquals(passedBody.surname(), passedPassenger.getSurname());
+        assertEquals(passedBody.disability(), passedPassenger.isDisability());
     }
 
-    private void assertEqualsBodyAndCreateCommand(CreatePassengerAccountCommand passedCreateCommand,
-                                                     PassengerAccountDto passedBody) {
+    private void assertEqualsBodyAndCreateCommand(CreatePassengerCommand passedCreateCommand,
+                                                  PassengerAccountDto passedBody) {
         assertEquals(passedBody.email(), passedCreateCommand.email());
         assertEquals(passedBody.name(), passedCreateCommand.name());
         assertEquals(passedBody.birthDate(), passedCreateCommand.birthDate());

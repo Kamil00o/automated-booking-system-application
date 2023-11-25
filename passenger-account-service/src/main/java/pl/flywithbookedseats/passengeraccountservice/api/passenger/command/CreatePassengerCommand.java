@@ -10,10 +10,10 @@ import java.util.List;
 
 import static pl.flywithbookedseats.passengeraccountservice.common.Consts.*;
 
-public record UpdatePassengerAccountCommand(
+public record CreatePassengerCommand(
 
-        @NotNull(message = NOT_NULL_MESSAGE)
         @NotBlank(message = NOT_BLANK_MESSAGE)
+        @NotNull(message = NOT_NULL_MESSAGE)
         @Size(min = 2, message = NAME_MIN_FIELD_SIZE_MSG)
         String name,
         @NotBlank(message = NOT_BLANK_MESSAGE)
@@ -27,6 +27,7 @@ public record UpdatePassengerAccountCommand(
         @Past(message = PAST_MESSAGE)
         @NotNull(message = NOT_NULL_MESSAGE)
         LocalDate birthDate,
+        @NotNull(message = NOT_NULL_MESSAGE)
         boolean disability,
         List<Long> reservationIdList,
         @NotBlank(message = NOT_BLANK_MESSAGE)

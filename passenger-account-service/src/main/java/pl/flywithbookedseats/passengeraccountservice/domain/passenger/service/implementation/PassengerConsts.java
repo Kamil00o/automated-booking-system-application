@@ -1,6 +1,6 @@
 package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation;
 
-public class PassengerAccountConsts {
+public class PassengerConsts {
 
     public static final String PASSENGER_ACCOUNT_NOT_FOUND_EMAIL =
             "Passenger account for email: %s has not been found!";
