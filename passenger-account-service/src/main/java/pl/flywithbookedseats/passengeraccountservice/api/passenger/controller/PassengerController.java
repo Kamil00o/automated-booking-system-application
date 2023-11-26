@@ -17,7 +17,7 @@ import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.Passen
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.mapper.UpdatePassengerMapper;
 import pl.flywithbookedseats.passengeraccountservice.appservices.PassengerApplicationService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,7 +38,7 @@ public class PassengerController {
     }
 
     @PostMapping
-    public ResponseEntity<PassengerAccountDto> createNewPassengerAccount(
+    public ResponseEntity<PassengerDto> createNewPassengerAccount(
             @Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
         Passenger passenger = service.
                 createNewPassengerAccount(createPassengerMapper.toDomain(createPassengerCommand));
@@ -47,7 +47,7 @@ public class PassengerController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<PassengerAccountDto> updatePassengerAccountById(
+    public ResponseEntity<PassengerDto> updatePassengerAccountById(
             @PathVariable long id,
             @Valid @RequestBody UpdatePassengerCommand updatePassengerCommand) {
         logger.info("Editing passenger account for ID: {}:", id);

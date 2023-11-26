@@ -31,7 +31,7 @@ public class PassengerApplicationService {
     }
 
 /*    @Transactional
-    public PassengerAccountDto updatePassengerAccountByEmail(UpdatePassengerCommand updatePassengerAccountCommand, String email) {
+    public PassengerDto updatePassengerAccountByEmail(UpdatePassengerCommand updatePassengerAccountCommand, String email) {
         return passengerAccountEntityDtoMapper.apply(passengerAccountBL
                 .updateSpecifiedPassengerAccount(updatePassengerAccountCommand, passengerAccountBL
                         .retrievePassengerAccountFromDb(email)));

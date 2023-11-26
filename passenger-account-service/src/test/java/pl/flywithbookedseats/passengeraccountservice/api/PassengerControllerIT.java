@@ -9,7 +9,7 @@ import pl.flywithbookedseats.passengeraccountservice.BaseIT;
 import pl.flywithbookedseats.passengeraccountservice.PassengerTestFactory;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerCommand;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PagePassengerAccountDto;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerDto;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Passenger;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerServiceImpl;
 
@@ -29,11 +29,11 @@ class PassengerControllerIT extends BaseIT {
                 "/passengers",
                 null,
                 createCommand,
-                PassengerAccountDto.class);
+                PassengerDto.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        PassengerAccountDto body = response.getBody();
+        PassengerDto body = response.getBody();
         assertNotNull(body);
         assertEqualsBodyAndCreateCommand(createCommand, body);
     }
@@ -48,11 +48,11 @@ class PassengerControllerIT extends BaseIT {
                 "/passengers/" + id,
                 null,
                 testPassenger,
-                PassengerAccountDto.class);
+                PassengerDto.class);
 
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
-        PassengerAccountDto body = response.getBody();
+        PassengerDto body = response.getBody();
         assertNotNull(body);
         assertEqualsBodyAndPassengerAccount(testPassenger, body);
     }
@@ -79,7 +79,7 @@ class PassengerControllerIT extends BaseIT {
     }
 
     private void assertEqualsBodyAndPassengerAccount(Passenger passedPassenger,
-                                                     PassengerAccountDto passedBody) {
+                                                     PassengerDto passedBody) {
         assertEquals(passedBody.email(), passedPassenger.getEmail());
         assertEquals(passedBody.name(), passedPassenger.getName());
         assertEquals(passedBody.birthDate(), passedPassenger.getBirthDate());
@@ -88,7 +88,7 @@ class PassengerControllerIT extends BaseIT {
     }
 
     private void assertEqualsBodyAndCreateCommand(CreatePassengerCommand passedCreateCommand,
-                                                  PassengerAccountDto passedBody) {
+                                                  PassengerDto passedBody) {
         assertEquals(passedBody.email(), passedCreateCommand.email());
         assertEquals(passedBody.name(), passedCreateCommand.name());
         assertEquals(passedBody.birthDate(), passedCreateCommand.birthDate());
