@@ -110,8 +110,8 @@ public class PassengerController {
     }*/
 
     @GetMapping(path = "/seats-booking/{email}")
-    public ResponseEntity<Passenger> getPassengerDataFromBookingSystem(@PathVariable String email) {
-        Passenger obtainedPassenger = service.getPassengerDataFromBookingSystem(email);
+    public ResponseEntity<PassengerDto> getPassengerDataFromBookingSystem(@PathVariable String email) {
+        PassengerDto obtainedPassenger = passengerDtoMapper.toDto(service.getPassengerDataFromBookingSystem(email));
 
         return ResponseEntity.ok(obtainedPassenger);
     }
