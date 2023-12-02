@@ -23,18 +23,13 @@ public class PassengerBusinessLogic {
 
     public Passenger generateNewPassengerAccount(Passenger passenger) {
         if (!exists(passenger)) {
-            Passenger createdPassenger = passenger;
-            try {
-                createdPassenger
-                        .setReservationIdList(retrieveReservationIdListFromPassengerAccount(createdPassenger
-                                .getEmail()));
-
-            } catch (Exception exception) {
-                logger.info("ReservationIdList has not been retrieved from booking service.");
+            Passenger obtainedPassenger = getPassengerDataFromBookingService(passenger.getEmail());
+            if (obtainedPassenger != null) {
+                passenger.setReservationIdList(obtainedPassenger.getReservationIdList());
             }
 
-            passengerRepository.save(createdPassenger);
-            return createdPassenger;
+            passengerRepository.save(passenger);
+            return passenger;
         } else {
             throw new PassengerAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
                     .formatted(passenger.getEmail()));
@@ -79,10 +74,6 @@ public class PassengerBusinessLogic {
 
     public void deletePassengerAccountByEmail(String email) {
         passengerRepository.deleteByEmail(email);
-    }
-
-    public List<Long> retrieveReservationIdListFromPassengerAccount(String email) {
-        return getPassengerDataFromBookingService(email).getReservationIdList();
     }
 
     public Passenger getPassengerDataFromBookingService(String email) {
