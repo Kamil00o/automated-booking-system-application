@@ -1,0 +1,31 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=booking_system_db
+      - POSTGRES_USER=laganowskikamil
+      - POSTGRES_PASSWORD=pracamagisterska
+      - PGDATA=var/lib/postgresql/data
+    command: ["postgres", "-c", "log_statement=all"]
+    volumes:
+      - ./volumes/postgresql:/var/lib/postgresql/data
+  postgres-it:
+    image: postgres:15-alpine
+    ports:
+      - "5332:5432"
+    environment:
+      - POSTGRES_DB=booking_system_db
+      - POSTGRES_USER=laganowskikamil
+      - POSTGRES_PASSWORD=pracamagisterska
+      - PGDATA=var/lib/postgresql/data
+    command: [ "postgres", "-c", "log_statement=all" ]
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 8000:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@amigoscode.com
+      - PGADMIN_DEFAULT_PASSWORD=pracamagisterska

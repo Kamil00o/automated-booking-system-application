@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,7 +16,7 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Pass
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerService;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.repository.JpaPassengerRepository;
 
-@ActiveProfiles("basic")
+@ActiveProfiles("it")
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = PassengerAccountServiceApplication.class
@@ -24,6 +25,8 @@ import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.
 public class BaseIT {
     //Maybe it's better to make these fields final & use @RequiredArgsConstructor ?
 
+    @Autowired
+    protected Environment environment;
     @Autowired
     protected PassengerService passengerService;
     @Autowired

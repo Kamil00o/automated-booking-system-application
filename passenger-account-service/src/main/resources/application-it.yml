@@ -1,0 +1,27 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8575/eureka
+hibernate:
+  id:
+    new_generator_mappings: true
+logging:
+  level:
+    org:
+      springframework: info
+server:
+  port: 0
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5332/booking_system_db
+    username: laganowskikamil
+    password: pracamagisterska
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
