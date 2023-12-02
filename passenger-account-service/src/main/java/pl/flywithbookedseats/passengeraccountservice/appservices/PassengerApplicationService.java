@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PagePassenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PagePassenger;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerBusinessLogic;
 
 @Service

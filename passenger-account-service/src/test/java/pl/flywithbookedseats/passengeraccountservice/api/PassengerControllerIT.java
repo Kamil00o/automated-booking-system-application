@@ -7,10 +7,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import pl.flywithbookedseats.passengeraccountservice.BaseIT;
 import pl.flywithbookedseats.passengeraccountservice.PassengerTestFactory;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.command.CreatePassengerCommand;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PagePassengerAccountDto;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.dto.PassengerDto;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Passenger;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.CreatePassengerCommand;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.PagePassengerAccountDto;
+import pl.flywithbookedseats.passengeraccountservice.api.passenger.PassengerDto;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;

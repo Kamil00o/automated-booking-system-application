@@ -3,10 +3,10 @@ package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.i
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.exceptions.PassengerAlreadyExistsException;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.BookingDtoProxyService;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerRepository;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerAlreadyExistsException;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.BookingService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +19,7 @@ public class PassengerBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(PassengerBusinessLogic.class);
 
     private final PassengerRepository passengerRepository;
-    private final BookingDtoProxyService bookingDtoProxyService;
+    private final BookingService bookingService;
 
     public Passenger generateNewPassengerAccount(Passenger passenger) {
         if (!exists(passenger)) {
@@ -86,7 +86,7 @@ public class PassengerBusinessLogic {
     }
 
     public Passenger getPassengerDataFromBookingService(String email) {
-        return bookingDtoProxyService.getPassengerDtoFromBookingService(email);
+        return bookingService.getPassenger(email);
     }
 
     public Passenger retrievePassengerAccountFromDb(Long id) {

@@ -2,10 +2,10 @@ package pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.i
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.PagePassenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.model.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerRepository;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.PassengerService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PagePassenger;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerRepository;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
 
 @RequiredArgsConstructor
 public class PassengerServiceImpl implements PassengerService {
