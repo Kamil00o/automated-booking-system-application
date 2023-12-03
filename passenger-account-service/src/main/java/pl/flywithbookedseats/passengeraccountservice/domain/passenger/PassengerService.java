@@ -13,43 +13,45 @@ import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.Pas
 @Slf4j
 public class PassengerService {
 
-    private final PassengerRepository passengerRepository;
+    private final PassengerRepository repository;
     private final BookingService bookingService;
 
-    public PagePassenger retrieveAllPassengerAccountsFromDb(Pageable pageable) {
-        return passengerRepository.findAll(pageable);
+    public PagePassenger retrieveAllPassengersFromDb(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
-    public Passenger retrievePassengerAccountById(Long id) {
-        return retrievePassengerAccountFromDb(id);
+    public Passenger retrievePassengerById(Long id) {
+        return repository.findById(id);
     }
 
-    public Passenger retrievePassengerAccountByEmail(String email) {
-        return retrievePassengerAccountFromDb(email);
+    public Passenger retrievePassengerByEmail(String email) {
+        return repository.findByEmail(email);
     }
 
-    public Passenger createNewPassengerAccount(Passenger passenger) {
+    public Passenger createNewPassenger(Passenger passenger) {
         return generateNewPassengerAccount(passenger);
     }
 
-    public Passenger updatePassengerAccountById(Long id, Passenger passenger) {
-        return updatePassengerById(id, passenger);
+    public Passenger updatePassengerById(Long id, Passenger passenger) {
+        Passenger savedPassenger = retrievePassengerById(id);
+        return updateSpecifiedPassengerAccount(savedPassenger, passenger);
     }
 
     public Passenger updatePassengerAccountByEmail(String email, Passenger passenger) {
-        return updatePassengerByEmail(email, passenger);
+        Passenger savedPassenger = retrievePassengerByEmail(email);
+        return updateSpecifiedPassengerAccount(savedPassenger, passenger);
     }
 
     public void deleteAllPassengerAccounts() {
-        passengerRepository.deleteAll();
+        repository.deleteAll();
     }
 
     public void deletePassengerAccountById(Long id) {
-        passengerRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     public void deletePassengerAccountByEmail(String email) {
-        passengerRepository.deleteByEmail(email);
+        repository.deleteByEmail(email);
     }
 
     public Passenger getPassengerDataFromBookingSystem(String email) {
@@ -63,7 +65,7 @@ public class PassengerService {
                 passenger.setReservationIdList(obtainedPassenger.getReservationIdList());
             }
 
-            passengerRepository.save(passenger);
+            repository.save(passenger);
             return passenger;
         } else {
             throw new PassengerAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
@@ -71,22 +73,8 @@ public class PassengerService {
         }
     }
 
-    public boolean exists(Passenger passenger) {
-        return passengerRepository.existsByEmail(passenger.getEmail());
-    }
-
     public Passenger getPassengerDataFromBookingService(String email) {
         return bookingService.getPassenger(email);
-    }
-
-    public Passenger updatePassengerById(Long id, Passenger passengerUpdateData) {
-        Passenger savedPassenger = retrievePassengerAccountFromDb(id);
-        return updateSpecifiedPassengerAccount(savedPassenger, passengerUpdateData);
-    }
-
-    public Passenger updatePassengerByEmail(String email, Passenger passengerUpdateData) {
-        Passenger savedPassenger = retrievePassengerAccountFromDb(email);
-        return updateSpecifiedPassengerAccount(savedPassenger, passengerUpdateData);
     }
 
     private Passenger updateSpecifiedPassengerAccount(Passenger passengerToUpdate,
@@ -101,7 +89,7 @@ public class PassengerService {
             passengerToUpdate.setReservationIdList(passengerUpdateData.getReservationIdList());
             passengerToUpdate.setGender(passengerUpdateData.getGender());
             passengerToUpdate.setNationality(passengerUpdateData.getNationality());
-            passengerRepository.save(passengerToUpdate);
+            repository.save(passengerToUpdate);
             return passengerToUpdate;
         } else {
             log.warn(PASSENGER_ACCOUNT_NOT_UPDATED.formatted(passengerToUpdate.getId(),
@@ -111,19 +99,15 @@ public class PassengerService {
         }
     }
 
-    public Passenger retrievePassengerAccountFromDb(Long id) {
-        return passengerRepository.findById(id);
+    private boolean exists(Passenger passenger) {
+        return repository.existsByEmail(passenger.getEmail());
     }
 
-    public Passenger retrievePassengerAccountFromDb(String email) {
-        return passengerRepository.findByEmail(email);
-    }
-
-    public boolean exists(Passenger passenger,
-                          Passenger existingPassenger) {
-        String email = passenger.getEmail();
-        if (passengerRepository.existsByEmail(email)) {
-            return !Objects.equals(retrievePassengerAccountFromDb(email).getId(), existingPassenger.getId());
+    private boolean exists(Passenger existingPassenger,
+                          Passenger passengerUpdateData) {
+        String email = existingPassenger.getEmail();
+        if (repository.existsByEmail(email)) {
+            return !Objects.equals(retrievePassengerByEmail(email).getId(), passengerUpdateData.getId());
         }
         return false;
     }

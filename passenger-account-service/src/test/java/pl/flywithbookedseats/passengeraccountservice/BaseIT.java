@@ -50,7 +50,7 @@ public class BaseIT {
 
     protected void addTestPassengerAccounts() {
 
-        passengerService.createNewPassengerAccount(userPassenger);
+        passengerService.createNewPassenger(userPassenger);
     }
 
     protected <T, U> ResponseEntity<U> callHttpMethod(

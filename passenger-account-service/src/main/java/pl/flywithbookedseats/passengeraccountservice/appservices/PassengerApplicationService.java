@@ -20,12 +20,12 @@ public class PassengerApplicationService {
 
     @Transactional
     public Passenger createNewPassengerAccount(Passenger passenger) {
-        return service.createNewPassengerAccount(passenger);
+        return service.createNewPassenger(passenger);
     }
 
     @Transactional
     public Passenger updatePassengerAccountById(long id, Passenger passenger) {
-        return service.updatePassengerAccountById(id, passenger);
+        return service.updatePassengerById(id, passenger);
     }
 
 /*    @Transactional
@@ -55,14 +55,14 @@ public class PassengerApplicationService {
     }
 
     public PagePassenger retrieveAllPassengerAccountsFromDb(Pageable pageable) {
-        return service.retrieveAllPassengerAccountsFromDb(pageable);
+        return service.retrieveAllPassengersFromDb(pageable);
     }
 
     public Passenger retrievePassengerAccountById(Long id) {
-        return service.retrievePassengerAccountById(id);
+        return service.retrievePassengerById(id);
     }
 
     public Passenger retrievePassengerAccountByEmail(String email) {
-        return service.retrievePassengerAccountByEmail(email);
+        return service.retrievePassengerByEmail(email);
     }
 }

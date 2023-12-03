@@ -41,8 +41,8 @@ class PassengerControllerIT extends BaseIT {
     @Test
     void testRetrievePassengerAccountByIdOkStatus() {
         Passenger testPassenger = PassengerTestFactory.createPassenger();
-        service.createNewPassengerAccount(testPassenger);
-        String id = service.retrievePassengerAccountByEmail(testPassenger.getEmail()).getId().toString();
+        service.createNewPassenger(testPassenger);
+        String id = service.retrievePassengerByEmail(testPassenger.getEmail()).getId().toString();
 
         var response = callHttpMethod(HttpMethod.GET,
                 "/passengers/" + id,
@@ -60,7 +60,7 @@ class PassengerControllerIT extends BaseIT {
     @Test
     void testRetrieveAllPassengerAccountsFromDbOkStatus() {
         Passenger testPassenger = PassengerTestFactory.createPassenger();
-        service.createNewPassengerAccount(testPassenger);
+        service.createNewPassenger(testPassenger);
 
         var response = callHttpMethod(HttpMethod.GET,
                 "/passengers",
