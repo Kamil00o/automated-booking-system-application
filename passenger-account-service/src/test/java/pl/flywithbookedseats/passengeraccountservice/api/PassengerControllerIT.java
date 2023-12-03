@@ -11,7 +11,7 @@ import pl.flywithbookedseats.passengeraccountservice.api.passenger.CreatePasseng
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.PagePassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.PassengerDto;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerServiceImpl;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerService;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
@@ -19,7 +19,7 @@ import static org.testng.AssertJUnit.assertEquals;
 class PassengerControllerIT extends BaseIT {
 
     @Autowired
-    PassengerServiceImpl service;
+    PassengerService service;
 
     @Test
     void testCreateNewPassengerAccountOkStatus() {

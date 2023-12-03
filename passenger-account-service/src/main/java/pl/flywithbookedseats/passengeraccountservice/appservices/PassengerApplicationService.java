@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PagePassenger;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerBusinessLogic;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerService;
 
 @Service
 @RequiredArgsConstructor

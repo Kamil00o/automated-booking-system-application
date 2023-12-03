@@ -6,11 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.BookingService;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerRepository;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
 import pl.flywithbookedseats.passengeraccountservice.external.service.passenger.BookingAdapter;
 import pl.flywithbookedseats.passengeraccountservice.external.service.passenger.BookingPassengerDtoProxy;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerBusinessLogic;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerServiceImpl;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerService;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.PassengerStorageAdapter;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.PassengerEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.JpaPassengerRepository;
@@ -20,10 +19,10 @@ import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.
 public class DomainConfiguration {
 
     @Bean
-    public PassengerService passengerAccountService(
+    public PassengerService passengerService(
             PassengerBusinessLogic passengerBusinessLogic,
             PassengerRepository passengerRepository) {
-        return new PassengerServiceImpl(passengerBusinessLogic, passengerRepository);
+        return new PassengerService(passengerBusinessLogic, passengerRepository);
     }
 
     @Bean
