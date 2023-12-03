@@ -8,8 +8,7 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.BookingSer
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerRepository;
 import pl.flywithbookedseats.passengeraccountservice.external.service.passenger.BookingAdapter;
 import pl.flywithbookedseats.passengeraccountservice.external.service.passenger.BookingPassengerDtoProxy;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerBusinessLogic;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.PassengerStorageAdapter;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.PassengerEntityMapper;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.JpaPassengerRepository;
@@ -20,17 +19,9 @@ public class DomainConfiguration {
 
     @Bean
     public PassengerService passengerService(
-            PassengerBusinessLogic passengerBusinessLogic,
-            PassengerRepository passengerRepository) {
-        return new PassengerService(passengerBusinessLogic, passengerRepository);
-    }
-
-    @Bean
-    public PassengerBusinessLogic passengerAccountBusinessLogic(
             PassengerRepository passengerRepository,
             BookingService bookingService) {
-        return new PassengerBusinessLogic(passengerRepository,
-                bookingService);
+        return new PassengerService(passengerRepository, bookingService);
     }
 
     @Bean

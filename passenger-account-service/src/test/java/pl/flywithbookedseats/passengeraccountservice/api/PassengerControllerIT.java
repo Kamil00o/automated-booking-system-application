@@ -11,7 +11,7 @@ import pl.flywithbookedseats.passengeraccountservice.api.passenger.CreatePasseng
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.PagePassengerAccountDto;
 import pl.flywithbookedseats.passengeraccountservice.api.passenger.PassengerDto;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;

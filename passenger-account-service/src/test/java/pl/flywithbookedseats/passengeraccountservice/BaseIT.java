@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
 import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.JpaPassengerRepository;
 
 @ActiveProfiles("it")

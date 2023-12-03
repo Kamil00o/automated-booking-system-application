@@ -11,8 +11,8 @@ import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerR
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerConsts.PASSENGER_ACCOUNT_NOT_FOUND_EMAIL;
-import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerConsts.PASSENGER_ACCOUNT_NOT_FOUND_ID;
+import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerConsts.PASSENGER_ACCOUNT_NOT_FOUND_EMAIL;
+import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerConsts.PASSENGER_ACCOUNT_NOT_FOUND_ID;
 
 @RequiredArgsConstructor
 public class PassengerStorageAdapter implements PassengerRepository {

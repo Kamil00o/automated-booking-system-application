@@ -8,8 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PagePassenger;
 import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerBusinessLogic;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.service.implementation.PassengerService;
+import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
 
 @Service
 @RequiredArgsConstructor
@@ -17,17 +16,16 @@ public class PassengerApplicationService {
 
     private static final Logger logger = LoggerFactory.getLogger(PassengerApplicationService.class);
 
-    private final PassengerBusinessLogic passengerAccountBL;
-    private final PassengerService passengerService;
+    private final PassengerService service;
 
     @Transactional
     public Passenger createNewPassengerAccount(Passenger passenger) {
-        return passengerService.createNewPassengerAccount(passenger);
+        return service.createNewPassengerAccount(passenger);
     }
 
     @Transactional
     public Passenger updatePassengerAccountById(long id, Passenger passenger) {
-        return passengerService.updatePassengerAccountById(id, passenger);
+        return service.updatePassengerAccountById(id, passenger);
     }
 
 /*    @Transactional
@@ -39,32 +37,32 @@ public class PassengerApplicationService {
 
     @Transactional
     public void deleteAllPassengerAccounts() {
-        passengerService.deleteAllPassengerAccounts();
+        service.deleteAllPassengerAccounts();
     }
 
     @Transactional
     public void deletePassengerAccountById(Long id) {
-        passengerService.deletePassengerAccountById(id);
+        service.deletePassengerAccountById(id);
     }
 
     @Transactional
     public void deletePassengerAccountByEmail(String email) {
-        passengerAccountBL.deletePassengerAccountByEmail(email);
+        service.deletePassengerAccountByEmail(email);
     }
 
     public Passenger getPassengerDataFromBookingSystem(String email) {
-        return passengerService.getPassengerDataFromBookingSystem(email);
+        return service.getPassengerDataFromBookingSystem(email);
     }
 
     public PagePassenger retrieveAllPassengerAccountsFromDb(Pageable pageable) {
-        return passengerService.retrieveAllPassengerAccountsFromDb(pageable);
+        return service.retrieveAllPassengerAccountsFromDb(pageable);
     }
 
     public Passenger retrievePassengerAccountById(Long id) {
-        return passengerService.retrievePassengerAccountById(id);
+        return service.retrievePassengerAccountById(id);
     }
 
     public Passenger retrievePassengerAccountByEmail(String email) {
-        return passengerService.retrievePassengerAccountByEmail(email);
+        return service.retrievePassengerAccountByEmail(email);
     }
 }
