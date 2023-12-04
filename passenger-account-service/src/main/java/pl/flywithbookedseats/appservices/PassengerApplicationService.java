@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.appservices;
+package pl.flywithbookedseats.appservices;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PagePassenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
+import pl.flywithbookedseats.domain.passenger.PagePassenger;
+import pl.flywithbookedseats.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.PassengerService;
 
 @Service
 @RequiredArgsConstructor

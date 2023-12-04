@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.api.response;
+package pl.flywithbookedseats.api.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

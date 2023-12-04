@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.api.passenger;
+package pl.flywithbookedseats.api.passenger;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.passengeraccountservice.appservices.PassengerApplicationService;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
+import pl.flywithbookedseats.appservices.PassengerApplicationService;
+import pl.flywithbookedseats.domain.passenger.Passenger;
 
 @RestController
 @RequiredArgsConstructor

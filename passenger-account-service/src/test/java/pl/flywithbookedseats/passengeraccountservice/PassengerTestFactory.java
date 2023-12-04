@@ -1,7 +1,7 @@
 package pl.flywithbookedseats.passengeraccountservice;
 
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.CreatePassengerCommand;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
+import pl.flywithbookedseats.api.passenger.CreatePassengerCommand;
+import pl.flywithbookedseats.domain.passenger.Passenger;
 
 import java.time.LocalDate;
 

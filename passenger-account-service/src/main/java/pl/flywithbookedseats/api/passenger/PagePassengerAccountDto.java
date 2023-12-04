@@ -1,6 +1,6 @@
-package pl.flywithbookedseats.passengeraccountservice.api.passenger;
+package pl.flywithbookedseats.api.passenger;
 
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.Passenger;
 
 import java.util.List;
 

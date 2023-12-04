@@ -1,8 +1,5 @@
-<<<<<<<< HEAD:passenger-account-service/src/main/java/pl/flywithbookedseats/passengeraccountservice/external/storage/passenger/PassengerEntity.java
-package pl.flywithbookedseats.passengeraccountservice.external.storage.passenger;
-========
-package pl.flywithbookedseats.passengeraccountservice.logic.model.domain;
->>>>>>>> 4cae5f3 (Caused by: java.lang.ClassNotFoundException:):passenger-account-service/src/main/java/pl/flywithbookedseats/passengeraccountservice/logic/model/domain/PassengerAccount.java
+package pl.flywithbookedseats.external.storage.passenger;
+
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -14,7 +11,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
-import static pl.flywithbookedseats.passengeraccountservice.logic.common.Consts.*;
+import static pl.flywithbookedseats.common.Consts.*;
 
 @Entity(name = "passenger_account")
 @Table(

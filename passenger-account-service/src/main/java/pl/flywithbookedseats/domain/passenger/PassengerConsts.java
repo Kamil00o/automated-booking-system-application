@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:passenger-account-service/src/main/java/pl/flywithbookedseats/passengeraccountservice/domain/passenger/PassengerConsts.java
-package pl.flywithbookedseats.passengeraccountservice.domain.passenger;
-========
-package pl.flywithbookedseats.passengeraccountservice.logic.service.implementation;
->>>>>>>> 4cae5f3 (Caused by: java.lang.ClassNotFoundException:):passenger-account-service/src/main/java/pl/flywithbookedseats/passengeraccountservice/logic/service/implementation/PassengerAccountConsts.java
+package pl.flywithbookedseats.domain.passenger;
 
 public class PassengerConsts {
 

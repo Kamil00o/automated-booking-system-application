@@ -1,10 +1,10 @@
-package pl.flywithbookedseats.passengeraccountservice.external.service.passenger;
+package pl.flywithbookedseats.external.service.passenger;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.PassengerDtoMapper;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.BookingService;
+import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
+import pl.flywithbookedseats.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.BookingService;
 
 @RequiredArgsConstructor
 @Slf4j

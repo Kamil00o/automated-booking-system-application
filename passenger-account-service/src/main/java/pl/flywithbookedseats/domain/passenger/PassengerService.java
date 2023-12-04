@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.domain.passenger;
+package pl.flywithbookedseats.domain.passenger;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Objects;
 
-import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerConsts.PASSENGER_ACCOUNT_NOT_UPDATED;
-import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerConsts.PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS;
+import static pl.flywithbookedseats.domain.passenger.PassengerConsts.PASSENGER_ACCOUNT_NOT_UPDATED;
+import static pl.flywithbookedseats.domain.passenger.PassengerConsts.PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS;
 
 @RequiredArgsConstructor
 @Slf4j

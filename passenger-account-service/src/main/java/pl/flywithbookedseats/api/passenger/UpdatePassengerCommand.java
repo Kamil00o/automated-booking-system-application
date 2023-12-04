@@ -1,8 +1,5 @@
-<<<<<<<< HEAD:passenger-account-service/src/main/java/pl/flywithbookedseats/passengeraccountservice/api/passenger/UpdatePassengerCommand.java
-package pl.flywithbookedseats.passengeraccountservice.api.passenger;
-========
-package pl.flywithbookedseats.passengeraccountservice.logic.model.command;
->>>>>>>> 4cae5f3 (Caused by: java.lang.ClassNotFoundException:):passenger-account-service/src/main/java/pl/flywithbookedseats/passengeraccountservice/logic/model/command/UpdatePassengerAccount.java
+package pl.flywithbookedseats.api.passenger;
+
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
-import static pl.flywithbookedseats.passengeraccountservice.logic.common.Consts.*;
+import static pl.flywithbookedseats.common.Consts.*;
 
 public record UpdatePassengerCommand(
 

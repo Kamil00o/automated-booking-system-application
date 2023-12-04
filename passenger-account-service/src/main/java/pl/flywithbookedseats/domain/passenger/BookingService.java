@@ -1,6 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.domain.passenger;
-
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
+package pl.flywithbookedseats.domain.passenger;
 
 public interface BookingService {
 

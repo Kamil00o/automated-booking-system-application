@@ -1,8 +1,6 @@
-package pl.flywithbookedseats.passengeraccountservice.domain.passenger;
+package pl.flywithbookedseats.domain.passenger;
 
 import org.springframework.data.domain.Pageable;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PagePassenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
 
 public interface PassengerRepository {
 

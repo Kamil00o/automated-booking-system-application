@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.domain.passenger;
+package pl.flywithbookedseats.domain.passenger;
 
 import lombok.Value;
 

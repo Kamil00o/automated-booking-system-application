@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.passengeraccountservice.external.storage.passenger;
+package pl.flywithbookedseats.external.storage.passenger;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

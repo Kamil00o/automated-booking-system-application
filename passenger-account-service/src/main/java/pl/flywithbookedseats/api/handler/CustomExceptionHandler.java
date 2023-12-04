@@ -1,13 +1,13 @@
-package pl.flywithbookedseats.passengeraccountservice.api.handler;
+package pl.flywithbookedseats.api.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.flywithbookedseats.passengeraccountservice.api.response.ErrorResponse;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerAlreadyExistsException;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerNotFoundException;
+import pl.flywithbookedseats.api.response.ErrorResponse;
+import pl.flywithbookedseats.domain.passenger.PassengerAlreadyExistsException;
+import pl.flywithbookedseats.domain.passenger.PassengerNotFoundException;
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {

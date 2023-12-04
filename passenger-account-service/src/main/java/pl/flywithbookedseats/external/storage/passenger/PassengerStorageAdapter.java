@@ -1,18 +1,17 @@
-package pl.flywithbookedseats.passengeraccountservice.external.storage.passenger;
+package pl.flywithbookedseats.external.storage.passenger;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerNotFoundException;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PagePassenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerRepository;
+import pl.flywithbookedseats.domain.passenger.PassengerNotFoundException;
+import pl.flywithbookedseats.domain.passenger.PagePassenger;
+import pl.flywithbookedseats.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.PassengerRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerConsts.PASSENGER_ACCOUNT_NOT_FOUND_EMAIL;
-import static pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerConsts.PASSENGER_ACCOUNT_NOT_FOUND_ID;
+import static pl.flywithbookedseats.domain.passenger.PassengerConsts.*;
 
 @RequiredArgsConstructor
 public class PassengerStorageAdapter implements PassengerRepository {

@@ -1,7 +1,7 @@
-package pl.flywithbookedseats.passengeraccountservice.api.passenger;
+package pl.flywithbookedseats.api.passenger;
 
 import org.mapstruct.Mapper;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.Passenger;
 
 @Mapper(componentModel = "spring")
 public interface CreatePassengerCommandMapper {

@@ -1,8 +1,5 @@
-<<<<<<<< HEAD:passenger-account-service/src/main/java/pl/flywithbookedseats/passengeraccountservice/api/passenger/PassengerDto.java
-package pl.flywithbookedseats.passengeraccountservice.api.passenger;
-========
-package pl.flywithbookedseats.passengeraccountservice.logic.model.dto;
->>>>>>>> 4cae5f3 (Caused by: java.lang.ClassNotFoundException:):passenger-account-service/src/main/java/pl/flywithbookedseats/passengeraccountservice/logic/model/dto/PassengerAccountDto.java
+package pl.flywithbookedseats.api.passenger;
+
 
 import lombok.Builder;
 

@@ -1,17 +1,17 @@
-package pl.flywithbookedseats.passengeraccountservice.config;
+package pl.flywithbookedseats.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.flywithbookedseats.passengeraccountservice.api.passenger.PassengerDtoMapper;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.BookingService;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerRepository;
-import pl.flywithbookedseats.passengeraccountservice.external.service.passenger.BookingAdapter;
-import pl.flywithbookedseats.passengeraccountservice.external.service.passenger.BookingPassengerDtoProxy;
-import pl.flywithbookedseats.passengeraccountservice.domain.passenger.PassengerService;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.PassengerStorageAdapter;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.PassengerEntityMapper;
-import pl.flywithbookedseats.passengeraccountservice.external.storage.passenger.JpaPassengerRepository;
+import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
+import pl.flywithbookedseats.domain.passenger.BookingService;
+import pl.flywithbookedseats.domain.passenger.PassengerRepository;
+import pl.flywithbookedseats.external.service.passenger.BookingAdapter;
+import pl.flywithbookedseats.external.service.passenger.BookingPassengerDtoProxy;
+import pl.flywithbookedseats.domain.passenger.PassengerService;
+import pl.flywithbookedseats.external.storage.passenger.PassengerStorageAdapter;
+import pl.flywithbookedseats.external.storage.passenger.PassengerEntityMapper;
+import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepository;
 
 @Configuration
 @ConfigurationProperties("domain.properties")
