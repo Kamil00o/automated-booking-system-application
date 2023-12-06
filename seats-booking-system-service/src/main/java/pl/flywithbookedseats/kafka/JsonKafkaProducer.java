@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.kafka;
+package pl.flywithbookedseats.kafka;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;

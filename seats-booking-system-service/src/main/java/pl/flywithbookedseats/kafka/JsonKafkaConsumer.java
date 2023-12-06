@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.kafka;
+package pl.flywithbookedseats.kafka;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

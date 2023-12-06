@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.kafka;
+package pl.flywithbookedseats.kafka;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,5 +12,6 @@ public class PassengerDtoEvent {
 
     private String message;
     private String status;
+    private String requestType;
     private PassengerDto passengerDto;
 }
