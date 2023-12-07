@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.passenger.BookingService;
 import pl.flywithbookedseats.domain.passenger.PassengerRepository;
+import pl.flywithbookedseats.domain.passenger.ProducerService;
+import pl.flywithbookedseats.external.message.passenger.PassengerDtoEventProducer;
+import pl.flywithbookedseats.external.message.passenger.ProducerAdapter;
 import pl.flywithbookedseats.external.service.passenger.BookingAdapter;
 import pl.flywithbookedseats.external.service.passenger.BookingPassengerDtoProxy;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
@@ -20,8 +23,9 @@ public class DomainConfiguration {
     @Bean
     public PassengerService passengerService(
             PassengerRepository passengerRepository,
-            BookingService bookingService) {
-        return new PassengerService(passengerRepository, bookingService);
+            BookingService bookingService,
+            ProducerService producerService) {
+        return new PassengerService(passengerRepository, bookingService, producerService);
     }
 
     @Bean
@@ -36,5 +40,13 @@ public class DomainConfiguration {
             BookingPassengerDtoProxy bookingPassengerDtoProxy,
             PassengerDtoMapper passengerDtoMapper) {
         return new BookingAdapter(bookingPassengerDtoProxy, passengerDtoMapper);
+    }
+
+    @Bean
+    public ProducerService producerService(
+            PassengerDtoEventProducer passengerDtoEventProducer,
+            PassengerDtoMapper passengerDtoMapper
+    ) {
+        return new ProducerAdapter(passengerDtoEventProducer, passengerDtoMapper);
     }
 }

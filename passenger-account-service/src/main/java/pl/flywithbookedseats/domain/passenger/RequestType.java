@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.kafka;
+package pl.flywithbookedseats.domain.passenger;
 
 public enum RequestType {
 

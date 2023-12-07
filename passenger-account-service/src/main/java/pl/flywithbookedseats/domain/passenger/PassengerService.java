@@ -15,6 +15,7 @@ public class PassengerService {
 
     private final PassengerRepository repository;
     private final BookingService bookingService;
+    private final ProducerService producerService;
 
     public PagePassenger retrieveAllPassengersFromDb(Pageable pageable) {
         return repository.findAll(pageable);
@@ -56,6 +57,10 @@ public class PassengerService {
 
     public Passenger getPassengerDataFromBookingSystem(String email) {
         return getPassengerDataFromBookingService(email);
+    }
+
+    public void sendMessageToBookingService(Passenger passenger, RequestType requestType) {
+        producerService.sendPassengerUpdateMessage(passenger, requestType);
     }
 
     public Passenger generateNewPassengerAccount(Passenger passenger) {

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.PassengerApplicationService;
 import pl.flywithbookedseats.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.RequestType;
 
 @RestController
 @RequiredArgsConstructor
@@ -106,5 +107,13 @@ public class PassengerController {
         PassengerDto obtainedPassenger = passengerDtoMapper.toDto(service.getPassengerDataFromBookingSystem(email));
 
         return ResponseEntity.ok(obtainedPassenger);
+    }
+
+    @PostMapping(path = "/send-update-msg")
+    public ResponseEntity<PassengerDto> sendPassnegerMessageToBookingService(
+            @Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
+        service.sendPassengerMessageToBookingService(createPassengerCommandMapper.toDomain(createPassengerCommand),
+                RequestType.UPDATE);
+        return ResponseEntity.ok().build();
     }
 }
