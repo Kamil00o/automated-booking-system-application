@@ -33,7 +33,10 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public PassengerDto createNewPassenger(CreatePassengerCommand createPassengerCommand) {
         if (!passengerBL.exists(createPassengerCommand)) {
-            return passengerDtoMapper.apply(passengerBL.generateNewPassenger(createPassengerCommand));
+            PassengerDto createdPassengerDto = passengerDtoMapper
+                    .apply(passengerBL.generateNewPassenger(createPassengerCommand));
+            passengerBL.sendPassengerDtoAsync("data request", createdPassengerDto);
+            return createdPassengerDto;
         } else {
             logger.warn(PASSENGER_NOT_CREATED);
             throw new PassengerAlreadyExistsException(PASSENGER_ALREADY_EXISTS_EMAIL
@@ -46,8 +49,10 @@ public class PassengerServiceImpl implements PassengerService {
     public PassengerDto updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand, String email) {
         Passenger savedPassenger = passengerBL.retrievePassengerEntityFromDb(email);
         if (passengerBL.exists(email)) {
-            return passengerDtoMapper.apply(passengerBL
+            PassengerDto updatedPassengerDto = passengerDtoMapper.apply(passengerBL
                     .updateSpecifiedPassenger(updatePassengerCommand, savedPassenger, false));
+            passengerBL.sendPassengerDtoAsync("update", updatedPassengerDto);
+            return updatedPassengerDto;
         } else {
             logger.warn(PASSENGER_NOT_UPDATED);
             throw new FlightAlreadyExistsException(PASSENGER_NOT_FOUND_EMAIL.formatted(email));
