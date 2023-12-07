@@ -1,30 +1,29 @@
-package pl.flywithbookedseats.config.kafka;
+package pl.flywithbookedseats.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
-public class KafkaTopicConfig {
+public class PassengerServiceTopicConfig {
+
+    @Value("${spring.kafka.topic-toPassengerService.name}")
+    private String toPassengerServiceTopic;
 
     @Value("${spring.kafka.topic-toBookingService.name}")
     private String toBookingServiceTopic;
 
-    @Value("${spring.kafka.topic-json.name}")
-    private String kafkaTopicJson;
-
     @Bean
-    public NewTopic toBookingServiceTopic() {
-        return TopicBuilder.name(toBookingServiceTopic)
+    public NewTopic toPassengerServiceTopic() {
+        return TopicBuilder.name(toPassengerServiceTopic)
                 .build();
     }
 
     @Bean
-    public NewTopic kafkaTopicJsonTopic() {
-        return TopicBuilder.name(kafkaTopicJson)
+    public NewTopic toBookingServiceTopic() {
+        return TopicBuilder.name(toBookingServiceTopic)
                 .build();
     }
 }

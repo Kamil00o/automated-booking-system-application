@@ -5,18 +5,15 @@ eureka:
 hibernate:
     id:
         new_generator_mappings: true
-kafka:
-    consumer:
-        value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
 logging:
     level:
         org:
             springframework: info
 server:
-    port: 9000
+    port: 9200
 spring:
     application:
-        name: passenger-account-service
+        name: seats-booking-system-service
     config:
         import: optional:configserver:http://localhost:8595
     datasource:
@@ -39,7 +36,7 @@ spring:
         consumer:
             auto-offset-reset: earliest
             bootstrap-servers: localhost:9092
-            group-id: passengerServiceGroup
+            group-id: bookingServiceGroup
             key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
             properties:
                 key-deserializer: org.apache.kafka.common.serialization.ErrorHandlingDeserializer
@@ -55,8 +52,12 @@ spring:
         producer:
             bootstrap-servers: localhost:9092
             key-deserializer: org.apache.kafka.common.serialization.StringSerializer
+            properties:
+                value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
             value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
         topic-toPassengerService:
             name: toPassengerServiceTopic
         topic-toBookingService:
             name: toBookingServiceTopic
+    main:
+        allow-circular-references: true
