@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.kafka.PassengerDtoEventProducer;
 import pl.flywithbookedseats.kafka.PassengerDtoEvent;
+import pl.flywithbookedseats.kafka.RequestType;
 import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
@@ -269,7 +270,7 @@ public class SeatsBookingSystemController {
         PassengerDtoEvent passengerDtoEvent = new PassengerDtoEvent();
         passengerDtoEvent.setMessage("Pending");
         passengerDtoEvent.setStatus("PassengerDto status is in pending state");
-        passengerDtoEvent.setRequestType("UPDATE");
+        passengerDtoEvent.setRequestType(RequestType.UPDATE);
         passengerDtoEvent.setPassengerDto(passengerDto);
         passengerDtoEventProducer.sendMessage(passengerDtoEvent);
         return ResponseEntity.ok("Json message sent to kafka topic");

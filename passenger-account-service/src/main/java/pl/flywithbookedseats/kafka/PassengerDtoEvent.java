@@ -12,6 +12,6 @@ public class PassengerDtoEvent {
 
     private String message;
     private String status;
-    private String requestType;
+    private RequestType requestType;
     private PassengerDto passengerDto;
 }

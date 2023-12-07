@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.kafka.RequestType;
 import pl.flywithbookedseats.logic.exceptions.FlightNotFoundException;
 import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
@@ -57,7 +58,7 @@ public class SeatsBookingBusinessLogic {
             boolean isNotExistingPassenger = notExistingPassenger.isNotExistingPassenger();
             passengerBL.updateSpecifiedPassenger(parseUpdatedPassengerData(bookingEnterDataCommand, newReservation),
                     newPassenger, isNotExistingPassenger);
-            passengerBL.sendPassengerDtoAsync("update", passengerDtoMapper.apply(newPassenger));
+            passengerBL.sendPassengerDtoAsync(RequestType.UPDATE, passengerDtoMapper.apply(newPassenger));
             return reservationDtoMapper.apply(newReservation);
         } else {
             logger.warn(RESERVATION_NOT_CREATED);
@@ -74,7 +75,7 @@ public class SeatsBookingBusinessLogic {
         List<Reservation> associatedPassengerReservationList = associatedPassengerData.getReservationsList();
         associatedPassengerReservationList.remove(savedReservation);
         reservationBL.deleteReservationById(reservationId);
-        passengerBL.sendPassengerDtoAsync("update", passengerDtoMapper.apply(associatedPassengerData));
+        passengerBL.sendPassengerDtoAsync(RequestType.UPDATE, passengerDtoMapper.apply(associatedPassengerData));
         if (associatedPassengerReservationList.isEmpty()) {
             passengerBL.deletePassengerByEmail(savedReservation.getPassengerEmail());
         }

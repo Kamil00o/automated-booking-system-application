@@ -7,6 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.kafka.PassengerDtoEventProducer;
 import pl.flywithbookedseats.kafka.PassengerDtoEventFactory;
+import pl.flywithbookedseats.kafka.RequestType;
 import pl.flywithbookedseats.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.logic.exceptions.PassengerDatabaseIsEmptyException;
 import pl.flywithbookedseats.logic.exceptions.PassengerNotFoundException;
@@ -149,7 +150,7 @@ public class PassengerBusinessLogic {
         }
     }
 
-    public void sendPassengerDtoAsync(String requestType, PassengerDto passengerDto) {
+    public void sendPassengerDtoAsync(RequestType requestType, PassengerDto passengerDto) {
         passengerDtoEventProducer.sendMessage(PassengerDtoEventFactory.createPassengerDtoEvent(requestType, passengerDto));
     }
 
