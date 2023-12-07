@@ -8,8 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.kafka.JsonKafkaProducer;
-import pl.flywithbookedseats.kafka.KafkaProducer;
+import pl.flywithbookedseats.kafka.PassengerDtoEventProducer;
 import pl.flywithbookedseats.kafka.PassengerDtoEvent;
 import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
@@ -46,8 +45,7 @@ public class SeatsBookingSystemController {
     private final PassengerServiceImpl passengerService;
     private final ReservationServiceImpl reservationService;
     private final SeatsBookingServiceImpl bookingService;
-    private final KafkaProducer kafkaProducer;
-    private final JsonKafkaProducer jsonKafkaProducer;
+    private final PassengerDtoEventProducer passengerDtoEventProducer;
 
     @GetMapping(path = "/test")
     public String test() {
@@ -266,12 +264,6 @@ public class SeatsBookingSystemController {
 
     ////////////////kafka methods:
 
-    @GetMapping(path = "/kafka/test")
-    public String publish(@RequestParam("message") String message) {
-        kafkaProducer.sendMessage(message);
-        return message;
-    }
-
     @PostMapping(path = "/kafka/post-dto")
     public ResponseEntity<String> publishPassengerDtoFromDb(@RequestBody @Payload PassengerDto passengerDto) {
         PassengerDtoEvent passengerDtoEvent = new PassengerDtoEvent();
@@ -279,7 +271,7 @@ public class SeatsBookingSystemController {
         passengerDtoEvent.setStatus("PassengerDto status is in pending state");
         passengerDtoEvent.setRequestType("UPDATE");
         passengerDtoEvent.setPassengerDto(passengerDto);
-        jsonKafkaProducer.sendMessage(passengerDtoEvent);
+        passengerDtoEventProducer.sendMessage(passengerDtoEvent);
         return ResponseEntity.ok("Json message sent to kafka topic");
     }
 }

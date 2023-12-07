@@ -10,20 +10,19 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaTopicConfig {
 
-    @Value("${spring.kafka.topic.name}")
-    private String kafkaTopic;
+    @Value("${spring.kafka.topic-toBookingService.name}")
+    private String toBookingServiceTopic;
 
     @Value("${spring.kafka.topic-json.name}")
     private String kafkaTopicJson;
 
     @Bean
-    public NewTopic kafkaTopic() {
-        return TopicBuilder.name(kafkaTopic)
+    public NewTopic toBookingServiceTopic() {
+        return TopicBuilder.name(toBookingServiceTopic)
                 .build();
     }
 
     @Bean
-    @Primary
     public NewTopic kafkaTopicJsonTopic() {
         return TopicBuilder.name(kafkaTopicJson)
                 .build();

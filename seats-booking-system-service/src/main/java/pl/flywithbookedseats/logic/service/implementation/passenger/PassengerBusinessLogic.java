@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.kafka.JsonKafkaProducer;
+import pl.flywithbookedseats.kafka.PassengerDtoEventProducer;
 import pl.flywithbookedseats.kafka.PassengerDtoEventFactory;
 import pl.flywithbookedseats.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.logic.exceptions.PassengerDatabaseIsEmptyException;
@@ -42,7 +42,7 @@ public class PassengerBusinessLogic {
     private final CreatePassengerMapper createPassengerMapper;
     private final PassengerAccountProxy passengerAccountProxy;
     private final DtoPassengerMapper dtoPassengerMapper;
-    private final JsonKafkaProducer jsonKafkaProducer;
+    private final PassengerDtoEventProducer passengerDtoEventProducer;
 
     public Passenger generateNewPassenger(CreatePassengerCommand createPassengerCommand) {
         Passenger newPassenger = createPassengerMapper.apply(createPassengerCommand);
@@ -150,7 +150,7 @@ public class PassengerBusinessLogic {
     }
 
     public void sendPassengerDtoAsync(String requestType, PassengerDto passengerDto) {
-        jsonKafkaProducer.sendMessage(PassengerDtoEventFactory.createPassengerDtoEvent(requestType, passengerDto));
+        passengerDtoEventProducer.sendMessage(PassengerDtoEventFactory.createPassengerDtoEvent(requestType, passengerDto));
     }
 
     private void addReservationEntityToPassengerEntity(Passenger passengerEntity, Reservation reservationToAdd) {
