@@ -18,6 +18,8 @@ public class ConsumerAdapter {
         RequestType receivedRequestType = passengerDtoEvent.getRequestType();
         if (receivedRequestType == RequestType.UPDATE) {
             service.updatePassengerAccountByEmail(receivedPassenger.getEmail(), receivedPassenger);
+        } else if (receivedRequestType == RequestType.DATA_REQUEST) {
+            service
         }
     }
 }
