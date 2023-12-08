@@ -19,7 +19,7 @@ public class ConsumerAdapter {
         if (receivedRequestType == RequestType.UPDATE) {
             service.updatePassengerAccountByEmail(receivedPassenger.getEmail(), receivedPassenger);
         } else if (receivedRequestType == RequestType.DATA_REQUEST) {
-            service
+            service.handlePassengerDataRequest(receivedPassenger);
         }
     }
 }
