@@ -7,7 +7,7 @@ import pl.flywithbookedseats.api.passenger.PassengerDto;
 
 //TODO: CHANGE NAME
 @FeignClient(name = "seats-booking-system-service")
-public interface BookingPassengerDtoProxy {
+public interface FeignBookingService {
 
     @GetMapping(path = "/seats-booking/get-passenger/email/{email}")
     PassengerDto getPassengerDtoData(@PathVariable String email);

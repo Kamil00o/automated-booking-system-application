@@ -10,13 +10,13 @@ import pl.flywithbookedseats.domain.passenger.BookingService;
 @Slf4j
 public class BookingAdapter implements BookingService {
 
-    private final BookingPassengerDtoProxy bookingPassengerDtoProxy;
+    private final FeignBookingService feignBookingService;
     private final PassengerDtoMapper passengerDtoMapper;
 
     @Override
     public Passenger getPassenger(String email) {
         try {
-            return passengerDtoMapper.toDomain(bookingPassengerDtoProxy.getPassengerDtoData(email));
+            return passengerDtoMapper.toDomain(feignBookingService.getPassengerDtoData(email));
         } catch (Exception exception) {
             log.warn("ReservationIdList has not been retrieved from booking service.");
             return null;

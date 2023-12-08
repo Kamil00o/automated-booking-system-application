@@ -10,7 +10,7 @@ import pl.flywithbookedseats.domain.passenger.ProducerService;
 import pl.flywithbookedseats.external.message.passenger.PassengerDtoEventProducer;
 import pl.flywithbookedseats.external.message.passenger.ProducerAdapter;
 import pl.flywithbookedseats.external.service.passenger.BookingAdapter;
-import pl.flywithbookedseats.external.service.passenger.BookingPassengerDtoProxy;
+import pl.flywithbookedseats.external.service.passenger.FeignBookingService;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
 import pl.flywithbookedseats.external.storage.passenger.PassengerStorageAdapter;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntityMapper;
@@ -29,17 +29,17 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public PassengerRepository passengerAccountRepository(
+    public PassengerRepository passengerRepository(
             PassengerEntityMapper mapper,
             JpaPassengerRepository jpaPassengerRepository) {
         return new PassengerStorageAdapter(mapper, jpaPassengerRepository);
     }
 
     @Bean
-    public BookingService bookingPassengerDtoProxyService(
-            BookingPassengerDtoProxy bookingPassengerDtoProxy,
+    public BookingService bookingService(
+            FeignBookingService feignBookingService,
             PassengerDtoMapper passengerDtoMapper) {
-        return new BookingAdapter(bookingPassengerDtoProxy, passengerDtoMapper);
+        return new BookingAdapter(feignBookingService, passengerDtoMapper);
     }
 
     @Bean
