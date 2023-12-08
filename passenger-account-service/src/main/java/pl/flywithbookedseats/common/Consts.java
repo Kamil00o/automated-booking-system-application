@@ -10,4 +10,6 @@ public class Consts {
     public static final String EMAIL_MIN_FIELD_SIZE_MSG = "The email field should contain at least 7 signs";
     public static final String NATIONALITY_MIN_FIELD_SIZE_MSG = "The nationality field should contain at least 2 signs";
     public static final String GENDER_MIN_FIELD_SIZE_MSG = "The gender field should contain at least 4 signs";
+    public static final String REQUEST_TYPE_IN_MSG_NOT_SUPPORTED =
+            "Request type in the received message is not supported!";
 }
