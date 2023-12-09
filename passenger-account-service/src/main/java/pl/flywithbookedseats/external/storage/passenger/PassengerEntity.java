@@ -64,7 +64,7 @@ public class PassengerEntity {
     @NotNull(message = NOT_NULL_MESSAGE)
     private boolean disability;
     @Column(name = "reservation_id")
-    private List<Long> reservationIdList;
+    private List<Long> reservationsIdList;
     @NotBlank(message = NOT_BLANK_MESSAGE)
     @NotNull(message = NOT_NULL_MESSAGE)
     @Size(min = 2, message = NATIONALITY_MIN_FIELD_SIZE_MSG)

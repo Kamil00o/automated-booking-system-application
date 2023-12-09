@@ -73,7 +73,7 @@ public class PassengerService {
         if (!exists(passenger)) {
             Passenger obtainedPassenger = getPassengerDataFromBookingService(passenger.getEmail());
             if (obtainedPassenger != null) {
-                passenger.setReservationIdList(obtainedPassenger.getReservationIdList());
+                passenger.setReservationsIdList(obtainedPassenger.getReservationsIdList());
             }
 
             repository.save(passenger);
@@ -92,15 +92,20 @@ public class PassengerService {
                                                       Passenger passengerUpdateData) {
 
         if (!exists(passengerUpdateData, passengerToUpdate)) {
-            passengerToUpdate.setName(passengerUpdateData.getName());
-            passengerToUpdate.setSurname(passengerUpdateData.getSurname());
-            passengerToUpdate.setEmail(passengerUpdateData.getEmail());
-            passengerToUpdate.setBirthDate(passengerUpdateData.getBirthDate());
-            passengerToUpdate.setDisability(passengerUpdateData.isDisability());
-            passengerToUpdate.setReservationIdList(passengerUpdateData.getReservationIdList());
-            passengerToUpdate.setGender(passengerUpdateData.getGender());
-            passengerToUpdate.setNationality(passengerUpdateData.getNationality());
-            repository.save(passengerToUpdate);
+            if (passengerUpdateData.getNationality() != null && passengerUpdateData.getGender() != null) {
+                passengerToUpdate.setName(passengerUpdateData.getName());
+                passengerToUpdate.setSurname(passengerUpdateData.getSurname());
+                passengerToUpdate.setEmail(passengerUpdateData.getEmail());
+                passengerToUpdate.setBirthDate(passengerUpdateData.getBirthDate());
+                passengerToUpdate.setDisability(passengerUpdateData.isDisability());
+                passengerToUpdate.setReservationsIdList(passengerUpdateData.getReservationsIdList());
+                passengerToUpdate.setGender(passengerUpdateData.getGender());
+                passengerToUpdate.setNationality(passengerUpdateData.getNationality());
+                repository.save(passengerToUpdate);
+            } else {
+                passengerToUpdate.setReservationsIdList(passengerUpdateData.getReservationsIdList());
+                repository.save(passengerToUpdate);
+            }
             return passengerToUpdate;
         } else {
             log.warn(PASSENGER_ACCOUNT_NOT_UPDATED.formatted(passengerToUpdate.getId(),

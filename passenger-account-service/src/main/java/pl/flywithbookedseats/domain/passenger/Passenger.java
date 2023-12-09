@@ -21,7 +21,7 @@ public class Passenger {
     String email;
     LocalDate birthDate;
     boolean disability;
-    List<Long> reservationIdList;
+    List<Long> reservationsIdList;
     String nationality;
     String gender;
 
@@ -57,7 +57,7 @@ public class Passenger {
             return false;
         }
 
-        if (Objects.equals(reservationIdList, passenger.reservationIdList)) {
+        if (Objects.equals(reservationsIdList, passenger.reservationsIdList)) {
             return false;
         }
 
