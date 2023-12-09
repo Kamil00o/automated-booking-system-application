@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.domain.passenger.PagePassenger;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
-import pl.flywithbookedseats.domain.passenger.RequestType;
+import pl.flywithbookedseats.external.message.passenger.RequestType;
 
 @Service
 @RequiredArgsConstructor

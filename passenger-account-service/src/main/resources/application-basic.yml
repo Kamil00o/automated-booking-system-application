@@ -56,7 +56,7 @@ spring:
             bootstrap-servers: localhost:9092
             key-deserializer: org.apache.kafka.common.serialization.StringSerializer
             value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-        topic-toPassengerService:
-            name: toPassengerServiceTopic
-        topic-toBookingService:
-            name: toBookingServiceTopic
+        topic-bookingServiceEventsTopic:
+            name: bookingServiceEventsTopic
+        topic-passengerServiceEventsTopic:
+            name: passengerServiceEventsTopic

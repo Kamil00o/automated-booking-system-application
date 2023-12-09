@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.domain.passenger;
+package pl.flywithbookedseats.external.message.passenger;
 
 public enum RequestType {
 

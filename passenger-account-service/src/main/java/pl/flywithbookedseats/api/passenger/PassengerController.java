@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.PassengerApplicationService;
 import pl.flywithbookedseats.domain.passenger.Passenger;
-import pl.flywithbookedseats.domain.passenger.RequestType;
+import pl.flywithbookedseats.external.message.passenger.RequestType;
 
 @RestController
 @RequiredArgsConstructor

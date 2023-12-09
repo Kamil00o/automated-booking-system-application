@@ -15,15 +15,15 @@ import pl.flywithbookedseats.kafka.PassengerDtoEvent;
 @Service
 public class PassengerDtoEventProducer {
 
-    @Value("${spring.kafka.topic-toBookingService.name}")
-    private String toBookingServiceTopic;
+    @Value("${spring.kafka.topic-passengerServiceEventsTopic.name}")
+    private String passengerServiceEventsTopic;
     private final KafkaTemplate<String, PassengerDtoEvent> kafkaTemplate;
 
     public void sendMessage(PassengerDtoEvent passengerDtoEvent) {
         log.info("PassengerDto to send: {}", passengerDtoEvent);
         Message<PassengerDtoEvent> message = MessageBuilder
                 .withPayload(passengerDtoEvent)
-                .setHeader(KafkaHeaders.TOPIC, toBookingServiceTopic)
+                .setHeader(KafkaHeaders.TOPIC, passengerServiceEventsTopic)
                 .build();
         kafkaTemplate.send(message);
     }

@@ -2,7 +2,6 @@ package pl.flywithbookedseats.external.message.passenger;
 
 
 import pl.flywithbookedseats.api.passenger.PassengerDto;
-import pl.flywithbookedseats.domain.passenger.RequestType;
 import pl.flywithbookedseats.kafka.PassengerDtoEvent;
 
 public class PassengerDtoEventFactory {

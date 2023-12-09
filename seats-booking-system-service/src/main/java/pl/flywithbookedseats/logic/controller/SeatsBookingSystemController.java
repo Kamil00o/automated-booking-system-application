@@ -270,7 +270,7 @@ public class SeatsBookingSystemController {
         PassengerDtoEvent passengerDtoEvent = new PassengerDtoEvent();
         passengerDtoEvent.setMessage("Pending");
         passengerDtoEvent.setStatus("PassengerDto status is in pending state");
-        passengerDtoEvent.setRequestType(RequestType.UPDATE);
+        passengerDtoEvent.setRequestType(RequestType.DATA_REQUEST);
         passengerDtoEvent.setPassengerDto(passengerDto);
         passengerDtoEventProducer.sendMessage(passengerDtoEvent);
         return ResponseEntity.ok("Json message sent to kafka topic");

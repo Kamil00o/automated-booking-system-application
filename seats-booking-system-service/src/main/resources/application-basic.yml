@@ -55,9 +55,9 @@ spring:
             properties:
                 value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
             value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-        topic-toPassengerService:
-            name: toPassengerServiceTopic
-        topic-toBookingService:
-            name: toBookingServiceTopic
+        topic-bookingServiceEventsTopic:
+            name: bookingServiceEventsTopic
+        topic-passengerServiceEventsTopic:
+            name: passengerServiceEventsTopic
     main:
         allow-circular-references: true

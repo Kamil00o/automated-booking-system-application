@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class PassengerDtoEventConsumer {
 
     @KafkaListener(
-            topics = "${spring.kafka.topic-toBookingService.name}",
+            topics = "${spring.kafka.topic-passengerServiceEventsTopic.name}",
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void consume(PassengerDtoEvent passengerDtoEvent) {

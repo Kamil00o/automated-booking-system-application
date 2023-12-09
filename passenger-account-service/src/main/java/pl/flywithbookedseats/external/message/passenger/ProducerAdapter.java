@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.ProducerService;
-import pl.flywithbookedseats.domain.passenger.RequestType;
 
 @RequiredArgsConstructor
 public class ProducerAdapter implements ProducerService {

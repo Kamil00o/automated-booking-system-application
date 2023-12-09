@@ -14,7 +14,7 @@ public class PassengerDtoEventConsumer {
     private final ConsumerAdapter consumerAdapter;
 
     @KafkaListener(
-            topics = "${spring.kafka.topic-toPassengerService.name}",
+            topics = "${spring.kafka.topic-bookingServiceEventsTopic.name}",
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void consume(PassengerDtoEvent passengerDtoEvent) {

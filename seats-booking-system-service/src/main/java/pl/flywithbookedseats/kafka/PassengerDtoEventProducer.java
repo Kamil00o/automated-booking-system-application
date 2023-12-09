@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class PassengerDtoEventProducer {
 
-    @Value("${spring.kafka.topic-toPassengerService.name}")
-    private String toPassengerServiceTopic;
+    @Value("${spring.kafka.topic-bookingServiceEventsTopic.name}")
+    private String bookingServiceEventsTopic;
     private final KafkaTemplate<String, PassengerDtoEvent> kafkaTemplate;
 
     public void sendMessage(PassengerDtoEvent passengerDtoEvent) {
         log.info("PassengerDto to send: {}", passengerDtoEvent);
         Message<PassengerDtoEvent> message = MessageBuilder
                 .withPayload(passengerDtoEvent)
-                .setHeader(KafkaHeaders.TOPIC, toPassengerServiceTopic)
+                .setHeader(KafkaHeaders.TOPIC, bookingServiceEventsTopic)
                 .build();
         kafkaTemplate.send(message);
     }

@@ -9,21 +9,21 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class BookingServiceTopicConfig {
 
-    @Value("${spring.kafka.topic-toBookingService.name}")
-    private String toBookingServiceTopic;
+    @Value("${spring.kafka.topic-passengerServiceEventsTopic.name}")
+    private String passengerServiceEventsTopic;
 
-    @Value("${spring.kafka.topic-toPassengerService.name}")
-    private String toPassengerServiceTopic;
+    @Value("${spring.kafka.topic-bookingServiceEventsTopic.name}")
+    private String bookingServiceEventsTopic;
 
     @Bean
-    public NewTopic toBookingServiceTopic() {
-        return TopicBuilder.name(toBookingServiceTopic)
+    public NewTopic passengerServiceEventsTopic() {
+        return TopicBuilder.name(passengerServiceEventsTopic)
                 .build();
     }
 
     @Bean
-    public NewTopic toPassengerServiceTopic() {
-        return TopicBuilder.name(toPassengerServiceTopic)
+    public NewTopic bookingServiceEventsTopic() {
+        return TopicBuilder.name(bookingServiceEventsTopic)
                 .build();
     }
 }

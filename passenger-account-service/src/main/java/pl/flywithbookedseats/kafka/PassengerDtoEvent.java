@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.flywithbookedseats.api.passenger.PassengerDto;
-import pl.flywithbookedseats.domain.passenger.RequestType;
+import pl.flywithbookedseats.external.message.passenger.RequestType;
 
 @Data
 @AllArgsConstructor
