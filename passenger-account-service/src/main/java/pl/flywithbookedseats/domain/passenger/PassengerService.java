@@ -70,6 +70,10 @@ public class PassengerService {
         producerService.sendPassengerUpdateMessage(passenger, requestType);
     }
 
+    public void sendUpdatedPassengerEvent(Passenger passenger) {
+        producerService.sendUpdatedPassengerEvent(passenger);
+    }
+
     public Passenger generateNewPassengerAccount(Passenger passenger) {
         if (!exists(passenger)) {
             Passenger obtainedPassenger = getPassengerDataFromBookingService(passenger.getEmail());

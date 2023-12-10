@@ -52,7 +52,7 @@ public class PassengerServiceImpl implements PassengerService {
         if (passengerBL.exists(email)) {
             PassengerDto updatedPassengerDto = passengerDtoMapper.apply(passengerBL
                     .updateSpecifiedPassenger(updatePassengerCommand, savedPassenger, false));
-            passengerBL.sendPassengerDtoAsync(RequestType.UPDATE, updatedPassengerDto);
+            passengerBL.sendUpdatedPassengerEvent(updatedPassengerDto);
             return updatedPassengerDto;
         } else {
             logger.warn(PASSENGER_NOT_UPDATED);
