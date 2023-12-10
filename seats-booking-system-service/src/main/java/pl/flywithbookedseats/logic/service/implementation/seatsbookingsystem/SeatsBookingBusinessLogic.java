@@ -58,7 +58,7 @@ public class SeatsBookingBusinessLogic {
             boolean isNotExistingPassenger = notExistingPassenger.isNotExistingPassenger();
             passengerBL.updateSpecifiedPassenger(parseUpdatedPassengerData(bookingEnterDataCommand, newReservation),
                     newPassenger, isNotExistingPassenger);
-            passengerBL.sendPassengerDtoAsync(RequestType.UPDATE, passengerDtoMapper.apply(newPassenger));
+            passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper.apply(newPassenger));
             return reservationDtoMapper.apply(newReservation);
         } else {
             logger.warn(RESERVATION_NOT_CREATED);
@@ -75,7 +75,7 @@ public class SeatsBookingBusinessLogic {
         List<Reservation> associatedPassengerReservationList = associatedPassengerData.getReservationsList();
         associatedPassengerReservationList.remove(savedReservation);
         reservationBL.deleteReservationById(reservationId);
-        passengerBL.sendPassengerDtoAsync(RequestType.UPDATE, passengerDtoMapper.apply(associatedPassengerData));
+        passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper.apply(associatedPassengerData));
         if (associatedPassengerReservationList.isEmpty()) {
             passengerBL.deletePassengerByEmail(savedReservation.getPassengerEmail());
         }
