@@ -154,6 +154,10 @@ public class PassengerBusinessLogic {
         bookingServiceProducer.sendMessage(EventsFactory.createPassengerDtoEvent(requestType, passengerDto));
     }
 
+    public void sendUpdatedPassengerEvent(PassengerDto passengerDto) {
+        bookingServiceProducer.sendUpdatedPassengerEvent(EventsFactory.createUpdatedPassengerEvent(passengerDto));
+    }
+
     private void addReservationEntityToPassengerEntity(Passenger passengerEntity, Reservation reservationToAdd) {
         List<Reservation> reservationList = passengerEntity.getReservationsList();
         if (reservationList == null) {

@@ -36,7 +36,8 @@ public class PassengerServiceImpl implements PassengerService {
         if (!passengerBL.exists(createPassengerCommand)) {
             PassengerDto createdPassengerDto = passengerDtoMapper
                     .apply(passengerBL.generateNewPassenger(createPassengerCommand));
-            passengerBL.sendPassengerDtoAsync(RequestType.DATA_REQUEST, createdPassengerDto);
+            //passengerBL.sendPassengerDtoAsync(RequestType.DATA_REQUEST, createdPassengerDto);
+            passengerBL.sendUpdatedPassengerEvent(createdPassengerDto);
             return createdPassengerDto;
         } else {
             logger.warn(PASSENGER_NOT_CREATED);
