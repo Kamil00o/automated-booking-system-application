@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class PassengerDtoEventProducer {
+public class BookingServiceProducer {
 
     @Value("${spring.kafka.topic-bookingServiceEventsTopic.name}")
     private String bookingServiceEventsTopic;
     private final KafkaTemplate<String, PassengerDtoEvent> kafkaTemplate;
+    private final KafkaTemplate<String, UpdatedPassengerEvent> updatedPassengerEventKafkaTemplate;
 
     public void sendMessage(PassengerDtoEvent passengerDtoEvent) {
         log.info("PassengerDto to send: {}", passengerDtoEvent);
@@ -25,5 +26,14 @@ public class PassengerDtoEventProducer {
                 .setHeader(KafkaHeaders.TOPIC, bookingServiceEventsTopic)
                 .build();
         kafkaTemplate.send(message);
+    }
+
+    public void sendUpdatedPassengerEvent(UpdatedPassengerEvent updatedPassengerEvent) {
+        log.info("UpdatedPassengerEvent to send: {}", updatedPassengerEvent);
+        Message<UpdatedPassengerEvent> message = MessageBuilder
+                .withPayload(updatedPassengerEvent)
+                .setHeader(KafkaHeaders.TOPIC, bookingServiceEventsTopic)
+                .build();
+        updatedPassengerEventKafkaTemplate.send(message);
     }
 }

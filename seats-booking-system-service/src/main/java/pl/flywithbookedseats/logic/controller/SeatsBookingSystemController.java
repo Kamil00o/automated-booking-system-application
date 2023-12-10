@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.kafka.PassengerDtoEventProducer;
+import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.PassengerDtoEvent;
 import pl.flywithbookedseats.kafka.RequestType;
 import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
@@ -46,7 +46,7 @@ public class SeatsBookingSystemController {
     private final PassengerServiceImpl passengerService;
     private final ReservationServiceImpl reservationService;
     private final SeatsBookingServiceImpl bookingService;
-    private final PassengerDtoEventProducer passengerDtoEventProducer;
+    private final BookingServiceProducer bookingServiceProducer;
 
     @GetMapping(path = "/test")
     public String test() {
@@ -272,7 +272,7 @@ public class SeatsBookingSystemController {
         passengerDtoEvent.setStatus("PassengerDto status is in pending state");
         passengerDtoEvent.setRequestType(RequestType.DATA_REQUEST);
         passengerDtoEvent.setPassengerDto(passengerDto);
-        passengerDtoEventProducer.sendMessage(passengerDtoEvent);
+        bookingServiceProducer.sendMessage(passengerDtoEvent);
         return ResponseEntity.ok("Json message sent to kafka topic");
     }
 }

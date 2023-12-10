@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.kafka.PassengerDtoEventProducer;
+import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.EventsFactory;
 import pl.flywithbookedseats.kafka.RequestType;
 import pl.flywithbookedseats.logic.exceptions.PassengerAlreadyExistsException;
@@ -43,7 +43,7 @@ public class PassengerBusinessLogic {
     private final CreatePassengerMapper createPassengerMapper;
     private final PassengerAccountProxy passengerAccountProxy;
     private final DtoPassengerMapper dtoPassengerMapper;
-    private final PassengerDtoEventProducer passengerDtoEventProducer;
+    private final BookingServiceProducer bookingServiceProducer;
 
     public Passenger generateNewPassenger(CreatePassengerCommand createPassengerCommand) {
         Passenger newPassenger = createPassengerMapper.apply(createPassengerCommand);
@@ -151,7 +151,7 @@ public class PassengerBusinessLogic {
     }
 
     public void sendPassengerDtoAsync(RequestType requestType, PassengerDto passengerDto) {
-        passengerDtoEventProducer.sendMessage(EventsFactory.createPassengerDtoEvent(requestType, passengerDto));
+        bookingServiceProducer.sendMessage(EventsFactory.createPassengerDtoEvent(requestType, passengerDto));
     }
 
     private void addReservationEntityToPassengerEntity(Passenger passengerEntity, Reservation reservationToAdd) {
