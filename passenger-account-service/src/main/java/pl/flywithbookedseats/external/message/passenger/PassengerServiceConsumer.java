@@ -5,11 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.kafka.PassengerDtoEvent;
+import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class PassengerDtoEventConsumer {
+public class PassengerServiceConsumer {
 
     private final ConsumerAdapter consumerAdapter;
 
@@ -20,5 +21,13 @@ public class PassengerDtoEventConsumer {
     public void consume(PassengerDtoEvent passengerDtoEvent) {
         log.info("Message received: {}", passengerDtoEvent);
         consumerAdapter.consumeMessage(passengerDtoEvent);
+    }
+
+    @KafkaListener(
+            topics = "${spring.kafka.topic-bookingServiceEventsTopic.name}",
+            groupId = "${spring.kafka.consumer.group-id}"
+    )
+    public void consumeUpdatedPassengerEvent(UpdatedPassengerEvent updatedPassengerEvent) {
+        log.info("Message received: {}", updatedPassengerEvent);
     }
 }

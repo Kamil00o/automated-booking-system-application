@@ -7,7 +7,7 @@ import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.passenger.BookingService;
 import pl.flywithbookedseats.domain.passenger.PassengerRepository;
 import pl.flywithbookedseats.domain.passenger.ProducerService;
-import pl.flywithbookedseats.external.message.passenger.PassengerDtoEventProducer;
+import pl.flywithbookedseats.external.message.passenger.PassengerServiceProducer;
 import pl.flywithbookedseats.external.message.passenger.ProducerAdapter;
 import pl.flywithbookedseats.external.service.passenger.BookingAdapter;
 import pl.flywithbookedseats.external.service.passenger.FeignBookingService;
@@ -44,9 +44,9 @@ public class DomainConfiguration {
 
     @Bean
     public ProducerService producerService(
-            PassengerDtoEventProducer passengerDtoEventProducer,
+            PassengerServiceProducer passengerServiceProducer,
             PassengerDtoMapper passengerDtoMapper
     ) {
-        return new ProducerAdapter(passengerDtoEventProducer, passengerDtoMapper);
+        return new ProducerAdapter(passengerServiceProducer, passengerDtoMapper);
     }
 }

@@ -8,7 +8,7 @@ import pl.flywithbookedseats.domain.passenger.ProducerService;
 @RequiredArgsConstructor
 public class ProducerAdapter implements ProducerService {
 
-    private final PassengerDtoEventProducer producer;
+    private final PassengerServiceProducer producer;
     private final PassengerDtoMapper mapper;
 
 
