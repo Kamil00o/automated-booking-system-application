@@ -1,7 +1,10 @@
-package pl.flywithbookedseats.kafka;
+package pl.flywithbookedseats.external.message.passenger;
+
 
 import org.springframework.beans.factory.annotation.Value;
-import pl.flywithbookedseats.logic.model.dto.PassengerDto;
+import pl.flywithbookedseats.api.passenger.PassengerDto;
+import pl.flywithbookedseats.kafka.PassengerDtoEvent;
+import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
 
 public class EventsFactory {
 

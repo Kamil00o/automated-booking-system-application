@@ -14,6 +14,6 @@ public class ProducerAdapter implements ProducerService {
 
     @Override
     public void sendPassengerUpdateMessage(Passenger passenger, RequestType requestType) {
-        producer.sendMessage(PassengerDtoEventFactory.createPassengerDtoEvent(requestType, mapper.toDto(passenger)));
+        producer.sendMessage(EventsFactory.createPassengerDtoEvent(requestType, mapper.toDto(passenger)));
     }
 }
