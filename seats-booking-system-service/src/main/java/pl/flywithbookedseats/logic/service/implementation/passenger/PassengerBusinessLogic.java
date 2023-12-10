@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.kafka.PassengerDtoEventProducer;
-import pl.flywithbookedseats.kafka.PassengerDtoEventFactory;
+import pl.flywithbookedseats.kafka.EventsFactory;
 import pl.flywithbookedseats.kafka.RequestType;
 import pl.flywithbookedseats.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.logic.exceptions.PassengerDatabaseIsEmptyException;
@@ -151,7 +151,7 @@ public class PassengerBusinessLogic {
     }
 
     public void sendPassengerDtoAsync(RequestType requestType, PassengerDto passengerDto) {
-        passengerDtoEventProducer.sendMessage(PassengerDtoEventFactory.createPassengerDtoEvent(requestType, passengerDto));
+        passengerDtoEventProducer.sendMessage(EventsFactory.createPassengerDtoEvent(requestType, passengerDto));
     }
 
     private void addReservationEntityToPassengerEntity(Passenger passengerEntity, Reservation reservationToAdd) {
