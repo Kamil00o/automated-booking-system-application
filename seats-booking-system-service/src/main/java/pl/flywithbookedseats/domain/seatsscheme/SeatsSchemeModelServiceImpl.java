@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelMapper;
-import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelCommand;
-import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeCommand;
+import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeCommand;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntity;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelRepository;
@@ -28,12 +28,12 @@ public class SeatsSchemeModelServiceImpl implements SeatsSchemeModelService {
 
     @Transactional
     @Override
-    public void addNewSeatsSchemeModel(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
-        if (!exists(createSeatsSchemeModelCommand)) {
-            SeatsSchemeEntity seatsSchemeEntity = createSeatsSchemeModelMapper.apply(createSeatsSchemeModelCommand);
+    public void addNewSeatsSchemeModel(CreateSeatsSchemeCommand createSeatsSchemeCommand) {
+        if (!exists(createSeatsSchemeCommand)) {
+            SeatsSchemeEntity seatsSchemeEntity = createSeatsSchemeModelMapper.apply(createSeatsSchemeCommand);
             seatsSchemeModelRepository.save(seatsSchemeEntity);
         } else {
-            String planeModelName = createSeatsSchemeModelCommand.planeModelName();
+            String planeModelName = createSeatsSchemeCommand.planeModelName();
             throw new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION.formatted(planeModelName));
         }
     }
@@ -71,13 +71,13 @@ public class SeatsSchemeModelServiceImpl implements SeatsSchemeModelService {
     @Transactional
     @Override
     public SeatsSchemeEntityDto updateSeatsSchemeModel(Long id,
-                                                       UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
-        String planeModelName = updateSeatsSchemeModelCommand.planeModelName();
+                                                       UpdateSeatsSchemeCommand updateSeatsSchemeCommand) {
+        String planeModelName = updateSeatsSchemeCommand.planeModelName();
         SeatsSchemeEntity savedSeatsSchemeEntity = seatsSchemeModelRepository.findById(id)
                 .orElseThrow(() -> new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID
                         .formatted(id)));
 
-        if (!exists(updateSeatsSchemeModelCommand)) {
+        if (!exists(updateSeatsSchemeCommand)) {
             savedSeatsSchemeEntity.setPlaneModelName(planeModelName);
             seatsSchemeModelRepository.saveAndFlush(savedSeatsSchemeEntity);
             return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeEntity);
@@ -114,11 +114,11 @@ public class SeatsSchemeModelServiceImpl implements SeatsSchemeModelService {
         logger.info(ConstsImpl.SEATS_SCHEME_MODEL_ALL_REMOVED);
     }
 
-    private boolean exists(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
-        return seatsSchemeModelRepository.existsByPlaneModelName(createSeatsSchemeModelCommand.planeModelName());
+    private boolean exists(CreateSeatsSchemeCommand createSeatsSchemeCommand) {
+        return seatsSchemeModelRepository.existsByPlaneModelName(createSeatsSchemeCommand.planeModelName());
     }
 
-    private boolean exists(UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
-        return seatsSchemeModelRepository.existsByPlaneModelName(updateSeatsSchemeModelCommand.planeModelName());
+    private boolean exists(UpdateSeatsSchemeCommand updateSeatsSchemeCommand) {
+        return seatsSchemeModelRepository.existsByPlaneModelName(updateSeatsSchemeCommand.planeModelName());
     }
 }

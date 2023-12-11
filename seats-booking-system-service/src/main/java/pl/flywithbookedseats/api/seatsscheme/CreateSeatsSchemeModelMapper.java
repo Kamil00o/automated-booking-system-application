@@ -7,28 +7,28 @@ import java.util.*;
 import java.util.function.Function;
 
 @Component
-public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeModelCommand, SeatsSchemeEntity> {
+public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeCommand, SeatsSchemeEntity> {
 
     int prevclassSeatNumber;
     int savedSeatNumberAutoIncrementation = 0;
     private static final String SEATS_FOLLOWING_LETTERS = "ABCDEFGHIJK";
     @Override
-    public SeatsSchemeEntity apply(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
+    public SeatsSchemeEntity apply(CreateSeatsSchemeCommand createSeatsSchemeCommand) {
         return SeatsSchemeEntity.builder()
-                .planeModelName(createSeatsSchemeModelCommand.planeModelName())
-                .seatsSchemeMap(seatsSchemeMapParser(createSeatsSchemeModelCommand))
+                .planeModelName(createSeatsSchemeCommand.planeModelName())
+                .seatsSchemeMap(seatsSchemeMapParser(createSeatsSchemeCommand))
                 .build();
     }
 
     private Map<String, String> seatsSchemeMapParser(
-            CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
+            CreateSeatsSchemeCommand createSeatsSchemeCommand) {
         Map<String, String> localSeatsSchemeMap = new HashMap<String, String>();
         List<String> seatsNamesList;
         int iterationCounter = 0;
         prevclassSeatNumber = 1;
 
-        for (String classType : createSeatsSchemeModelCommand.seatClassTypeList()) {
-            seatsNamesList = generateSeatsNames(createSeatsSchemeModelCommand, iterationCounter);
+        for (String classType : createSeatsSchemeCommand.seatClassTypeList()) {
+            seatsNamesList = generateSeatsNames(createSeatsSchemeCommand, iterationCounter);
             generateSeatsSchemeModelMap(classType, localSeatsSchemeMap, seatsNamesList);
             iterationCounter++;
         }
@@ -48,12 +48,12 @@ public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeM
         return localSeatsSchemeMap;
     }
 
-    private List<String> generateSeatsNames(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand,
+    private List<String> generateSeatsNames(CreateSeatsSchemeCommand createSeatsSchemeCommand,
                                             int iterationCounter) {
         List<String> localSeatsNamesList = new LinkedList<>();
-        List<Integer> amountOfSeatsInARowList = createSeatsSchemeModelCommand.amountOfSeatsInARowPerSeatClassTypeList();
-        List<Integer> amountOfRowsList = createSeatsSchemeModelCommand.amountOfRowsPerSeatClassTypeList();
-        List<Integer> seatNumbersToSkipList = createSeatsSchemeModelCommand.numbersOfExcludedSeatsList();
+        List<Integer> amountOfSeatsInARowList = createSeatsSchemeCommand.amountOfSeatsInARowPerSeatClassTypeList();
+        List<Integer> amountOfRowsList = createSeatsSchemeCommand.amountOfRowsPerSeatClassTypeList();
+        List<Integer> seatNumbersToSkipList = createSeatsSchemeCommand.numbersOfExcludedSeatsList();
         StringBuilder seatNumber = new StringBuilder();
         int secondRowLetters = 2;
         int seatsRowCounter = prevclassSeatNumber;

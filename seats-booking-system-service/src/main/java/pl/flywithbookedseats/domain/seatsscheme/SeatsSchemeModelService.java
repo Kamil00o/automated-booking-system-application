@@ -1,14 +1,14 @@
 package pl.flywithbookedseats.domain.seatsscheme;
 
-import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelCommand;
-import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeCommand;
+import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeCommand;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
 
 import java.util.List;
 
 public interface SeatsSchemeModelService {
 
-    void addNewSeatsSchemeModel(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand);
+    void addNewSeatsSchemeModel(CreateSeatsSchemeCommand createSeatsSchemeCommand);
 
     List<SeatsSchemeEntityDto> retrieveAllSavedSeatsSchemeModelsFromDb();
 
@@ -16,7 +16,7 @@ public interface SeatsSchemeModelService {
 
     SeatsSchemeEntityDto retrieveSeatsSchemeModelById(Long id);
 
-    SeatsSchemeEntityDto updateSeatsSchemeModel(Long id, UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand);
+    SeatsSchemeEntityDto updateSeatsSchemeModel(Long id, UpdateSeatsSchemeCommand updateSeatsSchemeCommand);
 
     void deleteSeatsSchemeModelById(Long id);
 

@@ -7,7 +7,7 @@ import pl.flywithbookedseats.common.Consts;
 import java.util.List;
 
 @Builder
-public record CreateSeatsSchemeModelCommand(
+public record CreateSeatsSchemeCommand(
         @NotNull(message = Consts.NOT_NULL_MESSAGE)
         String planeModelName,
         @NotNull(message = Consts.NOT_NULL_MESSAGE)

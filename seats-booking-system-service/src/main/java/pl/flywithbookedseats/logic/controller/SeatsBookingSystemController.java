@@ -16,9 +16,9 @@ import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerComman
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.UpdateReservationCommand;
-import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeCommand;
 import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
-import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeCommand;
 import pl.flywithbookedseats.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.logic.model.dto.ReservationDto;
@@ -173,10 +173,10 @@ public class SeatsBookingSystemController {
     //Methods related with seats scheme Model domain:
 
     @PostMapping(path = "/add-new-seats-model")
-    public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
-        String planeModelName = createSeatsSchemeModelCommand.planeModelName();
+    public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeCommand createSeatsSchemeCommand) {
+        String planeModelName = createSeatsSchemeCommand.planeModelName();
         logger.info("Adding new seats scheme to database for {} plane model.", planeModelName);
-        seatsSchemeModelServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeModelCommand);
+        seatsSchemeModelServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeCommand);
         logger.info("Seats scheme for {} added successfully!!", planeModelName);
     }
 
@@ -201,9 +201,9 @@ public class SeatsBookingSystemController {
     @PutMapping(path = "/update-seats-scheme-model/{id}")
     public SeatsSchemeEntityDto updateSeatsSchemeModel(
             @PathVariable Long id,
-            @Valid @RequestBody UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
+            @Valid @RequestBody UpdateSeatsSchemeCommand updateSeatsSchemeCommand) {
         logger.info("Updating seat scheme model data with ID: {}.", id);
-        return seatsSchemeModelServiceImpl.updateSeatsSchemeModel(id, updateSeatsSchemeModelCommand);
+        return seatsSchemeModelServiceImpl.updateSeatsSchemeModel(id, updateSeatsSchemeCommand);
     }
 
     @DeleteMapping(path = "/delete-seats-scheme-model/id/{id}")

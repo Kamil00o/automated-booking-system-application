@@ -5,7 +5,7 @@ import lombok.Builder;
 import pl.flywithbookedseats.common.Consts;
 
 @Builder
-public record UpdateSeatsSchemeModelCommand(
+public record UpdateSeatsSchemeCommand(
         @NotNull(message = Consts.NOT_NULL_MESSAGE)
         String planeModelName
 ) {}
