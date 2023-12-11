@@ -1,6 +1,5 @@
 package pl.flywithbookedseats.external.message.passenger;
 
-import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -9,8 +8,6 @@ import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
 import pl.flywithbookedseats.kafka.RequestedPassengerEvent;
 import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
-
-import static pl.flywithbookedseats.common.Consts.REQUEST_TYPE_IN_MSG_NOT_SUPPORTED;
 
 @Slf4j
 @RequiredArgsConstructor

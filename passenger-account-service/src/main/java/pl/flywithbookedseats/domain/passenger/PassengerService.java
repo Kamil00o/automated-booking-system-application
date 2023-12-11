@@ -3,7 +3,6 @@ package pl.flywithbookedseats.domain.passenger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import pl.flywithbookedseats.external.message.passenger.RequestType;
 
 import java.util.Objects;
 
@@ -62,12 +61,12 @@ public class PassengerService {
 
     public Passenger handlePassengerDataRequest(Passenger passenger) {
         Passenger retrievedPassenger = retrievePassengerByEmail(passenger.getEmail());
-        sendRequestedPassengerEvent(retrievedPassenger, RequestType.UPDATE);
+        sendRequestedPassengerEvent(retrievedPassenger);
         return retrievedPassenger;
     }
 
-    public void sendRequestedPassengerEvent(Passenger passenger, RequestType requestType) {
-        producerService.sendRequestedPassengerEvent(passenger, requestType);
+    public void sendRequestedPassengerEvent(Passenger passenger) {
+        producerService.sendRequestedPassengerEvent(passenger);
     }
 
     public void sendUpdatedPassengerEvent(Passenger passenger) {

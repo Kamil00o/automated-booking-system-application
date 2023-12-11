@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.domain.passenger.PagePassenger;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
-import pl.flywithbookedseats.external.message.passenger.RequestType;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +66,7 @@ public class PassengerApplicationService {
         return service.retrievePassengerByEmail(email);
     }
 
-    public void sendRequestedPassengerEvent(Passenger passenger, RequestType requestType) {
-        service.sendRequestedPassengerEvent(passenger, requestType);
+    public void sendRequestedPassengerEvent(Passenger passenger) {
+        service.sendRequestedPassengerEvent(passenger);
     }
 }

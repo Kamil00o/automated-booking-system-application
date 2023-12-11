@@ -13,7 +13,7 @@ public class ProducerAdapter implements ProducerService {
 
 
     @Override
-    public void sendRequestedPassengerEvent(Passenger passenger, RequestType requestType) {
+    public void sendRequestedPassengerEvent(Passenger passenger) {
         producer.sendMessage(EventsFactory.createRequestedPassengerEvent(mapper.toDto(passenger)));
     }
 
