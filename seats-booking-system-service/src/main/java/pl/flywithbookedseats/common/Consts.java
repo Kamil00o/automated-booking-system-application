@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.common;
+package pl.flywithbookedseats.common;
 
 public class Consts {
 

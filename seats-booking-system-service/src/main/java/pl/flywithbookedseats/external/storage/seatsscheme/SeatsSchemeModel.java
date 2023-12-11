@@ -1,10 +1,10 @@
-package pl.flywithbookedseats.logic.model.domain;
+package pl.flywithbookedseats.external.storage.seatsscheme;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import pl.flywithbookedseats.logic.common.Consts;
+import pl.flywithbookedseats.common.Consts;
 
 import java.util.Map;
 

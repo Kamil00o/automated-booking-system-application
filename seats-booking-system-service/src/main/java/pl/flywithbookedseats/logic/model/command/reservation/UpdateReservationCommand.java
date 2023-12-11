@@ -5,7 +5,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import pl.flywithbookedseats.logic.common.Consts;
+import pl.flywithbookedseats.common.Consts;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 
 public record UpdateReservationCommand(

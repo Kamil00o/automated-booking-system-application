@@ -1,8 +1,8 @@
-package pl.flywithbookedseats.logic.model.command.seatsschememodel;
+package pl.flywithbookedseats.api.seatsscheme;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import pl.flywithbookedseats.logic.common.Consts;
+import pl.flywithbookedseats.common.Consts;
 
 import java.util.List;
 

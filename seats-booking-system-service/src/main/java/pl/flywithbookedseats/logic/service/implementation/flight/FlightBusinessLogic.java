@@ -10,11 +10,11 @@ import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.logic.model.domain.Flight;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.logic.model.domain.SeatsSchemeModel;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModel;
 import pl.flywithbookedseats.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.logic.repository.FlightRepository;
 import pl.flywithbookedseats.logic.repository.PassengerRepository;
-import pl.flywithbookedseats.logic.repository.SeatsSchemeModelRepository;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelRepository;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl;
 import pl.flywithbookedseats.logic.mapper.flight.CreateFlightMapper;
 

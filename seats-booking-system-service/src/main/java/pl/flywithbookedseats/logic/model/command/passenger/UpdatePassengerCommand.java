@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import pl.flywithbookedseats.logic.common.Consts;
+import pl.flywithbookedseats.common.Consts;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -3,7 +3,7 @@ package pl.flywithbookedseats.logic.model.command.flight;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
-import pl.flywithbookedseats.logic.common.Consts;
+import pl.flywithbookedseats.common.Consts;
 
 import java.util.Map;
 

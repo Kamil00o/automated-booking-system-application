@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.model.dto;
+package pl.flywithbookedseats.external.storage.seatsscheme;
 
 import lombok.Builder;
 

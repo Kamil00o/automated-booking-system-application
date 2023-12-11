@@ -16,18 +16,18 @@ import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerComman
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.UpdateReservationCommand;
-import pl.flywithbookedseats.logic.model.command.seatsschememodel.CreateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
-import pl.flywithbookedseats.logic.model.command.seatsschememodel.UpdateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.logic.model.dto.ReservationDto;
-import pl.flywithbookedseats.logic.model.dto.SeatsSchemeModelDto;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelDto;
 import pl.flywithbookedseats.logic.service.implementation.flight.FlightServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.seatsbookingsystem.SeatsBookingServiceImpl;
-import pl.flywithbookedseats.logic.service.implementation.seatsschememodel.SeatsSchemeModelServiceImpl;
+import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelServiceImpl;
 
 import java.util.List;
 

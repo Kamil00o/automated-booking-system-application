@@ -1,20 +1,17 @@
-package pl.flywithbookedseats.logic.service.implementation.seatsschememodel;
+package pl.flywithbookedseats.domain.seatsscheme;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.logic.exceptions.SeatsSchemeModelAlreadyExistsException;
-import pl.flywithbookedseats.logic.exceptions.SeatsSchemeModelNotFoundException;
-import pl.flywithbookedseats.logic.mapper.seatsschememodel.CreateSeatsSchemeModelMapper;
-import pl.flywithbookedseats.logic.model.command.seatsschememodel.CreateSeatsSchemeModelCommand;
-import pl.flywithbookedseats.logic.model.command.seatsschememodel.UpdateSeatsSchemeModelCommand;
-import pl.flywithbookedseats.logic.model.domain.SeatsSchemeModel;
-import pl.flywithbookedseats.logic.model.dto.SeatsSchemeModelDto;
-import pl.flywithbookedseats.logic.repository.SeatsSchemeModelRepository;
-import pl.flywithbookedseats.logic.mapper.seatsschememodel.SeatsSchemeModelDtoMapper;
-import pl.flywithbookedseats.logic.service.SeatsSchemeModelService;
+import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelMapper;
+import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModel;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelDto;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelRepository;
+import pl.flywithbookedseats.api.seatsscheme.SeatsSchemeModelDtoMapper;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,8 +1,8 @@
-package pl.flywithbookedseats.logic.mapper.seatsschememodel;
+package pl.flywithbookedseats.api.seatsscheme;
 
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.logic.model.domain.SeatsSchemeModel;
-import pl.flywithbookedseats.logic.model.dto.SeatsSchemeModelDto;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModel;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelDto;
 
 import java.util.ArrayList;
 import java.util.List;

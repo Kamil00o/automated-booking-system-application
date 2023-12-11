@@ -1,8 +1,8 @@
-package pl.flywithbookedseats.logic.service;
+package pl.flywithbookedseats.domain.seatsscheme;
 
-import pl.flywithbookedseats.logic.model.command.seatsschememodel.CreateSeatsSchemeModelCommand;
-import pl.flywithbookedseats.logic.model.command.seatsschememodel.UpdateSeatsSchemeModelCommand;
-import pl.flywithbookedseats.logic.model.dto.SeatsSchemeModelDto;
+import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeModelCommand;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelDto;
 
 import java.util.List;
 

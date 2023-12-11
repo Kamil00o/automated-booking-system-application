@@ -2,7 +2,7 @@ package pl.flywithbookedseats.logic.model.command.flight;
 
 import jakarta.validation.constraints.*;
 import lombok.Builder;
-import pl.flywithbookedseats.logic.common.Consts;
+import pl.flywithbookedseats.common.Consts;
 
 import java.util.Map;
 

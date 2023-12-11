@@ -8,7 +8,7 @@ import pl.flywithbookedseats.logic.repository.PassengerRepository;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static pl.flywithbookedseats.logic.common.Consts.SEAT_PASSENGER_DATA_UNAVAILABLE;
+import static pl.flywithbookedseats.common.Consts.SEAT_PASSENGER_DATA_UNAVAILABLE;
 
 @AllArgsConstructor
 @Component
