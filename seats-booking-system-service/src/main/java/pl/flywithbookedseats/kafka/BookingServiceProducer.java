@@ -16,12 +16,12 @@ public class BookingServiceProducer {
 
     @Value("${spring.kafka.topic-bookingServiceEventsTopic.name}")
     private String bookingServiceEventsTopic;
-    private final KafkaTemplate<String, PassengerDtoEvent> kafkaTemplate;
+    private final KafkaTemplate<String, RequestedPassengerEvent> kafkaTemplate;
     private final KafkaTemplate<String, UpdatedPassengerEvent> updatedPassengerEventKafkaTemplate;
 
-    public void sendMessage(PassengerDtoEvent passengerDtoEvent) {
+    public void sendMessage(RequestedPassengerEvent passengerDtoEvent) {
         log.info("PassengerDto to send: {}", passengerDtoEvent);
-        Message<PassengerDtoEvent> message = MessageBuilder
+        Message<RequestedPassengerEvent> message = MessageBuilder
                 .withPayload(passengerDtoEvent)
                 .setHeader(KafkaHeaders.TOPIC, bookingServiceEventsTopic)
                 .build();

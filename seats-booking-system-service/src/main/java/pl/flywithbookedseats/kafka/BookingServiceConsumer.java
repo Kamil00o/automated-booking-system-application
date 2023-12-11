@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class BookingServiceConsumer {
 
    @KafkaHandler
-    public void consume(PassengerDtoEvent passengerDtoEvent) {
+    public void consume(RequestedPassengerEvent passengerDtoEvent) {
         log.info("Message received: {}", passengerDtoEvent);
     }
 

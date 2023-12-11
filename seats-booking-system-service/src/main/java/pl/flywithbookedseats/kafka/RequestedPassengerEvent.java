@@ -8,10 +8,10 @@ import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PassengerDtoEvent {
+public class RequestedPassengerEvent {
 
     private String message;
+    private String messageSource;
     private String status;
-    private RequestType requestType;
     private PassengerDto passengerDto;
 }

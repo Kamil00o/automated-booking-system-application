@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.kafka.RequestType;
 import pl.flywithbookedseats.logic.exceptions.FlightNotFoundException;
 import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
@@ -13,7 +12,6 @@ import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerComman
 import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.logic.model.domain.Reservation;
-import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.logic.model.dto.ReservationDto;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
 import pl.flywithbookedseats.logic.mapper.reservation.ReservationDtoMapper;

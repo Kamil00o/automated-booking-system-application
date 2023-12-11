@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.kafka.RequestType;
 import pl.flywithbookedseats.logic.exceptions.FlightAlreadyExistsException;
 import pl.flywithbookedseats.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
@@ -36,7 +35,7 @@ public class PassengerServiceImpl implements PassengerService {
         if (!passengerBL.exists(createPassengerCommand)) {
             PassengerDto createdPassengerDto = passengerDtoMapper
                     .apply(passengerBL.generateNewPassenger(createPassengerCommand));
-            passengerBL.sendUpdatedPassengerEvent(createdPassengerDto);
+            passengerBL.sendRequestedPassengerEvent(createdPassengerDto);
             return createdPassengerDto;
         } else {
             logger.warn(PASSENGER_NOT_CREATED);
