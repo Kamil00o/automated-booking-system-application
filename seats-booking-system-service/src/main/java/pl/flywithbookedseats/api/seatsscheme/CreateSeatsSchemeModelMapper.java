@@ -1,20 +1,20 @@
 package pl.flywithbookedseats.api.seatsscheme;
 
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModel;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntity;
 
 import java.util.*;
 import java.util.function.Function;
 
 @Component
-public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeModelCommand, SeatsSchemeModel> {
+public class CreateSeatsSchemeModelMapper implements Function<CreateSeatsSchemeModelCommand, SeatsSchemeEntity> {
 
     int prevclassSeatNumber;
     int savedSeatNumberAutoIncrementation = 0;
     private static final String SEATS_FOLLOWING_LETTERS = "ABCDEFGHIJK";
     @Override
-    public SeatsSchemeModel apply(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
-        return SeatsSchemeModel.builder()
+    public SeatsSchemeEntity apply(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
+        return SeatsSchemeEntity.builder()
                 .planeModelName(createSeatsSchemeModelCommand.planeModelName())
                 .seatsSchemeMap(seatsSchemeMapParser(createSeatsSchemeModelCommand))
                 .build();

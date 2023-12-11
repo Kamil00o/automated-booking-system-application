@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntity;
 import pl.flywithbookedseats.logic.exceptions.*;
 import pl.flywithbookedseats.logic.mapper.flight.FlightDtoMapper;
 import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.logic.model.domain.Flight;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModel;
 import pl.flywithbookedseats.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.logic.repository.FlightRepository;
 import pl.flywithbookedseats.logic.repository.PassengerRepository;
@@ -193,7 +193,7 @@ public class FlightBusinessLogic {
     }
 
     //Duplicated - SeatsSchemeModelServiceImp - if not, it's going to be after SeatsSchemeModelServiceImpl redesign
-    private SeatsSchemeModel retrieveSeatsSchemeModelFromDb(String planeTypeName, Flight flight) {
+    private SeatsSchemeEntity retrieveSeatsSchemeModelFromDb(String planeTypeName, Flight flight) {
         return seatsSchemeModelRepository.findByPlaneModelName(planeTypeName)
                 .orElseThrow(() -> new FlightNotCreatedException(SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION
                         .formatted(planeTypeName, flight.getFlightName())));

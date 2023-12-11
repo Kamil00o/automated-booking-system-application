@@ -22,7 +22,7 @@ import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.logic.model.dto.ReservationDto;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelDto;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
 import pl.flywithbookedseats.logic.service.implementation.flight.FlightServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationServiceImpl;
@@ -181,25 +181,25 @@ public class SeatsBookingSystemController {
     }
 
     @GetMapping(path = "/get-seats-model/plane-model-name/{planeModelName}")
-    public SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(@PathVariable String planeModelName) {
+    public SeatsSchemeEntityDto retrieveSeatsSchemeModelByPlaneModel(@PathVariable String planeModelName) {
         logger.info("Retrieving seat scheme model data for {} plane model.", planeModelName);
         return seatsSchemeModelServiceImpl.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
     }
 
     @GetMapping(path = "/get-seats-model/id/{id}")
-    public SeatsSchemeModelDto retrieveSeatsSchemeModelById(@PathVariable Long id) {
+    public SeatsSchemeEntityDto retrieveSeatsSchemeModelById(@PathVariable Long id) {
         logger.info("Retrieving seat scheme model data for plane model with id {}.", id);
         return seatsSchemeModelServiceImpl.retrieveSeatsSchemeModelById(id);
     }
 
     @GetMapping(path = "/get-seats-model/all")
-    public List<SeatsSchemeModelDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
+    public List<SeatsSchemeEntityDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
         logger.info("Retrieving seat scheme model data for all saved plane models.");
         return seatsSchemeModelServiceImpl.retrieveAllSavedSeatsSchemeModelsFromDb();
     }
 
     @PutMapping(path = "/update-seats-scheme-model/{id}")
-    public SeatsSchemeModelDto updateSeatsSchemeModel(
+    public SeatsSchemeEntityDto updateSeatsSchemeModel(
             @PathVariable Long id,
             @Valid @RequestBody UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
         logger.info("Updating seat scheme model data with ID: {}.", id);

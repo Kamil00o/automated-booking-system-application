@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelMapper;
 import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelCommand;
 import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeModelCommand;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModel;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelDto;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntity;
+import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelRepository;
 import pl.flywithbookedseats.api.seatsscheme.SeatsSchemeModelDtoMapper;
 
@@ -30,8 +30,8 @@ public class SeatsSchemeModelServiceImpl implements SeatsSchemeModelService {
     @Override
     public void addNewSeatsSchemeModel(CreateSeatsSchemeModelCommand createSeatsSchemeModelCommand) {
         if (!exists(createSeatsSchemeModelCommand)) {
-            SeatsSchemeModel seatsSchemeModel = createSeatsSchemeModelMapper.apply(createSeatsSchemeModelCommand);
-            seatsSchemeModelRepository.save(seatsSchemeModel);
+            SeatsSchemeEntity seatsSchemeEntity = createSeatsSchemeModelMapper.apply(createSeatsSchemeModelCommand);
+            seatsSchemeModelRepository.save(seatsSchemeEntity);
         } else {
             String planeModelName = createSeatsSchemeModelCommand.planeModelName();
             throw new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION.formatted(planeModelName));
@@ -40,47 +40,47 @@ public class SeatsSchemeModelServiceImpl implements SeatsSchemeModelService {
 
     @Transactional
     @Override
-    public List<SeatsSchemeModelDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
-        List<SeatsSchemeModel> seatsSchemeModelList = seatsSchemeModelRepository.findAll();
-        List<SeatsSchemeModelDto> seatsSchemeModelDtoList = new LinkedList<>();
-        seatsSchemeModelList.forEach(seatsSchemeModel -> seatsSchemeModelDtoList
+    public List<SeatsSchemeEntityDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
+        List<SeatsSchemeEntity> seatsSchemeEntityList = seatsSchemeModelRepository.findAll();
+        List<SeatsSchemeEntityDto> seatsSchemeEntityDtoList = new LinkedList<>();
+        seatsSchemeEntityList.forEach(seatsSchemeModel -> seatsSchemeEntityDtoList
                 .add(seatsSchemeModelDtoMapper.apply(seatsSchemeModel)));
 
-        return seatsSchemeModelDtoList;
+        return seatsSchemeEntityDtoList;
     }
 
     @Override
-    public SeatsSchemeModelDto retrieveSeatsSchemeModelByPlaneModel(String planeModelName) {
-        SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findByPlaneModelName(planeModelName)
+    public SeatsSchemeEntityDto retrieveSeatsSchemeModelByPlaneModel(String planeModelName) {
+        SeatsSchemeEntity savedSeatsSchemeEntity = seatsSchemeModelRepository.findByPlaneModelName(planeModelName)
                 .orElseThrow(() ->
                         new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_PLANE_NAME
                                 .formatted(planeModelName)));
 
-        return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeModel);
+        return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeEntity);
     }
 
     @Override
-    public SeatsSchemeModelDto retrieveSeatsSchemeModelById(Long id) {
-        SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findById(id)
+    public SeatsSchemeEntityDto retrieveSeatsSchemeModelById(Long id) {
+        SeatsSchemeEntity savedSeatsSchemeEntity = seatsSchemeModelRepository.findById(id)
                 .orElseThrow(() -> new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID
                         .formatted(id)));
 
-        return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeModel);
+        return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeEntity);
     }
 
     @Transactional
     @Override
-    public SeatsSchemeModelDto updateSeatsSchemeModel(Long id,
-                                                      UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
+    public SeatsSchemeEntityDto updateSeatsSchemeModel(Long id,
+                                                       UpdateSeatsSchemeModelCommand updateSeatsSchemeModelCommand) {
         String planeModelName = updateSeatsSchemeModelCommand.planeModelName();
-        SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findById(id)
+        SeatsSchemeEntity savedSeatsSchemeEntity = seatsSchemeModelRepository.findById(id)
                 .orElseThrow(() -> new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID
                         .formatted(id)));
 
         if (!exists(updateSeatsSchemeModelCommand)) {
-            savedSeatsSchemeModel.setPlaneModelName(planeModelName);
-            seatsSchemeModelRepository.saveAndFlush(savedSeatsSchemeModel);
-            return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeModel);
+            savedSeatsSchemeEntity.setPlaneModelName(planeModelName);
+            seatsSchemeModelRepository.saveAndFlush(savedSeatsSchemeEntity);
+            return seatsSchemeModelDtoMapper.apply(savedSeatsSchemeEntity);
         } else {
             throw new SeatsSchemeModelAlreadyExistsException(ConstsImpl.SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION
                     .formatted(planeModelName));
@@ -90,20 +90,20 @@ public class SeatsSchemeModelServiceImpl implements SeatsSchemeModelService {
     @Transactional
     @Override
     public void deleteSeatsSchemeModelById(Long id) {
-        SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findById(id)
+        SeatsSchemeEntity savedSeatsSchemeEntity = seatsSchemeModelRepository.findById(id)
                 .orElseThrow(() -> new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID
                         .formatted(id)));
-        seatsSchemeModelRepository.delete(savedSeatsSchemeModel);
+        seatsSchemeModelRepository.delete(savedSeatsSchemeEntity);
         logger.info(ConstsImpl.SEATS_SCHEME_MODEL_REMOVAL_ID.formatted(id));
     }
 
     @Transactional
     @Override
     public void deleteSeatsSchemeModelByPlaneModelName(String planeModelName) {
-        SeatsSchemeModel savedSeatsSchemeModel = seatsSchemeModelRepository.findByPlaneModelName(planeModelName)
+        SeatsSchemeEntity savedSeatsSchemeEntity = seatsSchemeModelRepository.findByPlaneModelName(planeModelName)
                 .orElseThrow(() -> new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_PLANE_NAME
                         .formatted(planeModelName)));
-        seatsSchemeModelRepository.delete(savedSeatsSchemeModel);
+        seatsSchemeModelRepository.delete(savedSeatsSchemeEntity);
         logger.info(ConstsImpl.SEATS_SCHEME_MODEL_REMOVAL_PLANE_NAME.formatted(planeModelName));
     }
 

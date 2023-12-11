@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @Builder
-public record SeatsSchemeModelDto(
+public record SeatsSchemeEntityDto(
         Long id,
         String planeModelName,
         List<String> seatClassTypeList,

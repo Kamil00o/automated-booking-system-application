@@ -23,7 +23,7 @@ import java.util.Map;
 )
 @Data
 @Entity
-public class SeatsSchemeModel {
+public class SeatsSchemeEntity {
 
     @Id
     @SequenceGenerator(
@@ -52,7 +52,7 @@ public class SeatsSchemeModel {
 
     @Override
     public String toString() {
-        return "SeatsSchemeModel{" +
+        return "SeatsSchemeEntity{" +
                 "id=" + id +
                 ", planeModelName='" + planeModelName + '\'' +
                 ", seatsSchemeMap=" + seatsSchemeMap +
