@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
-import pl.flywithbookedseats.kafka.PassengerDtoEvent;
+import pl.flywithbookedseats.kafka.RequestedPassengerEvent;
+import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
 
 import static pl.flywithbookedseats.common.Consts.REQUEST_TYPE_IN_MSG_NOT_SUPPORTED;
 
@@ -19,16 +20,13 @@ public class ConsumerAdapter {
     private final PassengerDtoMapper mapper;
     private final PassengerService service;
 
-    public void consumeMessage(PassengerDtoEvent passengerDtoEvent) {
-        Passenger receivedPassenger = mapper.toDomain(passengerDtoEvent.getPassengerDto());
-        RequestType receivedRequestType = passengerDtoEvent.getRequestType();
-        if (receivedRequestType == RequestType.UPDATE) {
-            service.updatePassengerAccountByEmail(receivedPassenger.getEmail(), receivedPassenger);
-        } else if (receivedRequestType == RequestType.DATA_REQUEST) {
-            service.handlePassengerDataRequest(receivedPassenger);
-        } else {
-            log.warn("Bad tequest type in message!");
-            throw new BadRequestException(REQUEST_TYPE_IN_MSG_NOT_SUPPORTED);
-        }
+    public void consumeRequestedPassengerEvent(RequestedPassengerEvent requestedPassengerEvent) {
+        Passenger receivedPassenger = mapper.toDomain(requestedPassengerEvent.getPassengerDto());
+        service.handlePassengerDataRequest(receivedPassenger);
+    }
+
+    public void consumeUpdatePassengerEvent(UpdatedPassengerEvent updatedPassengerEvent) {
+        Passenger receivedPassenger = mapper.toDomain(updatedPassengerEvent.getPassengerDto());
+        service.updatePassengerAccountByEmail(receivedPassenger.getEmail(), receivedPassenger);
     }
 }

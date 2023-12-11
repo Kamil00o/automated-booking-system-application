@@ -9,10 +9,10 @@ import pl.flywithbookedseats.external.message.passenger.RequestType;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PassengerDtoEvent {
+public class RequestedPassengerEvent {
 
     private String message;
+    private String messageSource;
     private String status;
-    private RequestType requestType;
     private PassengerDto passengerDto;
 }

@@ -62,12 +62,12 @@ public class PassengerService {
 
     public Passenger handlePassengerDataRequest(Passenger passenger) {
         Passenger retrievedPassenger = retrievePassengerByEmail(passenger.getEmail());
-        sendMessageToBookingService(retrievedPassenger, RequestType.UPDATE);
+        sendRequestedPassengerEvent(retrievedPassenger, RequestType.UPDATE);
         return retrievedPassenger;
     }
 
-    public void sendMessageToBookingService(Passenger passenger, RequestType requestType) {
-        producerService.sendPassengerUpdateMessage(passenger, requestType);
+    public void sendRequestedPassengerEvent(Passenger passenger, RequestType requestType) {
+        producerService.sendRequestedPassengerEvent(passenger, requestType);
     }
 
     public void sendUpdatedPassengerEvent(Passenger passenger) {

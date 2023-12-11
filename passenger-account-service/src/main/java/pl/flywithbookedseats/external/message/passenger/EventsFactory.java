@@ -2,7 +2,7 @@ package pl.flywithbookedseats.external.message.passenger;
 
 
 import pl.flywithbookedseats.api.passenger.PassengerDto;
-import pl.flywithbookedseats.kafka.PassengerDtoEvent;
+import pl.flywithbookedseats.kafka.RequestedPassengerEvent;
 import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
 
 public class EventsFactory {
@@ -12,9 +12,9 @@ public class EventsFactory {
     private static final String MESSAGE_SOURCE = "passenger-account-service";
     private static final String STATUS = "PassengerDto status is in pending state";
 
-    public static PassengerDtoEvent createPassengerDtoEvent(RequestType requestType, PassengerDto passengerDto) {
-        return new PassengerDtoEvent(MESSAGE_DATA_REQUEST.formatted(passengerDto.email()),
-                STATUS, requestType, passengerDto);
+    public static RequestedPassengerEvent createRequestedPassengerEvent(PassengerDto passengerDto) {
+        return new RequestedPassengerEvent(MESSAGE_DATA_REQUEST.formatted(passengerDto.email()), MESSAGE_SOURCE,
+                STATUS, passengerDto);
     }
 
     public static UpdatedPassengerEvent createUpdatedPassengerEvent(PassengerDto passengerDto) {

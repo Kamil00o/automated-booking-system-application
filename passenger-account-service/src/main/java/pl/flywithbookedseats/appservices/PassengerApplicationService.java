@@ -67,7 +67,7 @@ public class PassengerApplicationService {
         return service.retrievePassengerByEmail(email);
     }
 
-    public void sendPassengerMessageToBookingService(Passenger passenger, RequestType requestType) {
-        service.sendMessageToBookingService(passenger, requestType);
+    public void sendRequestedPassengerEvent(Passenger passenger, RequestType requestType) {
+        service.sendRequestedPassengerEvent(passenger, requestType);
     }
 }

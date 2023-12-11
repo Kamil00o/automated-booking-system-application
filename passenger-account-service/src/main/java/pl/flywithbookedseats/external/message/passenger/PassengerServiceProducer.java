@@ -8,7 +8,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.kafka.PassengerDtoEvent;
+import pl.flywithbookedseats.kafka.RequestedPassengerEvent;
 import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
 
 @RequiredArgsConstructor
@@ -18,13 +18,13 @@ public class PassengerServiceProducer {
 
     @Value("${spring.kafka.topic-passengerServiceEventsTopic.name}")
     private String passengerServiceEventsTopic;
-    private final KafkaTemplate<String, PassengerDtoEvent> kafkaTemplate;
+    private final KafkaTemplate<String, RequestedPassengerEvent> kafkaTemplate;
     private final KafkaTemplate<String, UpdatedPassengerEvent> updatedPassengerEventKafkaTemplate;
 
-    public void sendMessage(PassengerDtoEvent passengerDtoEvent) {
-        log.info("PassengerDto to send: {}", passengerDtoEvent);
-        Message<PassengerDtoEvent> message = MessageBuilder
-                .withPayload(passengerDtoEvent)
+    public void sendMessage(RequestedPassengerEvent requestedPassengerEvent) {
+        log.info("PassengerDto to send: {}", requestedPassengerEvent);
+        Message<RequestedPassengerEvent> message = MessageBuilder
+                .withPayload(requestedPassengerEvent)
                 .setHeader(KafkaHeaders.TOPIC, passengerServiceEventsTopic)
                 .build();
         kafkaTemplate.send(message);

@@ -112,7 +112,7 @@ public class PassengerController {
     @PostMapping(path = "/send-update-msg")
     public ResponseEntity<PassengerDto> sendPassnegerMessageToBookingService(
             @Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
-        service.sendPassengerMessageToBookingService(createPassengerCommandMapper.toDomain(createPassengerCommand),
+        service.sendRequestedPassengerEvent(createPassengerCommandMapper.toDomain(createPassengerCommand),
                 RequestType.UPDATE);
         return ResponseEntity.ok().build();
     }
