@@ -1,11 +1,11 @@
 package pl.flywithbookedseats.api.seatsscheme;
 
 import org.mapstruct.Mapper;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
+import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeData;
 
 @Mapper(componentModel = "spring")
 public interface CreateSeatsSchemeCommandMapper {
 
-    SeatsScheme toDomain(CreateSeatsSchemeCommand command);
+    SeatsSchemeData toDomain(CreateSeatsSchemeCommand command);
 
 }
