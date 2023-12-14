@@ -3,21 +3,18 @@ package pl.flywithbookedseats.api.seatsscheme;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeData;
+import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 @Mapper(componentModel = "spring")
 public interface CreateSeatsSchemeCommandMapper {
 
-    @Mapping(source = "command", target = "seatClassTypeList", qualifiedByName = "myList")
-    SeatsSchemeData toDomain(CreateSeatsSchemeCommand command);
+    @Mapping(source = "command", target = "seatsSchemeMap", qualifiedByName = "mapParser")
+    SeatsScheme toDomain(CreateSeatsSchemeCommand command);
 
-    @Named("myList")
-    default List<String> classTypeList(CreateSeatsSchemeCommand command) {
-        List<String> test = new ArrayList<>();
-        command.seatClassTypeList().forEach(x -> test.add(x + "xD"));
-        return test;
+    @Named("mapParser")
+    default Map<String, String> seatsSchemeMapParser(CreateSeatsSchemeCommand command) {
+        return SeatsSchemeFactory.seatsSchemeMapParser(command);
     }
 }

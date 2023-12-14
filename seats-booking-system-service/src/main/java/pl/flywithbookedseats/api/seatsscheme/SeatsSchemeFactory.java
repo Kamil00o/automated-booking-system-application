@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.domain.seatsscheme;
+package pl.flywithbookedseats.api.seatsscheme;
 
 import java.util.*;
 
@@ -7,23 +7,15 @@ public class SeatsSchemeFactory {
     private static int savedSeatNumberAutoIncrementation = 0;
     private static final String SEATS_FOLLOWING_LETTERS = "ABCDEFGHIJK";
 
-
-    public static SeatsScheme apply(SeatsSchemeData seatsSchemeData) {
-        return SeatsScheme.builder()
-                .planeModelName(seatsSchemeData.getPlaneModelName())
-                .seatsSchemeMap(seatsSchemeMapParser(seatsSchemeData))
-                .build();
-    }
-
-    private static Map<String, String> seatsSchemeMapParser(
-            SeatsSchemeData seatsSchemeData) {
+    public static Map<String, String> seatsSchemeMapParser(
+            CreateSeatsSchemeCommand command) {
         Map<String, String> localSeatsSchemeMap = new HashMap<String, String>();
         List<String> seatsNamesList;
         int iterationCounter = 0;
         prevclassSeatNumber = 1;
 
-        for (String classType : seatsSchemeData.getSeatClassTypeList()) {
-            seatsNamesList = generateSeatsNames(seatsSchemeData, iterationCounter);
+        for (String classType : command.seatClassTypeList()) {
+            seatsNamesList = generateSeatsNames(command, iterationCounter);
             generateSeatsSchemeModelMap(classType, localSeatsSchemeMap, seatsNamesList);
             iterationCounter++;
         }
@@ -43,12 +35,12 @@ public class SeatsSchemeFactory {
         return localSeatsSchemeMap;
     }
 
-    private static List<String> generateSeatsNames(SeatsSchemeData seatSchemeData,
+    private static List<String> generateSeatsNames(CreateSeatsSchemeCommand command,
                                             int iterationCounter) {
         List<String> localSeatsNamesList = new LinkedList<>();
-        List<Integer> amountOfSeatsInARowList = seatSchemeData.getAmountOfSeatsInARowPerSeatClassTypeList();
-        List<Integer> amountOfRowsList = seatSchemeData.getAmountOfRowsPerSeatClassTypeList();
-        List<Integer> seatNumbersToSkipList = seatSchemeData.getNumbersOfExcludedSeatsList();
+        List<Integer> amountOfSeatsInARowList = command.amountOfSeatsInARowPerSeatClassTypeList();
+        List<Integer> amountOfRowsList = command.amountOfRowsPerSeatClassTypeList();
+        List<Integer> seatNumbersToSkipList = command.numbersOfExcludedSeatsList();
         StringBuilder seatNumber = new StringBuilder();
         int secondRowLetters = 2;
         int seatsRowCounter = prevclassSeatNumber;
