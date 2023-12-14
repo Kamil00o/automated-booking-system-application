@@ -17,6 +17,7 @@ public class SeatsSchemeController {
 
     private final SeatsSchemeModelService seatsSchemeModelServiceImpl;
     private final CreateSeatsSchemeCommandMapper createSeatsSchemeCommandMapper;
+    private final SeatsSchemeDtoMapper seatsSchemeDtoMapper;
 
     @PostMapping(path = "/add-new-seats-model")
     public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeCommand createSeatsSchemeCommand) {
@@ -24,6 +25,8 @@ public class SeatsSchemeController {
         log.info("Adding new seats scheme to database for {} plane model.", planeModelName);
         seatsSchemeModelServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeCommand);
         log.info("Seats scheme for {} added successfully!!", planeModelName);
+        ////
+        //System.out.println(seatsSchemeDtoMapper.toDto(createSeatsSchemeCommandMapper.toDomain(createSeatsSchemeCommand)));
     }
 
     @GetMapping(path = "/get-seats-model/plane-model-name/{planeModelName}")

@@ -24,7 +24,7 @@ public class SeatsSchemeApplicationService {
     }
 
     public List<SeatsSchemeEntityDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
-        return service.retrieveAllSavedSeatsSchemeModelsFromDb();;
+        return service.retrieveAllSavedSeatsSchemeModelsFromDb();
     }
 
     public SeatsSchemeEntityDto retrieveSeatsSchemeModelByPlaneModel(String planeModel) {
