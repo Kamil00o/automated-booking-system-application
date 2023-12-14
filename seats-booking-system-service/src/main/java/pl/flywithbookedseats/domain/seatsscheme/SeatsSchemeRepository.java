@@ -5,4 +5,6 @@ public interface SeatsSchemeRepository {
     SeatsScheme save(SeatsScheme seatsScheme);
 
     boolean existsByPlaneModelName(String planeModelName);
+
+    SeatsScheme findByPlaneModelName(String planeModelName);
 }

@@ -19,8 +19,8 @@ public class SeatsSchemeController {
 
     private final SeatsSchemeModelService seatsSchemeModelServiceImpl;
     private final SeatsSchemeApplicationService service;
-    private final CreateSeatsSchemeCommandMapper createSeatsSchemeCommandMapper;
-    private final SeatsSchemeDtoMapper seatsSchemeDtoMapper;
+    private final CreateSeatsSchemeCommandMapper commandMapper;
+    private final SeatsSchemeDtoMapper mapper;
 
     @PostMapping
     public SeatsSchemeDto addNewSeatsSchemeModel(
@@ -28,15 +28,16 @@ public class SeatsSchemeController {
         String planeModelName = createSeatsSchemeCommand.planeModelName();
         log.info("Adding new seats scheme to database for {} plane model.", planeModelName);
         SeatsScheme savedSeatsScheme = service
-                .addNewSeatsSchemeModel(createSeatsSchemeCommandMapper.toDomain(createSeatsSchemeCommand));
+                .addNewSeatsSchemeModel(commandMapper.toDomain(createSeatsSchemeCommand));
         log.info("Seats scheme for {} added successfully!!", planeModelName);
-        return seatsSchemeDtoMapper.toDto(savedSeatsScheme);
+        return mapper.toDto(savedSeatsScheme);
     }
 
-    @GetMapping(path = "/get-seats-model/plane-model-name/{planeModelName}")
-    public SeatsSchemeEntityDto retrieveSeatsSchemeModelByPlaneModel(@PathVariable String planeModelName) {
+    @GetMapping(path = "/{planeModelName}")
+    public SeatsSchemeDto retrieveSeatsSchemeModelByPlaneModel(@PathVariable String planeModelName) {
         log.info("Retrieving seat scheme model data for {} plane model.", planeModelName);
-        return seatsSchemeModelServiceImpl.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
+        SeatsScheme retrievedSavedSeatsScheme = service.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
+        return mapper.toDto(retrievedSavedSeatsScheme);
     }
 
     @GetMapping(path = "/get-seats-model/id/{id}")

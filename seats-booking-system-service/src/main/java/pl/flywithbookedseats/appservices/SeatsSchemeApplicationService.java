@@ -29,8 +29,8 @@ public class SeatsSchemeApplicationService {
         return service121212.retrieveAllSavedSeatsSchemeModelsFromDb();
     }
 
-    public SeatsSchemeEntityDto retrieveSeatsSchemeModelByPlaneModel(String planeModel) {
-        return service121212.retrieveSeatsSchemeModelByPlaneModel(planeModel);
+    public SeatsScheme retrieveSeatsSchemeModelByPlaneModel(String planeModel) {
+        return service.retrieveSeatsSchemeModelByPlaneModel(planeModel);
     }
 
     public SeatsSchemeEntityDto retrieveSeatsSchemeModelById(Long id) {
