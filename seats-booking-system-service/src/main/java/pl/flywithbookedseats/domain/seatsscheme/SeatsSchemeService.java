@@ -1,8 +1,6 @@
 package pl.flywithbookedseats.domain.seatsscheme;
 
 import lombok.RequiredArgsConstructor;
-import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeCommand;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntity;
 
 @RequiredArgsConstructor
 public class SeatsSchemeService {

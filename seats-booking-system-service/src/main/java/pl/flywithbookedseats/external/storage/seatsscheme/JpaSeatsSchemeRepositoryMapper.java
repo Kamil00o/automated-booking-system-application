@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
 
 @Mapper(componentModel = "spring")
-public interface SeatsSchemeEntityMapper {
+public interface JpaSeatsSchemeRepositoryMapper {
 
     SeatsSchemeEntity toEntity(SeatsScheme domain);
 

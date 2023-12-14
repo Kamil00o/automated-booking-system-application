@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.appservices.SeatsSchemeApplicationService;
+import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelService;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
 
@@ -16,17 +18,19 @@ import java.util.List;
 public class SeatsSchemeController {
 
     private final SeatsSchemeModelService seatsSchemeModelServiceImpl;
+    private final SeatsSchemeApplicationService service;
     private final CreateSeatsSchemeCommandMapper createSeatsSchemeCommandMapper;
     private final SeatsSchemeDtoMapper seatsSchemeDtoMapper;
 
-    @PostMapping(path = "/add-new-seats-model")
-    public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeCommand createSeatsSchemeCommand) {
+    @PostMapping
+    public SeatsSchemeDto addNewSeatsSchemeModel(
+            @Valid @RequestBody CreateSeatsSchemeCommand createSeatsSchemeCommand) {
         String planeModelName = createSeatsSchemeCommand.planeModelName();
         log.info("Adding new seats scheme to database for {} plane model.", planeModelName);
-        seatsSchemeModelServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeCommand);
+        SeatsScheme savedSeatsScheme = service
+                .addNewSeatsSchemeModel(createSeatsSchemeCommandMapper.toDomain(createSeatsSchemeCommand));
         log.info("Seats scheme for {} added successfully!!", planeModelName);
-        ////
-        //System.out.println(seatsSchemeDtoMapper.toDto(createSeatsSchemeCommandMapper.toDomain(createSeatsSchemeCommand)));
+        return seatsSchemeDtoMapper.toDto(savedSeatsScheme);
     }
 
     @GetMapping(path = "/get-seats-model/plane-model-name/{planeModelName}")

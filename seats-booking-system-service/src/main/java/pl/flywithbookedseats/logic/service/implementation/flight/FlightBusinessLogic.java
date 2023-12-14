@@ -14,7 +14,7 @@ import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.logic.repository.FlightRepository;
 import pl.flywithbookedseats.logic.repository.PassengerRepository;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelRepository;
+import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl;
 import pl.flywithbookedseats.logic.mapper.flight.CreateFlightMapper;
 
@@ -36,7 +36,7 @@ public class FlightBusinessLogic {
 
     private final FlightRepository flightRepository;
     private final PassengerRepository passengerRepository;
-    private final SeatsSchemeModelRepository seatsSchemeModelRepository;
+    private final JpaSeatsSchemeRepository jpaSeatsSchemeRepository;
     private final CreateFlightMapper createFlightMapper;
     private final FlightDtoMapper flightDtoMapper;
 
@@ -194,7 +194,7 @@ public class FlightBusinessLogic {
 
     //Duplicated - SeatsSchemeModelServiceImp - if not, it's going to be after SeatsSchemeModelService redesign
     private SeatsSchemeEntity retrieveSeatsSchemeModelFromDb(String planeTypeName, Flight flight) {
-        return seatsSchemeModelRepository.findByPlaneModelName(planeTypeName)
+        return jpaSeatsSchemeRepository.findByPlaneModelName(planeTypeName)
                 .orElseThrow(() -> new FlightNotCreatedException(SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION
                         .formatted(planeTypeName, flight.getFlightName())));
     }

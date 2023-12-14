@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SeatsSchemeModelRepository extends JpaRepository<SeatsSchemeEntity, Long> {
+public interface JpaSeatsSchemeRepository extends JpaRepository<SeatsSchemeEntity, Long> {
 
     boolean existsByPlaneModelName(String PlaneModelName);
 
