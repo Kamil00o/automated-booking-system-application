@@ -8,6 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelService;
 import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.EventsFactory;
 import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
@@ -16,18 +17,14 @@ import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerComman
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.UpdateReservationCommand;
-import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeCommand;
 import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
-import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeCommand;
 import pl.flywithbookedseats.logic.model.dto.FlightDto;
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.logic.model.dto.ReservationDto;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
 import pl.flywithbookedseats.logic.service.implementation.flight.FlightServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.seatsbookingsystem.SeatsBookingServiceImpl;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelServiceImpl;
 
 import java.util.List;
 
@@ -40,7 +37,7 @@ import static pl.flywithbookedseats.logic.service.implementation.reservation.Res
 public class SeatsBookingSystemController {
 
     private static final Logger logger = LoggerFactory.getLogger(SeatsBookingSystemController.class);
-    private final SeatsSchemeModelServiceImpl seatsSchemeModelServiceImpl;
+    private final SeatsSchemeModelService seatsSchemeModelServiceImpl;
     private final FlightServiceImpl flightService;
     private final PassengerServiceImpl passengerService;
     private final ReservationServiceImpl reservationService;

@@ -192,7 +192,7 @@ public class FlightBusinessLogic {
         }
     }
 
-    //Duplicated - SeatsSchemeModelServiceImp - if not, it's going to be after SeatsSchemeModelServiceImpl redesign
+    //Duplicated - SeatsSchemeModelServiceImp - if not, it's going to be after SeatsSchemeModelService redesign
     private SeatsSchemeEntity retrieveSeatsSchemeModelFromDb(String planeTypeName, Flight flight) {
         return seatsSchemeModelRepository.findByPlaneModelName(planeTypeName)
                 .orElseThrow(() -> new FlightNotCreatedException(SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION

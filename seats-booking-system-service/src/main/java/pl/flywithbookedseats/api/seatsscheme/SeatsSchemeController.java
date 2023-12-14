@@ -4,8 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelServiceImpl;
+import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelService;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 @RequestMapping(path = "/seats-booking")
 public class SeatsSchemeController {
 
-    private final SeatsSchemeModelServiceImpl seatsSchemeModelServiceImpl;
+    private final SeatsSchemeModelService seatsSchemeModelServiceImpl;
     private final CreateSeatsSchemeCommandMapper createSeatsSchemeCommandMapper;
 
     @PostMapping(path = "/add-new-seats-model")
