@@ -172,7 +172,7 @@ public class SeatsBookingSystemController {
 
     //Methods related with seats scheme Model domain:
 
-    @PostMapping(path = "/add-new-seats-model")
+    /*@PostMapping(path = "/add-new-seats-model")
     public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeCommand createSeatsSchemeCommand) {
         String planeModelName = createSeatsSchemeCommand.planeModelName();
         logger.info("Adding new seats scheme to database for {} plane model.", planeModelName);
@@ -219,7 +219,7 @@ public class SeatsBookingSystemController {
     @DeleteMapping(path = "/delete-all-seats-scheme-models")
     public void deleteAllSavedSeatsSchemeModelsFromDb() {
         seatsSchemeModelServiceImpl.deleteAllSavedSeatsSchemeModelsFromDb();
-    }
+    }*/
 
     //Methods related with passenger domain:
 

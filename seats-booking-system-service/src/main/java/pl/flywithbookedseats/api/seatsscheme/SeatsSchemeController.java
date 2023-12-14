@@ -4,6 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
+import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeData;
+import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeFactory;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelServiceImpl;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
 
@@ -16,6 +19,7 @@ import java.util.List;
 public class SeatsSchemeController {
 
     private final SeatsSchemeModelServiceImpl seatsSchemeModelServiceImpl;
+    private final CreateSeatsSchemeCommandMapper createSeatsSchemeCommandMapper;
 
     @PostMapping(path = "/add-new-seats-model")
     public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeCommand createSeatsSchemeCommand) {
@@ -23,6 +27,12 @@ public class SeatsSchemeController {
         log.info("Adding new seats scheme to database for {} plane model.", planeModelName);
         seatsSchemeModelServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeCommand);
         log.info("Seats scheme for {} added successfully!!", planeModelName);
+
+        //TODO: TO remove after correct mapper implementation:
+        SeatsSchemeData seatsSchemeData = createSeatsSchemeCommandMapper.toDomain(createSeatsSchemeCommand);
+        System.out.println(seatsSchemeData.toString());
+        SeatsScheme testObject = SeatsSchemeFactory.apply(seatsSchemeData);
+        System.out.println(testObject.toString());
     }
 
     @GetMapping(path = "/get-seats-model/plane-model-name/{planeModelName}")

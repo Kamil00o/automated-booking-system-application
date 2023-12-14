@@ -1,11 +1,9 @@
 package pl.flywithbookedseats.domain.seatsscheme;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import pl.flywithbookedseats.common.Consts;
 
 import java.util.List;
 import java.util.Objects;

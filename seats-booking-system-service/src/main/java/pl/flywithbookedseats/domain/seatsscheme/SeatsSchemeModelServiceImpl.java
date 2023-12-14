@@ -5,13 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeModelMapper;
-import pl.flywithbookedseats.api.seatsscheme.CreateSeatsSchemeCommand;
-import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeCommand;
+import pl.flywithbookedseats.api.seatsscheme.*;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntity;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeModelRepository;
-import pl.flywithbookedseats.api.seatsscheme.SeatsSchemeModelDtoMapper;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +22,7 @@ public class SeatsSchemeModelServiceImpl implements SeatsSchemeModelService {
     private final SeatsSchemeModelRepository seatsSchemeModelRepository;
     private final CreateSeatsSchemeModelMapper createSeatsSchemeModelMapper;
     private final SeatsSchemeModelDtoMapper seatsSchemeModelDtoMapper;
+    private final CreateSeatsSchemeCommandMapper createSeatsSchemeCommandMapper;
 
     @Transactional
     @Override
