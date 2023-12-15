@@ -33,8 +33,8 @@ public class SeatsSchemeApplicationService {
         return service.retrieveSeatsSchemeModelByPlaneModel(planeModel);
     }
 
-    public SeatsSchemeEntityDto retrieveSeatsSchemeModelById(Long id) {
-        return service121212.retrieveSeatsSchemeModelById(id);
+    public SeatsScheme retrieveSeatsSchemeModelById(Long id) {
+        return service.retrieveSeatsSchemeModelById(id);
     }
 
     @Transactional

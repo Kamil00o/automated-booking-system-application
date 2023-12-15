@@ -23,6 +23,10 @@ public class SeatsSchemeService {
         return repository.findByPlaneModelName(planeModelName);
     }
 
+    public SeatsScheme retrieveSeatsSchemeModelById(Long id) {
+        return repository.findById(id);
+    }
+
     private boolean exists(SeatsScheme seatsScheme) {
         return repository.existsByPlaneModelName(seatsScheme.getPlaneModelName());
     }

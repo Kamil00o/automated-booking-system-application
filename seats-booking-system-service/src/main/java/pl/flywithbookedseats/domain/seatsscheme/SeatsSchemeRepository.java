@@ -7,4 +7,6 @@ public interface SeatsSchemeRepository {
     boolean existsByPlaneModelName(String planeModelName);
 
     SeatsScheme findByPlaneModelName(String planeModelName);
+
+    SeatsScheme findById(Long id);
 }

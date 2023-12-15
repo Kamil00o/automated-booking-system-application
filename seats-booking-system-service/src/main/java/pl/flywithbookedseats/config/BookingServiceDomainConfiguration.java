@@ -9,7 +9,7 @@ import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeReposito
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeStorageAdapter;
 
 @Configuration
-public class DomainConfiguraition {
+public class BookingServiceDomainConfiguration {
 
     @Bean
     public SeatsSchemeService seatsSchemeService(

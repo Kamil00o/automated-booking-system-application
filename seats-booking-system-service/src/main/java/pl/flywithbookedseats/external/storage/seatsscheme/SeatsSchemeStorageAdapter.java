@@ -33,4 +33,13 @@ public class SeatsSchemeStorageAdapter implements SeatsSchemeRepository {
 
         return mapper.toDomain(savedSeatsSchemeEntity);
     }
+
+    @Override
+    public SeatsScheme findById(Long id) {
+        SeatsSchemeEntity savedSeatsSchemeEntity = repository.findById(id)
+                .orElseThrow(() -> new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID
+                        .formatted(id)));
+
+        return mapper.toDomain(savedSeatsSchemeEntity);
+    }
 }

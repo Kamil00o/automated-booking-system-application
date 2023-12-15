@@ -33,17 +33,18 @@ public class SeatsSchemeController {
         return mapper.toDto(savedSeatsScheme);
     }
 
-    @GetMapping(path = "/{planeModelName}")
+    @GetMapping(path = "/planeModelName/{planeModelName}")
     public SeatsSchemeDto retrieveSeatsSchemeModelByPlaneModel(@PathVariable String planeModelName) {
         log.info("Retrieving seat scheme model data for {} plane model.", planeModelName);
         SeatsScheme retrievedSavedSeatsScheme = service.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
         return mapper.toDto(retrievedSavedSeatsScheme);
     }
 
-    @GetMapping(path = "/get-seats-model/id/{id}")
-    public SeatsSchemeEntityDto retrieveSeatsSchemeModelById(@PathVariable Long id) {
+    @GetMapping(path = "/id/{id}")
+    public SeatsSchemeDto retrieveSeatsSchemeModelById(@PathVariable Long id) {
         log.info("Retrieving seat scheme model data for plane model with id {}.", id);
-        return seatsSchemeModelServiceImpl.retrieveSeatsSchemeModelById(id);
+        SeatsScheme retrievedSavedSeatsScheme = service.retrieveSeatsSchemeModelById(id);
+        return mapper.toDto(retrievedSavedSeatsScheme);
     }
 
     @GetMapping(path = "/get-seats-model/all")
