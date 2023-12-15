@@ -9,4 +9,10 @@ public interface SeatsSchemeRepository {
     SeatsScheme findByPlaneModelName(String planeModelName);
 
     SeatsScheme findById(Long id);
+
+    void deleteById(Long id);
+
+    void deleteByPlaneModelName(String planeModelName);
+
+    void deleteAll();
 }

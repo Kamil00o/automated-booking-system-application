@@ -45,6 +45,18 @@ public class SeatsSchemeService {
         }
     }
 
+    public void deleteSeatsSchemeModelById(Long id) {
+        repository.deleteById(id);
+    }
+
+    public void deleteSeatsSchemeModelByPlaneModelName(String planeModelName) {
+        repository.deleteByPlaneModelName(planeModelName);
+    }
+
+    public void deleteAllSavedSeatsSchemeModelsFromDb() {
+        repository.deleteAll();
+    }
+
     private boolean exists(SeatsScheme seatsScheme) {
         return repository.existsByPlaneModelName(seatsScheme.getPlaneModelName());
     }

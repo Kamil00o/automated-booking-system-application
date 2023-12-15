@@ -64,18 +64,18 @@ public class SeatsSchemeController {
         return mapper.toDto(updatedSeatsScheme);
     }
 
-    @DeleteMapping(path = "/delete-seats-scheme-model/id/{id}")
+    @DeleteMapping(path = "/id/{id}")
     public void deleteSeatsSchemeModelById(@PathVariable Long id) {
-        seatsSchemeModelServiceImpl.deleteSeatsSchemeModelById(id);
+        service.deleteSeatsSchemeModelById(id);
     }
 
-    @DeleteMapping(path = "/delete-seats-scheme-model/plane-name/{planeModelName}")
+    @DeleteMapping(path = "/planeModelName/{planeModelName}")
     public void deleteSeatsSchemeModelByPlaneModelName(@PathVariable String planeModelName) {
-        seatsSchemeModelServiceImpl.deleteSeatsSchemeModelByPlaneModelName(planeModelName);
+        service.deleteSeatsSchemeModelByPlaneModelName(planeModelName);
     }
 
-    @DeleteMapping(path = "/delete-all-seats-scheme-models")
+    @DeleteMapping
     public void deleteAllSavedSeatsSchemeModelsFromDb() {
-        seatsSchemeModelServiceImpl.deleteAllSavedSeatsSchemeModelsFromDb();
+        service.deleteAllSavedSeatsSchemeModelsFromDb();
     }
 }

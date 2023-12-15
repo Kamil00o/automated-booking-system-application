@@ -15,4 +15,6 @@ public interface JpaSeatsSchemeRepository extends JpaRepository<SeatsSchemeEntit
     Optional<SeatsSchemeEntity> findByPlaneModelName(String planeModelName);
 
     Optional<SeatsSchemeEntity> findById(Long id);
+
+    void deleteByPlaneModelName(String planeModelName);
 }

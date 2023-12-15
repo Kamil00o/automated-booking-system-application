@@ -42,4 +42,19 @@ public class SeatsSchemeStorageAdapter implements SeatsSchemeRepository {
 
         return mapper.toDomain(savedSeatsSchemeEntity);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public void deleteByPlaneModelName(String planeModelName) {
+        repository.deleteByPlaneModelName(planeModelName);
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }
