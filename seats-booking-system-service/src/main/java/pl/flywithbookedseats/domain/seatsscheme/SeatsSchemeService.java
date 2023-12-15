@@ -2,8 +2,6 @@ package pl.flywithbookedseats.domain.seatsscheme;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
-import pl.flywithbookedseats.api.seatsscheme.SeatsSchemeDto;
 
 @RequiredArgsConstructor
 public class SeatsSchemeService {
@@ -15,7 +13,7 @@ public class SeatsSchemeService {
             return repository.save(seatsScheme);
         } else {
             String planeModelName = seatsScheme.getPlaneModelName();
-            throw new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION
+            throw new SeatsSchemeNotFoundException(ConstsImpl.SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION
                     .formatted(planeModelName));
         }
     }
@@ -45,7 +43,7 @@ public class SeatsSchemeService {
             seatsSchemeToUpdate.setPlaneModelName(planeModelName);
             return repository.save(seatsSchemeToUpdate);
         } else {
-            throw new SeatsSchemeModelAlreadyExistsException(ConstsImpl.SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION
+            throw new SeatsSchemeAlreadyExistsException(ConstsImpl.SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION
                     .formatted(planeModelName));
         }
     }

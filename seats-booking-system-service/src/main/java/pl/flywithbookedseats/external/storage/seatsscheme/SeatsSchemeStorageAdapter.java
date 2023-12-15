@@ -29,7 +29,7 @@ public class SeatsSchemeStorageAdapter implements SeatsSchemeRepository {
     public SeatsScheme findByPlaneModelName(String planeModelName) {
         SeatsSchemeEntity savedSeatsSchemeEntity = repository.findByPlaneModelName(planeModelName)
                 .orElseThrow(() ->
-                        new SeatsSchemeModelNotFoundException(
+                        new SeatsSchemeNotFoundException(
                                 ConstsImpl
                                         .SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_PLANE_NAME.formatted(planeModelName)));
 
@@ -39,7 +39,7 @@ public class SeatsSchemeStorageAdapter implements SeatsSchemeRepository {
     @Override
     public SeatsScheme findById(Long id) {
         SeatsSchemeEntity savedSeatsSchemeEntity = repository.findById(id)
-                .orElseThrow(() -> new SeatsSchemeModelNotFoundException(ConstsImpl.SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID
+                .orElseThrow(() -> new SeatsSchemeNotFoundException(ConstsImpl.SEATS_SCHEME_MODEL_NOT_FOUND_EXCEPTION_ID
                         .formatted(id)));
 
         return mapper.toDomain(savedSeatsSchemeEntity);
