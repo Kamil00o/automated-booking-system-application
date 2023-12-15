@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.SeatsSchemeApplicationService;
 import pl.flywithbookedseats.domain.seatsscheme.PageSeatsScheme;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelService;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,7 +16,6 @@ import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelService;
 @RequestMapping(path = "/seats-booking")
 public class SeatsSchemeController {
 
-    private final SeatsSchemeModelService seatsSchemeModelServiceImpl;
     private final SeatsSchemeApplicationService service;
     private final CreateSeatsSchemeCommandMapper commandMapper;
     private final SeatsSchemeDtoMapper mapper;

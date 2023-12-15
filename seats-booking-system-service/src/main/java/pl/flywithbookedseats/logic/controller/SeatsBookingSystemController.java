@@ -8,7 +8,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelService;
 import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.EventsFactory;
 import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
@@ -37,7 +36,6 @@ import static pl.flywithbookedseats.logic.service.implementation.reservation.Res
 public class SeatsBookingSystemController {
 
     private static final Logger logger = LoggerFactory.getLogger(SeatsBookingSystemController.class);
-    private final SeatsSchemeModelService seatsSchemeModelServiceImpl;
     private final FlightServiceImpl flightService;
     private final PassengerServiceImpl passengerService;
     private final ReservationServiceImpl reservationService;
@@ -166,57 +164,6 @@ public class SeatsBookingSystemController {
     public String testFindSeatForPassengerMethod() {
         return flightService.testBookSeatInFlightSeatsScheme();
     }
-
-    //Methods related with seats scheme Model domain:
-
-    /*@PostMapping(path = "/add-new-seats-model")
-    public void addNewSeatsSchemeModel(@Valid @RequestBody CreateSeatsSchemeCommand createSeatsSchemeCommand) {
-        String planeModelName = createSeatsSchemeCommand.planeModelName();
-        logger.info("Adding new seats scheme to database for {} plane model.", planeModelName);
-        seatsSchemeModelServiceImpl.addNewSeatsSchemeModel(createSeatsSchemeCommand);
-        logger.info("Seats scheme for {} added successfully!!", planeModelName);
-    }
-
-    @GetMapping(path = "/get-seats-model/plane-model-name/{planeModelName}")
-    public SeatsSchemeEntityDto retrieveSeatsSchemeModelByPlaneModel(@PathVariable String planeModelName) {
-        logger.info("Retrieving seat scheme model data for {} plane model.", planeModelName);
-        return seatsSchemeModelServiceImpl.retrieveSeatsSchemeModelByPlaneModel(planeModelName);
-    }
-
-    @GetMapping(path = "/get-seats-model/id/{id}")
-    public SeatsSchemeEntityDto retrieveSeatsSchemeModelById(@PathVariable Long id) {
-        logger.info("Retrieving seat scheme model data for plane model with id {}.", id);
-        return seatsSchemeModelServiceImpl.retrieveSeatsSchemeModelById(id);
-    }
-
-    @GetMapping(path = "/get-seats-model/all")
-    public List<SeatsSchemeEntityDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
-        logger.info("Retrieving seat scheme model data for all saved plane models.");
-        return seatsSchemeModelServiceImpl.retrieveAllSavedSeatsSchemeModelsFromDb();
-    }
-
-    @PutMapping(path = "/update-seats-scheme-model/{id}")
-    public SeatsSchemeEntityDto updateSeatsSchemeModel(
-            @PathVariable Long id,
-            @Valid @RequestBody UpdateSeatsSchemeCommand updateSeatsSchemeCommand) {
-        logger.info("Updating seat scheme model data with ID: {}.", id);
-        return seatsSchemeModelServiceImpl.updateSeatsSchemeModel(id, updateSeatsSchemeCommand);
-    }
-
-    @DeleteMapping(path = "/delete-seats-scheme-model/id/{id}")
-    public void deleteSeatsSchemeModelById(@PathVariable Long id) {
-        seatsSchemeModelServiceImpl.deleteSeatsSchemeModelById(id);
-    }
-
-    @DeleteMapping(path = "/delete-seats-scheme-model/plane-name/{planeModelName}")
-    public void deleteSeatsSchemeModelByPlaneModelName(@PathVariable String planeModelName) {
-        seatsSchemeModelServiceImpl.deleteSeatsSchemeModelByPlaneModelName(planeModelName);
-    }
-
-    @DeleteMapping(path = "/delete-all-seats-scheme-models")
-    public void deleteAllSavedSeatsSchemeModelsFromDb() {
-        seatsSchemeModelServiceImpl.deleteAllSavedSeatsSchemeModelsFromDb();
-    }*/
 
     //Methods related with passenger domain:
 
