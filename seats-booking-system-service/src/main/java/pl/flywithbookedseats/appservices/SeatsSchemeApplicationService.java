@@ -3,21 +3,17 @@ package pl.flywithbookedseats.appservices;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.api.seatsscheme.UpdateSeatsSchemeCommand;
+import pl.flywithbookedseats.domain.seatsscheme.PageSeatsScheme;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelService;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class SeatsSchemeApplicationService {
 
-    private final SeatsSchemeModelService service121212;
     private final SeatsSchemeService service;
 
     @Transactional
@@ -25,8 +21,8 @@ public class SeatsSchemeApplicationService {
         return service.addNewSeatsSchemeModel(seatsScheme);
     }
 
-    public List<SeatsSchemeEntityDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
-        return service121212.retrieveAllSavedSeatsSchemeModelsFromDb();
+    public PageSeatsScheme retrieveAllSavedSeatsSchemeModelsFromDb(Pageable pageable) {
+        return service.retrieveAllSavedSeatsSchemeModelsFromDb(pageable);
     }
 
     public SeatsScheme retrieveSeatsSchemeModelByPlaneModel(String planeModel) {
@@ -44,16 +40,16 @@ public class SeatsSchemeApplicationService {
 
     @Transactional
     public void deleteSeatsSchemeModelById(Long id) {
-        service121212.deleteSeatsSchemeModelById(id);
+        service.deleteSeatsSchemeModelById(id);
     }
 
     @Transactional
     public void deleteSeatsSchemeModelByPlaneModelName(String planeModelName) {
-        service121212.deleteSeatsSchemeModelByPlaneModelName(planeModelName);
+        service.deleteSeatsSchemeModelByPlaneModelName(planeModelName);
     }
 
     @Transactional
     public void deleteAllSavedSeatsSchemeModelsFromDb() {
-        service121212.deleteAllSavedSeatsSchemeModelsFromDb();
+        service.deleteAllSavedSeatsSchemeModelsFromDb();
     }
 }

@@ -1,10 +1,12 @@
 package pl.flywithbookedseats.external.storage.seatsscheme;
 
 import lombok.RequiredArgsConstructor;
-import pl.flywithbookedseats.domain.seatsscheme.ConstsImpl;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelNotFoundException;
-import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import pl.flywithbookedseats.domain.seatsscheme.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class SeatsSchemeStorageAdapter implements SeatsSchemeRepository {
@@ -56,5 +58,20 @@ public class SeatsSchemeStorageAdapter implements SeatsSchemeRepository {
     @Override
     public void deleteAll() {
         repository.deleteAll();
+    }
+
+    @Override
+    public PageSeatsScheme findAll(Pageable pageable) {
+        Page<SeatsSchemeEntity> pageOfSeatsSchemeEntities = repository.findAll(pageable);
+        List<SeatsScheme> seatsSchemesOnCurrentPage = pageOfSeatsSchemeEntities
+                .getContent()
+                .stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+
+        return new PageSeatsScheme(seatsSchemesOnCurrentPage,
+                pageable.getPageNumber() + 1,
+                pageOfSeatsSchemeEntities.getTotalPages(),
+                pageOfSeatsSchemeEntities.getTotalElements());
     }
 }

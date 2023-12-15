@@ -3,13 +3,13 @@ package pl.flywithbookedseats.api.seatsscheme;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.SeatsSchemeApplicationService;
+import pl.flywithbookedseats.domain.seatsscheme.PageSeatsScheme;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeModelService;
-import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntityDto;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,6 +22,7 @@ public class SeatsSchemeController {
     private final CreateSeatsSchemeCommandMapper commandMapper;
     private final SeatsSchemeDtoMapper mapper;
     private final UpdateSeatsSchemeCommandMapper updateMapper;
+    private final PageSeatsSchemeDtoMapper pageMapper;
 
     @PostMapping
     public SeatsSchemeDto addNewSeatsSchemeModel(
@@ -48,10 +49,14 @@ public class SeatsSchemeController {
         return mapper.toDto(retrievedSavedSeatsScheme);
     }
 
-    @GetMapping(path = "/get-seats-model/all")
-    public List<SeatsSchemeEntityDto> retrieveAllSavedSeatsSchemeModelsFromDb() {
+    @GetMapping
+    public PageSeatsSchemeDto retrieveAllSavedSeatsSchemeModelsFromDb(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "7") int size) {
         log.info("Retrieving seat scheme model data for all saved plane models.");
-        return seatsSchemeModelServiceImpl.retrieveAllSavedSeatsSchemeModelsFromDb();
+        Pageable pageable = PageRequest.of(page, size);
+        PageSeatsScheme savedPageSeatsScheme = service.retrieveAllSavedSeatsSchemeModelsFromDb(pageable);
+        return pageMapper.toDto(savedPageSeatsScheme);
     }
 
     @PutMapping(path = "/{id}")

@@ -1,6 +1,7 @@
 package pl.flywithbookedseats.domain.seatsscheme;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import pl.flywithbookedseats.api.seatsscheme.SeatsSchemeDto;
 
@@ -25,6 +26,10 @@ public class SeatsSchemeService {
 
     public SeatsScheme retrieveSeatsSchemeModelById(Long id) {
         return repository.findById(id);
+    }
+
+    public PageSeatsScheme retrieveAllSavedSeatsSchemeModelsFromDb(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public SeatsScheme updateSeatsSchemeById(Long id, SeatsScheme seatsScheme) {

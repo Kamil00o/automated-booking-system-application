@@ -1,5 +1,7 @@
 package pl.flywithbookedseats.domain.seatsscheme;
 
+import org.springframework.data.domain.Pageable;
+
 public interface SeatsSchemeRepository {
 
     SeatsScheme save(SeatsScheme seatsScheme);
@@ -15,4 +17,6 @@ public interface SeatsSchemeRepository {
     void deleteByPlaneModelName(String planeModelName);
 
     void deleteAll();
+
+    PageSeatsScheme findAll(final Pageable pageable);
 }

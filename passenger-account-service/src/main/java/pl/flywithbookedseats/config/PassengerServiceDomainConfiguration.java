@@ -18,7 +18,7 @@ import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepository;
 
 @Configuration
 @ConfigurationProperties("domain.properties")
-public class DomainConfiguration {
+public class PassengerServiceDomainConfiguration {
 
     @Bean
     public PassengerService passengerService(
