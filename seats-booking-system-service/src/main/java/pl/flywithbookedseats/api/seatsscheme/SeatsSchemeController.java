@@ -21,6 +21,7 @@ public class SeatsSchemeController {
     private final SeatsSchemeApplicationService service;
     private final CreateSeatsSchemeCommandMapper commandMapper;
     private final SeatsSchemeDtoMapper mapper;
+    private final UpdateSeatsSchemeCommandMapper updateMapper;
 
     @PostMapping
     public SeatsSchemeDto addNewSeatsSchemeModel(
@@ -53,12 +54,14 @@ public class SeatsSchemeController {
         return seatsSchemeModelServiceImpl.retrieveAllSavedSeatsSchemeModelsFromDb();
     }
 
-    @PutMapping(path = "/update-seats-scheme-model/{id}")
-    public SeatsSchemeEntityDto updateSeatsSchemeModel(
+    @PutMapping(path = "/{id}")
+    public SeatsSchemeDto updateSeatsSchemeModel(
             @PathVariable Long id,
             @Valid @RequestBody UpdateSeatsSchemeCommand updateSeatsSchemeCommand) {
         log.info("Updating seat scheme model data with ID: {}.", id);
-        return seatsSchemeModelServiceImpl.updateSeatsSchemeModel(id, updateSeatsSchemeCommand);
+        SeatsScheme updatedSeatsScheme = service
+                .updateSeatsSchemeModel(id, updateMapper.toDomain(updateSeatsSchemeCommand));
+        return mapper.toDto(updatedSeatsScheme);
     }
 
     @DeleteMapping(path = "/delete-seats-scheme-model/id/{id}")

@@ -27,6 +27,24 @@ public class SeatsSchemeService {
         return repository.findById(id);
     }
 
+    public SeatsScheme updateSeatsSchemeById(Long id, SeatsScheme seatsScheme) {
+        SeatsScheme savedSeatsScheme = retrieveSeatsSchemeModelById(id);
+        return updateSpecifiedSeatsScheme(savedSeatsScheme, seatsScheme);
+    }
+
+    private SeatsScheme updateSpecifiedSeatsScheme(SeatsScheme seatsSchemeToUpdate,
+                                                   SeatsScheme seatsSchemeUpdateData) {
+        String planeModelName = seatsSchemeUpdateData.getPlaneModelName();
+        //TODO: Exists method to improve!
+        if (!exists(seatsSchemeToUpdate)) {
+            seatsSchemeToUpdate.setPlaneModelName(planeModelName);
+            return repository.save(seatsSchemeToUpdate);
+        } else {
+            throw new SeatsSchemeModelAlreadyExistsException(ConstsImpl.SEATS_SCHEME_ALREADY_EXISTS_EXCEPTION
+                    .formatted(planeModelName));
+        }
+    }
+
     private boolean exists(SeatsScheme seatsScheme) {
         return repository.existsByPlaneModelName(seatsScheme.getPlaneModelName());
     }

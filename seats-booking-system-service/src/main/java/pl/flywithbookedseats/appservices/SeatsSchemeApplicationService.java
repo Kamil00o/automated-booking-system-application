@@ -38,8 +38,8 @@ public class SeatsSchemeApplicationService {
     }
 
     @Transactional
-    public SeatsSchemeEntityDto updateSeatsSchemeModel(Long id, UpdateSeatsSchemeCommand updateSeatsSchemeCommand) {
-        return service121212.updateSeatsSchemeModel(id, updateSeatsSchemeCommand);
+    public SeatsScheme updateSeatsSchemeModel(Long id, SeatsScheme seatsScheme) {
+        return service.updateSeatsSchemeById(id, seatsScheme);
     }
 
     @Transactional
