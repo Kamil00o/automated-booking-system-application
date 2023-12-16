@@ -20,6 +20,7 @@ public class FlightController {
     private final FlightApplicationService service;
     private final CreateFlightCommandMapper createMapper;
     private final FlightDtoMapper mapper;
+    private final UpdateFlightCommandMapper updateMapper;
 
     @PostMapping
     public FlightDto createNewFlight(@Valid @RequestBody CreateFlightCommand createFlightCommand) {
@@ -50,16 +51,22 @@ public class FlightController {
                 .convertBookedSeatsInPlaneMapToDtoVersion(retrievedFlight.getBookedSeatsInPlaneMap()));
     }
 
-    @PutMapping(path = "/update-flight/flight-name/{flightName}")
+    @PutMapping(path = "/flightName/{flightName}")
     public FlightDto updateFlightByFlightName(@Valid @RequestBody UpdateFlightCommand updateFlightCommand,
                                               @PathVariable String flightName) {
-        return flightService.updateFlightByFlightName(updateFlightCommand, flightName);
+        Flight updatedFlight = service
+                .updateFlightByFlightName(updateMapper.toDomain(updateFlightCommand), flightName);
+        return mapper.toDto(updatedFlight, service
+                .convertBookedSeatsInPlaneMapToDtoVersion(updatedFlight.getBookedSeatsInPlaneMap()));
     }
 
-    @PutMapping(path = "/update-flight/flight-service-id/{flightServiceId}")
+    @PutMapping(path = "/flightServiceId/{flightServiceId}")
     public FlightDto updateFlightByFlightServiceId(@Valid @RequestBody UpdateFlightCommand updateFlightCommand,
                                                    @PathVariable Long flightServiceId) {
-        return flightService.updateFlightByFlightServiceId(updateFlightCommand, flightServiceId);
+        Flight updatedFlight = service
+                .updateFlightByFlightServiceId(updateMapper.toDomain(updateFlightCommand), flightServiceId);
+        return mapper.toDto(updatedFlight, service
+                .convertBookedSeatsInPlaneMapToDtoVersion(updatedFlight.getBookedSeatsInPlaneMap()));
     }
 
     @DeleteMapping(path = "/delete-flight/all")

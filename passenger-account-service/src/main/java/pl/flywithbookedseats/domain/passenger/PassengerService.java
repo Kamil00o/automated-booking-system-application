@@ -129,6 +129,7 @@ public class PassengerService {
         if (repository.existsByEmail(email)) {
             return !Objects.equals(retrievePassengerByEmail(email).getId(), passengerUpdateData.getId());
         }
+
         return false;
     }
 }

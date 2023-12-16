@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import static pl.flywithbookedseats.common.Consts.SEAT_PASSENGER_DATA_UNAVAILABLE;
-import static pl.flywithbookedseats.domain.flight.FlightConstImpl.FLIGHT_ALREADY_EXISTS_FLIGHT_NAME;
+import static pl.flywithbookedseats.domain.flight.FlightConstImpl.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -43,13 +43,31 @@ public class FlightService {
         return repository.findByFlightServiceId(flightServiceId);
     }
 
-    /*public Flight updateFlightByFlightName(String flightName, Flight flight) {
-
+    public Flight updateFlightByFlightName(String flightName, Flight flight) {
+        Flight savedFlight = retrieveFlightByFlightName(flightName);
+        return updateSpecifiedFlight(flight, savedFlight);
     }
 
     public Flight updateFlightByFlightServiceId(Long id, Flight flight) {
+        Flight savedFlight = retrieveFlightByFlightServiceId(id);
+        return updateSpecifiedFlight(flight, savedFlight);
+    }
 
-    }*/
+    private Flight updateSpecifiedFlight(Flight flightUpdateData, Flight flightToUpdate) {
+        if (!exists(flightUpdateData, flightToUpdate)) {
+            flightToUpdate.setFlightName(flightUpdateData.getFlightName());
+            flightToUpdate.setPlaneTypeName(flightUpdateData.getPlaneTypeName());
+            flightToUpdate.setFlightServiceId(flightUpdateData.getFlightServiceId());
+            setBookedSeatsInPlaneMapIfPossible(flightUpdateData.getBookedSeatsInPlaneMap(), flightToUpdate);
+            repository.save(flightToUpdate);
+            log.info(FLIGHT_UPDATED.formatted(flightToUpdate.getFlightName()));
+            return flightToUpdate;
+        } else {
+            log.warn(FLIGHT_NOT_UPDATED.formatted(flightToUpdate.getFlightServiceId()));
+            throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME
+                    .formatted(flightUpdateData.getFlightName()));
+        }
+    }
 
     public Map<String, String> convertBookedSeatsInPlaneMapToDtoVersion(Map<String, Long> bookedSeatsInPlaneMap) {
         Map<String, String> convertedBookedSeatsInPlaneMap = new TreeMap<String, String>();
@@ -57,6 +75,15 @@ public class FlightService {
             convertedBookedSeatsInPlaneMap.put(entry.getKey(), retrievePassengerNameSurname(entry.getValue()));
         }
         return convertedBookedSeatsInPlaneMap;
+    }
+
+    private void setBookedSeatsInPlaneMapIfPossible(Map<String, Long> bookedSeatsInPlaneMapToSet
+            , Flight flightToUpdate) {
+        if (bookedSeatsInPlaneMapToSet != null) {
+            if (!bookedSeatsInPlaneMapToSet.isEmpty()) {
+                flightToUpdate.setBookedSeatsInPlaneMap(bookedSeatsInPlaneMapToSet);
+            }
+        }
     }
 
     private void retrieveSeatsSchemeForPlaneTypeIfNeeded(Flight flight) {
@@ -109,7 +136,16 @@ public class FlightService {
         return passengerService.retrievePassengerById(passengerId);
     }
 
-    public boolean exists(Flight flight) {
+    private boolean exists(Flight flight) {
         return repository.existsByFlightName(flight.getFlightName());
+    }
+
+    private boolean exists(Flight flightToUpdate, Flight flightUpdateData) {
+        String flightName = flightUpdateData.getFlightName();
+        if (repository.existsByFlightName(flightName)) {
+            return Objects.equals(retrieveFlightByFlightName(flightName).getFlightServiceId(), flightToUpdate.getFlightServiceId());
+        }
+
+        return false;
     }
 }

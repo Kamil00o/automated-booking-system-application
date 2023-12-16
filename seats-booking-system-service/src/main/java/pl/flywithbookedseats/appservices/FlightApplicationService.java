@@ -25,12 +25,12 @@ public class FlightApplicationService {
 
     @Transactional
     public Flight updateFlightByFlightName(Flight flight, String flightName) {
-        return null;
+        return service.updateFlightByFlightName(flightName, flight);
     }
 
     @Transactional
-    public Flight updateFlightByFlightServiceId(Flight flight, Long FlightServiceId) {
-        return null;
+    public Flight updateFlightByFlightServiceId(Flight flight, Long flightServiceId) {
+        return service.updateFlightByFlightServiceId(flightServiceId, flight);
     }
 
     public List<FlightDto> retrieveAllFlightsFromDb() {
