@@ -1,5 +1,6 @@
 package pl.flywithbookedseats.domain.flight;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
@@ -75,6 +76,18 @@ public class FlightService {
             convertedBookedSeatsInPlaneMap.put(entry.getKey(), retrievePassengerNameSurname(entry.getValue()));
         }
         return convertedBookedSeatsInPlaneMap;
+    }
+
+    public void deleteAllFlights() {
+        repository.deleteAll();
+    }
+
+    public void deleteFlightByFlightName(String flightName) {
+        repository.deleteByFlightName(flightName);
+    }
+
+    public void deleteFlightByFlyServiceId(Long flightServiceId) {
+        repository.deleteByFlightServiceId(flightServiceId);
     }
 
     private void setBookedSeatsInPlaneMapIfPossible(Map<String, Long> bookedSeatsInPlaneMapToSet

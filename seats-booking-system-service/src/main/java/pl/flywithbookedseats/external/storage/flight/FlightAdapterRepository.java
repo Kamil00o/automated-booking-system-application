@@ -40,4 +40,19 @@ public class FlightAdapterRepository implements FlightRepository {
                         .formatted(flightServiceId)));
         return mapper.toDomain(foundFlightEntity);
     }
+
+    @Override
+    public void deleteByFlightServiceId(Long flightServiceId) {
+        repository.deleteByFlightServiceId(flightServiceId);
+    }
+
+    @Override
+    public void deleteByFlightName(String flightName) {
+        repository.deleteByFlightName(flightName);
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

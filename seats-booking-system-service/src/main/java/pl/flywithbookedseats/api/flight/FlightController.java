@@ -69,22 +69,22 @@ public class FlightController {
                 .convertBookedSeatsInPlaneMapToDtoVersion(updatedFlight.getBookedSeatsInPlaneMap()));
     }
 
-    @DeleteMapping(path = "/delete-flight/all")
+    @DeleteMapping(path = "/all")
     public void deleteAllFlights() {
         log.info("Removing all flights:");
-        flightService.deleteAllFlights();
+        service.deleteAllFlights();
     }
 
-    @DeleteMapping(path = "/delete-flight/flight-name/{flightName}")
+    @DeleteMapping(path = "/flightName/{flightName}")
     public void deleteFlightByFlightName(@PathVariable String flightName) {
         log.info("Removing {} flight:", flightName);
-        flightService.deleteFlightByFlightName(flightName);
+        service.deleteFlightByFlightName(flightName);
     }
 
-    @DeleteMapping(path = "/delete-flight/flight-service-id/{flightServiceId}")
+    @DeleteMapping(path = "/flightServiceId/{flightServiceId}")
     public void deleteFlightByFlyServiceId(@PathVariable Long flightServiceId) {
         log.info("Removing flight with flight service ID: {}:", flightServiceId);
-        flightService.deleteFlightByFlyServiceId(flightServiceId);
+        service.deleteFlightByFlyServiceId(flightServiceId);
     }
 
     @GetMapping(path = "/flight-test/find-seat")

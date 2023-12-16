@@ -47,17 +47,17 @@ public class FlightApplicationService {
 
     @Transactional
     public void deleteAllFlights() {
-
+        service.deleteAllFlights();
     }
 
     @Transactional
     public void deleteFlightByFlightName(String flightName) {
-
+        service.deleteFlightByFlightName(flightName);
     }
 
     @Transactional
     public void deleteFlightByFlyServiceId(Long flightServiceId) {
-
+        service.deleteFlightByFlyServiceId(flightServiceId);
     }
 
     public Map<String, String> convertBookedSeatsInPlaneMapToDtoVersion(Map<String, Long> bookedSeatsInPlaneMap) {

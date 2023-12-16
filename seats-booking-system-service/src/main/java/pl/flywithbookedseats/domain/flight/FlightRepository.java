@@ -10,4 +10,10 @@ public interface FlightRepository {
 
     Flight findByFlightServiceId(Long flightServiceId);
 
+    void deleteByFlightServiceId(Long flightServiceId);
+
+    void deleteByFlightName(String flightName);
+
+    void deleteAll();
+
 }
