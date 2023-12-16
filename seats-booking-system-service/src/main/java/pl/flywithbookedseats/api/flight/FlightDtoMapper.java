@@ -1,9 +1,8 @@
-package pl.flywithbookedseats.logic.mapper.flight;
+package pl.flywithbookedseats.api.flight;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.logic.model.domain.Flight;
-import pl.flywithbookedseats.logic.model.dto.FlightDto;
+import pl.flywithbookedseats.external.storage.flight.Flight;
 
 import java.util.function.Function;
 

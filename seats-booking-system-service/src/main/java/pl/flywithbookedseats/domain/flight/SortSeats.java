@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.service.implementation.flight;
+package pl.flywithbookedseats.domain.flight;
 
 import java.util.Comparator;
 

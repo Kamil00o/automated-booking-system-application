@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.logic.exceptions.FlightAlreadyExistsException;
+import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
 import pl.flywithbookedseats.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;

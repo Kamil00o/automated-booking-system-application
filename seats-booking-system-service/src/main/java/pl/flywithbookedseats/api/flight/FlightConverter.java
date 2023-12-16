@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.mapper.flight;
+package pl.flywithbookedseats.api.flight;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

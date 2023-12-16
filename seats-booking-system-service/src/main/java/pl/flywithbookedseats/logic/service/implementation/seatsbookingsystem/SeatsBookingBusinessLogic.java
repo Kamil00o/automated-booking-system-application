@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.logic.exceptions.FlightNotFoundException;
+import pl.flywithbookedseats.domain.flight.FlightNotFoundException;
 import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
@@ -15,13 +15,13 @@ import pl.flywithbookedseats.logic.model.domain.Reservation;
 import pl.flywithbookedseats.logic.model.dto.ReservationDto;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
 import pl.flywithbookedseats.logic.mapper.reservation.ReservationDtoMapper;
-import pl.flywithbookedseats.logic.service.implementation.flight.FlightBusinessLogic;
+import pl.flywithbookedseats.domain.flight.FlightBusinessLogic;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationBusinessLogic;
 
 import java.util.Collections;
 import java.util.List;
 
-import static pl.flywithbookedseats.logic.service.implementation.flight.FlightConstImpl.FLIGHT_NOT_FOUND_FLIGHT_NAME;
+import static pl.flywithbookedseats.domain.flight.FlightConstImpl.FLIGHT_NOT_FOUND_FLIGHT_NAME;
 import static pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_CREATED;
 
 @AllArgsConstructor

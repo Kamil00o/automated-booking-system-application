@@ -1,19 +1,17 @@
-package pl.flywithbookedseats.logic.service.implementation.flight;
+package pl.flywithbookedseats.domain.flight;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.logic.exceptions.FlightAlreadyExistsException;
-import pl.flywithbookedseats.logic.mapper.flight.FlightDtoMapper;
+import pl.flywithbookedseats.api.flight.FlightDtoMapper;
 import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
-import pl.flywithbookedseats.logic.model.dto.FlightDto;
-import pl.flywithbookedseats.logic.repository.FlightRepository;
-import pl.flywithbookedseats.logic.service.FlightService;
+import pl.flywithbookedseats.api.flight.FlightDto;
+import pl.flywithbookedseats.external.storage.flight.FlightRepository;
 
-import static pl.flywithbookedseats.logic.service.implementation.flight.FlightConstImpl.*;
+import static pl.flywithbookedseats.domain.flight.FlightConstImpl.*;
 
 import java.time.LocalDate;
 import java.util.List;

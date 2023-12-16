@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.model.domain;
+package pl.flywithbookedseats.external.storage.flight;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

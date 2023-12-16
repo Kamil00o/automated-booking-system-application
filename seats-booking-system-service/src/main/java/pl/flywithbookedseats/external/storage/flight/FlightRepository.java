@@ -1,8 +1,8 @@
-package pl.flywithbookedseats.logic.repository;
+package pl.flywithbookedseats.external.storage.flight;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.flywithbookedseats.logic.model.domain.Flight;
+import pl.flywithbookedseats.external.storage.flight.Flight;
 
 import java.util.Optional;
 

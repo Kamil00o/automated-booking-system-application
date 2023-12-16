@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.service.implementation.flight;
+package pl.flywithbookedseats.domain.flight;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -6,24 +6,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntity;
 import pl.flywithbookedseats.logic.exceptions.*;
-import pl.flywithbookedseats.logic.mapper.flight.FlightDtoMapper;
+import pl.flywithbookedseats.api.flight.FlightDtoMapper;
 import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
-import pl.flywithbookedseats.logic.model.domain.Flight;
+import pl.flywithbookedseats.external.storage.flight.Flight;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.logic.model.dto.FlightDto;
-import pl.flywithbookedseats.logic.repository.FlightRepository;
+import pl.flywithbookedseats.api.flight.FlightDto;
+import pl.flywithbookedseats.external.storage.flight.FlightRepository;
 import pl.flywithbookedseats.logic.repository.PassengerRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl;
-import pl.flywithbookedseats.logic.mapper.flight.CreateFlightMapper;
+import pl.flywithbookedseats.api.flight.CreateFlightMapper;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static pl.flywithbookedseats.logic.service.implementation.flight.FlightConstImpl.*;
+import static pl.flywithbookedseats.domain.flight.FlightConstImpl.*;
 import static pl.flywithbookedseats.logic.service.implementation.passenger.PassengerConstsImpl.*;
 
 @AllArgsConstructor
