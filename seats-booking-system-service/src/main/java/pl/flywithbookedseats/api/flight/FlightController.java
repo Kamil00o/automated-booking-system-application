@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.domain.flight.FlightServiceImpl;
+import pl.flywithbookedseats.domain.flight.FlightService1Impl;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping(path = "/seats-booking/flight")
 public class FlightController {
 
-    private final FlightServiceImpl flightService;
+    private final FlightService1Impl flightService;
 
     @GetMapping(path = "/get-flight/all")
     public List<FlightDto> retrieveAllFlightsFromDb() {

@@ -18,9 +18,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class FlightServiceImpl implements FlightService {
+public class FlightService1Impl implements FlightService1 {
 
-    private static final Logger logger = LoggerFactory.getLogger(FlightConstImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(FlightConstImpl.class);
 
     private final JpaFlightRepository jpaFlightRepository;
     private final FlightDtoMapperOld flightDtoMapperOld;
@@ -71,21 +71,21 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public void deleteAllFlights() {
         jpaFlightRepository.deleteAll();
-        logger.info(FLIGHT_REMOVED_ALL);
+        log.info(FLIGHT_REMOVED_ALL);
     }
 
     @Transactional
     @Override
     public void deleteFlightByFlightName(String flightName) {
         jpaFlightRepository.delete(flightBL.retrieveFlightEntityFromDb(flightName));
-        logger.info(FLIGHT_REMOVED_NAME.formatted(flightName));
+        log.info(FLIGHT_REMOVED_NAME.formatted(flightName));
     }
 
     @Transactional
     @Override
     public void deleteFlightByFlyServiceId(Long flightServiceId) {
         jpaFlightRepository.delete(flightBL.retrieveFlightEntityFromDb(flightServiceId));
-        logger.info(FLIGHT_REMOVED_SERVICE_ID.formatted(flightServiceId));
+        log.info(FLIGHT_REMOVED_SERVICE_ID.formatted(flightServiceId));
     }
 
     @Transactional
