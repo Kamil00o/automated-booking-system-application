@@ -64,6 +64,10 @@ public class PassengerServiceImpl implements PassengerService {
         return passengerDtoMapper.apply(passengerBL.retrievePassengerEntityFromDb(email));
     }
 
+    public Passenger retrievePassengerById(Long id) {
+        return passengerRepository.findById(id).orElse(null);
+    }
+
     @Override
     public List<PassengerDto> retrieveAllPassengers() {
         return passengerBL.convertIntoListPassengerDto(passengerRepository.findAll());

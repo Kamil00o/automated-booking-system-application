@@ -9,6 +9,7 @@ import pl.flywithbookedseats.domain.flight.Flight;
 import pl.flywithbookedseats.domain.flight.FlightService;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -57,5 +58,9 @@ public class FlightApplicationService {
     @Transactional
     public void deleteFlightByFlyServiceId(Long flightServiceId) {
 
+    }
+
+    public Map<String, String> convertBookedSeatsInPlaneMapToDtoVersion(Map<String, Long> bookedSeatsInPlaneMap) {
+        return service.convertBookedSeatsInPlaneMapToDtoVersion(bookedSeatsInPlaneMap);
     }
 }

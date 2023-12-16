@@ -25,7 +25,10 @@ public class FlightController {
     @PostMapping
     public FlightDto createNewFlight(@Valid @RequestBody CreateFlightCommand createFlightCommand) {
         Flight createdFlight = service.createNewFlight(createMapper.toDomain(createFlightCommand));
-        return mapper.toDto(createdFlight, Collections.emptyMap());
+        return mapper
+                .toDto(
+                        createdFlight,
+                        service.convertBookedSeatsInPlaneMapToDtoVersion(createdFlight.getBookedSeatsInPlaneMap()));
     }
 
     @GetMapping(path = "/get-flight/all")

@@ -12,6 +12,7 @@ import pl.flywithbookedseats.external.storage.flight.JpaFlightRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepositoryMapper;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeStorageAdapter;
+import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
 
 @Configuration
 public class BookingServiceDomainConfiguration {
@@ -32,8 +33,9 @@ public class BookingServiceDomainConfiguration {
     @Bean
     public FlightService flightService(
             FlightRepository flightRepository,
-            SeatsSchemeService seatsSchemeService) {
-        return new FlightService(flightRepository, seatsSchemeService);
+            SeatsSchemeService seatsSchemeService,
+            PassengerServiceImpl passengerServiceImpl) {
+        return new FlightService(flightRepository, seatsSchemeService, passengerServiceImpl);
     }
 
     @Bean
