@@ -6,7 +6,7 @@ import pl.flywithbookedseats.domain.flight.Flight;
 
 import java.util.Map;
 
-@Mapper(componentModel = "string")
+@Mapper(componentModel = "spring")
 public interface FlightDtoMapper {
 
     @Mapping(source = "bookedSeatsInPlaneMapDtoVersion", target = "bookedSeatsInPlaneList")

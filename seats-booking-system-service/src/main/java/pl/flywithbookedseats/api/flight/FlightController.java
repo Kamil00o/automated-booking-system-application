@@ -4,8 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.appservices.FlightApplicationService;
+import pl.flywithbookedseats.domain.flight.Flight;
 import pl.flywithbookedseats.domain.flight.FlightService1Impl;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -15,6 +18,15 @@ import java.util.List;
 public class FlightController {
 
     private final FlightService1Impl flightService;
+    private final FlightApplicationService service;
+    private final CreateFlightCommandMapper createMapper;
+    private final FlightDtoMapper mapper;
+
+    @PostMapping
+    public FlightDto createNewFlight(@Valid @RequestBody CreateFlightCommand createFlightCommand) {
+        Flight createdFlight = service.createNewFlight(createMapper.toDomain(createFlightCommand));
+        return mapper.toDto(createdFlight, Collections.emptyMap());
+    }
 
     @GetMapping(path = "/get-flight/all")
     public List<FlightDto> retrieveAllFlightsFromDb() {
@@ -32,11 +44,6 @@ public class FlightController {
     public FlightDto retrieveFlightByFlightServiceId(@PathVariable Long flightServiceId) {
         log.info("Retrieving flight with flight-service ID {}:", flightServiceId);
         return flightService.retrieveFlightByFlightServiceId(flightServiceId);
-    }
-
-    @PostMapping(path = "/create-flight")
-    public FlightDto createNewFlight(@Valid @RequestBody CreateFlightCommand createFlightCommand) {
-        return flightService.createNewFlight(createFlightCommand);
     }
 
     @PutMapping(path = "/update-flight/flight-name/{flightName}")
