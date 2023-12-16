@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.api.flight.FlightDtoMapper;
+import pl.flywithbookedseats.api.flight.FlightDtoMapperOld;
 import pl.flywithbookedseats.api.flight.CreateFlightCommand;
 import pl.flywithbookedseats.api.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.api.flight.FlightDto;
@@ -23,14 +23,14 @@ public class FlightServiceImpl implements FlightService {
     private static final Logger logger = LoggerFactory.getLogger(FlightConstImpl.class);
 
     private final JpaFlightRepository jpaFlightRepository;
-    private final FlightDtoMapper flightDtoMapper;
+    private final FlightDtoMapperOld flightDtoMapperOld;
     private final FlightBusinessLogic flightBL;
 
     @Transactional
     @Override
     public FlightDto createNewFlight(CreateFlightCommand createFlightCommand) {
         if (!flightBL.exists(createFlightCommand)) {
-            return flightDtoMapper.apply(flightBL.generateNewFlight(createFlightCommand));
+            return flightDtoMapperOld.apply(flightBL.generateNewFlight(createFlightCommand));
         } else {
             throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME
                     .formatted(createFlightCommand.flightName()));
@@ -40,14 +40,14 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public FlightDto updateFlightByFlightName(UpdateFlightCommand updateFlightCommand, String flightName) {
-        return flightDtoMapper.apply(flightBL
+        return flightDtoMapperOld.apply(flightBL
                 .updateSpecigiedFlight(updateFlightCommand, flightBL.retrieveFlightEntityFromDb(flightName)));
     }
 
     @Transactional
     @Override
     public FlightDto updateFlightByFlightServiceId(UpdateFlightCommand updateFlightCommand, Long flightServiceId) {
-        return flightDtoMapper.apply(flightBL
+        return flightDtoMapperOld.apply(flightBL
                 .updateSpecigiedFlight(updateFlightCommand, flightBL.retrieveFlightEntityFromDb(flightServiceId)));
     }
 
@@ -59,12 +59,12 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDto retrieveFlightByFlightName(String flightName) {
-        return flightDtoMapper.apply(flightBL.retrieveFlightEntityFromDb(flightName));
+        return flightDtoMapperOld.apply(flightBL.retrieveFlightEntityFromDb(flightName));
     }
 
     @Override
     public FlightDto retrieveFlightByFlightServiceId(Long flightServiceId) {
-        return flightDtoMapper.apply(flightBL.retrieveFlightEntityFromDb(flightServiceId));
+        return flightDtoMapperOld.apply(flightBL.retrieveFlightEntityFromDb(flightServiceId));
     }
 
     @Transactional

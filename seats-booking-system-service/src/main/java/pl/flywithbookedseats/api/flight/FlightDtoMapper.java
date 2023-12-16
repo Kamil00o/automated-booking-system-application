@@ -1,24 +1,15 @@
 package pl.flywithbookedseats.api.flight;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.external.storage.flight.FlightEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import pl.flywithbookedseats.domain.flight.Flight;
 
-import java.util.function.Function;
+import java.util.Map;
 
-@AllArgsConstructor
-@Component
-public class FlightDtoMapper implements Function<FlightEntity, FlightDto> {
+@Mapper(componentModel = "string")
+public interface FlightDtoMapper {
 
-    private final FlightConverter flightConverter;
-    @Override
-    public FlightDto apply(FlightEntity flightEntity) {
-        return FlightDto.builder()
-                .flightServiceId(flightEntity.getFlightServiceId())
-                .flightName(flightEntity.getFlightName())
-                .planeTypeName(flightEntity.getPlaneTypeName())
-                .bookedSeatsInPlaneList(flightConverter
-                        .convertBookedSeatsInPlaneMapToDtoVersion(flightEntity.getBookedSeatsInPlaneMap()))
-                .build();
-    }
+    @Mapping(source = "bookedSeatsInPlaneMapDtoVersion", target = "bookedSeatsInPlaneList")
+    FlightDto toDto(Flight domain, Map<String, String> bookedSeatsInPlaneMapDtoVersion);
+
 }

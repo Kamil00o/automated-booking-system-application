@@ -7,4 +7,5 @@ import pl.flywithbookedseats.domain.flight.Flight;
 public interface CreateFlightCommandMapper {
 
     Flight toDomain(CreateFlightCommand command);
+
 }

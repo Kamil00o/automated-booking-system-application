@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.external.storage.flight.FlightEntity;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntity;
 import pl.flywithbookedseats.logic.exceptions.*;
-import pl.flywithbookedseats.api.flight.FlightDtoMapper;
+import pl.flywithbookedseats.api.flight.FlightDtoMapperOld;
 import pl.flywithbookedseats.api.flight.CreateFlightCommand;
 import pl.flywithbookedseats.api.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
@@ -38,7 +38,7 @@ public class FlightBusinessLogic {
     private final PassengerRepository passengerRepository;
     private final JpaSeatsSchemeRepository jpaSeatsSchemeRepository;
     private final CreateFlightMapper createFlightMapper;
-    private final FlightDtoMapper flightDtoMapper;
+    private final FlightDtoMapperOld flightDtoMapperOld;
 
     public FlightEntity generateNewFlight(CreateFlightCommand createFlightCommand) {
         FlightEntity newFlightEntity = createFlightMapper.apply(createFlightCommand);
@@ -114,7 +114,7 @@ public class FlightBusinessLogic {
     public List<FlightDto> convertIntoListFlightDto(List<FlightEntity> flightEntityList) {
         if (!flightEntityList.isEmpty()) {
             List<FlightDto> savedFlightDtoList = new ArrayList<>();
-            flightEntityList.forEach(flightEntity -> savedFlightDtoList.add(flightDtoMapper.apply(flightEntity)));
+            flightEntityList.forEach(flightEntity -> savedFlightDtoList.add(flightDtoMapperOld.apply(flightEntity)));
             return savedFlightDtoList;
         } else {
             logger.warn(FLIGHTS_NOT_RETRIEVED);
