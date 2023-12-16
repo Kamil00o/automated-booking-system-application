@@ -8,7 +8,6 @@ import pl.flywithbookedseats.appservices.FlightApplicationService;
 import pl.flywithbookedseats.domain.flight.Flight;
 import pl.flywithbookedseats.domain.flight.FlightService1Impl;
 
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -26,9 +25,8 @@ public class FlightController {
     public FlightDto createNewFlight(@Valid @RequestBody CreateFlightCommand createFlightCommand) {
         Flight createdFlight = service.createNewFlight(createMapper.toDomain(createFlightCommand));
         return mapper
-                .toDto(
-                        createdFlight,
-                        service.convertBookedSeatsInPlaneMapToDtoVersion(createdFlight.getBookedSeatsInPlaneMap()));
+                .toDto(createdFlight, service
+                        .convertBookedSeatsInPlaneMapToDtoVersion(createdFlight.getBookedSeatsInPlaneMap()));
     }
 
     @GetMapping(path = "/get-flight/all")
@@ -37,10 +35,12 @@ public class FlightController {
         return flightService.retrieveAllFlightsFromDb();
     }
 
-    @GetMapping(path = "/get-flight/flight-name/{flightName}")
+    @GetMapping(path = "/flightName/{flightName}")
     public FlightDto retrieveFlightByFlightName(@PathVariable String flightName) {
         log.info("Retrieving flight with flight name {}:", flightName);
-        return flightService.retrieveFlightByFlightName(flightName);
+        Flight retrievedFlight = service.retrieveFlightByFlightName(flightName);
+        return mapper.toDto(retrievedFlight, service
+                .convertBookedSeatsInPlaneMapToDtoVersion(retrievedFlight.getBookedSeatsInPlaneMap()));
     }
 
     @GetMapping(path = "/get-flight/flight-service-id/{flightServiceId}")

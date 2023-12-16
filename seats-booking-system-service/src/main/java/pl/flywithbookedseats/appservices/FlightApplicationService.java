@@ -38,7 +38,7 @@ public class FlightApplicationService {
     }
 
     public Flight retrieveFlightByFlightName(String flightName) {
-        return null;
+        return service.retrieveFlightByFlightName(flightName);
     }
 
     public Flight retrieveFlightByFlightServiceId(Long flightServiceId) {

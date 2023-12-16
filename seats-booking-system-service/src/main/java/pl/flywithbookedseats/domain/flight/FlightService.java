@@ -35,6 +35,26 @@ public class FlightService {
         return repository.save(flight);
     }
 
+    public Flight retrieveFlightByFlightName(String flightName) {
+        return repository.findByFlightName(flightName);
+    }
+
+    /*public Flight updateFlightByFlightName(String flightName, Flight flight) {
+
+    }
+
+    public Flight updateFlightByFlightServiceId(Long id, Flight flight) {
+
+    }*/
+
+    public Map<String, String> convertBookedSeatsInPlaneMapToDtoVersion(Map<String, Long> bookedSeatsInPlaneMap) {
+        Map<String, String> convertedBookedSeatsInPlaneMap = new TreeMap<String, String>();
+        for (Map.Entry<String, Long> entry : bookedSeatsInPlaneMap.entrySet()) {
+            convertedBookedSeatsInPlaneMap.put(entry.getKey(), retrievePassengerNameSurname(entry.getValue()));
+        }
+        return convertedBookedSeatsInPlaneMap;
+    }
+
     private void retrieveSeatsSchemeForPlaneTypeIfNeeded(Flight flight) {
         Map<String, String> savedSeatsSchemeMap;
         Map<String, Long> generatedBookedSeatsInPlaneMap;
@@ -60,14 +80,6 @@ public class FlightService {
         }
 
         return localBookedSeatsInPlaneMap;
-    }
-
-    public Map<String, String> convertBookedSeatsInPlaneMapToDtoVersion(Map<String, Long> bookedSeatsInPlaneMap) {
-        Map<String, String> convertedBookedSeatsInPlaneMap = new TreeMap<String, String>();
-        for (Map.Entry<String, Long> entry : bookedSeatsInPlaneMap.entrySet()) {
-            convertedBookedSeatsInPlaneMap.put(entry.getKey(), retrievePassengerNameSurname(entry.getValue()));
-        }
-        return convertedBookedSeatsInPlaneMap;
     }
 
     private String retrievePassengerNameSurname(Long passengerId) {
