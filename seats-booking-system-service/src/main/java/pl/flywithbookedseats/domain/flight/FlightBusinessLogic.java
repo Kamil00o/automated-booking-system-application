@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.external.storage.flight.FlightEntity;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeEntity;
 import pl.flywithbookedseats.logic.exceptions.*;
 import pl.flywithbookedseats.api.flight.FlightDtoMapper;
-import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
-import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
-import pl.flywithbookedseats.external.storage.flight.Flight;
+import pl.flywithbookedseats.api.flight.CreateFlightCommand;
+import pl.flywithbookedseats.api.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.api.flight.FlightDto;
-import pl.flywithbookedseats.external.storage.flight.FlightRepository;
+import pl.flywithbookedseats.external.storage.flight.JpaFlightRepository;
 import pl.flywithbookedseats.logic.repository.PassengerRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl;
@@ -34,30 +34,30 @@ public class FlightBusinessLogic {
 
     private static final String CLASS = "class";
 
-    private final FlightRepository flightRepository;
+    private final JpaFlightRepository jpaFlightRepository;
     private final PassengerRepository passengerRepository;
     private final JpaSeatsSchemeRepository jpaSeatsSchemeRepository;
     private final CreateFlightMapper createFlightMapper;
     private final FlightDtoMapper flightDtoMapper;
 
-    public Flight generateNewFlight(CreateFlightCommand createFlightCommand) {
-        Flight newFlight = createFlightMapper.apply(createFlightCommand);
-        retrieveSeatsSchemeForPlaneTypeIfNeeded(newFlight);
-        flightRepository.save(newFlight);
-        return newFlight;
+    public FlightEntity generateNewFlight(CreateFlightCommand createFlightCommand) {
+        FlightEntity newFlightEntity = createFlightMapper.apply(createFlightCommand);
+        retrieveSeatsSchemeForPlaneTypeIfNeeded(newFlightEntity);
+        jpaFlightRepository.save(newFlightEntity);
+        return newFlightEntity;
     }
 
-    public Flight updateSpecigiedFlight(UpdateFlightCommand updateFlightCommand, Flight flightToUpdate) {
+    public FlightEntity updateSpecigiedFlight(UpdateFlightCommand updateFlightCommand, FlightEntity flightEntityToUpdate) {
         if (!(exists(updateFlightCommand) || existsByFlightServiceId(updateFlightCommand))) {
-            flightToUpdate.setFlightName(updateFlightCommand.flightName());
-            flightToUpdate.setPlaneTypeName(updateFlightCommand.planeTypeName());
-            flightToUpdate.setFlightServiceId(updateFlightCommand.flightServiceId());
-            setBookedSeatsInPlaneMapIfPossible(updateFlightCommand.bookedSeatsInPlaneMap(), flightToUpdate);
-            flightRepository.saveAndFlush(flightToUpdate);
-            logger.info(FLIGHT_UPDATED.formatted(flightToUpdate.getFlightName()));
-            return flightToUpdate;
+            flightEntityToUpdate.setFlightName(updateFlightCommand.flightName());
+            flightEntityToUpdate.setPlaneTypeName(updateFlightCommand.planeTypeName());
+            flightEntityToUpdate.setFlightServiceId(updateFlightCommand.flightServiceId());
+            setBookedSeatsInPlaneMapIfPossible(updateFlightCommand.bookedSeatsInPlaneMap(), flightEntityToUpdate);
+            jpaFlightRepository.saveAndFlush(flightEntityToUpdate);
+            logger.info(FLIGHT_UPDATED.formatted(flightEntityToUpdate.getFlightName()));
+            return flightEntityToUpdate;
         } else {
-            logger.warn(FLIGHT_NOT_UPDATED.formatted(flightToUpdate.getFlightServiceId()));
+            logger.warn(FLIGHT_NOT_UPDATED.formatted(flightEntityToUpdate.getFlightServiceId()));
             throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME
                     .formatted(updateFlightCommand.flightName()));
         }
@@ -66,12 +66,12 @@ public class FlightBusinessLogic {
     public String bookSeatInFlightSeatsScheme(String flightName, String seatClassType, Long passengerId,
                                              boolean disability, LocalDate birthDate) {
         if (exists(flightName)) {
-            Flight savedFlight = retrieveFlightEntityFromDb(flightName);
-            Map<String, Long> currentBookedSeatsInTheFlight = savedFlight.getBookedSeatsInPlaneMap();
+            FlightEntity savedFlightEntity = retrieveFlightEntityFromDb(flightName);
+            Map<String, Long> currentBookedSeatsInTheFlight = savedFlightEntity.getBookedSeatsInPlaneMap();
             String assignedSeat = findAndAssignSeatForPassenger(seatClassType, passengerId, disability,
                     birthDate, currentBookedSeatsInTheFlight);
-            savedFlight.setBookedSeatsInPlaneMap(currentBookedSeatsInTheFlight);
-            flightRepository.save(savedFlight);
+            savedFlightEntity.setBookedSeatsInPlaneMap(currentBookedSeatsInTheFlight);
+            jpaFlightRepository.save(savedFlightEntity);
             return assignedSeat;
         } else {
             logger.warn(ReservationConstsImpl.RESERVATION_NOT_CREATED);
@@ -96,9 +96,9 @@ public class FlightBusinessLogic {
 
     }
 
-    public Flight makeSpecifiedBookedSeatFree(String bookedSeat, String flightName) {
-        Flight savedFlight = retrieveFlightEntityFromDb(flightName);
-        Map<String, Long> assignedBookedSeatsInPlaneMap = savedFlight.getBookedSeatsInPlaneMap();
+    public FlightEntity makeSpecifiedBookedSeatFree(String bookedSeat, String flightName) {
+        FlightEntity savedFlightEntity = retrieveFlightEntityFromDb(flightName);
+        Map<String, Long> assignedBookedSeatsInPlaneMap = savedFlightEntity.getBookedSeatsInPlaneMap();
         stopIterating:
         for (Map.Entry<String, Long> entry : assignedBookedSeatsInPlaneMap.entrySet()) {
             if (entry.getKey().contains(bookedSeat)) {
@@ -107,14 +107,14 @@ public class FlightBusinessLogic {
             }
         }
 
-        savedFlight.setBookedSeatsInPlaneMap(assignedBookedSeatsInPlaneMap);
-        return savedFlight;
+        savedFlightEntity.setBookedSeatsInPlaneMap(assignedBookedSeatsInPlaneMap);
+        return savedFlightEntity;
     }
 
-    public List<FlightDto> convertIntoListFlightDto(List<Flight> flightList) {
-        if (!flightList.isEmpty()) {
+    public List<FlightDto> convertIntoListFlightDto(List<FlightEntity> flightEntityList) {
+        if (!flightEntityList.isEmpty()) {
             List<FlightDto> savedFlightDtoList = new ArrayList<>();
-            flightList.forEach(flight -> savedFlightDtoList.add(flightDtoMapper.apply(flight)));
+            flightEntityList.forEach(flightEntity -> savedFlightDtoList.add(flightDtoMapper.apply(flightEntity)));
             return savedFlightDtoList;
         } else {
             logger.warn(FLIGHTS_NOT_RETRIEVED);
@@ -122,13 +122,13 @@ public class FlightBusinessLogic {
         }
     }
 
-    public Flight retrieveFlightEntityFromDb(String flightName) {
-        return flightRepository.findByFlightName(flightName)
+    public FlightEntity retrieveFlightEntityFromDb(String flightName) {
+        return jpaFlightRepository.findByFlightName(flightName)
                 .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName)));
     }
 
-    public Flight retrieveFlightEntityFromDb(Long flightServiceId) {
-        return flightRepository.findByFlightServiceId(flightServiceId)
+    public FlightEntity retrieveFlightEntityFromDb(Long flightServiceId) {
+        return jpaFlightRepository.findByFlightServiceId(flightServiceId)
                 .orElseThrow(() -> new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID
                         .formatted(flightServiceId)));
     }
@@ -140,32 +140,32 @@ public class FlightBusinessLogic {
     }
 
     public boolean exists(String flightName) {
-        return flightRepository.existsByFlightName(flightName);
+        return jpaFlightRepository.existsByFlightName(flightName);
     }
 
     public boolean exists(CreateFlightCommand createFlightCommand) {
-        return flightRepository.existsByFlightName(createFlightCommand.flightName());
+        return jpaFlightRepository.existsByFlightName(createFlightCommand.flightName());
     }
 
     public boolean exists(UpdateFlightCommand updateFlightCommand) {
-        return flightRepository.existsByFlightName(updateFlightCommand.flightName());
+        return jpaFlightRepository.existsByFlightName(updateFlightCommand.flightName());
     }
 
     public boolean existsByFlightServiceId(UpdateFlightCommand updateFlightCommand) {
-        return flightRepository.existsByFlightServiceId(updateFlightCommand.flightServiceId());
+        return jpaFlightRepository.existsByFlightServiceId(updateFlightCommand.flightServiceId());
     }
 
-    private void retrieveSeatsSchemeForPlaneTypeIfNeeded(Flight flight) {
+    private void retrieveSeatsSchemeForPlaneTypeIfNeeded(FlightEntity flightEntity) {
         Map<String, String> savedSeatsSchemeMap;
         Map<String, Long> generatedBookedSeatsInPlaneMap;
-        String planeTypeName = flight.getPlaneTypeName();
-        if (flight.getBookedSeatsInPlaneMap() == null) {
+        String planeTypeName = flightEntity.getPlaneTypeName();
+        if (flightEntity.getBookedSeatsInPlaneMap() == null) {
 
-            savedSeatsSchemeMap = new TreeMap<>(retrieveSeatsSchemeModelFromDb(planeTypeName, flight)
+            savedSeatsSchemeMap = new TreeMap<>(retrieveSeatsSchemeModelFromDb(planeTypeName, flightEntity)
                     .getSeatsSchemeMap());
             generatedBookedSeatsInPlaneMap = createReservedSeatsSchemeMap(savedSeatsSchemeMap);
-            flight.setBookedSeatsInPlaneMap(generatedBookedSeatsInPlaneMap);
-            System.out.println(flight);
+            flightEntity.setBookedSeatsInPlaneMap(generatedBookedSeatsInPlaneMap);
+            System.out.println(flightEntity);
         }
     }
 
@@ -184,19 +184,19 @@ public class FlightBusinessLogic {
     }
 
     private void setBookedSeatsInPlaneMapIfPossible(Map<String, Long> bookedSeatsInPlaneMapToSet
-            , Flight flightToUpdate) {
+            , FlightEntity flightEntityToUpdate) {
         if (bookedSeatsInPlaneMapToSet != null) {
             if (!bookedSeatsInPlaneMapToSet.isEmpty()) {
-                flightToUpdate.setBookedSeatsInPlaneMap(bookedSeatsInPlaneMapToSet);
+                flightEntityToUpdate.setBookedSeatsInPlaneMap(bookedSeatsInPlaneMapToSet);
             }
         }
     }
 
     //Duplicated - SeatsSchemeModelServiceImp - if not, it's going to be after SeatsSchemeModelService redesign
-    private SeatsSchemeEntity retrieveSeatsSchemeModelFromDb(String planeTypeName, Flight flight) {
+    private SeatsSchemeEntity retrieveSeatsSchemeModelFromDb(String planeTypeName, FlightEntity flightEntity) {
         return jpaSeatsSchemeRepository.findByPlaneModelName(planeTypeName)
                 .orElseThrow(() -> new FlightNotCreatedException(SEATS_SCHEME_NOT_FOUND_FLIGHT_NOT_CREATED_EXCEPTION
-                        .formatted(planeTypeName, flight.getFlightName())));
+                        .formatted(planeTypeName, flightEntity.getFlightName())));
     }
 
     private List<String> retrieveSeatsFromSpecifiedClass(Map<String, Long> bookedSeatsInPlaneMap,

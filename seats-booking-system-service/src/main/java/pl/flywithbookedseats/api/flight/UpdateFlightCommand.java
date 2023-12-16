@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.model.command.flight;
+package pl.flywithbookedseats.api.flight;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

@@ -25,7 +25,7 @@ import java.util.Map;
         }
 )
 @Entity
-public class Flight {
+public class FlightEntity {
 
     @Id
     @SequenceGenerator(
@@ -59,7 +59,7 @@ public class Flight {
 
     @Override
     public String toString() {
-        return "Flight{" +
+        return "FlightEntity{" +
                 "id=" + id +
                 ", flightServiceId=" + flightServiceId +
                 ", flightName='" + flightName + '\'' +

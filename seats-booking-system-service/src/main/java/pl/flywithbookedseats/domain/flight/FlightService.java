@@ -1,7 +1,7 @@
 package pl.flywithbookedseats.domain.flight;
 
-import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
-import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
+import pl.flywithbookedseats.api.flight.CreateFlightCommand;
+import pl.flywithbookedseats.api.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.api.flight.FlightDto;
 
 import java.util.List;

@@ -2,23 +2,23 @@ package pl.flywithbookedseats.api.flight;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.external.storage.flight.Flight;
+import pl.flywithbookedseats.external.storage.flight.FlightEntity;
 
 import java.util.function.Function;
 
 @AllArgsConstructor
 @Component
-public class FlightDtoMapper implements Function<Flight, FlightDto> {
+public class FlightDtoMapper implements Function<FlightEntity, FlightDto> {
 
     private final FlightConverter flightConverter;
     @Override
-    public FlightDto apply(Flight flight) {
+    public FlightDto apply(FlightEntity flightEntity) {
         return FlightDto.builder()
-                .flightServiceId(flight.getFlightServiceId())
-                .flightName(flight.getFlightName())
-                .planeTypeName(flight.getPlaneTypeName())
+                .flightServiceId(flightEntity.getFlightServiceId())
+                .flightName(flightEntity.getFlightName())
+                .planeTypeName(flightEntity.getPlaneTypeName())
                 .bookedSeatsInPlaneList(flightConverter
-                        .convertBookedSeatsInPlaneMapToDtoVersion(flight.getBookedSeatsInPlaneMap()))
+                        .convertBookedSeatsInPlaneMapToDtoVersion(flightEntity.getBookedSeatsInPlaneMap()))
                 .build();
     }
 }

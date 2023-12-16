@@ -6,10 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.api.flight.FlightDtoMapper;
-import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
-import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
+import pl.flywithbookedseats.api.flight.CreateFlightCommand;
+import pl.flywithbookedseats.api.flight.UpdateFlightCommand;
 import pl.flywithbookedseats.api.flight.FlightDto;
-import pl.flywithbookedseats.external.storage.flight.FlightRepository;
+import pl.flywithbookedseats.external.storage.flight.JpaFlightRepository;
 
 import static pl.flywithbookedseats.domain.flight.FlightConstImpl.*;
 
@@ -22,7 +22,7 @@ public class FlightServiceImpl implements FlightService {
 
     private static final Logger logger = LoggerFactory.getLogger(FlightConstImpl.class);
 
-    private final FlightRepository flightRepository;
+    private final JpaFlightRepository jpaFlightRepository;
     private final FlightDtoMapper flightDtoMapper;
     private final FlightBusinessLogic flightBL;
 
@@ -54,7 +54,7 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public List<FlightDto> retrieveAllFlightsFromDb() {
-        return flightBL.convertIntoListFlightDto(flightRepository.findAll());
+        return flightBL.convertIntoListFlightDto(jpaFlightRepository.findAll());
     }
 
     @Override
@@ -70,21 +70,21 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     @Override
     public void deleteAllFlights() {
-        flightRepository.deleteAll();
+        jpaFlightRepository.deleteAll();
         logger.info(FLIGHT_REMOVED_ALL);
     }
 
     @Transactional
     @Override
     public void deleteFlightByFlightName(String flightName) {
-        flightRepository.delete(flightBL.retrieveFlightEntityFromDb(flightName));
+        jpaFlightRepository.delete(flightBL.retrieveFlightEntityFromDb(flightName));
         logger.info(FLIGHT_REMOVED_NAME.formatted(flightName));
     }
 
     @Transactional
     @Override
     public void deleteFlightByFlyServiceId(Long flightServiceId) {
-        flightRepository.delete(flightBL.retrieveFlightEntityFromDb(flightServiceId));
+        jpaFlightRepository.delete(flightBL.retrieveFlightEntityFromDb(flightServiceId));
         logger.info(FLIGHT_REMOVED_SERVICE_ID.formatted(flightServiceId));
     }
 

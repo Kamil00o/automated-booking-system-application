@@ -11,13 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.EventsFactory;
 import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
-import pl.flywithbookedseats.logic.model.command.flight.CreateFlightCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.UpdateReservationCommand;
-import pl.flywithbookedseats.logic.model.command.flight.UpdateFlightCommand;
-import pl.flywithbookedseats.api.flight.FlightDto;
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.logic.model.dto.ReservationDto;
 import pl.flywithbookedseats.domain.flight.FlightServiceImpl;
@@ -107,7 +104,7 @@ public class SeatsBookingSystemController {
 
     //Methods related with flight domain:
 
-    @GetMapping(path = "/get-flight/all")
+    /*@GetMapping(path = "/get-flight/all")
     public List<FlightDto> retrieveAllFlightsFromDb() {
         logger.info("Retrieving all available flights from database:");
         return flightService.retrieveAllFlightsFromDb();
@@ -163,7 +160,7 @@ public class SeatsBookingSystemController {
     @GetMapping(path = "/flight-test/find-seat")
     public String testFindSeatForPassengerMethod() {
         return flightService.testBookSeatInFlightSeatsScheme();
-    }
+    }*/
 
     //Methods related with passenger domain:
 
