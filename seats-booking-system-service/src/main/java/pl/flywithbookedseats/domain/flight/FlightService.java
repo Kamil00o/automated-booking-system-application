@@ -39,6 +39,10 @@ public class FlightService {
         return repository.findByFlightName(flightName);
     }
 
+    public Flight retrieveFlightByFlightServiceId(Long flightServiceId) {
+        return repository.findByFlightServiceId(flightServiceId);
+    }
+
     /*public Flight updateFlightByFlightName(String flightName, Flight flight) {
 
     }

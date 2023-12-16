@@ -24,8 +24,7 @@ public class FlightController {
     @PostMapping
     public FlightDto createNewFlight(@Valid @RequestBody CreateFlightCommand createFlightCommand) {
         Flight createdFlight = service.createNewFlight(createMapper.toDomain(createFlightCommand));
-        return mapper
-                .toDto(createdFlight, service
+        return mapper.toDto(createdFlight, service
                         .convertBookedSeatsInPlaneMapToDtoVersion(createdFlight.getBookedSeatsInPlaneMap()));
     }
 
@@ -43,10 +42,12 @@ public class FlightController {
                 .convertBookedSeatsInPlaneMapToDtoVersion(retrievedFlight.getBookedSeatsInPlaneMap()));
     }
 
-    @GetMapping(path = "/get-flight/flight-service-id/{flightServiceId}")
+    @GetMapping(path = "/flightServiceId/{flightServiceId}")
     public FlightDto retrieveFlightByFlightServiceId(@PathVariable Long flightServiceId) {
         log.info("Retrieving flight with flight-service ID {}:", flightServiceId);
-        return flightService.retrieveFlightByFlightServiceId(flightServiceId);
+        Flight retrievedFlight = service.retrieveFlightByFlightServiceId(flightServiceId);
+        return mapper.toDto(retrievedFlight, service
+                .convertBookedSeatsInPlaneMapToDtoVersion(retrievedFlight.getBookedSeatsInPlaneMap()));
     }
 
     @PutMapping(path = "/update-flight/flight-name/{flightName}")

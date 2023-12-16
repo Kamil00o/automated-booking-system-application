@@ -42,7 +42,7 @@ public class FlightApplicationService {
     }
 
     public Flight retrieveFlightByFlightServiceId(Long flightServiceId) {
-        return null;
+        return service.retrieveFlightByFlightServiceId(flightServiceId);
     }
 
     @Transactional
