@@ -1,8 +1,7 @@
 package pl.flywithbookedseats.domain.flight;
 
-import pl.flywithbookedseats.logic.exceptions.BadRequestException;
 
-public class FlightAlreadyExistsException extends BadRequestException {
+public class FlightAlreadyExistsException extends RuntimeException {
     public FlightAlreadyExistsException(String message) {
         super(message);
     }

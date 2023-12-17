@@ -1,8 +1,6 @@
 package pl.flywithbookedseats.domain.flight;
 
-import pl.flywithbookedseats.logic.exceptions.BadRequestException;
-
-public class FullFlightException extends BadRequestException {
+public class FullFlightException extends RuntimeException {
     public FullFlightException(String message) {
         super(message);
     }
