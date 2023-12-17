@@ -12,6 +12,7 @@ import pl.flywithbookedseats.domain.reservation.Reservation;
 import pl.flywithbookedseats.domain.reservation.ReservationService1Impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.REMOVING_RESERVATION_COMPLETE;
 
@@ -65,10 +66,12 @@ public class ReservationController {
         return mapper.toDto(savedReservation);
     }
 
-    @GetMapping(path = "/get-reservation/email/{email}")
+    @GetMapping(path = "/email/{email}")
     public List<ReservationDto> retrieveReservationByEmail(@PathVariable String email) {
         log.info("Retrieving reservation for email: {}:", email);
-        return reservationService.retrieveReservationByEmail(email);
+        List<Reservation> reservationList = service.retrieveReservationByEmail(email);
+
+        return reservationList.stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
     @DeleteMapping

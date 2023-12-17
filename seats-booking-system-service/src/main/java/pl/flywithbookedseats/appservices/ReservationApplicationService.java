@@ -40,8 +40,8 @@ public class ReservationApplicationService {
         return service.retrieveReservationById(id);
     }
 
-    public List<ReservationDto> retrieveReservationByEmail(String email) {
-        return null;
+    public List<Reservation> retrieveReservationByEmail(String passengerEmail) {
+        return service.retrieveReservationByEmail(passengerEmail);
     }
 
     @Transactional

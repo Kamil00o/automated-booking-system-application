@@ -7,6 +7,8 @@ import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
 
+import java.util.List;
+
 import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.RESERVATION_ADDED_NO_PASSENGER;
 
@@ -31,9 +33,12 @@ public class ReservationService {
         return repository.findAll(pageable);
     }
 
-
     public Reservation retrieveReservationById(Long id) {
         return repository.findById(id);
+    }
+
+    public List<Reservation> retrieveReservationByEmail(String passengerEmail) {
+        return repository.findAllByPassengerEmail(passengerEmail);
     }
 
     public Reservation generateNewReservation(Reservation reservation) {
