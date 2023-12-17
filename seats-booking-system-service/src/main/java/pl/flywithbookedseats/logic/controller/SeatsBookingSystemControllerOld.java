@@ -12,18 +12,13 @@ import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.EventsFactory;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
-import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
-import pl.flywithbookedseats.api.reservation.UpdateReservationCommand;
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
-import pl.flywithbookedseats.api.reservation.ReservationDto;
 import pl.flywithbookedseats.domain.flight.FlightService1Impl;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
-import pl.flywithbookedseats.domain.reservation.ReservationServiceImpl;
+import pl.flywithbookedseats.domain.reservation.ReservationService1Impl;
 import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 
 import java.util.List;
-
-import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,10 +26,10 @@ import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 @RequestMapping(path = "/seats-booking")
 public class SeatsBookingSystemControllerOld {
 
-    private static final Logger logger = LoggerFactory.getLogger(SeatsBookingSystemControllerOld.class);
+    private static final Logger log = LoggerFactory.getLogger(SeatsBookingSystemControllerOld.class);
     private final FlightService1Impl flightService;
     private final PassengerServiceImpl passengerService;
-    private final ReservationServiceImpl reservationService;
+    private final ReservationService1Impl reservationService;
     private final SeatsBookingService bookingService;
     private final BookingServiceProducer bookingServiceProducer;
 
@@ -58,9 +53,9 @@ public class SeatsBookingSystemControllerOld {
 
     //Methods related with reservation domain:
 
-    @PostMapping(path = "/add-reservation")
+    /*@PostMapping(path = "/add-reservation")
     public ReservationDto addNewReservationToDb(@Valid @RequestBody CreateReservationCommand createReservationCommand) {
-        logger.info("Adding new reservation for {} flight to database", createReservationCommand.flightNumber());
+        log.info("Adding new reservation for {} flight to database", createReservationCommand.flightNumber());
         return reservationService.addNewReservationToDb(createReservationCommand);
     }
 
@@ -77,29 +72,29 @@ public class SeatsBookingSystemControllerOld {
 
     @GetMapping(path = "/get-reservation/id/{id}")
     public ReservationDto retrieveReservationById(@PathVariable Long id) {
-        logger.info("Retrieving reservation for ID: {}:", id);
+        log.info("Retrieving reservation for ID: {}:", id);
         return reservationService.retrieveReservationById(id);
     }
 
     @GetMapping(path = "/get-reservation/email/{email}")
     public List<ReservationDto> retrieveReservationByEmail(@PathVariable String email) {
-        logger.info("Retrieving reservation for email: {}:", email);
+        log.info("Retrieving reservation for email: {}:", email);
         return reservationService.retrieveReservationByEmail(email);
     }
 
     @DeleteMapping(path = "delete-reservation/all")
     public void deleteAllReservations() {
-        logger.info("Removing all reservations:");
+        log.info("Removing all reservations:");
         reservationService.deleteAllReservations();
-        logger.info(REMOVING_RESERVATION_COMPLETE);
+        log.info(REMOVING_RESERVATION_COMPLETE);
     }
 
     @DeleteMapping(path = "delete-reservation/id/{id}")
     public void deleteReservationById(@PathVariable Long id) {
-        logger.info("Removing reservation for ID: {}:", id);
+        log.info("Removing reservation for ID: {}:", id);
         reservationService.deleteReservationById(id);
-        logger.info(REMOVING_RESERVATION_COMPLETE);
-    }
+        log.info(REMOVING_RESERVATION_COMPLETE);
+    }*/
 
     //Methods related with flight domain:
 
@@ -165,20 +160,20 @@ public class SeatsBookingSystemControllerOld {
 
     @PostMapping(path = "/add-new-passenger")
     public PassengerDto createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
-        logger.info("Creating new passenger for email: {}:", createPassengerCommand.email());
+        log.info("Creating new passenger for email: {}:", createPassengerCommand.email());
         return passengerService.createNewPassenger(createPassengerCommand);
     }
 
     @PutMapping(path = "/update-passenger/email/{email}")
     public PassengerDto updatePassengerByEmail(@Valid @RequestBody UpdatePassengerCommand updatePassengerCommand,
                                                @PathVariable String email) {
-        logger.info("Updating passenger data for email: {}: ", email);
+        log.info("Updating passenger data for email: {}: ", email);
         return passengerService.updatePassengerByEmail(updatePassengerCommand, email);
     }
 
     @GetMapping(path = "get-passenger/email/{email}")
     public PassengerDto retrievePassengerByEmail(@PathVariable String email) {
-        logger.info("Retrieving passenger data for email {}:", email);
+        log.info("Retrieving passenger data for email {}:", email);
         return passengerService.retrievePassengerByEmail(email);
     }
 

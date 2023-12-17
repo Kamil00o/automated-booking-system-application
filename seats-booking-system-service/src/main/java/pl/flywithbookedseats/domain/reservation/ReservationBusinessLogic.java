@@ -25,7 +25,7 @@ import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 @Component
 public class ReservationBusinessLogic {
 
-    private static final Logger logger = LoggerFactory.getLogger(ReservationBusinessLogic.class);
+    private static final Logger log = LoggerFactory.getLogger(ReservationBusinessLogic.class);
 
     private final JpaReservationRepository jpaReservationRepository;
     private final PassengerRepository passengerRepository;
@@ -39,7 +39,7 @@ public class ReservationBusinessLogic {
                     .add(reservationDtoMapper1.apply(reservation)));
             return savedReservationDtoList;
         } else {
-            logger.warn(RESERVATIONS_NOT_RETRIEVED);
+            log.warn(RESERVATIONS_NOT_RETRIEVED);
             throw new ReservationDatabaseIsEmptyException(RESERVATION_DATABASE_IS_EMPTY_EXCEPTION);
         }
     }
@@ -50,10 +50,10 @@ public class ReservationBusinessLogic {
         if (passengerExists(passengerEmail)) {
             setPassengerDataToReservation(passengerEmail, newReservationEntity);
             jpaReservationRepository.save(newReservationEntity);
-            logger.info(RESERVATION_ADDED_PASSENGER);
+            log.info(RESERVATION_ADDED_PASSENGER);
         } else {
             jpaReservationRepository.save(newReservationEntity);
-            logger.info(RESERVATION_ADDED_NO_PASSENGER);
+            log.info(RESERVATION_ADDED_NO_PASSENGER);
         }
 
         return newReservationEntity;

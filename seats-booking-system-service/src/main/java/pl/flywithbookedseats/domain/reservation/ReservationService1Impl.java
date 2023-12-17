@@ -19,9 +19,9 @@ import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 
 @RequiredArgsConstructor
 @Service
-public class ReservationServiceImpl implements ReservationService {
+public class ReservationService1Impl implements ReservationService1 {
 
-    private static final Logger logger = LoggerFactory.getLogger(ReservationServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ReservationService1Impl.class);
 
     private final JpaReservationRepository jpaReservationRepository;
     private final ReservationDtoMapper1 reservationDtoMapper1;
@@ -33,7 +33,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (!reservationBL.exists(createReservationCommand)) {
             return reservationDtoMapper1.apply(reservationBL.generateNewReservation(createReservationCommand));
         } else {
-            logger.warn(RESERVATION_NOT_CREATED);
+            log.warn(RESERVATION_NOT_CREATED);
             throw new FlightAlreadyExistsException(RESERVATION_ALREADY_EXISTS_SEAT_NUMBER
                     .formatted(createReservationCommand.seatNumber()));
         }
@@ -46,7 +46,7 @@ public class ReservationServiceImpl implements ReservationService {
             return reservationDtoMapper1.apply(reservationBL.updateSpecifiedReservation(updateReservationCommand,
                     reservationBL.retrieveReservationEntityFromDb(id)));
         } else {
-            logger.warn(RESERVATION_NOT_UPDATED.formatted(id));
+            log.warn(RESERVATION_NOT_UPDATED.formatted(id));
             throw new FlightAlreadyExistsException(RESERVATION_ALREADY_EXISTS_SEAT_NUMBER
                     .formatted(updateReservationCommand.seatNumber()));
         }
@@ -68,7 +68,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (!savedReservationListEntity.isEmpty()) {
             return reservationBL.convertIntoListReservationDto(savedReservationListEntity);
         } else {
-            logger.warn(RESERVATIONS_NOT_RETRIEVED);
+            log.warn(RESERVATIONS_NOT_RETRIEVED);
             throw new ReservationNotFoundException(RESERVATION_NOT_FOUND_EMAIL.formatted(email));
         }
     }
