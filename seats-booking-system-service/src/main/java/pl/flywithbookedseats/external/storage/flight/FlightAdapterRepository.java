@@ -1,9 +1,15 @@
 package pl.flywithbookedseats.external.storage.flight;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.domain.flight.Flight;
 import pl.flywithbookedseats.domain.flight.FlightNotFoundException;
 import pl.flywithbookedseats.domain.flight.FlightRepository;
+import pl.flywithbookedseats.domain.flight.PageFlight;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static pl.flywithbookedseats.domain.flight.FlightConstImpl.FLIGHT_NOT_FOUND_FLIGHT_NAME;
 import static pl.flywithbookedseats.domain.flight.FlightConstImpl.FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID;
@@ -54,5 +60,20 @@ public class FlightAdapterRepository implements FlightRepository {
     @Override
     public void deleteAll() {
         repository.deleteAll();
+    }
+
+    @Override
+    public PageFlight findAll(Pageable pageable) {
+        Page<FlightEntity> pageOfFlightEntities = repository.findAll(pageable);
+        List<Flight> flightsOnCurrentPage = pageOfFlightEntities
+                .getContent()
+                .stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+
+        return new PageFlight(flightsOnCurrentPage,
+                pageable.getPageNumber() + 1,
+                pageOfFlightEntities.getTotalPages(),
+                pageOfFlightEntities.getTotalElements());
     }
 }

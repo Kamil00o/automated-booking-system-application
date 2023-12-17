@@ -1,5 +1,7 @@
 package pl.flywithbookedseats.domain.flight;
 
+import org.springframework.data.domain.Pageable;
+
 public interface FlightRepository {
 
     boolean existsByFlightName(String flightName);
@@ -15,5 +17,7 @@ public interface FlightRepository {
     void deleteByFlightName(String flightName);
 
     void deleteAll();
+
+    PageFlight findAll(Pageable pageable);
 
 }

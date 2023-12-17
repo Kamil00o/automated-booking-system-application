@@ -3,10 +3,12 @@ package pl.flywithbookedseats.appservices;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.api.flight.FlightDto;
 import pl.flywithbookedseats.domain.flight.Flight;
 import pl.flywithbookedseats.domain.flight.FlightService;
+import pl.flywithbookedseats.domain.flight.PageFlight;
 
 import java.util.List;
 import java.util.Map;
@@ -33,8 +35,8 @@ public class FlightApplicationService {
         return service.updateFlightByFlightServiceId(flightServiceId, flight);
     }
 
-    public List<FlightDto> retrieveAllFlightsFromDb() {
-        return null;
+    public PageFlight retrieveAllFlightsFromDb(Pageable pageable) {
+        return service.retrieveAllFlightsFromDb(pageable);
     }
 
     public Flight retrieveFlightByFlightName(String flightName) {

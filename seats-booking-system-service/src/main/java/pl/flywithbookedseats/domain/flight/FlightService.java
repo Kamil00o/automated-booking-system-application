@@ -3,6 +3,7 @@ package pl.flywithbookedseats.domain.flight;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
@@ -34,6 +35,10 @@ public class FlightService {
     public Flight generateNewFlight(Flight flight) {
         retrieveSeatsSchemeForPlaneTypeIfNeeded(flight);
         return repository.save(flight);
+    }
+
+    public PageFlight retrieveAllFlightsFromDb(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Flight retrieveFlightByFlightName(String flightName) {
