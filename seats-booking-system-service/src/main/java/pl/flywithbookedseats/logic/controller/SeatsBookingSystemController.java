@@ -10,7 +10,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.EventsFactory;
-import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
+import pl.flywithbookedseats.api.seatsbookingsystem.BookingEnterDataCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
@@ -20,7 +20,7 @@ import pl.flywithbookedseats.logic.model.dto.ReservationDto;
 import pl.flywithbookedseats.domain.flight.FlightService1Impl;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationServiceImpl;
-import pl.flywithbookedseats.logic.service.implementation.seatsbookingsystem.SeatsBookingServiceImpl;
+import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingServiceImpl;
 
 import java.util.List;
 

@@ -14,7 +14,7 @@ import pl.flywithbookedseats.domain.seatsscheme.SeatsScheme;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping(path = "/seats-booking")
+@RequestMapping(path = "/seats-booking/seatsScheme")
 public class SeatsSchemeController {
 
     private final SeatsSchemeApplicationService service;

@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.service.implementation.seatsbookingsystem;
+package pl.flywithbookedseats.domain.seatsbookingsystem;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.domain.flight.FlightNotFoundException;
 import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
-import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
+import pl.flywithbookedseats.api.seatsbookingsystem.BookingEnterDataCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;

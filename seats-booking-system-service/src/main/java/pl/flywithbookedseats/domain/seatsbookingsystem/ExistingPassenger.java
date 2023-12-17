@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.service.implementation.seatsbookingsystem;
+package pl.flywithbookedseats.domain.seatsbookingsystem;
 
 import lombok.Getter;
 import lombok.Setter;

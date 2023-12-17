@@ -1,14 +1,18 @@
-package pl.flywithbookedseats.logic.service.implementation.seatsbookingsystem;
+package pl.flywithbookedseats.appservices;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.logic.model.command.BookingEnterDataCommand;
+import pl.flywithbookedseats.api.seatsbookingsystem.BookingEnterDataCommand;
+import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingBusinessLogic;
+import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingServiceImpl;
 import pl.flywithbookedseats.logic.model.dto.ReservationDto;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
-public class SeatsBookingServiceImpl {
+public class SeatsBookingApplicationService {
 
     private final SeatsBookingBusinessLogic seatsBookingBL;
 

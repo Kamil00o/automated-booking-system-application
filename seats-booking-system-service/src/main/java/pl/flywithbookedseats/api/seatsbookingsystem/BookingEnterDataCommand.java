@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.model.command;
+package pl.flywithbookedseats.api.seatsbookingsystem;
 
 import lombok.Builder;
 
