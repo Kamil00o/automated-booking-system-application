@@ -33,4 +33,5 @@ public class FlightConstImpl {
 
     public static final String RESERVATION_NOT_MADE_FULL_FLIGHT =
             "Reservatiom has not been made due to the lack of free seats in the plane!";
+    public static final String CLASS = "class";
 }

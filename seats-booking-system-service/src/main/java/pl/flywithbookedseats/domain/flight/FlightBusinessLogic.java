@@ -30,7 +30,7 @@ import static pl.flywithbookedseats.logic.service.implementation.passenger.Passe
 @Component
 public class FlightBusinessLogic {
 
-    private static final Logger logger = LoggerFactory.getLogger(FlightBusinessLogic.class);
+    private static final Logger log = LoggerFactory.getLogger(FlightBusinessLogic.class);
 
     private static final String CLASS = "class";
 
@@ -54,10 +54,10 @@ public class FlightBusinessLogic {
             flightEntityToUpdate.setFlightServiceId(updateFlightCommand.flightServiceId());
             setBookedSeatsInPlaneMapIfPossible(updateFlightCommand.bookedSeatsInPlaneMap(), flightEntityToUpdate);
             jpaFlightRepository.saveAndFlush(flightEntityToUpdate);
-            logger.info(FLIGHT_UPDATED.formatted(flightEntityToUpdate.getFlightName()));
+            log.info(FLIGHT_UPDATED.formatted(flightEntityToUpdate.getFlightName()));
             return flightEntityToUpdate;
         } else {
-            logger.warn(FLIGHT_NOT_UPDATED.formatted(flightEntityToUpdate.getFlightServiceId()));
+            log.warn(FLIGHT_NOT_UPDATED.formatted(flightEntityToUpdate.getFlightServiceId()));
             throw new FlightAlreadyExistsException(FLIGHT_ALREADY_EXISTS_FLIGHT_NAME
                     .formatted(updateFlightCommand.flightName()));
         }
@@ -74,7 +74,7 @@ public class FlightBusinessLogic {
             jpaFlightRepository.save(savedFlightEntity);
             return assignedSeat;
         } else {
-            logger.warn(ReservationConstsImpl.RESERVATION_NOT_CREATED);
+            log.warn(ReservationConstsImpl.RESERVATION_NOT_CREATED);
             throw new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName));
         }
     }
@@ -84,13 +84,13 @@ public class FlightBusinessLogic {
         List<String> retrievedSeatsFromSpecifiedClassList = retrieveSeatsFromSpecifiedClass(bookedSeatsInPlaneMap,
                  seatClassType);
         retrievedSeatsFromSpecifiedClassList.sort(new SortSeats());
-        logger.info(retrievedSeatsFromSpecifiedClassList.toString());
+        log.info(retrievedSeatsFromSpecifiedClassList.toString());
         String seatToAssign = searchSeatForPassenger(convertTo2DArray(retrievedSeatsFromSpecifiedClassList),
                 bookedSeatsInPlaneMap, disability, passengerId, retrievedSeatsFromSpecifiedClassList, birthDate);
         if (!seatToAssign.equals(NO_SEATS_AVAILABLE)) {
             return seatToAssign;
         } else {
-            logger.warn(NO_SEATS_AVAILABLE_MSG);
+            log.warn(NO_SEATS_AVAILABLE_MSG);
             throw new FullFlightException(RESERVATION_NOT_MADE_FULL_FLIGHT);
         }
 
@@ -117,7 +117,7 @@ public class FlightBusinessLogic {
             flightEntityList.forEach(flightEntity -> savedFlightDtoList.add(flightDtoMapperOld.apply(flightEntity)));
             return savedFlightDtoList;
         } else {
-            logger.warn(FLIGHTS_NOT_RETRIEVED);
+            log.warn(FLIGHTS_NOT_RETRIEVED);
             throw new FlightDatabaseIsEmptyException(FLIGHT_DATABASE_IS_EMPTY_EXCEPTION);
         }
     }
@@ -255,7 +255,7 @@ public class FlightBusinessLogic {
                     if ((j + 1) == iterator.next()) {
                         String seatToCheck = " " + strings[j];
                         for (Map.Entry<String, Long> entry : bookedSeatsInPlaneMap.entrySet()) {
-                            logger.debug(entry.getKey() + ": " + entry.getValue());
+                            log.debug(entry.getKey() + ": " + entry.getValue());
                             if (entry.getKey().contains(seatToCheck)) {
                                 if (entry.getValue() == 0L) {
                                     entry.setValue(passengerId);
@@ -287,7 +287,7 @@ public class FlightBusinessLogic {
                 seatCounter++;
             }
         }
-        logger.debug(Arrays.deepToString(seatsScheme));
+        log.debug(Arrays.deepToString(seatsScheme));
 
         return seatsScheme;
     }
