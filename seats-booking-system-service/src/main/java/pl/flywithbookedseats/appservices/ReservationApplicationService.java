@@ -1,11 +1,13 @@
 package pl.flywithbookedseats.appservices;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.api.reservation.ReservationDto;
 import pl.flywithbookedseats.api.reservation.UpdateReservationCommand;
+import pl.flywithbookedseats.domain.reservation.Reservation;
 import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.domain.reservation.ReservationService1;
 
@@ -18,10 +20,12 @@ public class ReservationApplicationService {
 
     private final ReservationService service;
 
-    public ReservationDto addNewReservationToDb(CreateReservationCommand createReservationCommand) {
-        return null;
+    @Transactional
+    public Reservation addNewReservationToDb(Reservation reservation) {
+        return service.addNewReservationToDb(reservation);
     }
 
+    @Transactional
     public ReservationDto updateReservationById(UpdateReservationCommand updateReservationCommand, Long id) {
         return null;
     }
@@ -38,10 +42,12 @@ public class ReservationApplicationService {
         return null;
     }
 
+    @Transactional
     public void deleteAllReservations() {
 
     }
 
+    @Transactional
     public void deleteReservationById(Long id) {
 
     }

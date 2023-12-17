@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.ReservationApplicationService;
+import pl.flywithbookedseats.domain.reservation.Reservation;
 import pl.flywithbookedseats.domain.reservation.ReservationService1Impl;
 
 import java.util.List;
@@ -19,12 +20,16 @@ public class ReservationController {
 
     private final ReservationService1Impl reservationService;
     private final ReservationApplicationService service;
+    private final CreateReservationCommandMapper createMapper;
+    private final ReservationDtoMapper mapper;
 
 
-    @PostMapping(path = "/add-reservation")
+    @PostMapping
     public ReservationDto addNewReservationToDb(@Valid @RequestBody CreateReservationCommand createReservationCommand) {
         log.info("Adding new reservation for {} flight to database", createReservationCommand.flightNumber());
-        return reservationService.addNewReservationToDb(createReservationCommand);
+        Reservation createdReservation = service.addNewReservationToDb(createMapper.toDomain(createReservationCommand));
+
+        return mapper.toDto(createdReservation);
     }
 
     @PutMapping(path = "/update-reservation/id/{id}")

@@ -4,12 +4,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.flywithbookedseats.domain.flight.FlightRepository;
 import pl.flywithbookedseats.domain.flight.FlightService;
+import pl.flywithbookedseats.domain.reservation.ReservationRepository;
+import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeRepository;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
 import pl.flywithbookedseats.external.storage.flight.FlightAdapterRepository;
 import pl.flywithbookedseats.external.storage.flight.JpaFlightEntityMapper;
 import pl.flywithbookedseats.external.storage.flight.JpaFlightRepository;
+import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepository;
+import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepositoryMapper;
+import pl.flywithbookedseats.external.storage.reservation.ReservationAdapterRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepositoryMapper;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeStorageAdapter;
@@ -66,5 +71,21 @@ public class BookingServiceDomainConfiguration {
                 reservationDtoMapper1,
                 passengerDtoMapper
         );
+    }
+
+    @Bean
+    public ReservationService reservationService(
+            ReservationRepository reservationRepository,
+            PassengerBusinessLogic passengerBusinessLogic
+    ) {
+        return new ReservationService(reservationRepository, passengerBusinessLogic);
+    }
+
+    @Bean
+    public ReservationRepository reservationRepository(
+            JpaReservationRepositoryMapper jpaReservationRepositoryMapper,
+            JpaReservationRepository jpaReservationRepository
+    ) {
+        return new ReservationAdapterRepository(jpaReservationRepositoryMapper, jpaReservationRepository);
     }
 }
