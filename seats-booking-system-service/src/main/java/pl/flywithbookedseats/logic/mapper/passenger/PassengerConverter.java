@@ -2,8 +2,8 @@ package pl.flywithbookedseats.logic.mapper.passenger;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.external.storage.reservation.Reservation;
-import pl.flywithbookedseats.external.storage.reservation.ReservationRepository;
+import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
+import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,22 +12,22 @@ import java.util.List;
 @Component
 public class PassengerConverter {
 
-    private final ReservationRepository reservationRepository;
+    private final JpaReservationRepository jpaReservationRepository;
 
-    public List<Reservation> convertReservationIdListToEntityVersion(List<Long> reservationIdList) {
-        List<Reservation> convertedReservationList = new ArrayList<>();
+    public List<ReservationEntity> convertReservationIdListToEntityVersion(List<Long> reservationIdList) {
+        List<ReservationEntity> convertedReservationListEntity = new ArrayList<>();
         if (reservationIdList != null) {
             reservationIdList.forEach(id -> {
-                Reservation savedReservation = retrieveReservationEntityFromDb(id);
-                if (savedReservation != null) {
-                    convertedReservationList.add(savedReservation);
+                ReservationEntity savedReservationEntity = retrieveReservationEntityFromDb(id);
+                if (savedReservationEntity != null) {
+                    convertedReservationListEntity.add(savedReservationEntity);
                 }
             });
         }
-        return convertedReservationList;
+        return convertedReservationListEntity;
     }
 
-    private Reservation retrieveReservationEntityFromDb(Long id) {
-        return reservationRepository.findById(id).orElse(null);
+    private ReservationEntity retrieveReservationEntityFromDb(Long id) {
+        return jpaReservationRepository.findById(id).orElse(null);
     }
 }

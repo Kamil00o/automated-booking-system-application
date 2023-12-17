@@ -15,7 +15,7 @@ import pl.flywithbookedseats.logic.model.domain.Passenger;
 @AllArgsConstructor
 @Table(name = "reservation_TABLE")
 @Entity
-public class Reservation {
+public class ReservationEntity {
 
     @Id
     @SequenceGenerator(

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.EventsFactory;
 import pl.flywithbookedseats.logic.exceptions.PassengerAlreadyExistsException;
@@ -17,10 +18,9 @@ import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.external.storage.reservation.Reservation;
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.logic.repository.PassengerRepository;
-import pl.flywithbookedseats.external.storage.reservation.ReservationRepository;
+import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +37,7 @@ public class PassengerBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(PassengerBusinessLogic.class);
 
     private final PassengerRepository passengerRepository;
-    private final ReservationRepository reservationRepository;
+    private final JpaReservationRepository jpaReservationRepository;
     private final PassengerDtoMapper passengerDtoMapper;
     private final CreatePassengerMapper createPassengerMapper;
     private final PassengerAccountProxy passengerAccountProxy;
@@ -54,7 +54,7 @@ public class PassengerBusinessLogic {
             logger.info("passengerServiceId not retrieved from the passenger service");
         }
         
-        List<Reservation> reservationsToAddList = parseReservationIdToReservationEntity(createPassengerCommand
+        List<ReservationEntity> reservationsToAddList = parseReservationIdToReservationEntity(createPassengerCommand
                 .reservationsIdList());
         if (reservationsToAddList != null) {
             reservationsToAddList.forEach(reservation -> addReservationEntityToPassengerEntity(newPassenger, reservation));
@@ -80,7 +80,7 @@ public class PassengerBusinessLogic {
                                               Passenger savedPassenger, boolean doNotSaveInDb) {
         String email = updatePassengerCommand.email();
         if (!exists(updatePassengerCommand, savedPassenger)) {
-            List<Reservation> reservationsToUpdateList = parseReservationIdToReservationEntity(updatePassengerCommand
+            List<ReservationEntity> reservationsToUpdateList = parseReservationIdToReservationEntity(updatePassengerCommand
                     .reservationsIdList());
             if (reservationsToUpdateList != null) {
                 if (!reservationsToUpdateList.isEmpty()) {
@@ -157,23 +157,23 @@ public class PassengerBusinessLogic {
         bookingServiceProducer.sendUpdatedPassengerEvent(EventsFactory.createUpdatedPassengerEvent(passengerDto));
     }
 
-    private void addReservationEntityToPassengerEntity(Passenger passengerEntity, Reservation reservationToAdd) {
-        List<Reservation> reservationList = passengerEntity.getReservationsList();
-        if (reservationList == null) {
-            passengerEntity.setReservationsList(Collections.singletonList(reservationToAdd));
+    private void addReservationEntityToPassengerEntity(Passenger passengerEntity, ReservationEntity reservationEntityToAdd) {
+        List<ReservationEntity> reservationEntityList = passengerEntity.getReservationsList();
+        if (reservationEntityList == null) {
+            passengerEntity.setReservationsList(Collections.singletonList(reservationEntityToAdd));
         } else {
-            reservationList.add(reservationToAdd);
+            reservationEntityList.add(reservationEntityToAdd);
         }
     }
 
-    private List<Reservation> parseReservationIdToReservationEntity(List<Long> reservationIdList) {
-        List<Reservation> parsedReservationList = new ArrayList<>();
+    private List<ReservationEntity> parseReservationIdToReservationEntity(List<Long> reservationIdList) {
+        List<ReservationEntity> parsedReservationListEntity = new ArrayList<>();
         if (reservationIdList != null) {
             if (!reservationIdList.isEmpty()) {
-                reservationIdList.forEach(id -> parsedReservationList.add(retrieveReservationEntityFromDb(id)));
+                reservationIdList.forEach(id -> parsedReservationListEntity.add(retrieveReservationEntityFromDb(id)));
             }
 
-            return parsedReservationList;
+            return parsedReservationListEntity;
         } else {
             logger.debug("Passed reservationIdList is null!");
             return null;
@@ -184,8 +184,8 @@ public class PassengerBusinessLogic {
     //What with the case, where some bad ID will be passed ? IF throwing exception in this case will be ok ?
     //Probably not, because we will interrupt code execution during iteration through the list & we will not
     //retrieve the rest of reservations entities for correct IDs, which left...
-    private Reservation retrieveReservationEntityFromDb(Long id) {
-        return reservationRepository.findById(id)
+    private ReservationEntity retrieveReservationEntityFromDb(Long id) {
+        return jpaReservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException(RESERVATION_NOT_FOUND_ID.formatted(id)));
     }
 }

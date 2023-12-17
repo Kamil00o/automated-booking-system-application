@@ -5,16 +5,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.domain.flight.FlightNotFoundException;
+import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.api.seatsbookingsystem.BookingEnterDataCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.external.storage.reservation.Reservation;
 import pl.flywithbookedseats.api.reservation.ReservationDto;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
-import pl.flywithbookedseats.api.reservation.ReservationDtoMapper;
+import pl.flywithbookedseats.api.reservation.ReservationDtoMapper1;
 import pl.flywithbookedseats.domain.flight.FlightBusinessLogic;
 import pl.flywithbookedseats.domain.reservation.ReservationBusinessLogic;
 
@@ -33,12 +33,12 @@ public class SeatsBookingBusinessLogic {
     private final FlightBusinessLogic flightBL;
     private final PassengerBusinessLogic passengerBL;
     private final ReservationBusinessLogic reservationBL;
-    private final ReservationDtoMapper reservationDtoMapper;
+    private final ReservationDtoMapper1 reservationDtoMapper1;
     private final PassengerDtoMapper passengerDtoMapper;
 
     public ReservationDto bookSeatsInThePlane(BookingEnterDataCommand bookingEnterDataCommand) {
         Passenger newPassenger;
-        Reservation newReservation;
+        ReservationEntity newReservationEntity;
         String bookedSeat;
         String flightName = bookingEnterDataCommand.flightName();
         ExistingPassenger notExistingPassenger = new ExistingPassenger(false);
@@ -51,13 +51,13 @@ public class SeatsBookingBusinessLogic {
                     newPassenger.getId(),
                     bookingEnterDataCommand.disability(),
                     bookingEnterDataCommand.passengerBirthDate());
-            newReservation = reservationBL.generateNewReservation(parseReservationData(bookingEnterDataCommand,
+            newReservationEntity = reservationBL.generateNewReservation(parseReservationData(bookingEnterDataCommand,
                     bookedSeat));
             boolean isNotExistingPassenger = notExistingPassenger.isNotExistingPassenger();
-            passengerBL.updateSpecifiedPassenger(parseUpdatedPassengerData(bookingEnterDataCommand, newReservation),
+            passengerBL.updateSpecifiedPassenger(parseUpdatedPassengerData(bookingEnterDataCommand, newReservationEntity),
                     newPassenger, isNotExistingPassenger);
             passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper.apply(newPassenger));
-            return reservationDtoMapper.apply(newReservation);
+            return reservationDtoMapper1.apply(newReservationEntity);
         } else {
             logger.warn(RESERVATION_NOT_CREATED);
             throw new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName));
@@ -65,17 +65,17 @@ public class SeatsBookingBusinessLogic {
     }
 
     public void deleteBookedReservationAndAssociatedData(Long reservationId) {
-        Reservation savedReservation = reservationBL.retrieveReservationEntityFromDb(reservationId);
-        Passenger associatedPassengerData = passengerBL.retrievePassengerEntityFromDb(savedReservation
+        ReservationEntity savedReservationEntity = reservationBL.retrieveReservationEntityFromDb(reservationId);
+        Passenger associatedPassengerData = passengerBL.retrievePassengerEntityFromDb(savedReservationEntity
                 .getPassengerEmail());
-        String bookedSeat = savedReservation.getSeatNumber();
-        flightBL.makeSpecifiedBookedSeatFree(bookedSeat, savedReservation.getFlightNumber());
-        List<Reservation> associatedPassengerReservationList = associatedPassengerData.getReservationsList();
-        associatedPassengerReservationList.remove(savedReservation);
+        String bookedSeat = savedReservationEntity.getSeatNumber();
+        flightBL.makeSpecifiedBookedSeatFree(bookedSeat, savedReservationEntity.getFlightNumber());
+        List<ReservationEntity> associatedPassengerReservationListEntity = associatedPassengerData.getReservationsList();
+        associatedPassengerReservationListEntity.remove(savedReservationEntity);
         reservationBL.deleteReservationById(reservationId);
         passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper.apply(associatedPassengerData));
-        if (associatedPassengerReservationList.isEmpty()) {
-            passengerBL.deletePassengerByEmail(savedReservation.getPassengerEmail());
+        if (associatedPassengerReservationListEntity.isEmpty()) {
+            passengerBL.deletePassengerByEmail(savedReservationEntity.getPassengerEmail());
         }
     }
 
@@ -90,14 +90,14 @@ public class SeatsBookingBusinessLogic {
     }
 
     private UpdatePassengerCommand parseUpdatedPassengerData(BookingEnterDataCommand bookingEnterDataCommand,
-                                                             Reservation newReservation) {
+                                                             ReservationEntity newReservationEntity) {
         return new UpdatePassengerCommand(null,
                 bookingEnterDataCommand.passengerEmail(),
                 bookingEnterDataCommand.name(),
                 bookingEnterDataCommand.surname(),
                 bookingEnterDataCommand.passengerBirthDate(),
                 bookingEnterDataCommand.disability(),
-                Collections.singletonList(newReservation.getId()));
+                Collections.singletonList(newReservationEntity.getId()));
     }
 
     private Passenger createPassenger(BookingEnterDataCommand bookingEnterDataCommand, ExistingPassenger existingPassenger) {

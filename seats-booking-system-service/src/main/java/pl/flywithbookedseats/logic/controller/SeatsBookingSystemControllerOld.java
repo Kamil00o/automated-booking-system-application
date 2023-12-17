@@ -53,7 +53,7 @@ public class SeatsBookingSystemControllerOld {
     @DeleteMapping(path = "/delete-booking/reservationId/{reservationId}")
     public void deleteBookedReservationAndAssociatedData(@PathVariable Long reservationId) {
         bookingService.deleteBookedReservationAndAssociatedData(reservationId);
-        logger.info("Reservation and its data have been removed.");
+        logger.info("ReservationEntity and its data have been removed.");
     }*/
 
     //Methods related with reservation domain:

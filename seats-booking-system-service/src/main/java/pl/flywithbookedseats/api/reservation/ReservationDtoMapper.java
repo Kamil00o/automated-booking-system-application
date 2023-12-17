@@ -1,20 +1,18 @@
 package pl.flywithbookedseats.api.reservation;
 
-import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.external.storage.reservation.Reservation;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import pl.flywithbookedseats.domain.reservation.Reservation;
 
-import java.util.function.Function;
+@Mapper(componentModel = "spring")
+public interface ReservationDtoMapper {
 
-@Component
-public class ReservationDtoMapper implements Function<Reservation, ReservationDto> {
-    @Override
-    public ReservationDto apply(Reservation reservation) {
-        return ReservationDto.builder()
-                .id(reservation.getId())
-                .flightNumber(reservation.getFlightNumber())
-                .seatNumber(reservation.getSeatNumber())
-                .seatTypeClass(reservation.getSeatTypeClass())
-                .passengerEmail(reservation.getPassengerEmail())
-                .build();
+    @Mapping(source = "domain", target = "passengerEmail", qualifiedByName = "getPassengerEmail")
+    ReservationDto toDto(Reservation domain);
+
+    @Named("getPassengerEmail")
+    default String retrievePassengerEmail(Reservation domain) {
+        return domain.getPassenger().getEmail();
     }
 }

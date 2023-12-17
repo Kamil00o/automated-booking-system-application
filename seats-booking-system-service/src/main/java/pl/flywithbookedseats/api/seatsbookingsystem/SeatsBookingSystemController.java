@@ -25,7 +25,7 @@ public class SeatsBookingSystemController {
     @DeleteMapping(path = "/{reservationId}")
     public ResponseEntity<Void> deleteBookedReservationAndAssociatedData(@PathVariable Long reservationId) {
         service.deleteBookedReservationAndAssociatedData(reservationId);
-        log.info("Reservation and its data have been removed.");
+        log.info("ReservationEntity and its data have been removed.");
 
         return ResponseEntity.ok().build();
     }

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import pl.flywithbookedseats.common.Consts;
-import pl.flywithbookedseats.external.storage.reservation.Reservation;
+import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,5 +48,5 @@ public class Passenger {
     private boolean disability;
     @JsonIgnore
     @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
-    private List<Reservation> reservationsList;
+    private List<ReservationEntity> reservationsList;
 }
