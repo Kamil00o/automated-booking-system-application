@@ -43,10 +43,12 @@ public class ReservationController {
         return reservationService.retrieveAllReservations();
     }
 
-    @GetMapping(path = "/get-reservation/id/{id}")
+    @GetMapping(path = "/id/{id}")
     public ReservationDto retrieveReservationById(@PathVariable Long id) {
         log.info("Retrieving reservation for ID: {}:", id);
-        return reservationService.retrieveReservationById(id);
+        Reservation savedReservation = service.retrieveReservationById(id);
+        
+        return mapper.toDto(savedReservation);
     }
 
     @GetMapping(path = "/get-reservation/email/{email}")

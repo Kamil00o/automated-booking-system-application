@@ -26,7 +26,7 @@ public class ReservationApplicationService {
     }
 
     @Transactional
-    public ReservationDto updateReservationById(UpdateReservationCommand updateReservationCommand, Long id) {
+    public Reservation updateReservationById(UpdateReservationCommand updateReservationCommand, Long id) {
         return null;
     }
 
@@ -34,8 +34,8 @@ public class ReservationApplicationService {
         return null;
     }
 
-    public ReservationDto retrieveReservationById(Long id) {
-        return null;
+    public Reservation retrieveReservationById(Long id) {
+        return service.retrieveReservationById(id);
     }
 
     public List<ReservationDto> retrieveReservationByEmail(String email) {

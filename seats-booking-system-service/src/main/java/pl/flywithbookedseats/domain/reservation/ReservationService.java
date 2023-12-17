@@ -26,6 +26,10 @@ public class ReservationService {
         }
     }
 
+    public Reservation retrieveReservationById(Long id) {
+        return repository.findById(id);
+    }
+
     public Reservation generateNewReservation(Reservation reservation) {
         String passengerEmail = reservation.getPassengerEmail();
         if (passengerExists(passengerEmail)) {
