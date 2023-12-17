@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.ReservationApplicationService;
 import pl.flywithbookedseats.domain.reservation.PageReservation;
 import pl.flywithbookedseats.domain.reservation.Reservation;
-import pl.flywithbookedseats.domain.reservation.ReservationService1Impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +21,6 @@ import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.REM
 @RequestMapping(path = "/seats-booking/reservation")
 public class ReservationController {
 
-    private final ReservationService1Impl reservationService;
     private final ReservationApplicationService service;
     private final CreateReservationCommandMapper createMapper;
     private final ReservationDtoMapper mapper;

@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.domain.reservation.Reservation;
 import pl.flywithbookedseats.domain.seatsbookingsystem.BookingEnterData;
 import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 import pl.flywithbookedseats.api.reservation.ReservationDto;
@@ -16,7 +17,7 @@ public class SeatsBookingApplicationService {
     private final SeatsBookingService service;
 
     @Transactional
-    public ReservationDto bookSeatsInThePlane(BookingEnterData bookingEnterData) {
+    public Reservation bookSeatsInThePlane(BookingEnterData bookingEnterData) {
         return service.bookSeatsInThePlane(bookingEnterData);
     }
 

@@ -45,14 +45,14 @@ public class ReservationService {
         String passengerEmail = reservation.getPassengerEmail();
         if (passengerExists(passengerEmail)) {
             setPassengerDataToReservation(passengerEmail, reservation);
-            repository.save(reservation);
+            Reservation createdReservation = repository.save(reservation);
             log.info(RESERVATION_ADDED_PASSENGER);
+            return createdReservation;
         } else {
-            repository.save(reservation);
+            Reservation createdReservation = repository.save(reservation);
             log.info(RESERVATION_ADDED_NO_PASSENGER);
+            return createdReservation;
         }
-
-        return reservation;
     }
 
     public Reservation updateReservationById(Reservation reservation, Long id) {

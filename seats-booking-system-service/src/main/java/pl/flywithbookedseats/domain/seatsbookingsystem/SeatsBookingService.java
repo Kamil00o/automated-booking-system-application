@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.flywithbookedseats.domain.flight.FlightNotFoundException;
 import pl.flywithbookedseats.domain.flight.FlightService;
+import pl.flywithbookedseats.domain.reservation.Reservation;
+import pl.flywithbookedseats.domain.reservation.ReservationService;
+import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepositoryMapper;
 import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.api.reservation.ReservationDtoMapper1;
@@ -13,7 +16,6 @@ import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.api.reservation.ReservationDto;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
-import pl.flywithbookedseats.domain.reservation.ReservationBusinessLogic;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,13 +29,13 @@ public class SeatsBookingService {
 
     private final FlightService flightService;
     private final PassengerBusinessLogic passengerBL;
-    private final ReservationBusinessLogic reservationBL;
-    private final ReservationDtoMapper1 reservationDtoMapper1;
+    private final ReservationService reservationService;
     private final PassengerDtoMapper passengerDtoMapper;
+    private final JpaReservationRepositoryMapper temporaryReservationMapper;
 
-    public ReservationDto bookSeatsInThePlane(BookingEnterData bookingEnterData) {
+    public Reservation bookSeatsInThePlane(BookingEnterData bookingEnterData) {
         Passenger newPassenger;
-        ReservationEntity newReservationEntity;
+        Reservation newReservation;
         String bookedSeat;
         String flightName = bookingEnterData.getFlightName();
         ExistingPassenger notExistingPassenger = new ExistingPassenger(false);
@@ -46,13 +48,20 @@ public class SeatsBookingService {
                     newPassenger.getId(),
                     bookingEnterData.isDisability(),
                     bookingEnterData.getPassengerBirthDate());
-            newReservationEntity = reservationBL.generateNewReservation(parseReservationData(bookingEnterData,
+            newReservation = reservationService.generateNewReservation(parseReservationData(bookingEnterData,
                     bookedSeat));
             boolean isNotExistingPassenger = notExistingPassenger.isNotExistingPassenger();
-            passengerBL.updateSpecifiedPassenger(parseUpdatedPassengerData(bookingEnterData, newReservationEntity),
-                    newPassenger, isNotExistingPassenger);
+            passengerBL
+                    .updateSpecifiedPassenger(
+                            parseUpdatedPassengerData(
+                                    bookingEnterData,
+                                    temporaryReservationMapper.toEntityy(newReservation)
+                            ),
+                            newPassenger,
+                            isNotExistingPassenger
+                    );
             passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper.apply(newPassenger));
-            return reservationDtoMapper1.apply(newReservationEntity);
+            return newReservation;
         } else {
             log.warn(RESERVATION_NOT_CREATED);
             throw new FlightNotFoundException(FLIGHT_NOT_FOUND_FLIGHT_NAME.formatted(flightName));
@@ -60,17 +69,18 @@ public class SeatsBookingService {
     }
 
     public void deleteBookedReservationAndAssociatedData(Long reservationId) {
-        ReservationEntity savedReservationEntity = reservationBL.retrieveReservationEntityFromDb(reservationId);
-        Passenger associatedPassengerData = passengerBL.retrievePassengerEntityFromDb(savedReservationEntity
+        Reservation savedReservation = reservationService.retrieveReservationById(reservationId);
+        Passenger associatedPassengerData = passengerBL.retrievePassengerEntityFromDb(savedReservation
                 .getPassengerEmail());
-        String bookedSeat = savedReservationEntity.getSeatNumber();
-        flightService.makeSpecifiedBookedSeatFree(bookedSeat, savedReservationEntity.getFlightNumber());
+        String bookedSeat = savedReservation.getSeatNumber();
+        flightService.makeSpecifiedBookedSeatFree(bookedSeat, savedReservation.getFlightNumber());
         List<ReservationEntity> associatedPassengerReservationListEntity = associatedPassengerData.getReservationsList();
-        associatedPassengerReservationListEntity.remove(savedReservationEntity);
-        reservationBL.deleteReservationById(reservationId);
+        //TODO: JpaReservationRepositoryMapper is used below until passenger domain will be not refactored!!!!!
+        associatedPassengerReservationListEntity.remove(temporaryReservationMapper.toEntityy(savedReservation));
+        reservationService.deleteReservationById(reservationId);
         passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper.apply(associatedPassengerData));
         if (associatedPassengerReservationListEntity.isEmpty()) {
-            passengerBL.deletePassengerByEmail(savedReservationEntity.getPassengerEmail());
+            passengerBL.deletePassengerByEmail(savedReservation.getPassengerEmail());
         }
     }
 
@@ -106,11 +116,14 @@ public class SeatsBookingService {
         }
     }
 
-    private CreateReservationCommand parseReservationData(BookingEnterData bookingEnterData,
+    private Reservation parseReservationData(BookingEnterData bookingEnterData,
                                                           String bookedSeat) {
-        return new CreateReservationCommand(bookingEnterData.getFlightName(),
+        return new Reservation(
+                null,
+                bookingEnterData.getFlightName(),
                 bookedSeat,
                 bookingEnterData.getSeatClassType(),
-                bookingEnterData.getPassengerEmail());
+                bookingEnterData.getPassengerEmail(),
+                null);
     }
 }

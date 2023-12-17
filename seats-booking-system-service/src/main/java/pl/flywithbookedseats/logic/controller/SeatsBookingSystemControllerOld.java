@@ -15,7 +15,6 @@ import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerComman
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.domain.flight.FlightService1Impl;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
-import pl.flywithbookedseats.domain.reservation.ReservationService1Impl;
 import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 
 import java.util.List;
@@ -29,7 +28,6 @@ public class SeatsBookingSystemControllerOld {
     private static final Logger log = LoggerFactory.getLogger(SeatsBookingSystemControllerOld.class);
     private final FlightService1Impl flightService;
     private final PassengerServiceImpl passengerService;
-    private final ReservationService1Impl reservationService;
     private final SeatsBookingService bookingService;
     private final BookingServiceProducer bookingServiceProducer;
 

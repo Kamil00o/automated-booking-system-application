@@ -60,16 +60,16 @@ public class BookingServiceDomainConfiguration {
     public SeatsBookingService seatsBookingService(
             FlightService flightService,
             PassengerBusinessLogic passengerBusinessLogic,
-            ReservationBusinessLogic reservationBusinessLogic,
-            ReservationDtoMapper1 reservationDtoMapper1,
-            PassengerDtoMapper passengerDtoMapper
+            ReservationService reservationService,
+            PassengerDtoMapper passengerDtoMapper,
+            JpaReservationRepositoryMapper jpaReservationRepositoryMapper
             ) {
         return new SeatsBookingService(
                 flightService,
                 passengerBusinessLogic,
-                reservationBusinessLogic,
-                reservationDtoMapper1,
-                passengerDtoMapper
+                reservationService,
+                passengerDtoMapper,
+                jpaReservationRepositoryMapper
         );
     }
 
