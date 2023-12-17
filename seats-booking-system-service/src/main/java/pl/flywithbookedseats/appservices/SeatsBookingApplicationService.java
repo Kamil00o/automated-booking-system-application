@@ -21,8 +21,8 @@ public class SeatsBookingApplicationService {
         return service.bookSeatsInThePlane(bookingEnterData);
     }
 
-   /* @Transactional
+    @Transactional
     public void deleteBookedReservationAndAssociatedData(Long reservationId) {
         service.deleteBookedReservationAndAssociatedData(reservationId);
-    }*/
+    }
 }

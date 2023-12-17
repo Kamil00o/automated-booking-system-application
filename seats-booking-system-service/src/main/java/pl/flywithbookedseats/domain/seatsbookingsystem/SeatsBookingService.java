@@ -16,6 +16,7 @@ import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBus
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationBusinessLogic;
 
 import java.util.Collections;
+import java.util.List;
 
 import static pl.flywithbookedseats.domain.flight.FlightConstImpl.FLIGHT_NOT_FOUND_FLIGHT_NAME;
 import static pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_CREATED;
@@ -58,12 +59,12 @@ public class SeatsBookingService {
         }
     }
 
-    /*public void deleteBookedReservationAndAssociatedData(Long reservationId) {
+    public void deleteBookedReservationAndAssociatedData(Long reservationId) {
         Reservation savedReservation = reservationBL.retrieveReservationEntityFromDb(reservationId);
         Passenger associatedPassengerData = passengerBL.retrievePassengerEntityFromDb(savedReservation
                 .getPassengerEmail());
         String bookedSeat = savedReservation.getSeatNumber();
-        flightBL.makeSpecifiedBookedSeatFree(bookedSeat, savedReservation.getFlightNumber());
+        flightService.makeSpecifiedBookedSeatFree(bookedSeat, savedReservation.getFlightNumber());
         List<Reservation> associatedPassengerReservationList = associatedPassengerData.getReservationsList();
         associatedPassengerReservationList.remove(savedReservation);
         reservationBL.deleteReservationById(reservationId);
@@ -71,7 +72,7 @@ public class SeatsBookingService {
         if (associatedPassengerReservationList.isEmpty()) {
             passengerBL.deletePassengerByEmail(savedReservation.getPassengerEmail());
         }
-    }*/
+    }
 
     private CreatePassengerCommand parsePassengerData(BookingEnterData bookingEnterData) {
         return new CreatePassengerCommand(null,
