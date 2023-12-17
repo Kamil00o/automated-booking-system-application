@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.service.implementation.reservation;
+package pl.flywithbookedseats.domain.reservation;
 
 public class ReservationConstsImpl {
 

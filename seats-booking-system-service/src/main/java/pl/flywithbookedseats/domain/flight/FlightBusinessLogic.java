@@ -15,7 +15,7 @@ import pl.flywithbookedseats.api.flight.FlightDto;
 import pl.flywithbookedseats.external.storage.flight.JpaFlightRepository;
 import pl.flywithbookedseats.logic.repository.PassengerRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
-import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl;
+import pl.flywithbookedseats.domain.reservation.ReservationConstsImpl;
 import pl.flywithbookedseats.api.flight.CreateFlightMapper;
 
 import java.time.LocalDate;

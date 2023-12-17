@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
-import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl;
+import pl.flywithbookedseats.domain.reservation.ReservationConstsImpl;
 
 import java.time.LocalDate;
 import java.util.*;

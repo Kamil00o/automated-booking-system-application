@@ -1,8 +1,8 @@
-package pl.flywithbookedseats.logic.service;
+package pl.flywithbookedseats.domain.reservation;
 
-import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
-import pl.flywithbookedseats.logic.model.command.reservation.UpdateReservationCommand;
-import pl.flywithbookedseats.logic.model.dto.ReservationDto;
+import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
+import pl.flywithbookedseats.api.reservation.UpdateReservationCommand;
+import pl.flywithbookedseats.api.reservation.ReservationDto;
 
 import java.util.List;
 

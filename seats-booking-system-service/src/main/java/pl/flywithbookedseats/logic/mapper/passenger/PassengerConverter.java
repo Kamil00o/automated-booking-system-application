@@ -2,8 +2,8 @@ package pl.flywithbookedseats.logic.mapper.passenger;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.logic.model.domain.Reservation;
-import pl.flywithbookedseats.logic.repository.ReservationRepository;
+import pl.flywithbookedseats.external.storage.reservation.Reservation;
+import pl.flywithbookedseats.external.storage.reservation.ReservationRepository;
 
 import java.util.ArrayList;
 import java.util.List;

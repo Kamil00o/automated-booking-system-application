@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.service.implementation.reservation;
+package pl.flywithbookedseats.domain.reservation;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -6,18 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
-import pl.flywithbookedseats.logic.exceptions.ReservationNotFoundException;
-import pl.flywithbookedseats.logic.mapper.reservation.ReservationDtoMapper;
-import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
-import pl.flywithbookedseats.logic.model.command.reservation.UpdateReservationCommand;
-import pl.flywithbookedseats.logic.model.domain.Reservation;
-import pl.flywithbookedseats.logic.model.dto.ReservationDto;
-import pl.flywithbookedseats.logic.repository.ReservationRepository;
-import pl.flywithbookedseats.logic.service.ReservationService;
+import pl.flywithbookedseats.api.reservation.ReservationDtoMapper;
+import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
+import pl.flywithbookedseats.api.reservation.UpdateReservationCommand;
+import pl.flywithbookedseats.api.reservation.ReservationDto;
+import pl.flywithbookedseats.external.storage.reservation.Reservation;
+import pl.flywithbookedseats.external.storage.reservation.ReservationRepository;
 
 import java.util.List;
 
-import static pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl.*;
+import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 
 @RequiredArgsConstructor
 @Service

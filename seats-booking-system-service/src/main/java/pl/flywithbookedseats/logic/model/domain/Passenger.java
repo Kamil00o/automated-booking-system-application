@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import pl.flywithbookedseats.common.Consts;
+import pl.flywithbookedseats.external.storage.reservation.Reservation;
 
 import java.time.LocalDate;
 import java.util.List;

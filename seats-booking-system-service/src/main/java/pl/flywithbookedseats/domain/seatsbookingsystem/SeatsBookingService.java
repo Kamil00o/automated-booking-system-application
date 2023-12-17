@@ -5,21 +5,21 @@ import lombok.extern.slf4j.Slf4j;
 import pl.flywithbookedseats.domain.flight.FlightNotFoundException;
 import pl.flywithbookedseats.domain.flight.FlightService;
 import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
-import pl.flywithbookedseats.logic.mapper.reservation.ReservationDtoMapper;
+import pl.flywithbookedseats.api.reservation.ReservationDtoMapper;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
-import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
+import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.logic.model.domain.Reservation;
-import pl.flywithbookedseats.logic.model.dto.ReservationDto;
+import pl.flywithbookedseats.external.storage.reservation.Reservation;
+import pl.flywithbookedseats.api.reservation.ReservationDto;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
-import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationBusinessLogic;
+import pl.flywithbookedseats.domain.reservation.ReservationBusinessLogic;
 
 import java.util.Collections;
 import java.util.List;
 
 import static pl.flywithbookedseats.domain.flight.FlightConstImpl.FLIGHT_NOT_FOUND_FLIGHT_NAME;
-import static pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_CREATED;
+import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.RESERVATION_NOT_CREATED;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -12,18 +12,18 @@ import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.EventsFactory;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
-import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
-import pl.flywithbookedseats.logic.model.command.reservation.UpdateReservationCommand;
+import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
+import pl.flywithbookedseats.api.reservation.UpdateReservationCommand;
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
-import pl.flywithbookedseats.logic.model.dto.ReservationDto;
+import pl.flywithbookedseats.api.reservation.ReservationDto;
 import pl.flywithbookedseats.domain.flight.FlightService1Impl;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
-import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationServiceImpl;
+import pl.flywithbookedseats.domain.reservation.ReservationServiceImpl;
 import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 
 import java.util.List;
 
-import static pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl.*;
+import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.model.domain;
+package pl.flywithbookedseats.external.storage.reservation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import pl.flywithbookedseats.common.Consts;
+import pl.flywithbookedseats.logic.model.domain.Passenger;
 
 @Builder
 @Getter

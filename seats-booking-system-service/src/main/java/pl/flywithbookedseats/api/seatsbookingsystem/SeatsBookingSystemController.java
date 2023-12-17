@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.SeatsBookingApplicationService;
-import pl.flywithbookedseats.logic.model.dto.ReservationDto;
+import pl.flywithbookedseats.api.reservation.ReservationDto;
 
 @Slf4j
 @RequiredArgsConstructor

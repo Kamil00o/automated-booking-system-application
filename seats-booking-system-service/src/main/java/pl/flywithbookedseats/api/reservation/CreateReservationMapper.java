@@ -1,8 +1,7 @@
-package pl.flywithbookedseats.logic.mapper.reservation;
+package pl.flywithbookedseats.api.reservation;
 
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
-import pl.flywithbookedseats.logic.model.domain.Reservation;
+import pl.flywithbookedseats.external.storage.reservation.Reservation;
 
 import java.util.function.Function;
 

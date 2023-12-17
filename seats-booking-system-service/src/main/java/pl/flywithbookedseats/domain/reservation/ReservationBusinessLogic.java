@@ -1,27 +1,25 @@
-package pl.flywithbookedseats.logic.service.implementation.reservation;
+package pl.flywithbookedseats.domain.reservation;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.external.storage.reservation.Reservation;
 import pl.flywithbookedseats.logic.exceptions.PassengerNotFoundException;
-import pl.flywithbookedseats.logic.exceptions.ReservationDatabaseIsEmptyException;
-import pl.flywithbookedseats.logic.exceptions.ReservationNotFoundException;
-import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
-import pl.flywithbookedseats.logic.model.command.reservation.UpdateReservationCommand;
+import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
+import pl.flywithbookedseats.api.reservation.UpdateReservationCommand;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.logic.model.domain.Reservation;
-import pl.flywithbookedseats.logic.model.dto.ReservationDto;
+import pl.flywithbookedseats.api.reservation.ReservationDto;
 import pl.flywithbookedseats.logic.repository.PassengerRepository;
-import pl.flywithbookedseats.logic.repository.ReservationRepository;
-import pl.flywithbookedseats.logic.mapper.reservation.CreateReservationMapper;
-import pl.flywithbookedseats.logic.mapper.reservation.ReservationDtoMapper;
+import pl.flywithbookedseats.external.storage.reservation.ReservationRepository;
+import pl.flywithbookedseats.api.reservation.CreateReservationMapper;
+import pl.flywithbookedseats.api.reservation.ReservationDtoMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static pl.flywithbookedseats.logic.service.implementation.passenger.PassengerConstsImpl.PASSENGER_NOT_FOUND_EMAIL;
-import static pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl.*;
+import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 
 @AllArgsConstructor
 @Component

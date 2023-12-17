@@ -10,17 +10,17 @@ import pl.flywithbookedseats.kafka.EventsFactory;
 import pl.flywithbookedseats.logic.exceptions.PassengerAlreadyExistsException;
 import pl.flywithbookedseats.logic.exceptions.PassengerDatabaseIsEmptyException;
 import pl.flywithbookedseats.logic.exceptions.PassengerNotFoundException;
-import pl.flywithbookedseats.logic.exceptions.ReservationNotFoundException;
+import pl.flywithbookedseats.domain.reservation.ReservationNotFoundException;
 import pl.flywithbookedseats.logic.mapper.passenger.CreatePassengerMapper;
 import pl.flywithbookedseats.logic.mapper.passenger.DtoPassengerMapper;
 import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.logic.model.domain.Reservation;
+import pl.flywithbookedseats.external.storage.reservation.Reservation;
 import pl.flywithbookedseats.logic.model.dto.PassengerDto;
 import pl.flywithbookedseats.logic.repository.PassengerRepository;
-import pl.flywithbookedseats.logic.repository.ReservationRepository;
+import pl.flywithbookedseats.external.storage.reservation.ReservationRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static pl.flywithbookedseats.logic.service.implementation.passenger.PassengerConstsImpl.*;
-import static pl.flywithbookedseats.logic.service.implementation.reservation.ReservationConstsImpl.RESERVATION_NOT_FOUND_ID;
+import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.RESERVATION_NOT_FOUND_ID;
 
 @AllArgsConstructor
 @EnableFeignClients

@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.model.command.reservation;
+package pl.flywithbookedseats.api.reservation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.FetchType;
