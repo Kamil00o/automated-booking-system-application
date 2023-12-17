@@ -7,4 +7,5 @@ import pl.flywithbookedseats.domain.seatsbookingsystem.BookingEnterData;
 public interface BookingEnterDataCommandMapper {
 
     BookingEnterData toDomain(BookingEnterDataCommand command);
+
 }

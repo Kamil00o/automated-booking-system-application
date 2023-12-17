@@ -204,7 +204,7 @@ public class FlightService {
         return passengerService.retrievePassengerById(passengerId);
     }
 
-    private boolean exists(String flightName) {
+    public boolean exists(String flightName) {
         return repository.existsByFlightName(flightName);
     }
 

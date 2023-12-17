@@ -10,7 +10,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.kafka.BookingServiceProducer;
 import pl.flywithbookedseats.kafka.EventsFactory;
-import pl.flywithbookedseats.api.seatsbookingsystem.BookingEnterDataCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.logic.model.command.reservation.CreateReservationCommand;
@@ -20,7 +19,7 @@ import pl.flywithbookedseats.logic.model.dto.ReservationDto;
 import pl.flywithbookedseats.domain.flight.FlightService1Impl;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
 import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationServiceImpl;
-import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingServiceImpl;
+import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 
 import java.util.List;
 
@@ -30,13 +29,13 @@ import static pl.flywithbookedseats.logic.service.implementation.reservation.Res
 @RequiredArgsConstructor
 @EnableFeignClients
 @RequestMapping(path = "/seats-booking")
-public class SeatsBookingSystemController {
+public class SeatsBookingSystemControllerOld {
 
-    private static final Logger logger = LoggerFactory.getLogger(SeatsBookingSystemController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SeatsBookingSystemControllerOld.class);
     private final FlightService1Impl flightService;
     private final PassengerServiceImpl passengerService;
     private final ReservationServiceImpl reservationService;
-    private final SeatsBookingServiceImpl bookingService;
+    private final SeatsBookingService bookingService;
     private final BookingServiceProducer bookingServiceProducer;
 
     @GetMapping(path = "/test")
@@ -46,7 +45,7 @@ public class SeatsBookingSystemController {
 
     //Methods related with booking process:
 
-    @PostMapping(path = "/book-seats")
+    /*@PostMapping(path = "/book-seats")
     public ReservationDto bookSeatsInThePlane(@Valid @RequestBody BookingEnterDataCommand bookingEnterDataCommand) {
         return bookingService.bookSeatsInThePlane(bookingEnterDataCommand);
     }
@@ -55,7 +54,7 @@ public class SeatsBookingSystemController {
     public void deleteBookedReservationAndAssociatedData(@PathVariable Long reservationId) {
         bookingService.deleteBookedReservationAndAssociatedData(reservationId);
         logger.info("Reservation and its data have been removed.");
-    }
+    }*/
 
     //Methods related with reservation domain:
 

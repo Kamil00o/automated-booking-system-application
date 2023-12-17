@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.flywithbookedseats.domain.flight.FlightRepository;
 import pl.flywithbookedseats.domain.flight.FlightService;
+import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeRepository;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
 import pl.flywithbookedseats.external.storage.flight.FlightAdapterRepository;
@@ -12,7 +13,11 @@ import pl.flywithbookedseats.external.storage.flight.JpaFlightRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepositoryMapper;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeStorageAdapter;
+import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
+import pl.flywithbookedseats.logic.mapper.reservation.ReservationDtoMapper;
+import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
+import pl.flywithbookedseats.logic.service.implementation.reservation.ReservationBusinessLogic;
 
 @Configuration
 public class BookingServiceDomainConfiguration {
@@ -44,5 +49,22 @@ public class BookingServiceDomainConfiguration {
             JpaFlightEntityMapper jpaFlightEntityMapper
     ) {
         return new FlightAdapterRepository(jpaFlightRepository, jpaFlightEntityMapper);
+    }
+
+    @Bean
+    public SeatsBookingService seatsBookingService(
+            FlightService flightService,
+            PassengerBusinessLogic passengerBusinessLogic,
+            ReservationBusinessLogic reservationBusinessLogic,
+            ReservationDtoMapper reservationDtoMapper,
+            PassengerDtoMapper passengerDtoMapper
+            ) {
+        return new SeatsBookingService(
+                flightService,
+                passengerBusinessLogic,
+                reservationBusinessLogic,
+                reservationDtoMapper,
+                passengerDtoMapper
+        );
     }
 }

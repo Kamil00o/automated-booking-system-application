@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.api.seatsbookingsystem.BookingEnterDataCommand;
-import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingBusinessLogic;
-import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingServiceImpl;
+import pl.flywithbookedseats.domain.seatsbookingsystem.BookingEnterData;
+import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 import pl.flywithbookedseats.logic.model.dto.ReservationDto;
 
 @Slf4j
@@ -14,15 +14,15 @@ import pl.flywithbookedseats.logic.model.dto.ReservationDto;
 @Service
 public class SeatsBookingApplicationService {
 
-    private final SeatsBookingBusinessLogic seatsBookingBL;
+    private final SeatsBookingService service;
 
     @Transactional
-    public ReservationDto bookSeatsInThePlane(BookingEnterDataCommand bookingEnterDataCommand) {
-        return seatsBookingBL.bookSeatsInThePlane(bookingEnterDataCommand);
+    public ReservationDto bookSeatsInThePlane(BookingEnterData bookingEnterData) {
+        return service.bookSeatsInThePlane(bookingEnterData);
     }
 
-    @Transactional
+   /* @Transactional
     public void deleteBookedReservationAndAssociatedData(Long reservationId) {
-        seatsBookingBL.deleteBookedReservationAndAssociatedData(reservationId);
-    }
+        service.deleteBookedReservationAndAssociatedData(reservationId);
+    }*/
 }
