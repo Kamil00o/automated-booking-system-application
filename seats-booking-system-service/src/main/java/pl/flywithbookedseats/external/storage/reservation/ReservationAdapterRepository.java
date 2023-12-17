@@ -49,6 +49,15 @@ public class ReservationAdapterRepository implements ReservationRepository {
         }
     }
 
+    @Override
+    public Reservation findBySeatNumber(String seatNumber) {
+        ReservationEntity foundReservationEntity = repository.findBySeatNumber(seatNumber)
+                .orElseThrow(() ->
+                        new ReservationNotFoundException(RESERVATION_NOT_FOUND_SEAT_NUMBER.formatted(seatNumber)));
+
+        return mapper.toDomain(foundReservationEntity);
+    }
+
     private List<Reservation> convertIntoListReservationDto(List<ReservationEntity> localSavedReservationListEntity) {
         if (!localSavedReservationListEntity.isEmpty()) {
             List<Reservation> savedReservationDtoList = new ArrayList<>();

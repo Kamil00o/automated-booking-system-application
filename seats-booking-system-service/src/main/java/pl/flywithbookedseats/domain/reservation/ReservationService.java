@@ -2,7 +2,9 @@ package pl.flywithbookedseats.domain.reservation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import pl.flywithbookedseats.api.reservation.UpdateReservationCommand;
 import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
+import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
 
@@ -44,16 +46,44 @@ public class ReservationService {
         return reservation;
     }
 
-    /*public boolean exists(Reservation reservation) {
-        String seatNumber = reservation.getSeatNumber();
-        if (repository.existsBySeatNumber(seatNumber)) {
-            if (!retrieveReservationEntityFromDb(seatNumber).getPassengerEmail()
-                    .equals(reservation.passengerEmail())) {
-                return true;
+    public Reservation updateReservationById(Reservation reservation, Long id) {
+        Reservation savedReservation = retrieveReservationById(id);
+        return updateSpecifiedReservation(reservation, savedReservation);
+    }
+
+    private Reservation updateSpecifiedReservation(Reservation reservationUpdateData,
+                                                        Reservation reservationToUpdate) {
+        if (!exists(reservationUpdateData, reservationToUpdate)) {
+            String passengerEmail = reservationUpdateData.getPassengerEmail();
+            reservationToUpdate.setSeatNumber(reservationUpdateData.getSeatNumber());
+            reservationToUpdate.setSeatTypeClass(reservationUpdateData.getSeatTypeClass());
+            reservationToUpdate.setPassengerEmail(passengerEmail);
+            if (passengerExists(passengerEmail)) {
+                setPassengerDataToReservation(passengerEmail, reservationToUpdate);
             }
+
+            repository.save(reservationToUpdate);
+
+            return reservationToUpdate;
+        } else {
+            log.warn(RESERVATION_NOT_UPDATED.formatted(reservationToUpdate.getId()));
+            throw new FlightAlreadyExistsException(RESERVATION_ALREADY_EXISTS_SEAT_NUMBER
+                    .formatted(reservationUpdateData.getSeatNumber()));
         }
+
+    }
+
+    public boolean exists(Reservation reservationUpdateData, Reservation reservationToUpdate) {
+        String seatNumber = reservationUpdateData.getSeatNumber();
+        if (repository.existsBySeatNumber(seatNumber)) {
+            return !repository
+                    .findBySeatNumber(seatNumber)
+                    .getPassengerEmail()
+                    .equals(reservationToUpdate.getPassengerEmail());
+        }
+
         return false;
-    }*/
+    }
 
     public boolean exists(Reservation reservation) {
         return repository.existsBySeatNumber(reservation.getSeatNumber());

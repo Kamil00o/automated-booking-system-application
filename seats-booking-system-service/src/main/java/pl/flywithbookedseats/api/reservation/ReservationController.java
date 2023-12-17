@@ -22,6 +22,7 @@ public class ReservationController {
     private final ReservationApplicationService service;
     private final CreateReservationCommandMapper createMapper;
     private final ReservationDtoMapper mapper;
+    private final UpdateReservationCommandMapper updateMapper;
 
 
     @PostMapping
@@ -32,10 +33,13 @@ public class ReservationController {
         return mapper.toDto(createdReservation);
     }
 
-    @PutMapping(path = "/update-reservation/id/{id}")
+    @PutMapping("/{id}")
     public ReservationDto updateReservationById(@Valid @RequestBody UpdateReservationCommand updateReservationCommand,
                                                 @PathVariable Long id) {
-        return reservationService.updateReservationById(updateReservationCommand, id);
+        Reservation updatedReservation = service
+                .updateReservationById(updateMapper.toDomain(updateReservationCommand), id);
+
+        return mapper.toDto(updatedReservation);
     }
 
     @GetMapping(path = "/get-reservation/all")
@@ -47,7 +51,7 @@ public class ReservationController {
     public ReservationDto retrieveReservationById(@PathVariable Long id) {
         log.info("Retrieving reservation for ID: {}:", id);
         Reservation savedReservation = service.retrieveReservationById(id);
-        
+
         return mapper.toDto(savedReservation);
     }
 

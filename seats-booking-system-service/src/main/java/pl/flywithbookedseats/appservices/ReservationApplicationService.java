@@ -26,8 +26,8 @@ public class ReservationApplicationService {
     }
 
     @Transactional
-    public Reservation updateReservationById(UpdateReservationCommand updateReservationCommand, Long id) {
-        return null;
+    public Reservation updateReservationById(Reservation reservation, Long id) {
+        return service.updateReservationById(reservation, id);
     }
 
     public List<ReservationDto> retrieveAllReservations() {

@@ -12,4 +12,6 @@ public interface ReservationRepository {
 
     List<Reservation> findAllByPassengerEmail(String passengerEmail);
 
+    Reservation findBySeatNumber(String seatNumber);
+
 }
