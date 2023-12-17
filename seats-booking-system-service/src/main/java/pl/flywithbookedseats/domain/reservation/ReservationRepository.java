@@ -14,4 +14,8 @@ public interface ReservationRepository {
 
     Reservation findBySeatNumber(String seatNumber);
 
+    void deleteById(Long id);
+
+    void deleteAll();
+
 }

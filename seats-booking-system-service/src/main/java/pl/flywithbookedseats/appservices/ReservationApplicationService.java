@@ -44,11 +44,11 @@ public class ReservationApplicationService {
 
     @Transactional
     public void deleteAllReservations() {
-
+        service.deleteAllReservations();
     }
 
     @Transactional
     public void deleteReservationById(Long id) {
-
+        service.deleteReservationById(id);
     }
 }

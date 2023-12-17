@@ -61,17 +61,17 @@ public class ReservationController {
         return reservationService.retrieveReservationByEmail(email);
     }
 
-    @DeleteMapping(path = "delete-reservation/all")
+    @DeleteMapping
     public void deleteAllReservations() {
         log.info("Removing all reservations:");
-        reservationService.deleteAllReservations();
+        service.deleteAllReservations();
         log.info(REMOVING_RESERVATION_COMPLETE);
     }
 
-    @DeleteMapping(path = "delete-reservation/id/{id}")
+    @DeleteMapping(path = "/{id}")
     public void deleteReservationById(@PathVariable Long id) {
         log.info("Removing reservation for ID: {}:", id);
-        reservationService.deleteReservationById(id);
+        service.deleteReservationById(id);
         log.info(REMOVING_RESERVATION_COMPLETE);
     }
 }

@@ -2,9 +2,7 @@ package pl.flywithbookedseats.domain.reservation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pl.flywithbookedseats.api.reservation.UpdateReservationCommand;
 import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
-import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
 
@@ -71,6 +69,14 @@ public class ReservationService {
                     .formatted(reservationUpdateData.getSeatNumber()));
         }
 
+    }
+
+    public void deleteAllReservations() {
+        repository.deleteAll();
+    }
+
+    public void deleteReservationById(Long id) {
+        repository.deleteById(id);
     }
 
     public boolean exists(Reservation reservationUpdateData, Reservation reservationToUpdate) {

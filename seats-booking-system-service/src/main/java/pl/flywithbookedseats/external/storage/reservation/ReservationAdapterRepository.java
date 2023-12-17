@@ -58,6 +58,16 @@ public class ReservationAdapterRepository implements ReservationRepository {
         return mapper.toDomain(foundReservationEntity);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
     private List<Reservation> convertIntoListReservationDto(List<ReservationEntity> localSavedReservationListEntity) {
         if (!localSavedReservationListEntity.isEmpty()) {
             List<Reservation> savedReservationDtoList = new ArrayList<>();
