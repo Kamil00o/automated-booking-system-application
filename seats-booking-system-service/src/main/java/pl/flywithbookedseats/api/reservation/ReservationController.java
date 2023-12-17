@@ -42,7 +42,7 @@ public class ReservationController {
         return mapper.toDto(updatedReservation);
     }
 
-    @GetMapping(path = "/get-reservation/all")
+    @GetMapping
     public List<ReservationDto> retrieveAllReservations() {
         return reservationService.retrieveAllReservations();
     }
