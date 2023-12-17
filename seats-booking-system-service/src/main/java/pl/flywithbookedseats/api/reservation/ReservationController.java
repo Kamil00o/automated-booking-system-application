@@ -3,8 +3,11 @@ package pl.flywithbookedseats.api.reservation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.ReservationApplicationService;
+import pl.flywithbookedseats.domain.reservation.PageReservation;
 import pl.flywithbookedseats.domain.reservation.Reservation;
 import pl.flywithbookedseats.domain.reservation.ReservationService1Impl;
 
@@ -23,6 +26,7 @@ public class ReservationController {
     private final CreateReservationCommandMapper createMapper;
     private final ReservationDtoMapper mapper;
     private final UpdateReservationCommandMapper updateMapper;
+    private final PageReservationDtoMapper pageMapper;
 
 
     @PostMapping
@@ -43,8 +47,14 @@ public class ReservationController {
     }
 
     @GetMapping
-    public List<ReservationDto> retrieveAllReservations() {
-        return reservationService.retrieveAllReservations();
+    public PageReservationDto retrieveAllReservations(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "7") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        PageReservation pageReservation = service.retrieveAllReservations(pageable);
+
+        return pageMapper.toDto(pageReservation);
     }
 
     @GetMapping(path = "/id/{id}")

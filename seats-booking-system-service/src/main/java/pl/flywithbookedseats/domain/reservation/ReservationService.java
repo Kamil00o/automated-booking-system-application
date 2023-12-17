@@ -2,6 +2,7 @@ package pl.flywithbookedseats.domain.reservation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
 import pl.flywithbookedseats.logic.model.domain.Passenger;
 import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
@@ -25,6 +26,11 @@ public class ReservationService {
                     .formatted(reservation.getSeatNumber()));
         }
     }
+
+    public PageReservation retrieveAllReservations(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
 
     public Reservation retrieveReservationById(Long id) {
         return repository.findById(id);

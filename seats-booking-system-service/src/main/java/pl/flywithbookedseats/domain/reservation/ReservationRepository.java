@@ -1,5 +1,7 @@
 package pl.flywithbookedseats.domain.reservation;
 
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public interface ReservationRepository {
@@ -17,5 +19,7 @@ public interface ReservationRepository {
     void deleteById(Long id);
 
     void deleteAll();
+
+    PageReservation findAll(Pageable pageable);
 
 }

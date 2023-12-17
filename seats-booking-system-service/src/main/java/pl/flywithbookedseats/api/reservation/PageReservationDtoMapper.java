@@ -7,4 +7,5 @@ import pl.flywithbookedseats.domain.reservation.PageReservation;
 public interface PageReservationDtoMapper {
 
     PageReservationDto toDto(PageReservation domain);
+
 }

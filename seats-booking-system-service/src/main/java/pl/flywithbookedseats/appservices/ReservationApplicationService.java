@@ -3,10 +3,12 @@ package pl.flywithbookedseats.appservices;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.api.reservation.CreateReservationCommand;
 import pl.flywithbookedseats.api.reservation.ReservationDto;
 import pl.flywithbookedseats.api.reservation.UpdateReservationCommand;
+import pl.flywithbookedseats.domain.reservation.PageReservation;
 import pl.flywithbookedseats.domain.reservation.Reservation;
 import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.domain.reservation.ReservationService1;
@@ -30,8 +32,8 @@ public class ReservationApplicationService {
         return service.updateReservationById(reservation, id);
     }
 
-    public List<ReservationDto> retrieveAllReservations() {
-        return null;
+    public PageReservation retrieveAllReservations(Pageable pageable) {
+        return service.retrieveAllReservations(pageable);
     }
 
     public Reservation retrieveReservationById(Long id) {

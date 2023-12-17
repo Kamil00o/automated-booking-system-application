@@ -2,14 +2,17 @@ package pl.flywithbookedseats.external.storage.reservation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.api.reservation.ReservationDto;
-import pl.flywithbookedseats.domain.reservation.Reservation;
-import pl.flywithbookedseats.domain.reservation.ReservationDatabaseIsEmptyException;
-import pl.flywithbookedseats.domain.reservation.ReservationNotFoundException;
-import pl.flywithbookedseats.domain.reservation.ReservationRepository;
+import pl.flywithbookedseats.domain.flight.Flight;
+import pl.flywithbookedseats.domain.flight.PageFlight;
+import pl.flywithbookedseats.domain.reservation.*;
+import pl.flywithbookedseats.external.storage.flight.FlightEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 
@@ -67,6 +70,22 @@ public class ReservationAdapterRepository implements ReservationRepository {
     public void deleteAll() {
         repository.deleteAll();
     }
+
+    @Override
+    public PageReservation findAll(Pageable pageable) {
+        Page<ReservationEntity> pageOfReservationEntities = repository.findAll(pageable);
+        List<Reservation> reservationsOnCurrentPage = pageOfReservationEntities
+                .getContent()
+                .stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+
+        return new PageReservation(reservationsOnCurrentPage,
+                pageable.getPageNumber() + 1,
+                pageOfReservationEntities.getTotalPages(),
+                pageOfReservationEntities.getTotalElements());
+    }
+
 
     private List<Reservation> convertIntoListReservationDto(List<ReservationEntity> localSavedReservationListEntity) {
         if (!localSavedReservationListEntity.isEmpty()) {
