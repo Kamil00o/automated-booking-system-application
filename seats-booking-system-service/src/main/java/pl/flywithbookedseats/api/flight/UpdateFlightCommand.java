@@ -2,12 +2,10 @@ package pl.flywithbookedseats.api.flight;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import pl.flywithbookedseats.common.Consts;
 
 import java.util.Map;
 
-@SchemaMapping
 public record UpdateFlightCommand(
         Long flightServiceId,
         @NotNull(message = Consts.NOT_NULL_MESSAGE)
