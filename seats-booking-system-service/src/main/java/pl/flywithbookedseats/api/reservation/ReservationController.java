@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.ReservationApplicationService;
 import pl.flywithbookedseats.domain.reservation.PageReservation;
@@ -29,60 +30,64 @@ public class ReservationController {
 
 
     @PostMapping
-    public ReservationDto addNewReservationToDb(@Valid @RequestBody CreateReservationCommand createReservationCommand) {
+    public ResponseEntity<ReservationDto> addNewReservationToDb(@Valid @RequestBody CreateReservationCommand createReservationCommand) {
         log.info("Adding new reservation for {} flight to database", createReservationCommand.flightNumber());
         Reservation createdReservation = service.addNewReservationToDb(createMapper.toDomain(createReservationCommand));
 
-        return mapper.toDto(createdReservation);
+        return ResponseEntity.ok(mapper.toDto(createdReservation));
     }
 
     @PutMapping("/{id}")
-    public ReservationDto updateReservationById(@Valid @RequestBody UpdateReservationCommand updateReservationCommand,
+    public ResponseEntity<ReservationDto> updateReservationById(@Valid @RequestBody UpdateReservationCommand updateReservationCommand,
                                                 @PathVariable Long id) {
         Reservation updatedReservation = service
                 .updateReservationById(updateMapper.toDomain(updateReservationCommand), id);
 
-        return mapper.toDto(updatedReservation);
+        return ResponseEntity.ok(mapper.toDto(updatedReservation));
     }
 
     @GetMapping
-    public PageReservationDto retrieveAllReservations(
+    public ResponseEntity<PageReservationDto> retrieveAllReservations(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "7") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
         PageReservation pageReservation = service.retrieveAllReservations(pageable);
 
-        return pageMapper.toDto(pageReservation);
+        return ResponseEntity.ok(pageMapper.toDto(pageReservation));
     }
 
     @GetMapping(path = "/id/{id}")
-    public ReservationDto retrieveReservationById(@PathVariable Long id) {
+    public ResponseEntity<ReservationDto> retrieveReservationById(@PathVariable Long id) {
         log.info("Retrieving reservation for ID: {}:", id);
         Reservation savedReservation = service.retrieveReservationById(id);
 
-        return mapper.toDto(savedReservation);
+        return ResponseEntity.ok(mapper.toDto(savedReservation));
     }
 
     @GetMapping(path = "/email/{email}")
-    public List<ReservationDto> retrieveReservationByEmail(@PathVariable String email) {
+    public ResponseEntity<List<ReservationDto>> retrieveReservationByEmail(@PathVariable String email) {
         log.info("Retrieving reservation for email: {}:", email);
         List<Reservation> reservationList = service.retrieveReservationByEmail(email);
 
-        return reservationList.stream().map(mapper::toDto).collect(Collectors.toList());
+        return ResponseEntity.ok(reservationList.stream().map(mapper::toDto).collect(Collectors.toList()));
     }
 
     @DeleteMapping
-    public void deleteAllReservations() {
+    public ResponseEntity<Void> deleteAllReservations() {
         log.info("Removing all reservations:");
         service.deleteAllReservations();
         log.info(REMOVING_RESERVATION_COMPLETE);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteReservationById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteReservationById(@PathVariable Long id) {
         log.info("Removing reservation for ID: {}:", id);
         service.deleteReservationById(id);
         log.info(REMOVING_RESERVATION_COMPLETE);
+
+        return ResponseEntity.ok().build();
     }
 }
