@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
-import pl.flywithbookedseats.external.storage.passenger.Passenger;
-import pl.flywithbookedseats.domain.passenger.PassengerServiceImpl;
+import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
+import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 import pl.flywithbookedseats.domain.reservation.ReservationConstsImpl;
 
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ public class FlightService {
 
     private final FlightRepository repository;
     private final SeatsSchemeService seatsSchemeService;
-    private final PassengerServiceImpl passengerService;
+    private final PassengerService1Impl passengerService;
 
     public Flight createNewFlight(Flight flight) {
         if (!exists(flight)) {
@@ -184,11 +184,11 @@ public class FlightService {
     private String retrievePassengerNameSurname(Long passengerId) {
         StringBuilder passengerNameSurname = new StringBuilder();
         if (passengerId != null && passengerId != 0L) {
-            Passenger savedPassenger = retrievePassengerEntityFromDb(passengerId);
-            if (savedPassenger != null) {
-                passengerNameSurname.append(savedPassenger.getName())
+            PassengerEntity savedPassengerEntity = retrievePassengerEntityFromDb(passengerId);
+            if (savedPassengerEntity != null) {
+                passengerNameSurname.append(savedPassengerEntity.getName())
                         .append(" ")
-                        .append(savedPassenger.getSurname());
+                        .append(savedPassengerEntity.getSurname());
             } else {
                 passengerNameSurname.append(SEAT_PASSENGER_DATA_UNAVAILABLE);
             }
@@ -200,7 +200,7 @@ public class FlightService {
         }
     }
 
-    private Passenger retrievePassengerEntityFromDb(Long passengerId) {
+    private PassengerEntity retrievePassengerEntityFromDb(Long passengerId) {
         return passengerService.retrievePassengerById(passengerId);
     }
 

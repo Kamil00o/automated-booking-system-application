@@ -1,32 +1,31 @@
 package pl.flywithbookedseats.api.passeger;
 
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.external.storage.passenger.Passenger;
-import pl.flywithbookedseats.api.passeger.PassengerDto;
+import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 @Component
-public class PassengerDtoMapper implements Function<Passenger, PassengerDto> {
+public class PassengerDtoMapper implements Function<PassengerEntity, PassengerDto> {
     @Override
-    public PassengerDto apply(Passenger passenger) {
+    public PassengerDto apply(PassengerEntity passengerEntity) {
         return PassengerDto.builder()
-                .passengerServiceId(passenger.getPassengerServiceId())
-                .email(passenger.getEmail())
-                .name(passenger.getName())
-                .surname(passenger.getSurname())
-                .birthDate(passenger.getBirthDate())
-                .disability(passenger.isDisability())
-                .reservationsIdList(generateReservationIdList(passenger))
+                .passengerServiceId(passengerEntity.getPassengerServiceId())
+                .email(passengerEntity.getEmail())
+                .name(passengerEntity.getName())
+                .surname(passengerEntity.getSurname())
+                .birthDate(passengerEntity.getBirthDate())
+                .disability(passengerEntity.isDisability())
+                .reservationsIdList(generateReservationIdList(passengerEntity))
                 .build();
     }
 
-    private List<Long> generateReservationIdList(Passenger passenger) {
+    private List<Long> generateReservationIdList(PassengerEntity passengerEntity) {
         List<Long> localReservationIdList = new ArrayList<Long>();
-        if (passenger.getReservationsList() != null) {
-            passenger.getReservationsList().forEach(reservation -> {
+        if (passengerEntity.getReservationsList() != null) {
+            passengerEntity.getReservationsList().forEach(reservation -> {
                 localReservationIdList.add(reservation.getId());
             });
         }

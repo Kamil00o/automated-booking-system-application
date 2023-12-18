@@ -15,7 +15,7 @@ import static pl.flywithbookedseats.domain.flight.FlightConstImpl.FLIGHT_NOT_FOU
 import static pl.flywithbookedseats.domain.flight.FlightConstImpl.FLIGHT_NOT_FOUND_FLIGHT_SERVICE_ID;
 
 @RequiredArgsConstructor
-public class FlightAdapterRepository implements FlightRepository {
+public class FlightStorageAdapter implements FlightRepository {
 
     private final JpaFlightRepository repository;
     private final JpaFlightEntityMapper mapper;

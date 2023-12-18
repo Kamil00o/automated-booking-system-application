@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import pl.flywithbookedseats.common.Consts;
-import pl.flywithbookedseats.external.storage.passenger.Passenger;
+import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 
 @Builder
 @Getter
@@ -46,5 +46,5 @@ public class ReservationEntity {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "passenger_id")
-    private Passenger passenger;
+    private PassengerEntity passengerEntity;
 }

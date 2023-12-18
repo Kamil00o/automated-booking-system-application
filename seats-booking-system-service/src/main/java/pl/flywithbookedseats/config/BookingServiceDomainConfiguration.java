@@ -9,18 +9,18 @@ import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeRepository;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
-import pl.flywithbookedseats.external.storage.flight.FlightAdapterRepository;
+import pl.flywithbookedseats.external.storage.flight.FlightStorageAdapter;
 import pl.flywithbookedseats.external.storage.flight.JpaFlightEntityMapper;
 import pl.flywithbookedseats.external.storage.flight.JpaFlightRepository;
 import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepository;
 import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepositoryMapper;
-import pl.flywithbookedseats.external.storage.reservation.ReservationAdapterRepository;
+import pl.flywithbookedseats.external.storage.reservation.ReservationStorageAdapter;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepositoryMapper;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeStorageAdapter;
 import pl.flywithbookedseats.api.passeger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.passenger.PassengerBusinessLogic;
-import pl.flywithbookedseats.domain.passenger.PassengerServiceImpl;
+import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 
 @Configuration
 public class BookingServiceDomainConfiguration {
@@ -42,7 +42,7 @@ public class BookingServiceDomainConfiguration {
     public FlightService flightService(
             FlightRepository flightRepository,
             SeatsSchemeService seatsSchemeService,
-            PassengerServiceImpl passengerServiceImpl) {
+            PassengerService1Impl passengerServiceImpl) {
         return new FlightService(flightRepository, seatsSchemeService, passengerServiceImpl);
     }
 
@@ -51,7 +51,7 @@ public class BookingServiceDomainConfiguration {
             JpaFlightRepository jpaFlightRepository,
             JpaFlightEntityMapper jpaFlightEntityMapper
     ) {
-        return new FlightAdapterRepository(jpaFlightRepository, jpaFlightEntityMapper);
+        return new FlightStorageAdapter(jpaFlightRepository, jpaFlightEntityMapper);
     }
 
     @Bean
@@ -84,6 +84,6 @@ public class BookingServiceDomainConfiguration {
             JpaReservationRepositoryMapper jpaReservationRepositoryMapper,
             JpaReservationRepository jpaReservationRepository
     ) {
-        return new ReservationAdapterRepository(jpaReservationRepositoryMapper, jpaReservationRepository);
+        return new ReservationStorageAdapter(jpaReservationRepositoryMapper, jpaReservationRepository);
     }
 }

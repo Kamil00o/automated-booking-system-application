@@ -14,11 +14,10 @@ import pl.flywithbookedseats.api.passeger.DtoPassengerMapper;
 import pl.flywithbookedseats.api.passeger.PassengerDtoMapper;
 import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
 import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
-import pl.flywithbookedseats.external.storage.passenger.Passenger;
+import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 import pl.flywithbookedseats.api.passeger.PassengerDto;
-import pl.flywithbookedseats.external.storage.passenger.PassengerRepository;
+import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepository;
 import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepository;
-import pl.flywithbookedseats.external.service.passenger.PassengerAccountProxy;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +33,7 @@ import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.RES
 public class PassengerBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(PassengerBusinessLogic.class);
 
-    private final PassengerRepository passengerRepository;
+    private final JpaPassengerRepository jpaPassengerRepository;
     private final JpaReservationRepository jpaReservationRepository;
     private final PassengerDtoMapper passengerDtoMapper;
     private final CreatePassengerMapper createPassengerMapper;
@@ -42,30 +41,30 @@ public class PassengerBusinessLogic {
     private final DtoPassengerMapper dtoPassengerMapper;
     private final BookingServiceProducer bookingServiceProducer;
 
-    public Passenger generateNewPassenger(CreatePassengerCommand createPassengerCommand) {
-        Passenger newPassenger = createPassengerMapper.apply(createPassengerCommand);
+    public PassengerEntity generateNewPassenger(CreatePassengerCommand createPassengerCommand) {
+        PassengerEntity newPassengerEntity = createPassengerMapper.apply(createPassengerCommand);
         try {
-            if (newPassenger.getPassengerServiceId() == null) {
-                newPassenger.setPassengerServiceId(getPassengerServiceId(newPassenger.getEmail()));
+            if (newPassengerEntity.getPassengerServiceId() == null) {
+                newPassengerEntity.setPassengerServiceId(getPassengerServiceId(newPassengerEntity.getEmail()));
             }
         } catch (Exception exception) {
-            logger.info("passengerServiceId not retrieved from the passenger service");
+            logger.info("passengerServiceId not retrieved from the passengerEntity service");
         }
         
         List<ReservationEntity> reservationsToAddList = parseReservationIdToReservationEntity(createPassengerCommand
                 .reservationsIdList());
         if (reservationsToAddList != null) {
-            reservationsToAddList.forEach(reservation -> addReservationEntityToPassengerEntity(newPassenger, reservation));
+            reservationsToAddList.forEach(reservation -> addReservationEntityToPassengerEntity(newPassengerEntity, reservation));
         }
 
-        passengerRepository.save(newPassenger);
-        return newPassenger;
+        jpaPassengerRepository.save(newPassengerEntity);
+        return newPassengerEntity;
     }
 
-    public List<PassengerDto> convertIntoListPassengerDto(List<Passenger> localSavedPassengerList) {
-        if (!localSavedPassengerList.isEmpty()) {
+    public List<PassengerDto> convertIntoListPassengerDto(List<PassengerEntity> localSavedPassengerListEntity) {
+        if (!localSavedPassengerListEntity.isEmpty()) {
             List<PassengerDto> savedPassengerDtoList = new ArrayList<>();
-            localSavedPassengerList.forEach(passenger -> savedPassengerDtoList
+            localSavedPassengerListEntity.forEach(passenger -> savedPassengerDtoList
                     .add(passengerDtoMapper.apply(passenger)));
             return savedPassengerDtoList;
         } else {
@@ -74,25 +73,25 @@ public class PassengerBusinessLogic {
         }
     }
 
-    public Passenger updateSpecifiedPassenger(UpdatePassengerCommand updatePassengerCommand,
-                                              Passenger savedPassenger, boolean doNotSaveInDb) {
+    public PassengerEntity updateSpecifiedPassenger(UpdatePassengerCommand updatePassengerCommand,
+                                                    PassengerEntity savedPassengerEntity, boolean doNotSaveInDb) {
         String email = updatePassengerCommand.email();
-        if (!exists(updatePassengerCommand, savedPassenger)) {
+        if (!exists(updatePassengerCommand, savedPassengerEntity)) {
             List<ReservationEntity> reservationsToUpdateList = parseReservationIdToReservationEntity(updatePassengerCommand
                     .reservationsIdList());
             if (reservationsToUpdateList != null) {
                 if (!reservationsToUpdateList.isEmpty()) {
                     reservationsToUpdateList.forEach(reservation ->
-                            addReservationEntityToPassengerEntity(savedPassenger, reservation));
+                            addReservationEntityToPassengerEntity(savedPassengerEntity, reservation));
                 }
             }
-            savedPassenger.setBirthDate(updatePassengerCommand.birthDate());
-            savedPassenger.setName(updatePassengerCommand.name());
-            savedPassenger.setSurname(updatePassengerCommand.surname());
-            savedPassenger.setEmail(email);
-            savedPassenger.setDisability(updatePassengerCommand.disability());
-            savePassengerEntityInDb(doNotSaveInDb, savedPassenger);
-            return savedPassenger;
+            savedPassengerEntity.setBirthDate(updatePassengerCommand.birthDate());
+            savedPassengerEntity.setName(updatePassengerCommand.name());
+            savedPassengerEntity.setSurname(updatePassengerCommand.surname());
+            savedPassengerEntity.setEmail(email);
+            savedPassengerEntity.setDisability(updatePassengerCommand.disability());
+            savePassengerEntityInDb(doNotSaveInDb, savedPassengerEntity);
+            return savedPassengerEntity;
         } else {
             logger.warn(PASSENGER_NOT_UPDATED);
             throw new PassengerAlreadyExistsException(PASSENGER_ALREADY_EXISTS_EMAIL.formatted(email));
@@ -103,41 +102,41 @@ public class PassengerBusinessLogic {
         return getPassengerAccountDtoData(email).getPassengerServiceId();
     }
 
-    public Passenger getPassengerAccountDtoData(String email) {
+    public PassengerEntity getPassengerAccountDtoData(String email) {
         return dtoPassengerMapper.apply(passengerAccountProxy.getPassengerAccountDtoData(email));
     }
 
     public void deletePassengerById(Long id) {
-        passengerRepository.deleteById(id);
+        jpaPassengerRepository.deleteById(id);
     }
 
     public void deletePassengerByEmail(String email) {
-        passengerRepository.deleteByEmail(email);
+        jpaPassengerRepository.deleteByEmail(email);
     }
 
-    public Passenger retrievePassengerEntityFromDb(String email) {
-        return passengerRepository.findByEmail(email)
+    public PassengerEntity retrievePassengerEntityFromDb(String email) {
+        return jpaPassengerRepository.findByEmail(email)
                 .orElseThrow(() -> new PassengerNotFoundException(PASSENGER_NOT_FOUND_EMAIL.formatted(email)));
     }
 
-    public void savePassengerEntityInDb(boolean skipSaving, Passenger passengerEntity) {
+    public void savePassengerEntityInDb(boolean skipSaving, PassengerEntity passengerEntity) {
         if (!skipSaving) {
-            passengerRepository.save(passengerEntity);
+            jpaPassengerRepository.save(passengerEntity);
         }
     }
 
     public boolean exists(String email) {
-        return passengerRepository.existsByEmail(email);
+        return jpaPassengerRepository.existsByEmail(email);
     }
 
     public boolean exists(CreatePassengerCommand createPassengerCommand) {
-        return passengerRepository.existsByEmail(createPassengerCommand.email());
+        return jpaPassengerRepository.existsByEmail(createPassengerCommand.email());
     }
 
-    public boolean exists(UpdatePassengerCommand updatePassengerCommand, Passenger existingPassenger) {
+    public boolean exists(UpdatePassengerCommand updatePassengerCommand, PassengerEntity existingPassengerEntity) {
         String email = updatePassengerCommand.email();
-        if (passengerRepository.existsByEmail(email)) {
-            if (Objects.equals(retrievePassengerEntityFromDb(email).getId(), existingPassenger.getId())) {
+        if (jpaPassengerRepository.existsByEmail(email)) {
+            if (Objects.equals(retrievePassengerEntityFromDb(email).getId(), existingPassengerEntity.getId())) {
                 return false;
             } else {
                 return true;
@@ -155,7 +154,7 @@ public class PassengerBusinessLogic {
         bookingServiceProducer.sendUpdatedPassengerEvent(EventsFactory.createUpdatedPassengerEvent(passengerDto));
     }
 
-    private void addReservationEntityToPassengerEntity(Passenger passengerEntity, ReservationEntity reservationEntityToAdd) {
+    private void addReservationEntityToPassengerEntity(PassengerEntity passengerEntity, ReservationEntity reservationEntityToAdd) {
         List<ReservationEntity> reservationEntityList = passengerEntity.getReservationsList();
         if (reservationEntityList == null) {
             passengerEntity.setReservationsList(Collections.singletonList(reservationEntityToAdd));

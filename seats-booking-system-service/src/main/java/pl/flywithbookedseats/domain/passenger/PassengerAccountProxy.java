@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.external.service.passenger;
+package pl.flywithbookedseats.domain.passenger;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

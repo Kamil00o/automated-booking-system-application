@@ -6,7 +6,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import pl.flywithbookedseats.common.Consts;
-import pl.flywithbookedseats.external.storage.passenger.Passenger;
+import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 
 public record UpdateReservationCommand(
         @NotNull(message = Consts.NOT_NULL_MESSAGE)
@@ -23,6 +23,6 @@ public record UpdateReservationCommand(
         String passengerEmail,
         @ManyToOne(fetch = FetchType.LAZY)
         @JsonIgnore
-        Passenger passenger
+        PassengerEntity passengerEntity
 )
 {}

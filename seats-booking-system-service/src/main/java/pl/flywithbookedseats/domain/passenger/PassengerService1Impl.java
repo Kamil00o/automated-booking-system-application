@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
 import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
 import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
-import pl.flywithbookedseats.external.storage.passenger.Passenger;
+import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 import pl.flywithbookedseats.api.passeger.PassengerDto;
-import pl.flywithbookedseats.external.storage.passenger.PassengerRepository;
+import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepository;
 import pl.flywithbookedseats.api.passeger.PassengerDtoMapper;
 
 import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.*;
@@ -19,11 +19,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class PassengerServiceImpl implements PassengerService {
+public class PassengerService1Impl implements PassengerService1 {
 
-    private static final Logger logger = LoggerFactory.getLogger(PassengerServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(PassengerService1Impl.class);
 
-    private final PassengerRepository passengerRepository;
+    private final JpaPassengerRepository jpaPassengerRepository;
     private final PassengerDtoMapper passengerDtoMapper;
     private final PassengerBusinessLogic passengerBL;
 
@@ -45,10 +45,10 @@ public class PassengerServiceImpl implements PassengerService {
     @Transactional
     @Override
     public PassengerDto updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand, String email) {
-        Passenger savedPassenger = passengerBL.retrievePassengerEntityFromDb(email);
+        PassengerEntity savedPassengerEntity = passengerBL.retrievePassengerEntityFromDb(email);
         if (passengerBL.exists(email)) {
             PassengerDto updatedPassengerDto = passengerDtoMapper.apply(passengerBL
-                    .updateSpecifiedPassenger(updatePassengerCommand, savedPassenger, false));
+                    .updateSpecifiedPassenger(updatePassengerCommand, savedPassengerEntity, false));
             passengerBL.sendUpdatedPassengerEvent(updatedPassengerDto);
             return updatedPassengerDto;
         } else {
@@ -62,19 +62,19 @@ public class PassengerServiceImpl implements PassengerService {
         return passengerDtoMapper.apply(passengerBL.retrievePassengerEntityFromDb(email));
     }
 
-    public Passenger retrievePassengerById(Long id) {
-        return passengerRepository.findById(id).orElse(null);
+    public PassengerEntity retrievePassengerById(Long id) {
+        return jpaPassengerRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<PassengerDto> retrieveAllPassengers() {
-        return passengerBL.convertIntoListPassengerDto(passengerRepository.findAll());
+        return passengerBL.convertIntoListPassengerDto(jpaPassengerRepository.findAll());
     }
 
     @Transactional
     @Override
     public void deleteAllPassengers() {
-        passengerRepository.deleteAll();
+        jpaPassengerRepository.deleteAll();
     }
 
     @Transactional

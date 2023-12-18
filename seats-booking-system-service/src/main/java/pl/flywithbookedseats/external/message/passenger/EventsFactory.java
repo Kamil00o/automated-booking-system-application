@@ -6,8 +6,8 @@ import pl.flywithbookedseats.api.passeger.PassengerDto;
 
 public class EventsFactory {
 
-    private static final String MESSAGE = "Update Passenger Account for %s email";
-    private static final String MESSAGE_DATA_REQUEST = "Data request for Passenger Account for %s email";
+    private static final String MESSAGE = "Update PassengerEntity Account for %s email";
+    private static final String MESSAGE_DATA_REQUEST = "Data request for PassengerEntity Account for %s email";
     private static final String MESSAGE_SOURCE = "seats-booking-system-service";
     private static final String STATUS = "PassengerDto status is in pending state";
 

@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "passenger_TABLE")
 @Entity
-public class Passenger {
+public class PassengerEntity {
 
     @Id
     @SequenceGenerator(
@@ -47,6 +47,6 @@ public class Passenger {
     @NotNull(message = Consts.NOT_NULL_MESSAGE)
     private boolean disability;
     @JsonIgnore
-    @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "passengerEntity", cascade = CascadeType.ALL)
     private List<ReservationEntity> reservationsList;
 }

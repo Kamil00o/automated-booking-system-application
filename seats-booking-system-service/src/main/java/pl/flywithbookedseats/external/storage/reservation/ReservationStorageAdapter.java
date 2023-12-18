@@ -4,11 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import pl.flywithbookedseats.api.reservation.ReservationDto;
-import pl.flywithbookedseats.domain.flight.Flight;
-import pl.flywithbookedseats.domain.flight.PageFlight;
 import pl.flywithbookedseats.domain.reservation.*;
-import pl.flywithbookedseats.external.storage.flight.FlightEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +14,7 @@ import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 
 @Slf4j
 @RequiredArgsConstructor
-public class ReservationAdapterRepository implements ReservationRepository {
+public class ReservationStorageAdapter implements ReservationRepository {
 
     private final JpaReservationRepositoryMapper mapper;
     private final JpaReservationRepository repository;

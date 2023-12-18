@@ -13,6 +13,6 @@ public interface ReservationDtoMapper {
 
     @Named("getPassengerEmail")
     default String retrievePassengerEmail(Reservation domain) {
-        return domain.getPassenger().getEmail();
+        return domain.getPassengerEntity().getEmail();
     }
 }
