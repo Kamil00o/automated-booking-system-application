@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.FlightApplicationService;
 import pl.flywithbookedseats.domain.flight.Flight;
-import pl.flywithbookedseats.domain.flight.FlightService1Impl;
 import pl.flywithbookedseats.domain.flight.PageFlight;
 
 @Slf4j
@@ -18,7 +17,6 @@ import pl.flywithbookedseats.domain.flight.PageFlight;
 @RequestMapping(path = "/seats-booking/flight")
 public class FlightController {
 
-    private final FlightService1Impl flightService;
     private final FlightApplicationService service;
     private final CreateFlightCommandMapper createMapper;
     private final FlightDtoMapper mapper;
@@ -108,8 +106,8 @@ public class FlightController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path = "/flight-test/find-seat")
+    /*@GetMapping(path = "/flight-test/find-seat")
     public String testFindSeatForPassengerMethod() {
         return flightService.testBookSeatInFlightSeatsScheme();
-    }
+    }*/
 }
