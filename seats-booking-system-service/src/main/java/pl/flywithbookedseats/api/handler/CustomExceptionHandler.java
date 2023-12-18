@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.flywithbookedseats.api.response.ErrorResponse;
 import pl.flywithbookedseats.domain.flight.*;
+import pl.flywithbookedseats.domain.reservation.ReservationAlreadyExistsException;
+import pl.flywithbookedseats.domain.reservation.ReservationDatabaseIsEmptyException;
+import pl.flywithbookedseats.domain.reservation.ReservationNotFoundException;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeAlreadyExistsException;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeNotFoundException;
 
@@ -59,6 +62,27 @@ public class CustomExceptionHandler {
             FullFlightException exception
     ) {
         return buildResponse(exception, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ReservationAlreadyExistsException.class)
+    public final ResponseEntity<ErrorResponse> handleReservationAlreadyExistsException(
+            ReservationAlreadyExistsException exception
+    ) {
+        return buildResponse(exception, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ReservationDatabaseIsEmptyException.class)
+    public final ResponseEntity<ErrorResponse> handleReservationDatabaseIsEmptyException(
+            ReservationDatabaseIsEmptyException exception
+    ) {
+        return buildResponse(exception, HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(ReservationNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleReservationNotFoundException(
+            ReservationNotFoundException exception
+    ) {
+        return buildResponse(exception, HttpStatus.NOT_FOUND);
     }
 
     private <E extends RuntimeException> ResponseEntity<ErrorResponse> buildResponse(E exception, HttpStatus status) {

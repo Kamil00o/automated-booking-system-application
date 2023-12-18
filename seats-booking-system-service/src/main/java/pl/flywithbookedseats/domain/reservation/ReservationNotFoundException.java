@@ -1,8 +1,6 @@
 package pl.flywithbookedseats.domain.reservation;
 
-import pl.flywithbookedseats.logic.exceptions.BadRequestException;
-
-public class ReservationNotFoundException extends BadRequestException {
+public class ReservationNotFoundException extends RuntimeException {
     public ReservationNotFoundException(String message) {
         super(message);
     }
