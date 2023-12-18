@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.kafka;
+package pl.flywithbookedseats.external.message.passenger;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +8,8 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.kafka.RequestedPassengerEvent;
+import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
 
 @RequiredArgsConstructor
 @Slf4j

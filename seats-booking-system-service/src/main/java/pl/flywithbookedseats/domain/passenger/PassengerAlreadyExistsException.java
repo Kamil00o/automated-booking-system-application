@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.exceptions;
+package pl.flywithbookedseats.domain.passenger;
 
 public class PassengerAlreadyExistsException extends BadRequestException{
     public PassengerAlreadyExistsException(String message) {

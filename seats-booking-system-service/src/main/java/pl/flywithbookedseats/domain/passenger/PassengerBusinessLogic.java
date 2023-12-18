@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.service.implementation.passenger;
+package pl.flywithbookedseats.domain.passenger;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -6,28 +6,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
-import pl.flywithbookedseats.kafka.BookingServiceProducer;
-import pl.flywithbookedseats.kafka.EventsFactory;
-import pl.flywithbookedseats.logic.exceptions.PassengerAlreadyExistsException;
-import pl.flywithbookedseats.logic.exceptions.PassengerDatabaseIsEmptyException;
-import pl.flywithbookedseats.logic.exceptions.PassengerNotFoundException;
+import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
+import pl.flywithbookedseats.external.message.passenger.EventsFactory;
 import pl.flywithbookedseats.domain.reservation.ReservationNotFoundException;
-import pl.flywithbookedseats.logic.mapper.passenger.CreatePassengerMapper;
-import pl.flywithbookedseats.logic.mapper.passenger.DtoPassengerMapper;
-import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
-import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
-import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
-import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.logic.model.dto.PassengerDto;
-import pl.flywithbookedseats.logic.repository.PassengerRepository;
+import pl.flywithbookedseats.api.passeger.CreatePassengerMapper;
+import pl.flywithbookedseats.api.passeger.DtoPassengerMapper;
+import pl.flywithbookedseats.api.passeger.PassengerDtoMapper;
+import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
+import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
+import pl.flywithbookedseats.external.storage.passenger.Passenger;
+import pl.flywithbookedseats.api.passeger.PassengerDto;
+import pl.flywithbookedseats.external.storage.passenger.PassengerRepository;
 import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepository;
+import pl.flywithbookedseats.external.service.passenger.PassengerAccountProxy;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static pl.flywithbookedseats.logic.service.implementation.passenger.PassengerConstsImpl.*;
+import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.*;
 import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.RESERVATION_NOT_FOUND_ID;
 
 @AllArgsConstructor

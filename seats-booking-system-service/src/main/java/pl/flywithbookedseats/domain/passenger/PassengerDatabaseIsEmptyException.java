@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.exceptions;
+package pl.flywithbookedseats.domain.passenger;
 
 public class PassengerDatabaseIsEmptyException extends BadRequestException{
     public PassengerDatabaseIsEmptyException(String message) {

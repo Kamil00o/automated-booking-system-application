@@ -6,7 +6,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import pl.flywithbookedseats.common.Consts;
-import pl.flywithbookedseats.logic.model.domain.Passenger;
+import pl.flywithbookedseats.external.storage.passenger.Passenger;
 
 public record UpdateReservationCommand(
         @NotNull(message = Consts.NOT_NULL_MESSAGE)

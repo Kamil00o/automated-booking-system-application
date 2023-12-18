@@ -8,12 +8,12 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.kafka.BookingServiceProducer;
-import pl.flywithbookedseats.kafka.EventsFactory;
-import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
-import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
-import pl.flywithbookedseats.logic.model.dto.PassengerDto;
-import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
+import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
+import pl.flywithbookedseats.external.message.passenger.EventsFactory;
+import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
+import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
+import pl.flywithbookedseats.api.passeger.PassengerDto;
+import pl.flywithbookedseats.domain.passenger.PassengerServiceImpl;
 
 import java.util.List;
 

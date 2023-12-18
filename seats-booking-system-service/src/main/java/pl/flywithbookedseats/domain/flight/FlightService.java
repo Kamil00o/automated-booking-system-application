@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
-import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerServiceImpl;
+import pl.flywithbookedseats.external.storage.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.PassengerServiceImpl;
 import pl.flywithbookedseats.domain.reservation.ReservationConstsImpl;
 
 import java.time.LocalDate;

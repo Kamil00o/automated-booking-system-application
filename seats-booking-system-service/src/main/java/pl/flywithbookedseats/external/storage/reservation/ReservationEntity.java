@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import pl.flywithbookedseats.common.Consts;
-import pl.flywithbookedseats.logic.model.domain.Passenger;
+import pl.flywithbookedseats.external.storage.passenger.Passenger;
 
 @Builder
 @Getter

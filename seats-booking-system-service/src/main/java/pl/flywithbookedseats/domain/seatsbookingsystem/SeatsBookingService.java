@@ -8,11 +8,11 @@ import pl.flywithbookedseats.domain.reservation.Reservation;
 import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepositoryMapper;
 import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
-import pl.flywithbookedseats.logic.mapper.passenger.PassengerDtoMapper;
-import pl.flywithbookedseats.logic.model.command.passenger.CreatePassengerCommand;
-import pl.flywithbookedseats.logic.model.command.passenger.UpdatePassengerCommand;
-import pl.flywithbookedseats.logic.model.domain.Passenger;
-import pl.flywithbookedseats.logic.service.implementation.passenger.PassengerBusinessLogic;
+import pl.flywithbookedseats.api.passeger.PassengerDtoMapper;
+import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
+import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
+import pl.flywithbookedseats.external.storage.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.PassengerBusinessLogic;
 
 import java.util.Collections;
 import java.util.List;

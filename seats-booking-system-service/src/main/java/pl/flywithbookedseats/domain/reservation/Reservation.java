@@ -1,7 +1,7 @@
 package pl.flywithbookedseats.domain.reservation;
 
 import lombok.*;
-import pl.flywithbookedseats.logic.model.domain.Passenger;
+import pl.flywithbookedseats.external.storage.passenger.Passenger;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.model.domain;
+package pl.flywithbookedseats.external.storage.passenger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

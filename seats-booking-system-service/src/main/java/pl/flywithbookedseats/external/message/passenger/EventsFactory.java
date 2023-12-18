@@ -1,6 +1,8 @@
-package pl.flywithbookedseats.kafka;
+package pl.flywithbookedseats.external.message.passenger;
 
-import pl.flywithbookedseats.logic.model.dto.PassengerDto;
+import pl.flywithbookedseats.kafka.RequestedPassengerEvent;
+import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
+import pl.flywithbookedseats.api.passeger.PassengerDto;
 
 public class EventsFactory {
 

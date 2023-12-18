@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.logic.service.implementation.passenger;
+package pl.flywithbookedseats.domain.passenger;
 
 public class PassengerConstsImpl {
 
