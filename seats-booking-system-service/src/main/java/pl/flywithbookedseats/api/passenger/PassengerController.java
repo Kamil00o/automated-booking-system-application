@@ -1,11 +1,13 @@
 package pl.flywithbookedseats.api.passenger;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.appservices.PassengerApplicationService;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
 import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
@@ -22,7 +24,7 @@ public class PassengerController {
 
     private final PassengerService1Impl passengerService;
     private final BookingServiceProducer bookingServiceProducer;
-    private final PassengerService service;
+    private final PassengerApplicationService service;
     private final CreatePassengerCommandMapper createMapper;
     private final PassengerDtoMapper mapper;
 
@@ -41,10 +43,28 @@ public class PassengerController {
         return passengerService.updatePassengerByEmail(updatePassengerCommand, email);
     }
 
-    @GetMapping(path = "get-passenger/email/{email}")
+    @GetMapping(path = "/email/{email}")
     public PassengerDto retrievePassengerByEmail(@PathVariable String email) {
         log.info("Retrieving passenger data for email {}:", email);
-        return passengerService.retrievePassengerByEmail(email);
+        Passenger foundPassenger = service.retrievePassengerByEmail(email);
+
+        return mapper.toDto(foundPassenger);
+    }
+
+    @GetMapping(path = "/id/{id}")
+    public PassengerDto retrievePassengerById(@PathVariable Long id) {
+        log.info("Retrieving passenger data for ID {}:", id);
+        Passenger foundPassenger = service.retrievePassengerById(id);
+
+        return mapper.toDto(foundPassenger);
+    }
+
+    @GetMapping(path = "/passengerServiceId/{passengerServiceId}")
+    public PassengerDto retrievePassengerByPassengerServiceId(@PathVariable Long passengerServiceId) {
+        log.info("Retrieving passenger data for passenger service ID {}:", passengerServiceId);
+        Passenger foundPassenger = service.retrievePassengerByPassengerServiceId(passengerServiceId);
+
+        return mapper.toDto(foundPassenger);
     }
 
     @GetMapping(path = "/get-passenger/all")

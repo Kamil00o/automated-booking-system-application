@@ -47,6 +47,6 @@ public class PassengerEntity {
     @NotNull(message = Consts.NOT_NULL_MESSAGE)
     private boolean disability;
     @JsonIgnore
-    @OneToMany(mappedBy = "passengerEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "passengerEntity", cascade = CascadeType.MERGE)
     private List<ReservationEntity> reservationsList;
 }

@@ -6,4 +6,10 @@ public interface PassengerRepository {
 
     boolean existsByEmail(String email);
 
+    Passenger findByEmail(String email);
+
+    Passenger findById(Long id);
+
+    Passenger findByPassengerServiceId(Long id);
+
 }

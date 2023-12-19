@@ -14,4 +14,6 @@ public interface JpaPassengerRepository extends JpaRepository<PassengerEntity, L
 
     void deleteByEmail(String email);
 
+    Optional<PassengerEntity> findByPassengerServiceId(Long id);
+
 }

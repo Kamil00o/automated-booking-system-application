@@ -44,11 +44,15 @@ public class PassengerService {
     }
 
     public Passenger retrievePassengerByEmail(String email) {
-        return null;
+        return repository.findByEmail(email);
     }
 
     public Passenger retrievePassengerById(Long id) {
-        return null;
+        return repository.findById(id);
+    }
+
+    public Passenger retrievePassengerByPassengerServiceId(Long id) {
+        return repository.findByPassengerServiceId(id);
     }
 
     public List<PassengerDto> retrieveAllPassengers() {

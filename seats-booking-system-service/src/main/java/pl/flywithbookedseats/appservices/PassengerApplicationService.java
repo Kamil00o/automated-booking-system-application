@@ -28,11 +28,15 @@ public class PassengerApplicationService {
     }
 
     public Passenger retrievePassengerByEmail(String email) {
-        return null;
+        return service.retrievePassengerByEmail(email);
     }
 
     public Passenger retrievePassengerById(Long id) {
-        return null;
+        return service.retrievePassengerById(id);
+    }
+
+    public Passenger retrievePassengerByPassengerServiceId(Long id) {
+        return service.retrievePassengerByPassengerServiceId(id);
     }
 
     public List<PassengerDto> retrieveAllPassengers() {

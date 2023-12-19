@@ -57,7 +57,8 @@ public class PassengerService1Impl implements PassengerService1 {
 
     @Override
     public PassengerDto retrievePassengerByEmail(String email) {
-        return passengerDtoMapper1.apply(passengerBL.retrievePassengerEntityFromDb(email));
+        PassengerEntity passengerEntity = passengerBL.retrievePassengerEntityFromDb(email);
+        return passengerDtoMapper1.apply(passengerEntity);
     }
 
     public PassengerEntity retrievePassengerById(Long id) {
