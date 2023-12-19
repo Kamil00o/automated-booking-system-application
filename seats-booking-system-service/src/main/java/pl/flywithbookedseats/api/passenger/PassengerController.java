@@ -1,6 +1,5 @@
 package pl.flywithbookedseats.api.passenger;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +8,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.PassengerApplicationService;
 import pl.flywithbookedseats.domain.passenger.Passenger;
-import pl.flywithbookedseats.domain.passenger.PassengerService;
 import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
 import pl.flywithbookedseats.external.message.passenger.EventsFactory;
@@ -72,19 +70,19 @@ public class PassengerController {
         return passengerService.retrieveAllPassengers();
     }
 
-    @DeleteMapping(path = "/delete-passenger/all")
+    @DeleteMapping
     public void deleteAllPassengers() {
-        passengerService.deleteAllPassengers();
+        service.deleteAllPassengers();
     }
 
-    @DeleteMapping(path = "/delete-passenger/id/{id}")
+    @DeleteMapping(path = "/id/{id}")
     public void deletePassengerById(@PathVariable Long id) {
-        passengerService.deletePassengerById(id);
+        service.deletePassengerById(id);
     }
 
-    @DeleteMapping(path = "/delete-passenger/email/{email}")
+    @DeleteMapping(path = "/email/{email}")
     public void deletePassengerByEmail(@PathVariable String email) {
-        passengerService.deletePassengerByEmail(email);
+        service.deletePassengerByEmail(email);
     }
 
     ////////////////kafka methods:

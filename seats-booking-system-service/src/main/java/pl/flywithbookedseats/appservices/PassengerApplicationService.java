@@ -45,16 +45,16 @@ public class PassengerApplicationService {
 
     @Transactional
     public void deleteAllPassengers() {
-
+        service.deleteAllPassengers();
     }
 
     @Transactional
     public void deletePassengerById(Long id) {
-
+        service.deletePassengerById(id);
     }
 
     @Transactional
     public void deletePassengerByEmail(String email) {
-
+        service.deletePassengerByEmail(email);
     }
 }

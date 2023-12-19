@@ -60,15 +60,15 @@ public class PassengerService {
     }
 
     public void deleteAllPassengers() {
-
+        repository.deleteAll();
     }
 
     public void deletePassengerById(Long id) {
-
+        repository.deleteById(id);
     }
 
     public void deletePassengerByEmail(String email) {
-
+        repository.deleteByEmail(email);
     }
 
     public Long getPassengerServiceId(String email) {

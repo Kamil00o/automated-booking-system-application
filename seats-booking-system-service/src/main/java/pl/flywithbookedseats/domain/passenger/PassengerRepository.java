@@ -12,4 +12,10 @@ public interface PassengerRepository {
 
     Passenger findByPassengerServiceId(Long id);
 
+    void deleteAll();
+
+    void deleteById(Long id);
+
+    void deleteByEmail(String email);
+
 }

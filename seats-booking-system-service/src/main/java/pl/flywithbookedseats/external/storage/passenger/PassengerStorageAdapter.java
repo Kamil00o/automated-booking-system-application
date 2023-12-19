@@ -52,4 +52,19 @@ public class PassengerStorageAdapter implements PassengerRepository {
 
         return mapper.toDomain(foundPassengerEntity);
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public void deleteByEmail(String email) {
+        repository.deleteByEmail(email);
+    }
 }
