@@ -5,13 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
 import pl.flywithbookedseats.external.message.passenger.EventsFactory;
 import pl.flywithbookedseats.domain.reservation.ReservationNotFoundException;
 import pl.flywithbookedseats.api.passeger.CreatePassengerMapper;
 import pl.flywithbookedseats.api.passeger.DtoPassengerMapper;
-import pl.flywithbookedseats.api.passeger.PassengerDtoMapper;
+import pl.flywithbookedseats.api.passeger.PassengerDtoMapper1;
 import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
 import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
@@ -35,7 +36,7 @@ public class PassengerBusinessLogic {
 
     private final JpaPassengerRepository jpaPassengerRepository;
     private final JpaReservationRepository jpaReservationRepository;
-    private final PassengerDtoMapper passengerDtoMapper;
+    private final PassengerDtoMapper1 passengerDtoMapper1;
     private final CreatePassengerMapper createPassengerMapper;
     private final PassengerAccountProxy passengerAccountProxy;
     private final DtoPassengerMapper dtoPassengerMapper;
@@ -65,7 +66,7 @@ public class PassengerBusinessLogic {
         if (!localSavedPassengerListEntity.isEmpty()) {
             List<PassengerDto> savedPassengerDtoList = new ArrayList<>();
             localSavedPassengerListEntity.forEach(passenger -> savedPassengerDtoList
-                    .add(passengerDtoMapper.apply(passenger)));
+                    .add(passengerDtoMapper1.apply(passenger)));
             return savedPassengerDtoList;
         } else {
             logger.warn(PASSENGERS_NOT_RETRIEVED);
@@ -163,7 +164,7 @@ public class PassengerBusinessLogic {
         }
     }
 
-    private List<ReservationEntity> parseReservationIdToReservationEntity(List<Long> reservationIdList) {
+    public List<ReservationEntity> parseReservationIdToReservationEntity(List<Long> reservationIdList) {
         List<ReservationEntity> parsedReservationListEntity = new ArrayList<>();
         if (reservationIdList != null) {
             if (!reservationIdList.isEmpty()) {

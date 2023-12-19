@@ -9,7 +9,7 @@ import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepositoryMapper;
 import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
-import pl.flywithbookedseats.api.passeger.PassengerDtoMapper;
+import pl.flywithbookedseats.api.passeger.PassengerDtoMapper1;
 import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
 import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
 import pl.flywithbookedseats.domain.passenger.PassengerBusinessLogic;
@@ -27,7 +27,7 @@ public class SeatsBookingService {
     private final FlightService flightService;
     private final PassengerBusinessLogic passengerBL;
     private final ReservationService reservationService;
-    private final PassengerDtoMapper passengerDtoMapper;
+    private final PassengerDtoMapper1 passengerDtoMapper1;
     private final JpaReservationRepositoryMapper temporaryReservationMapper;
 
     public Reservation bookSeatsInThePlane(BookingEnterData bookingEnterData) {
@@ -57,7 +57,7 @@ public class SeatsBookingService {
                             newPassengerEntity,
                             isNotExistingPassenger
                     );
-            passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper.apply(newPassengerEntity));
+            passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper1.apply(newPassengerEntity));
             return newReservation;
         } else {
             log.warn(RESERVATION_NOT_CREATED);
@@ -75,7 +75,7 @@ public class SeatsBookingService {
         //TODO: JpaReservationRepositoryMapper is used below until passengerEntity domain will be not refactored!!!!!
         associatedPassengerReservationListEntity.remove(temporaryReservationMapper.toEntityy(savedReservation));
         reservationService.deleteReservationById(reservationId);
-        passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper.apply(associatedPassengerDataEntity));
+        passengerBL.sendUpdatedPassengerEvent(passengerDtoMapper1.apply(associatedPassengerDataEntity));
         if (associatedPassengerReservationListEntity.isEmpty()) {
             passengerBL.deletePassengerByEmail(savedReservation.getPassengerEmail());
         }

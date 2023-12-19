@@ -5,13 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.api.passeger.*;
 import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
-import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
-import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
-import pl.flywithbookedseats.api.passeger.PassengerDto;
 import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepository;
-import pl.flywithbookedseats.api.passeger.PassengerDtoMapper;
 
 import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.*;
 
@@ -24,16 +21,17 @@ public class PassengerService1Impl implements PassengerService1 {
     private static final Logger logger = LoggerFactory.getLogger(PassengerService1Impl.class);
 
     private final JpaPassengerRepository jpaPassengerRepository;
-    private final PassengerDtoMapper passengerDtoMapper;
+    private final PassengerDtoMapper1 passengerDtoMapper1;
     private final PassengerBusinessLogic passengerBL;
 
     @Transactional
     @Override
     public PassengerDto createNewPassenger(CreatePassengerCommand createPassengerCommand) {
         if (!passengerBL.exists(createPassengerCommand)) {
-            PassengerDto createdPassengerDto = passengerDtoMapper
+            PassengerDto createdPassengerDto = passengerDtoMapper1
                     .apply(passengerBL.generateNewPassenger(createPassengerCommand));
             passengerBL.sendRequestedPassengerEvent(createdPassengerDto);
+
             return createdPassengerDto;
         } else {
             logger.warn(PASSENGER_NOT_CREATED);
@@ -47,7 +45,7 @@ public class PassengerService1Impl implements PassengerService1 {
     public PassengerDto updatePassengerByEmail(UpdatePassengerCommand updatePassengerCommand, String email) {
         PassengerEntity savedPassengerEntity = passengerBL.retrievePassengerEntityFromDb(email);
         if (passengerBL.exists(email)) {
-            PassengerDto updatedPassengerDto = passengerDtoMapper.apply(passengerBL
+            PassengerDto updatedPassengerDto = passengerDtoMapper1.apply(passengerBL
                     .updateSpecifiedPassenger(updatePassengerCommand, savedPassengerEntity, false));
             passengerBL.sendUpdatedPassengerEvent(updatedPassengerDto);
             return updatedPassengerDto;
@@ -59,7 +57,7 @@ public class PassengerService1Impl implements PassengerService1 {
 
     @Override
     public PassengerDto retrievePassengerByEmail(String email) {
-        return passengerDtoMapper.apply(passengerBL.retrievePassengerEntityFromDb(email));
+        return passengerDtoMapper1.apply(passengerBL.retrievePassengerEntityFromDb(email));
     }
 
     public PassengerEntity retrievePassengerById(Long id) {

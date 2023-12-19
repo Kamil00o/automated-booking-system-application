@@ -18,7 +18,7 @@ import pl.flywithbookedseats.external.storage.reservation.ReservationStorageAdap
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepositoryMapper;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeStorageAdapter;
-import pl.flywithbookedseats.api.passeger.PassengerDtoMapper;
+import pl.flywithbookedseats.api.passeger.PassengerDtoMapper1;
 import pl.flywithbookedseats.domain.passenger.PassengerBusinessLogic;
 import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 
@@ -59,14 +59,14 @@ public class BookingServiceDomainConfiguration {
             FlightService flightService,
             PassengerBusinessLogic passengerBusinessLogic,
             ReservationService reservationService,
-            PassengerDtoMapper passengerDtoMapper,
+            PassengerDtoMapper1 passengerDtoMapper1,
             JpaReservationRepositoryMapper jpaReservationRepositoryMapper
             ) {
         return new SeatsBookingService(
                 flightService,
                 passengerBusinessLogic,
                 reservationService,
-                passengerDtoMapper,
+                passengerDtoMapper1,
                 jpaReservationRepositoryMapper
         );
     }
