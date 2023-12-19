@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.api.passeger;
+package pl.flywithbookedseats.api.passenger;
 
 import lombok.Builder;
 

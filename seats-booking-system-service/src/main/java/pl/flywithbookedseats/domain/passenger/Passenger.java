@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
+import pl.flywithbookedseats.domain.reservation.Reservation;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,7 +23,7 @@ public class Passenger {
     private String surname;
     private LocalDate birthDate;
     private boolean disability;
-    private List<ReservationEntity> reservationsList;
+    private List<Reservation> reservationsList;
 
     @Override
     public boolean equals(Object o) {

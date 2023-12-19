@@ -9,9 +9,9 @@ import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepositoryMapper;
 import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
-import pl.flywithbookedseats.api.passeger.PassengerDtoMapper1;
-import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
-import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
+import pl.flywithbookedseats.api.passenger.PassengerDtoMapper1;
+import pl.flywithbookedseats.api.passenger.CreatePassengerCommand;
+import pl.flywithbookedseats.api.passenger.UpdatePassengerCommand;
 import pl.flywithbookedseats.domain.passenger.PassengerBusinessLogic;
 
 import java.util.Collections;

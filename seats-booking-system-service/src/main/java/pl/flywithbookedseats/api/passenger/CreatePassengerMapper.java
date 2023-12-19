@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.api.passeger;
+package pl.flywithbookedseats.api.passenger;
 
 import org.springframework.stereotype.Component;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;

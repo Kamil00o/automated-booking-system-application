@@ -4,11 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
-import pl.flywithbookedseats.api.passeger.PassengerDto;
-import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
+import pl.flywithbookedseats.api.passenger.PassengerDto;
 import pl.flywithbookedseats.domain.passenger.Passenger;
-import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 
 import java.util.List;
 

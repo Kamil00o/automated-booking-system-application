@@ -1,8 +1,8 @@
 package pl.flywithbookedseats.domain.passenger;
 
-import pl.flywithbookedseats.api.passeger.CreatePassengerCommand;
-import pl.flywithbookedseats.api.passeger.UpdatePassengerCommand;
-import pl.flywithbookedseats.api.passeger.PassengerDto;
+import pl.flywithbookedseats.api.passenger.CreatePassengerCommand;
+import pl.flywithbookedseats.api.passenger.UpdatePassengerCommand;
+import pl.flywithbookedseats.api.passenger.PassengerDto;
 
 import java.util.List;
 

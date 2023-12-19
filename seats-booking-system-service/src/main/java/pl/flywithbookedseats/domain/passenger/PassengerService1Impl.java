@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.api.passeger.*;
+import pl.flywithbookedseats.api.passenger.*;
 import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepository;

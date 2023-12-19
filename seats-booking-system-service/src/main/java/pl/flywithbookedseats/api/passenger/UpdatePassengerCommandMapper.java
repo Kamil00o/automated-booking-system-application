@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.api.passeger;
+package pl.flywithbookedseats.api.passenger;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

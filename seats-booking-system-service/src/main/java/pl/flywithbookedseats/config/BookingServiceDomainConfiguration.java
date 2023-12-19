@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.flywithbookedseats.domain.flight.FlightRepository;
 import pl.flywithbookedseats.domain.flight.FlightService;
+import pl.flywithbookedseats.domain.passenger.PassengerRepository;
+import pl.flywithbookedseats.domain.passenger.PassengerService;
 import pl.flywithbookedseats.domain.reservation.ReservationRepository;
 import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
@@ -12,13 +14,16 @@ import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
 import pl.flywithbookedseats.external.storage.flight.FlightStorageAdapter;
 import pl.flywithbookedseats.external.storage.flight.JpaFlightEntityMapper;
 import pl.flywithbookedseats.external.storage.flight.JpaFlightRepository;
+import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepository;
+import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepositoryMapper;
+import pl.flywithbookedseats.external.storage.passenger.PassengerStorageAdapter;
 import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepository;
 import pl.flywithbookedseats.external.storage.reservation.JpaReservationRepositoryMapper;
 import pl.flywithbookedseats.external.storage.reservation.ReservationStorageAdapter;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepositoryMapper;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeStorageAdapter;
-import pl.flywithbookedseats.api.passeger.PassengerDtoMapper1;
+import pl.flywithbookedseats.api.passenger.PassengerDtoMapper1;
 import pl.flywithbookedseats.domain.passenger.PassengerBusinessLogic;
 import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 
@@ -85,5 +90,20 @@ public class BookingServiceDomainConfiguration {
             JpaReservationRepository jpaReservationRepository
     ) {
         return new ReservationStorageAdapter(jpaReservationRepositoryMapper, jpaReservationRepository);
+    }
+
+    @Bean
+    public PassengerService passengerService(
+            PassengerRepository passengerRepository
+    ) {
+        return new PassengerService(passengerRepository);
+    }
+
+    @Bean
+    public PassengerRepository passengerRepository(
+            JpaPassengerRepository jpaPassengerRepository,
+            JpaPassengerRepositoryMapper jpaPassengerRepositoryMapper
+    ) {
+        return new PassengerStorageAdapter(jpaPassengerRepository, jpaPassengerRepositoryMapper);
     }
 }

@@ -7,6 +7,7 @@ import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 import pl.flywithbookedseats.domain.passenger.PassengerBusinessLogic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
@@ -102,7 +103,21 @@ public class ReservationService {
         return false;
     }
 
-    public boolean exists(Reservation reservation) {
+    public List<Reservation> parseReservationIdToReservationEntity(List<Long> reservationIdList) {
+        List<Reservation> parsedReservationListEntity = new ArrayList<>();
+        if (reservationIdList != null) {
+            if (!reservationIdList.isEmpty()) {
+                reservationIdList.forEach(id -> parsedReservationListEntity.add(retrieveReservationById(id)));
+            }
+
+            return parsedReservationListEntity;
+        } else {
+            log.debug("Passed reservationIdList is null!");
+            return null;
+        }
+    }
+
+    private boolean exists(Reservation reservation) {
         return repository.existsBySeatNumber(reservation.getSeatNumber());
     }
 
