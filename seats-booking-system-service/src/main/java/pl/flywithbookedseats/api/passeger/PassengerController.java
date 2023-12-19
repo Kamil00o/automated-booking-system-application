@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.domain.passenger.PassengerService;
 import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
 import pl.flywithbookedseats.external.message.passenger.EventsFactory;
@@ -20,6 +21,7 @@ public class PassengerController {
 
     private final PassengerService1Impl passengerService;
     private final BookingServiceProducer bookingServiceProducer;
+    private final PassengerService service;
 
     @PostMapping(path = "/add-new-passenger")
     public PassengerDto createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
