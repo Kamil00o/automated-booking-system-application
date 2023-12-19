@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
+import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
 import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
@@ -22,11 +23,15 @@ public class PassengerController {
     private final PassengerService1Impl passengerService;
     private final BookingServiceProducer bookingServiceProducer;
     private final PassengerService service;
+    private final CreatePassengerCommandMapper createMapper;
+    private final PassengerDtoMapper mapper;
 
-    @PostMapping(path = "/add-new-passenger")
+    @PostMapping
     public PassengerDto createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
         log.info("Creating new passenger for email: {}:", createPassengerCommand.email());
-        return passengerService.createNewPassenger(createPassengerCommand);
+        Passenger createdPassenger = service.createNewPassenger(createMapper.toDomain(createPassengerCommand));
+
+        return mapper.toDto(createdPassenger);
     }
 
     @PutMapping(path = "/update-passenger/email/{email}")

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.api.passenger.PassengerDto;
 import pl.flywithbookedseats.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.PassengerService;
 
 import java.util.List;
 
@@ -14,9 +15,11 @@ import java.util.List;
 @Service
 public class PassengerApplicationService {
 
+    private final PassengerService service;
+
     @Transactional
     public Passenger createNewPassenger(Passenger passenger) {
-        return null;
+        return service.createNewPassenger(passenger);
     }
 
     @Transactional
