@@ -3,12 +3,8 @@ package pl.flywithbookedseats.domain.passenger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import pl.flywithbookedseats.api.passenger.PassengerDto;
 import pl.flywithbookedseats.domain.reservation.Reservation;
-import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
-import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,17 +15,18 @@ import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.*;
 public class PassengerService {
 
     private final PassengerRepository repository;
+    private final PassengerAccountService passengerAccountService;
 
     public Passenger createNewPassenger(Passenger passenger) {
         if (!exists(passenger)) {
-            try {
+           /* try {
                 if (passenger.getPassengerServiceId() == null) {
                     passenger.setPassengerServiceId(getPassengerServiceId(passenger.getEmail()));
                 }
             } catch (Exception exception) {
                 log.info("passengerServiceId not retrieved from the passengerEntity service");
-            }
-
+            }*/
+            passenger.setPassengerServiceId(getPassengerServiceId(passenger.getEmail()));
             /*List<ReservationEntity> reservationsToAddList = parseReservationIdToReservationEntity(passenger
                     .reservationsIdList());
             if (reservationsToAddList != null) {
@@ -111,8 +108,7 @@ public class PassengerService {
     }
 
     public Passenger getPassengerAccountDtoData(String email) {
-        //return passengerAccountProxy.getPassengerAccountDtoData(email);
-        return null;
+        return passengerAccountService.getPassengerAccountData(email);
     }
 
     public void savePassengerEntityInDb(boolean skipSaving, Passenger passenger) {

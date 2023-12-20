@@ -29,7 +29,7 @@ import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.*;
 import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.RESERVATION_NOT_FOUND_ID;
 
 @AllArgsConstructor
-@EnableFeignClients
+//@EnableFeignClients
 @Component
 public class PassengerBusinessLogic {
     private static final Logger logger = LoggerFactory.getLogger(PassengerBusinessLogic.class);
@@ -38,7 +38,7 @@ public class PassengerBusinessLogic {
     private final JpaReservationRepository jpaReservationRepository;
     private final PassengerDtoMapper1 passengerDtoMapper1;
     private final CreatePassengerMapper createPassengerMapper;
-    private final FeignPassengerService feignPassengerService;
+    //private final FeignPassengerService feignPassengerService;
     private final DtoPassengerMapper dtoPassengerMapper;
     private final BookingServiceProducer bookingServiceProducer;
 

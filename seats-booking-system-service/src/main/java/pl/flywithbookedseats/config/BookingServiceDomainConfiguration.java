@@ -4,13 +4,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.flywithbookedseats.domain.flight.FlightRepository;
 import pl.flywithbookedseats.domain.flight.FlightService;
-import pl.flywithbookedseats.domain.passenger.PassengerRepository;
-import pl.flywithbookedseats.domain.passenger.PassengerService;
+import pl.flywithbookedseats.domain.passenger.*;
 import pl.flywithbookedseats.domain.reservation.ReservationRepository;
 import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeRepository;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
+import pl.flywithbookedseats.external.service.passenger.FeignPassengerDtoMapper;
+import pl.flywithbookedseats.external.service.passenger.FeignPassengerService;
+import pl.flywithbookedseats.external.service.passenger.PassengerAccountServiceAdapter;
 import pl.flywithbookedseats.external.storage.flight.FlightStorageAdapter;
 import pl.flywithbookedseats.external.storage.flight.JpaFlightEntityMapper;
 import pl.flywithbookedseats.external.storage.flight.JpaFlightRepository;
@@ -24,8 +26,6 @@ import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeReposito
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepositoryMapper;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeStorageAdapter;
 import pl.flywithbookedseats.api.passenger.PassengerDtoMapper1;
-import pl.flywithbookedseats.domain.passenger.PassengerBusinessLogic;
-import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 
 @Configuration
 public class BookingServiceDomainConfiguration {
@@ -94,9 +94,10 @@ public class BookingServiceDomainConfiguration {
 
     @Bean
     public PassengerService passengerService(
-            PassengerRepository passengerRepository
+            PassengerRepository passengerRepository,
+            PassengerAccountService passengerAccountService
     ) {
-        return new PassengerService(passengerRepository);
+        return new PassengerService(passengerRepository, passengerAccountService);
     }
 
     @Bean
@@ -105,5 +106,13 @@ public class BookingServiceDomainConfiguration {
             JpaPassengerRepositoryMapper jpaPassengerRepositoryMapper
     ) {
         return new PassengerStorageAdapter(jpaPassengerRepository, jpaPassengerRepositoryMapper);
+    }
+
+    @Bean
+    public PassengerAccountService passengerAccountService(
+            FeignPassengerService feignPassengerService,
+            FeignPassengerDtoMapper feignPassengerDtoMapper
+    ) {
+        return new PassengerAccountServiceAdapter(feignPassengerService, feignPassengerDtoMapper);
     }
 }

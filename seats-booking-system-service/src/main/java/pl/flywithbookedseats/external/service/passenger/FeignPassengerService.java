@@ -9,7 +9,7 @@ import pl.flywithbookedseats.api.passenger.PassengerDto;
 @FeignClient(name = "passenger-account-service")
 public interface FeignPassengerService {
 
-    @GetMapping(path = "/passenger/email/{email}")
+    @GetMapping(path = "/passengers/email/{email}")
     public ResponseEntity<FeignPassengerDto> getPassengerAccountDtoData(@PathVariable String email);
 
 }
