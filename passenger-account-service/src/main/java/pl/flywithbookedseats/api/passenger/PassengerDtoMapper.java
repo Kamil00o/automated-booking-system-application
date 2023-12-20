@@ -11,4 +11,5 @@ public interface PassengerDtoMapper {
     PassengerDto toDto(Passenger domain);
 
     Passenger toDomain(PassengerDto dto);
+
 }

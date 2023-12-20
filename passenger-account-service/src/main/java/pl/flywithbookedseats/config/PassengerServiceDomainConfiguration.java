@@ -12,6 +12,7 @@ import pl.flywithbookedseats.external.message.passenger.ProducerAdapter;
 import pl.flywithbookedseats.external.service.passenger.BookingAdapter;
 import pl.flywithbookedseats.external.service.passenger.FeignBookingService;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
+import pl.flywithbookedseats.external.service.passenger.FeignPassengerDtoMapper;
 import pl.flywithbookedseats.external.storage.passenger.PassengerStorageAdapter;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntityMapper;
 import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepository;
@@ -38,8 +39,8 @@ public class PassengerServiceDomainConfiguration {
     @Bean
     public BookingService bookingService(
             FeignBookingService feignBookingService,
-            PassengerDtoMapper passengerDtoMapper) {
-        return new BookingAdapter(feignBookingService, passengerDtoMapper);
+            FeignPassengerDtoMapper feignPassengerDtoMapper) {
+        return new BookingAdapter(feignBookingService, feignPassengerDtoMapper);
     }
 
     @Bean

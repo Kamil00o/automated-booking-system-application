@@ -19,7 +19,7 @@ public class PassengerAccountServiceAdapter implements PassengerAccountService {
         } catch (Exception e) {
             log.warn("PassengerDto has not been retrieved from passenger-account-service.");
 
-            return null;
+            return new Passenger();
         }
     }
 }

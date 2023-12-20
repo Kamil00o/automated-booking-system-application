@@ -20,8 +20,7 @@ public class PassengerService {
     public Passenger createNewPassenger(Passenger passenger) {
         if (!exists(passenger)) {
             Passenger passengerAccount = getPassengerAccountDtoData(passenger.getEmail());
-            System.out.println(passengerAccount.getPassengerServiceId().toString());
-            if (passengerAccount != null) {
+            if (passengerAccount.getPassengerServiceId() != null) {
                 passenger.setPassengerServiceId(passengerAccount.getPassengerServiceId());
             }
 

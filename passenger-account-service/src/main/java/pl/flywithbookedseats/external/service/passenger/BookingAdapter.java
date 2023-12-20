@@ -11,15 +11,16 @@ import pl.flywithbookedseats.domain.passenger.BookingService;
 public class BookingAdapter implements BookingService {
 
     private final FeignBookingService feignBookingService;
-    private final PassengerDtoMapper passengerDtoMapper;
+    private final FeignPassengerDtoMapper mapper;
 
     @Override
     public Passenger getPassenger(String email) {
         try {
-            return passengerDtoMapper.toDomain(feignBookingService.getPassengerDtoData(email));
+            return mapper.toDomain(feignBookingService.getPassengerDtoData(email));
         } catch (Exception exception) {
             log.warn("ReservationIdList has not been retrieved from booking service.");
-            return null;
+
+            return new Passenger();
         }
     }
 }
