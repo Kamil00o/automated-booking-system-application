@@ -25,7 +25,10 @@ public class PassengerApplicationService {
 
     @Transactional
     public Passenger updatePassengerAccountById(long id, Passenger passenger) {
-        return service.updatePassengerById(id, passenger);
+        Passenger retrievedPassenger = service.updatePassengerById(id, passenger);
+        service.sendUpdatedPassengerEvent(retrievedPassenger);
+
+        return retrievedPassenger;
     }
 
 /*    @Transactional

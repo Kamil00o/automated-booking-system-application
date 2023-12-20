@@ -61,7 +61,7 @@ public class PassengerService {
 
     public Passenger handlePassengerDataRequest(Passenger passenger) {
         Passenger retrievedPassenger = retrievePassengerByEmail(passenger.getEmail());
-        sendRequestedPassengerEvent(retrievedPassenger);
+        sendUpdatedPassengerEvent(retrievedPassenger);
         return retrievedPassenger;
     }
 

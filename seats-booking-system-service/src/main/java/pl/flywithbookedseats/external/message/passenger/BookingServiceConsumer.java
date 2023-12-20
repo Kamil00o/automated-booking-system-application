@@ -19,7 +19,7 @@ public class BookingServiceConsumer {
 
     private final ConsumerAdapter consumerAdapter;
 
-   @KafkaHandler
+    @KafkaHandler
     public void consumeRequestedPassengerEvent(RequestedPassengerEvent requestedPassengerEvent) {
        consumerAdapter.consumeRequestedPassengerEvent(requestedPassengerEvent);
         log.info("Message received: {}", requestedPassengerEvent);
