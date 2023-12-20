@@ -19,14 +19,12 @@ public class PassengerService {
 
     public Passenger createNewPassenger(Passenger passenger) {
         if (!exists(passenger)) {
-           /* try {
-                if (passenger.getPassengerServiceId() == null) {
-                    passenger.setPassengerServiceId(getPassengerServiceId(passenger.getEmail()));
-                }
-            } catch (Exception exception) {
-                log.info("passengerServiceId not retrieved from the passengerEntity service");
-            }*/
-            passenger.setPassengerServiceId(getPassengerServiceId(passenger.getEmail()));
+            Passenger passengerAccount = getPassengerAccountDtoData(passenger.getEmail());
+            System.out.println(passengerAccount.getPassengerServiceId().toString());
+            if (passengerAccount != null) {
+                passenger.setPassengerServiceId(passengerAccount.getPassengerServiceId());
+            }
+
             /*List<ReservationEntity> reservationsToAddList = parseReservationIdToReservationEntity(passenger
                     .reservationsIdList());
             if (reservationsToAddList != null) {
@@ -101,10 +99,6 @@ public class PassengerService {
 
     public void deletePassengerByEmail(String email) {
         repository.deleteByEmail(email);
-    }
-
-    public Long getPassengerServiceId(String email) {
-        return getPassengerAccountDtoData(email).getPassengerServiceId();
     }
 
     public Passenger getPassengerAccountDtoData(String email) {
