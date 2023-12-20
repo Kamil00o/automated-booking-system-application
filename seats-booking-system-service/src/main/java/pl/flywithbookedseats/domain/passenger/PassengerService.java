@@ -3,10 +3,7 @@ package pl.flywithbookedseats.domain.passenger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import pl.flywithbookedseats.api.passenger.PassengerDto;
 import pl.flywithbookedseats.domain.reservation.Reservation;
-import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
-import pl.flywithbookedseats.external.message.passenger.EventsFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -82,6 +79,11 @@ public class PassengerService {
 
     public void sendUpdatedPassengerEvent(Passenger passenger) {
         producerService.sendUpdatedPassengerEvent(passenger);
+    }
+
+    public void handleRequestPassengerEvent(Passenger passenger) {
+        Passenger retrievedPAssenger = retrievePassengerByEmail(passenger.getEmail());
+        sendUpdatedPassengerEvent(retrievedPAssenger);
     }
 
     public Passenger retrievePassengerByEmail(String email) {
