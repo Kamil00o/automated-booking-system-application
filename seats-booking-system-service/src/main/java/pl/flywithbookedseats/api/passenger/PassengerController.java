@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.PassengerApplicationService;
 import pl.flywithbookedseats.domain.passenger.PagePassenger;
 import pl.flywithbookedseats.domain.passenger.Passenger;
-import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
 import pl.flywithbookedseats.external.message.passenger.EventsFactory;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -23,7 +20,6 @@ import java.util.List;
 @RequestMapping(path = "/seats-booking/passenger")
 public class PassengerController {
 
-    private final PassengerService1Impl passengerService;
     private final BookingServiceProducer bookingServiceProducer;
     private final PassengerApplicationService service;
     private final CreatePassengerCommandMapper createMapper;

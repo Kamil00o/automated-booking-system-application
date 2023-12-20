@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.flywithbookedseats.api.response.ErrorResponse;
 import pl.flywithbookedseats.domain.flight.*;
+import pl.flywithbookedseats.domain.passenger.PassengerAlreadyExistsException;
+import pl.flywithbookedseats.domain.passenger.PassengerDatabaseIsEmptyException;
+import pl.flywithbookedseats.domain.passenger.PassengerNotFoundException;
 import pl.flywithbookedseats.domain.reservation.ReservationAlreadyExistsException;
 import pl.flywithbookedseats.domain.reservation.ReservationDatabaseIsEmptyException;
 import pl.flywithbookedseats.domain.reservation.ReservationNotFoundException;
@@ -85,6 +88,27 @@ public class CustomExceptionHandler {
         return buildResponse(exception, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(PassengerAlreadyExistsException.class)
+    public final ResponseEntity<ErrorResponse> handlePassengerAlreadyExistsException(
+            PassengerAlreadyExistsException exception
+    ) {
+        return buildResponse(exception, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(PassengerDatabaseIsEmptyException.class)
+    public final ResponseEntity<ErrorResponse> handlePassengerDatabaseIsEmptyException(
+            PassengerDatabaseIsEmptyException exception
+    ) {
+        return buildResponse(exception, HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(PassengerNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handlePassengerNotFoundException(
+            PassengerNotFoundException exception
+    ) {
+        return buildResponse(exception, HttpStatus.NOT_FOUND);
+    }
+    
     private <E extends RuntimeException> ResponseEntity<ErrorResponse> buildResponse(E exception, HttpStatus status) {
         return ResponseEntity
                 .status(status)
