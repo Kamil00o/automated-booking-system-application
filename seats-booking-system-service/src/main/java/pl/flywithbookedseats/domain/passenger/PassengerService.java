@@ -3,11 +3,15 @@ package pl.flywithbookedseats.domain.passenger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.flywithbookedseats.api.passenger.PassengerDto;
+import pl.flywithbookedseats.domain.reservation.Reservation;
+import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
+import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.PASSENGER_ALREADY_EXISTS_EMAIL;
-import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.PASSENGER_NOT_CREATED;
+import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +44,37 @@ public class PassengerService {
     }
 
     public Passenger updatePassengerByEmail(Passenger passenger, String email) {
-        return null;
+        Passenger savedPassenger = retrievePassengerByEmail(email);
+
+        return updateSpecifiedPassenger(passenger, savedPassenger, false);
+    }
+
+    public Passenger updatePassengerById(Passenger passenger, Long id) {
+        Passenger savedPassenger = retrievePassengerById(id);
+
+        return updateSpecifiedPassenger(passenger, savedPassenger, false);
+    }
+
+    public Passenger updateSpecifiedPassenger(Passenger passengerUpdateData, Passenger passengerToUpdate,
+                                              boolean doNotSaveInDb) {
+
+        String email = passengerUpdateData.getEmail();
+        if (!exists(passengerUpdateData, passengerToUpdate)) {
+            addReservationEntityToPassengerEntity(passengerToUpdate, passengerUpdateData);
+            passengerToUpdate.setBirthDate(passengerUpdateData.getBirthDate());
+            passengerToUpdate.setName(passengerUpdateData.getName());
+            passengerToUpdate.setSurname(passengerUpdateData.getSurname());
+            passengerToUpdate.setEmail(email);
+            passengerToUpdate.setDisability(passengerUpdateData.isDisability());
+            savePassengerEntityInDb(doNotSaveInDb, passengerToUpdate);
+
+            //TODO:FeignClient later
+            //passengerBL.sendUpdatedPassengerEvent(updatedPassengerDto);
+            return passengerToUpdate;
+        } else {
+            log.warn(PASSENGER_NOT_UPDATED);
+            throw new PassengerAlreadyExistsException(PASSENGER_ALREADY_EXISTS_EMAIL.formatted(email));
+        }
     }
 
     public Passenger retrievePassengerByEmail(String email) {
@@ -80,6 +114,19 @@ public class PassengerService {
         return null;
     }
 
+    public void savePassengerEntityInDb(boolean skipSaving, Passenger passenger) {
+        if (!skipSaving) {
+            repository.save(passenger);
+        }
+    }
+
+    private void addReservationEntityToPassengerEntity(Passenger passengerToUpdate, Passenger passengerUpdateData) {
+        List<Reservation> reservationNewList = passengerUpdateData.getReservationsList();
+        if (reservationNewList != null && !reservationNewList.isEmpty()) {
+            reservationNewList.forEach(reservation -> passengerToUpdate.getReservationsList().add(reservation));
+        }
+    }
+
     public boolean exists(String email) {
         return repository.existsByEmail(email);
     }
@@ -88,16 +135,12 @@ public class PassengerService {
         return repository.existsByEmail(passenger.getEmail());
     }
 
-    /*public boolean exists(UpdatePassengerCommand passengerUpdateData, PassengerEntity existingPassengerEntity) {
-        String email = passengerUpdateData.email();
-        if (jpaPassengerRepository.existsByEmail(email)) {
-            if (Objects.equals(retrievePassengerEntityFromDb(email).getId(), existingPassengerEntity.getId())) {
-                return false;
-            } else {
-                return true;
-            }
+    public boolean exists(Passenger passengerUpdateData, Passenger passengerToUpdate) {
+        String email = passengerUpdateData.getEmail();
+        if (repository.existsByEmail(email)) {
+            return !Objects.equals(passengerToUpdate.getEmail(), passengerUpdateData.getEmail());
         } else {
             return false;
         }
-    }*/
+    }
 }

@@ -24,7 +24,12 @@ public class PassengerApplicationService {
 
     @Transactional
     public Passenger updatePassengerByEmail(Passenger passenger, String email) {
-        return null;
+        return service.updatePassengerByEmail(passenger, email);
+    }
+
+    @Transactional
+    public Passenger updatePassengerById(Passenger passenger, Long id) {
+        return service.updatePassengerById(passenger, id);
     }
 
     public Passenger retrievePassengerByEmail(String email) {

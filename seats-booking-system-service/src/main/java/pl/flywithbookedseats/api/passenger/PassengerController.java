@@ -25,6 +25,7 @@ public class PassengerController {
     private final PassengerApplicationService service;
     private final CreatePassengerCommandMapper createMapper;
     private final PassengerDtoMapper mapper;
+    private final UpdatePassengerCommandMapper updateMapper;
 
     @PostMapping
     public PassengerDto createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
@@ -34,11 +35,24 @@ public class PassengerController {
         return mapper.toDto(createdPassenger);
     }
 
-    @PutMapping(path = "/update-passenger/email/{email}")
+    @PutMapping(path = "/email/{email}")
     public PassengerDto updatePassengerByEmail(@Valid @RequestBody UpdatePassengerCommand updatePassengerCommand,
                                                @PathVariable String email) {
         log.info("Updating passenger data for email: {}: ", email);
-        return passengerService.updatePassengerByEmail(updatePassengerCommand, email);
+        Passenger updatedPassenger = service
+                .updatePassengerByEmail(updateMapper.toDomain(updatePassengerCommand), email);
+
+        return mapper.toDto(updatedPassenger);
+    }
+
+    @PutMapping(path = "/id/{id}")
+    public PassengerDto updatePassengerById(@Valid @RequestBody UpdatePassengerCommand updatePassengerCommand,
+                                               @PathVariable Long id) {
+        log.info("Updating passenger data for ID: {}: ", id);
+        Passenger updatedPassenger = service
+                .updatePassengerById(updateMapper.toDomain(updatePassengerCommand), id);
+
+        return mapper.toDto(updatedPassenger);
     }
 
     @GetMapping(path = "/email/{email}")
