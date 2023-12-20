@@ -56,6 +56,10 @@ public class PassengerApplicationService {
         return service.retrieveAllPassengers(pageable);
     }
 
+    public void publishRequestedPassengerEvent(Passenger passenger) {
+        service.sendRequestedPassengerEvent(passenger);
+    }
+
     @Transactional
     public void deleteAllPassengers() {
         service.deleteAllPassengers();

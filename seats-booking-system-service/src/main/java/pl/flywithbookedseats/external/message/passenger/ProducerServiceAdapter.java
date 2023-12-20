@@ -2,7 +2,6 @@ package pl.flywithbookedseats.external.message.passenger;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.ProducerService;
 
@@ -11,7 +10,7 @@ import pl.flywithbookedseats.domain.passenger.ProducerService;
 public class ProducerServiceAdapter implements ProducerService {
 
     private final BookingServiceProducer producer;
-    private final PassengerDtoMapper mapper;
+    private final KafkaPassengerDtoMapper mapper;
 
     @Override
     public void sendRequestedPassengerEvent(Passenger passenger) {

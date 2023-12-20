@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.flywithbookedseats.api.passenger.PassengerDto;
+import pl.flywithbookedseats.external.message.passenger.KafkaPassengerDto;
 
 @Data
 @AllArgsConstructor
@@ -13,5 +14,5 @@ public class RequestedPassengerEvent {
     private String message;
     private String messageSource;
     private String status;
-    private PassengerDto passengerDto;
+    private KafkaPassengerDto passengerDto;
 }

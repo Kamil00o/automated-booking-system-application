@@ -148,11 +148,13 @@ public class PassengerBusinessLogic {
     }
 
     public void sendRequestedPassengerEvent(PassengerDto passengerDto) {
-        bookingServiceProducer.sendRequestedPassengerEvent(EventsFactory.createRequestedPassengerEvent(passengerDto));
+        //TODO:
+        //bookingServiceProducer.sendRequestedPassengerEvent(EventsFactory.createRequestedPassengerEvent(passengerDto));
     }
 
     public void sendUpdatedPassengerEvent(PassengerDto passengerDto) {
-        bookingServiceProducer.sendUpdatedPassengerEvent(EventsFactory.createUpdatedPassengerEvent(passengerDto));
+        //TODO: COmmented due to Kafka
+        //bookingServiceProducer.sendUpdatedPassengerEvent(EventsFactory.createUpdatedPassengerEvent(passengerDto));
     }
 
     private void addReservationEntityToPassengerEntity(PassengerEntity passengerEntity, ReservationEntity reservationEntityToAdd) {
