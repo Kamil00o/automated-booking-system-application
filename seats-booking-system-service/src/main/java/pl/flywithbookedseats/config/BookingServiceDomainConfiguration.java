@@ -2,6 +2,7 @@ package pl.flywithbookedseats.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.flight.FlightRepository;
 import pl.flywithbookedseats.domain.flight.FlightService;
 import pl.flywithbookedseats.domain.passenger.*;
@@ -10,6 +11,8 @@ import pl.flywithbookedseats.domain.reservation.ReservationService;
 import pl.flywithbookedseats.domain.seatsbookingsystem.SeatsBookingService;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeRepository;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
+import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
+import pl.flywithbookedseats.external.message.passenger.ProducerServiceAdapter;
 import pl.flywithbookedseats.external.service.passenger.FeignPassengerDtoMapper;
 import pl.flywithbookedseats.external.service.passenger.FeignPassengerService;
 import pl.flywithbookedseats.external.service.passenger.PassengerAccountServiceAdapter;
@@ -95,9 +98,10 @@ public class BookingServiceDomainConfiguration {
     @Bean
     public PassengerService passengerService(
             PassengerRepository passengerRepository,
-            PassengerAccountService passengerAccountService
+            PassengerAccountService passengerAccountService,
+            ProducerService producerService
     ) {
-        return new PassengerService(passengerRepository, passengerAccountService);
+        return new PassengerService(passengerRepository, passengerAccountService, producerService);
     }
 
     @Bean
@@ -114,5 +118,13 @@ public class BookingServiceDomainConfiguration {
             FeignPassengerDtoMapper feignPassengerDtoMapper
     ) {
         return new PassengerAccountServiceAdapter(feignPassengerService, feignPassengerDtoMapper);
+    }
+
+    @Bean
+    public ProducerService producerService(
+            BookingServiceProducer bookingServiceProducer,
+            PassengerDtoMapper passengerDtoMapper
+    ) {
+        return new ProducerServiceAdapter(bookingServiceProducer, passengerDtoMapper);
     }
 }

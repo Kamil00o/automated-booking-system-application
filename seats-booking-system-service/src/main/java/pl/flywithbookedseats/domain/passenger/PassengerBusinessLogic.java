@@ -3,9 +3,7 @@ package pl.flywithbookedseats.domain.passenger;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.external.service.passenger.FeignPassengerService;
 import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
 import pl.flywithbookedseats.external.message.passenger.EventsFactory;
@@ -150,7 +148,7 @@ public class PassengerBusinessLogic {
     }
 
     public void sendRequestedPassengerEvent(PassengerDto passengerDto) {
-        bookingServiceProducer.sendMessage(EventsFactory.createRequestedPassengerEvent(passengerDto));
+        bookingServiceProducer.sendRequestedPassengerEvent(EventsFactory.createRequestedPassengerEvent(passengerDto));
     }
 
     public void sendUpdatedPassengerEvent(PassengerDto passengerDto) {

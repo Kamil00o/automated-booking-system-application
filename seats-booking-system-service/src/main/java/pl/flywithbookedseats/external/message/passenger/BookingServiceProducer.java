@@ -21,7 +21,7 @@ public class BookingServiceProducer {
     private final KafkaTemplate<String, RequestedPassengerEvent> kafkaTemplate;
     private final KafkaTemplate<String, UpdatedPassengerEvent> updatedPassengerEventKafkaTemplate;
 
-    public void sendMessage(RequestedPassengerEvent passengerDtoEvent) {
+    public void sendRequestedPassengerEvent(RequestedPassengerEvent passengerDtoEvent) {
         log.info("PassengerDto to send: {}", passengerDtoEvent);
         Message<RequestedPassengerEvent> message = MessageBuilder
                 .withPayload(passengerDtoEvent)

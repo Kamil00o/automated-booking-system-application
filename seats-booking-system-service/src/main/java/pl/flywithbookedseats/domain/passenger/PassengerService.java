@@ -3,7 +3,10 @@ package pl.flywithbookedseats.domain.passenger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import pl.flywithbookedseats.api.passenger.PassengerDto;
 import pl.flywithbookedseats.domain.reservation.Reservation;
+import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
+import pl.flywithbookedseats.external.message.passenger.EventsFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +19,7 @@ public class PassengerService {
 
     private final PassengerRepository repository;
     private final PassengerAccountService passengerAccountService;
+    private final ProducerService producerService;
 
     public Passenger createNewPassenger(Passenger passenger) {
         if (!exists(passenger)) {
@@ -70,6 +74,14 @@ public class PassengerService {
             log.warn(PASSENGER_NOT_UPDATED);
             throw new PassengerAlreadyExistsException(PASSENGER_ALREADY_EXISTS_EMAIL.formatted(email));
         }
+    }
+
+    public void sendRequestedPassengerEvent(Passenger passenger) {
+       producerService.sendRequestedPassengerEvent(passenger);
+    }
+
+    public void sendUpdatedPassengerEvent(Passenger passenger) {
+        producerService.sendUpdatedPassengerEvent(passenger);
     }
 
     public Passenger retrievePassengerByEmail(String email) {

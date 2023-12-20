@@ -115,7 +115,7 @@ public class PassengerController {
 
     @PostMapping(path = "/kafka/post-dto")
     public ResponseEntity<String> publishPassengerDtoFromDb(@RequestBody @Payload PassengerDto passengerDto) {
-        bookingServiceProducer.sendMessage(EventsFactory.createRequestedPassengerEvent(passengerDto));
+        bookingServiceProducer.sendRequestedPassengerEvent(EventsFactory.createRequestedPassengerEvent(passengerDto));
         return ResponseEntity.ok("Json message sent to kafka topic");
     }
 }
