@@ -28,81 +28,87 @@ public class PassengerController {
     private final PagePassengerDtoMapper pageMapper;
 
     @PostMapping
-    public PassengerDto createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
+    public ResponseEntity<PassengerDto> createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
         log.info("Creating new passenger for email: {}:", createPassengerCommand.email());
         Passenger createdPassenger = service.createNewPassenger(createMapper.toDomain(createPassengerCommand));
 
-        return mapper.toDto(createdPassenger);
+        return ResponseEntity.ok(mapper.toDto(createdPassenger));
     }
 
     @PutMapping(path = "/email/{email}")
-    public PassengerDto updatePassengerByEmail(@Valid @RequestBody UpdatePassengerCommand updatePassengerCommand,
+    public ResponseEntity<PassengerDto> updatePassengerByEmail(@Valid @RequestBody UpdatePassengerCommand updatePassengerCommand,
                                                @PathVariable String email) {
         log.info("Updating passenger data for email: {}: ", email);
         Passenger updatedPassenger = service
                 .updatePassengerByEmail(updateMapper.toDomain(updatePassengerCommand), email);
 
-        return mapper.toDto(updatedPassenger);
+        return ResponseEntity.ok(mapper.toDto(updatedPassenger));
     }
 
     @PutMapping(path = "/id/{id}")
-    public PassengerDto updatePassengerById(@Valid @RequestBody UpdatePassengerCommand updatePassengerCommand,
+    public ResponseEntity<PassengerDto> updatePassengerById(@Valid @RequestBody UpdatePassengerCommand updatePassengerCommand,
                                                @PathVariable Long id) {
         log.info("Updating passenger data for ID: {}: ", id);
         Passenger updatedPassenger = service
                 .updatePassengerById(updateMapper.toDomain(updatePassengerCommand), id);
 
-        return mapper.toDto(updatedPassenger);
+        return ResponseEntity.ok(mapper.toDto(updatedPassenger));
     }
 
     @GetMapping(path = "/email/{email}")
-    public PassengerDto retrievePassengerByEmail(@PathVariable String email) {
+    public ResponseEntity<PassengerDto> retrievePassengerByEmail(@PathVariable String email) {
         log.info("Retrieving passenger data for email {}:", email);
         Passenger foundPassenger = service.retrievePassengerByEmail(email);
 
-        return mapper.toDto(foundPassenger);
+        return ResponseEntity.ok(mapper.toDto(foundPassenger));
     }
 
     @GetMapping(path = "/id/{id}")
-    public PassengerDto retrievePassengerById(@PathVariable Long id) {
+    public ResponseEntity<PassengerDto> retrievePassengerById(@PathVariable Long id) {
         log.info("Retrieving passenger data for ID {}:", id);
         Passenger foundPassenger = service.retrievePassengerById(id);
 
-        return mapper.toDto(foundPassenger);
+        return ResponseEntity.ok(mapper.toDto(foundPassenger));
     }
 
     @GetMapping(path = "/passengerServiceId/{passengerServiceId}")
-    public PassengerDto retrievePassengerByPassengerServiceId(@PathVariable Long passengerServiceId) {
+    public ResponseEntity<PassengerDto> retrievePassengerByPassengerServiceId(@PathVariable Long passengerServiceId) {
         log.info("Retrieving passenger data for passenger service ID {}:", passengerServiceId);
         Passenger foundPassenger = service.retrievePassengerByPassengerServiceId(passengerServiceId);
 
-        return mapper.toDto(foundPassenger);
+        return ResponseEntity.ok(mapper.toDto(foundPassenger));
     }
 
-    @GetMapping(path = "/get-passenger/all")
-    public PagePassengerDto retrieveAllPassengers(
+    @GetMapping
+    public ResponseEntity<PagePassengerDto> retrieveAllPassengers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "7") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
         PagePassenger pagePassenger = service.retrieveAllPassengers(pageable);
 
-        return pageMapper.toDto(pagePassenger);
+        return ResponseEntity.ok(pageMapper.toDto(pagePassenger));
     }
 
     @DeleteMapping
-    public void deleteAllPassengers() {
+    public ResponseEntity<Void> deleteAllPassengers() {
         service.deleteAllPassengers();
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/id/{id}")
-    public void deletePassengerById(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePassengerById(@PathVariable Long id) {
         service.deletePassengerById(id);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/email/{email}")
-    public void deletePassengerByEmail(@PathVariable String email) {
+    public ResponseEntity<Void> deletePassengerByEmail(@PathVariable String email) {
         service.deletePassengerByEmail(email);
+
+        return ResponseEntity.ok().build();
     }
 
     ////////////////kafka methods:

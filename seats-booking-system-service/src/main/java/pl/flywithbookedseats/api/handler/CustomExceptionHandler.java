@@ -108,7 +108,7 @@ public class CustomExceptionHandler {
     ) {
         return buildResponse(exception, HttpStatus.NOT_FOUND);
     }
-    
+
     private <E extends RuntimeException> ResponseEntity<ErrorResponse> buildResponse(E exception, HttpStatus status) {
         return ResponseEntity
                 .status(status)
