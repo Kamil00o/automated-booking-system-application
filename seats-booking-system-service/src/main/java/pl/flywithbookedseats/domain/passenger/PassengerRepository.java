@@ -1,5 +1,9 @@
 package pl.flywithbookedseats.domain.passenger;
 
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
 public interface PassengerRepository {
 
     Passenger save(Passenger passenger);
@@ -17,5 +21,7 @@ public interface PassengerRepository {
     void deleteById(Long id);
 
     void deleteByEmail(String email);
+
+    PagePassenger findAll(Pageable pageable);
 
 }

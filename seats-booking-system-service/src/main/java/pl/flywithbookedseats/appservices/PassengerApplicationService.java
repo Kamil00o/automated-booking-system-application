@@ -3,8 +3,10 @@ package pl.flywithbookedseats.appservices;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.flywithbookedseats.api.passenger.PassengerDto;
+import pl.flywithbookedseats.domain.passenger.PagePassenger;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
 
@@ -44,8 +46,8 @@ public class PassengerApplicationService {
         return service.retrievePassengerByPassengerServiceId(id);
     }
 
-    public List<PassengerDto> retrieveAllPassengers() {
-        return null;
+    public PagePassenger retrieveAllPassengers(Pageable pageable) {
+        return service.retrieveAllPassengers(pageable);
     }
 
     @Transactional

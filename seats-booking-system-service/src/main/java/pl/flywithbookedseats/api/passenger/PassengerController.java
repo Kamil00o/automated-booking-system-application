@@ -3,10 +3,13 @@ package pl.flywithbookedseats.api.passenger;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.PassengerApplicationService;
+import pl.flywithbookedseats.domain.passenger.PagePassenger;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
 import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
@@ -26,6 +29,7 @@ public class PassengerController {
     private final CreatePassengerCommandMapper createMapper;
     private final PassengerDtoMapper mapper;
     private final UpdatePassengerCommandMapper updateMapper;
+    private final PagePassengerDtoMapper pageMapper;
 
     @PostMapping
     public PassengerDto createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
@@ -80,8 +84,14 @@ public class PassengerController {
     }
 
     @GetMapping(path = "/get-passenger/all")
-    public List<PassengerDto> retrieveAllPassengers() {
-        return passengerService.retrieveAllPassengers();
+    public PagePassengerDto retrieveAllPassengers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "7") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        PagePassenger pagePassenger = service.retrieveAllPassengers(pageable);
+
+        return pageMapper.toDto(pagePassenger);
     }
 
     @DeleteMapping

@@ -3,9 +3,18 @@ package pl.flywithbookedseats.external.storage.passenger;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import pl.flywithbookedseats.domain.passenger.PagePassenger;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerNotFoundException;
 import pl.flywithbookedseats.domain.passenger.PassengerRepository;
+import pl.flywithbookedseats.domain.reservation.PageReservation;
+import pl.flywithbookedseats.domain.reservation.Reservation;
+import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.PASSENGER_NOT_FOUND_EMAIL;
 import static pl.flywithbookedseats.domain.passenger.PassengerConstsImpl.PASSENGER_NOT_FOUND_ID;
@@ -66,5 +75,20 @@ public class PassengerStorageAdapter implements PassengerRepository {
     @Override
     public void deleteByEmail(String email) {
         repository.deleteByEmail(email);
+    }
+
+    @Override
+    public PagePassenger findAll(Pageable pageable) {
+        Page<PassengerEntity> pageOfPassengerEntities = repository.findAll(pageable);
+        List<Passenger> passengersOnCurrentPage = pageOfPassengerEntities
+                .getContent()
+                .stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+
+        return new PagePassenger(passengersOnCurrentPage,
+                pageable.getPageNumber() + 1,
+                pageOfPassengerEntities.getTotalPages(),
+                pageOfPassengerEntities.getTotalElements());
     }
 }

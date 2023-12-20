@@ -2,6 +2,7 @@ package pl.flywithbookedseats.domain.passenger;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.api.passenger.PassengerDto;
 import pl.flywithbookedseats.domain.reservation.Reservation;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
@@ -89,8 +90,8 @@ public class PassengerService {
         return repository.findByPassengerServiceId(id);
     }
 
-    public List<PassengerDto> retrieveAllPassengers() {
-        return null;
+    public PagePassenger retrieveAllPassengers(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public void deleteAllPassengers() {
