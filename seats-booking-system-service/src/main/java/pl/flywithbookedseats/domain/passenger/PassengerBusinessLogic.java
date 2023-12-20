@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.external.service.passenger.FeignPassengerService;
 import pl.flywithbookedseats.external.storage.reservation.ReservationEntity;
 import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
 import pl.flywithbookedseats.external.message.passenger.EventsFactory;
@@ -37,7 +38,7 @@ public class PassengerBusinessLogic {
     private final JpaReservationRepository jpaReservationRepository;
     private final PassengerDtoMapper1 passengerDtoMapper1;
     private final CreatePassengerMapper createPassengerMapper;
-    private final PassengerAccountProxy passengerAccountProxy;
+    private final FeignPassengerService feignPassengerService;
     private final DtoPassengerMapper dtoPassengerMapper;
     private final BookingServiceProducer bookingServiceProducer;
 
@@ -103,7 +104,9 @@ public class PassengerBusinessLogic {
     }
 
     public PassengerEntity getPassengerAccountDtoData(String email) {
-        return dtoPassengerMapper.apply(passengerAccountProxy.getPassengerAccountDtoData(email));
+        //TODO: After new DTO for feign implementation it has been commented:
+        //return dtoPassengerMapper.apply(feignPassengerService.getPassengerAccountDtoData(email));
+        return null;
     }
 
     public void deletePassengerById(Long id) {

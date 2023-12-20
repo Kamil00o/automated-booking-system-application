@@ -69,18 +69,20 @@ public class PassengerController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Passenger> retrievePassengerAccountById(@PathVariable Long id) {
+    public ResponseEntity<PassengerDto> retrievePassengerAccountById(@PathVariable Long id) {
         logger.info("Retrieving passenger account for ID: {}:", id);
         Passenger savedPassenger = service.retrievePassengerAccountById(id);
 
-        return ResponseEntity.ok(savedPassenger);
+        return ResponseEntity.ok(passengerDtoMapper.toDto(savedPassenger));
     }
 
-    /*@GetMapping(path = "/get/email/{email}")
-    public PassengerDtoMapper retrievePassengerAccountByEmail(@PathVariable String email) {
+    @GetMapping(path = "/email/{email}")
+    public ResponseEntity<PassengerDto> retrievePassengerAccountByEmail(@PathVariable String email) {
         logger.info("Retrieving passenger account for email: {}:", email);
-        return passengerAccountService.retrievePassengerAccountByEmail(email);
-    }*/
+        Passenger savedPassenger = service.retrievePassengerAccountByEmail(email);
+
+        return ResponseEntity.ok(passengerDtoMapper.toDto(savedPassenger));
+    }
 
     @DeleteMapping
     public ResponseEntity<Void> deleteAllPassengerAccounts() {
