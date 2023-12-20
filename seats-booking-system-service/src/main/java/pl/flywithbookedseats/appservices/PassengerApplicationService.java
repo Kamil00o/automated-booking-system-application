@@ -5,12 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.api.passenger.PassengerDto;
 import pl.flywithbookedseats.domain.passenger.PagePassenger;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -21,17 +18,26 @@ public class PassengerApplicationService {
 
     @Transactional
     public Passenger createNewPassenger(Passenger passenger) {
-        return service.createNewPassenger(passenger);
+        Passenger createdPassenger = service.createNewPassenger(passenger);
+        service.sendRequestedPassengerEvent(createdPassenger);
+
+        return createdPassenger;
     }
 
     @Transactional
     public Passenger updatePassengerByEmail(Passenger passenger, String email) {
-        return service.updatePassengerByEmail(passenger, email);
+        Passenger updatedPassenger = service.updatePassengerByEmail(passenger, email);
+        service.sendUpdatedPassengerEvent(updatedPassenger);
+
+        return updatedPassenger;
     }
 
     @Transactional
     public Passenger updatePassengerById(Passenger passenger, Long id) {
-        return service.updatePassengerById(passenger, id);
+        Passenger updatedPassenger = service.updatePassengerById(passenger, id);
+        service.sendUpdatedPassengerEvent(updatedPassenger);
+
+        return updatedPassenger;
     }
 
     public Passenger retrievePassengerByEmail(String email) {
