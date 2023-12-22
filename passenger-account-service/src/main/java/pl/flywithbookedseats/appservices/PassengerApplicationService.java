@@ -20,7 +20,10 @@ public class PassengerApplicationService {
 
     @Transactional
     public Passenger createNewPassengerAccount(Passenger passenger) {
-        return service.createNewPassenger(passenger);
+        Passenger createdPassenger = service.createNewPassenger(passenger);
+        service.sendUpdatedPassengerEvent(createdPassenger);
+
+        return createdPassenger;
     }
 
     @Transactional

@@ -7,6 +7,7 @@ import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.passenger.BookingService;
 import pl.flywithbookedseats.domain.passenger.PassengerRepository;
 import pl.flywithbookedseats.domain.passenger.ProducerService;
+import pl.flywithbookedseats.external.message.passenger.KafkaPassengerDtoMapper;
 import pl.flywithbookedseats.external.message.passenger.PassengerServiceProducer;
 import pl.flywithbookedseats.external.message.passenger.ProducerAdapter;
 import pl.flywithbookedseats.external.service.passenger.BookingAdapter;
@@ -46,8 +47,8 @@ public class PassengerServiceDomainConfiguration {
     @Bean
     public ProducerService producerService(
             PassengerServiceProducer passengerServiceProducer,
-            PassengerDtoMapper passengerDtoMapper
+            KafkaPassengerDtoMapper kafkaPassengerDtoMapper
     ) {
-        return new ProducerAdapter(passengerServiceProducer, passengerDtoMapper);
+        return new ProducerAdapter(passengerServiceProducer, kafkaPassengerDtoMapper);
     }
 }
