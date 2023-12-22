@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import pl.flywithbookedseats.kafka.RequestedPassengerEvent;
-import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
 
 @Slf4j
 @RequiredArgsConstructor

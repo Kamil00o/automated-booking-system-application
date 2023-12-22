@@ -3,11 +3,8 @@ package pl.flywithbookedseats.external.message.passenger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
-import pl.flywithbookedseats.kafka.RequestedPassengerEvent;
-import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
 
 @Slf4j
 @RequiredArgsConstructor

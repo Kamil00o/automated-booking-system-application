@@ -1,8 +1,5 @@
 package pl.flywithbookedseats.external.message.passenger;
 
-import pl.flywithbookedseats.kafka.RequestedPassengerEvent;
-import pl.flywithbookedseats.kafka.UpdatedPassengerEvent;
-
 public class EventsFactory {
 
     private static final String MESSAGE = "Update PassengerEntity Account for %s email";

@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.kafka;
+package pl.flywithbookedseats.external.message.passenger;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import pl.flywithbookedseats.api.passenger.PassengerDto;
 import pl.flywithbookedseats.external.message.passenger.KafkaPassengerDto;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class RequestedPassengerEvent {
+@AllArgsConstructor
+public class UpdatedPassengerEvent {
 
     private String message;
     private String messageSource;

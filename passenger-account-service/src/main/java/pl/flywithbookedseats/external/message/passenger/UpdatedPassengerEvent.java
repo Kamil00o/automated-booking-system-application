@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.kafka;
+package pl.flywithbookedseats.external.message.passenger;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
