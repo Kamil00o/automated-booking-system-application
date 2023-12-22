@@ -12,7 +12,7 @@ import pl.flywithbookedseats.domain.passenger.PassengerService;
 @Component
 public class ConsumerAdapter {
 
-    private final PassengerDtoMapper mapper;
+    private final KafkaPassengerDtoMapper mapper;
     private final PassengerService service;
 
     public void consumeRequestedPassengerEvent(RequestedPassengerEvent requestedPassengerEvent) {

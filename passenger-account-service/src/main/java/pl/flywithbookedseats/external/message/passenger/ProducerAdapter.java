@@ -9,7 +9,7 @@ import pl.flywithbookedseats.domain.passenger.ProducerService;
 public class ProducerAdapter implements ProducerService {
 
     private final PassengerServiceProducer producer;
-    private final PassengerDtoMapper mapper;
+    private final KafkaPassengerDtoMapper mapper;
 
 
     @Override

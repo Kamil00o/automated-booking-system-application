@@ -13,5 +13,5 @@ public class RequestedPassengerEvent {
     private String message;
     private String messageSource;
     private String status;
-    private PassengerDto passengerDto;
+    private KafkaPassengerDto passengerDto;
 }
