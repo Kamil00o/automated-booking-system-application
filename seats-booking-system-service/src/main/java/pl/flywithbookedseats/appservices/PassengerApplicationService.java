@@ -19,7 +19,7 @@ public class PassengerApplicationService {
     @Transactional
     public Passenger createNewPassenger(Passenger passenger) {
         Passenger createdPassenger = service.createNewPassenger(passenger);
-        service.sendRequestedPassengerEvent(createdPassenger);
+        service.sendAppropriatePassengerEvent(passenger);
 
         return createdPassenger;
     }

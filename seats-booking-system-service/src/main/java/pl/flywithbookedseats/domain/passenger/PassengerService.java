@@ -86,6 +86,14 @@ public class PassengerService {
         sendUpdatedPassengerEvent(retrievedPAssenger);
     }
 
+    public void sendAppropriatePassengerEvent(Passenger passenger) {
+        if (passenger.getPassengerServiceId() == null) {
+            sendRequestedPassengerEvent(passenger);
+        } else {
+            sendUpdatedPassengerEvent(passenger);
+        }
+    }
+
     public Passenger retrievePassengerByEmail(String email) {
         return repository.findByEmail(email);
     }
