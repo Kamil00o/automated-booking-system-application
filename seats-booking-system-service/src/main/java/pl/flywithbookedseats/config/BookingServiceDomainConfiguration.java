@@ -66,17 +66,13 @@ public class BookingServiceDomainConfiguration {
     @Bean
     public SeatsBookingService seatsBookingService(
             FlightService flightService,
-            PassengerBusinessLogic passengerBusinessLogic,
-            ReservationService reservationService,
-            PassengerDtoMapper1 passengerDtoMapper1,
-            JpaReservationRepositoryMapper jpaReservationRepositoryMapper
+            PassengerService passengerService,
+            ReservationService reservationService
             ) {
         return new SeatsBookingService(
                 flightService,
-                passengerBusinessLogic,
-                reservationService,
-                passengerDtoMapper1,
-                jpaReservationRepositoryMapper
+                passengerService,
+                reservationService
         );
     }
 
