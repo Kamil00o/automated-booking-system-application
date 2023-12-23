@@ -51,8 +51,8 @@ public class BookingServiceDomainConfiguration {
     public FlightService flightService(
             FlightRepository flightRepository,
             SeatsSchemeService seatsSchemeService,
-            PassengerService1Impl passengerServiceImpl) {
-        return new FlightService(flightRepository, seatsSchemeService, passengerServiceImpl);
+            PassengerService passengerService) {
+        return new FlightService(flightRepository, seatsSchemeService, passengerService);
     }
 
     @Bean

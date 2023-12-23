@@ -3,6 +3,8 @@ package pl.flywithbookedseats.domain.flight;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import pl.flywithbookedseats.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.PassengerService;
 import pl.flywithbookedseats.domain.seatsscheme.SeatsSchemeService;
 import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
 import pl.flywithbookedseats.domain.passenger.PassengerService1Impl;
@@ -22,7 +24,7 @@ public class FlightService {
 
     private final FlightRepository repository;
     private final SeatsSchemeService seatsSchemeService;
-    private final PassengerService1Impl passengerService;
+    private final PassengerService passengerService;
 
     public Flight createNewFlight(Flight flight) {
         if (!exists(flight)) {
@@ -184,11 +186,11 @@ public class FlightService {
     private String retrievePassengerNameSurname(Long passengerId) {
         StringBuilder passengerNameSurname = new StringBuilder();
         if (passengerId != null && passengerId != 0L) {
-            PassengerEntity savedPassengerEntity = retrievePassengerEntityFromDb(passengerId);
-            if (savedPassengerEntity != null) {
-                passengerNameSurname.append(savedPassengerEntity.getName())
+            Passenger savedPassenger = retrievePassengerEntityFromDb(passengerId);
+            if (savedPassenger != null) {
+                passengerNameSurname.append(savedPassenger.getName())
                         .append(" ")
-                        .append(savedPassengerEntity.getSurname());
+                        .append(savedPassenger.getSurname());
             } else {
                 passengerNameSurname.append(SEAT_PASSENGER_DATA_UNAVAILABLE);
             }
@@ -200,7 +202,7 @@ public class FlightService {
         }
     }
 
-    private PassengerEntity retrievePassengerEntityFromDb(Long passengerId) {
+    private Passenger retrievePassengerEntityFromDb(Long passengerId) {
         return passengerService.retrievePassengerById(passengerId);
     }
 
