@@ -25,12 +25,6 @@ public class PassengerService {
                 passenger.setPassengerServiceId(passengerAccount.getPassengerServiceId());
             }
 
-            /*List<ReservationEntity> reservationsToAddList = parseReservationIdToReservationEntity(passenger
-                    .reservationsIdList());
-            if (reservationsToAddList != null) {
-                reservationsToAddList.forEach(reservation -> addReservationEntityToPassengerEntity(passenger, reservation));
-            }*/
-
             return repository.save(passenger);
         } else {
             log.warn(PASSENGER_NOT_CREATED);
@@ -56,6 +50,9 @@ public class PassengerService {
 
         String email = passengerUpdateData.getEmail();
         if (!exists(passengerUpdateData, passengerToUpdate)) {
+            if (passengerToUpdate.getPassengerServiceId() != null) {
+                passengerToUpdate.setPassengerServiceId(passengerToUpdate.getPassengerServiceId());
+            }
             addReservationEntityToPassengerEntity(passengerToUpdate, passengerUpdateData);
             passengerToUpdate.setBirthDate(passengerUpdateData.getBirthDate());
             passengerToUpdate.setName(passengerUpdateData.getName());
@@ -64,8 +61,6 @@ public class PassengerService {
             passengerToUpdate.setDisability(passengerUpdateData.isDisability());
             savePassengerEntityInDb(doNotSaveInDb, passengerToUpdate);
 
-            //TODO:FeignClient later
-            //passengerBL.sendUpdatedPassengerEvent(updatedPassengerDto);
             return passengerToUpdate;
         } else {
             log.warn(PASSENGER_NOT_UPDATED);
