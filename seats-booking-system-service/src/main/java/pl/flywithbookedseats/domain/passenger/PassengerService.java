@@ -134,8 +134,13 @@ public class PassengerService {
 
     private void addReservationEntityToPassengerEntity(Passenger passengerToUpdate, Passenger passengerUpdateData) {
         List<Reservation> reservationNewList = passengerUpdateData.getReservationsList();
+
         if (reservationNewList != null && !reservationNewList.isEmpty()) {
-            reservationNewList.forEach(reservation -> passengerToUpdate.getReservationsList().add(reservation));
+            if (passengerToUpdate.getReservationsList() == null) {
+                passengerToUpdate.setReservationsList(reservationNewList);
+            } else {
+                reservationNewList.forEach(reservation -> passengerToUpdate.getReservationsList().add(reservation));
+            }
         }
     }
 
