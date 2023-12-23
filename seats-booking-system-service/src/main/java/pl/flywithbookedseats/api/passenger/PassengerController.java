@@ -20,7 +20,6 @@ import pl.flywithbookedseats.external.message.passenger.EventsFactory;
 @RequestMapping(path = "/seats-booking/passenger")
 public class PassengerController {
 
-    private final BookingServiceProducer bookingServiceProducer;
     private final PassengerApplicationService service;
     private final CreatePassengerCommandMapper createMapper;
     private final PassengerDtoMapper mapper;

@@ -14,8 +14,6 @@ import pl.flywithbookedseats.domain.passenger.PassengerService;
 @RequiredArgsConstructor
 public class PassengerApplicationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(PassengerApplicationService.class);
-
     private final PassengerService service;
 
     @Transactional
