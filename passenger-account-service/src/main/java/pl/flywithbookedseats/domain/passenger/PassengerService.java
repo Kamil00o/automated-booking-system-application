@@ -80,8 +80,7 @@ public class PassengerService {
                 passenger.setReservationsIdList(obtainedPassenger.getReservationsIdList());
             }
 
-            repository.save(passenger);
-            return passenger;
+            return repository.save(passenger);
         } else {
             throw new PassengerAlreadyExistsException(PASSENGER_ACCOUNT_WITH_SPECIFIED_EMAIL_EXISTS
                     .formatted(passenger.getEmail()));
