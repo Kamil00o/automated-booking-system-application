@@ -20,7 +20,9 @@ public interface KafkaPassengerDtoMapper {
     @Named("convertedList")
     default List<Long> convertList(Passenger domain) {
         List<Long> convertedReservationIdList = new ArrayList<>();
-        domain.getReservationsList().forEach(reservation -> convertedReservationIdList.add(reservation.getId()));
+        if (domain.getReservationsList() != null) {
+            domain.getReservationsList().forEach(reservation -> convertedReservationIdList.add(reservation.getId()));
+        }
 
         return convertedReservationIdList;
     }
