@@ -79,9 +79,9 @@ public class BookingServiceDomainConfiguration {
     @Bean
     public ReservationService reservationService(
             ReservationRepository reservationRepository,
-            PassengerBusinessLogic passengerBusinessLogic
+            PassengerService passengerService
     ) {
-        return new ReservationService(reservationRepository, passengerBusinessLogic);
+        return new ReservationService(reservationRepository, passengerService);
     }
 
     @Bean

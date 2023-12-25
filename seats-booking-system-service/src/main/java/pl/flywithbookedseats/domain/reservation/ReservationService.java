@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.domain.flight.FlightAlreadyExistsException;
-import pl.flywithbookedseats.external.storage.passenger.PassengerEntity;
-import pl.flywithbookedseats.domain.passenger.PassengerBusinessLogic;
+import pl.flywithbookedseats.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.PassengerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.RES
 public class ReservationService {
 
     private final ReservationRepository repository;
-    private final PassengerBusinessLogic passengerService;
+    private final PassengerService passengerService;
 
     public Reservation addNewReservationToDb(Reservation reservation) {
         if (!exists(reservation)) {
@@ -122,8 +122,8 @@ public class ReservationService {
     }
 
     private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {
-        PassengerEntity savedPassengerEntity = passengerService.retrievePassengerEntityFromDb(passengerEmail);
-        reservation.setPassengerEntity(savedPassengerEntity);
+        Passenger savedPassengerEntity = passengerService.retrievePassengerByEmail(passengerEmail);
+        reservation.setPassenger(savedPassengerEntity);
     }
 
     private boolean passengerExists(String email) {
