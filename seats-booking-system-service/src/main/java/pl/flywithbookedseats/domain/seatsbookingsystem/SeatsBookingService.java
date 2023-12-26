@@ -28,11 +28,9 @@ public class SeatsBookingService {
         Reservation newReservation;
         String bookedSeat;
         String flightName = bookingEnterData.getFlightName();
-        ExistingPassenger notExistingPassenger = new ExistingPassenger(false);
-
 
         if (flightService.exists(flightName)) {
-            newPassenger = createPassenger(bookingEnterData, notExistingPassenger);
+            newPassenger = createPassenger(bookingEnterData);
             bookedSeat = flightService.bookSeatInFlightSeatsScheme(flightName,
                     bookingEnterData.getSeatClassType(),
                     newPassenger.getId(),
@@ -40,12 +38,11 @@ public class SeatsBookingService {
                     bookingEnterData.getPassengerBirthDate());
             newReservation = reservationService.generateNewReservation(parseReservationData(bookingEnterData,
                     bookedSeat));
-            boolean isNotExistingPassenger = notExistingPassenger.isNotExistingPassenger();
             passengerService
                     .updateSpecifiedPassenger(
                             parseUpdatedPassengerData(bookingEnterData, newReservation),
                             newPassenger,
-                            isNotExistingPassenger
+                            true
                     );
             passengerService.sendUpdatedPassengerEvent(newPassenger);
 
@@ -95,10 +92,9 @@ public class SeatsBookingService {
                 Collections.singletonList(newReservation));
     }
 
-    private Passenger createPassenger(BookingEnterData bookingEnterData, ExistingPassenger existingPassenger) {
+    private Passenger createPassenger(BookingEnterData bookingEnterData) {
         String passengerEmail = bookingEnterData.getPassengerEmail();
         if (!passengerService.exists(passengerEmail)) {
-            existingPassenger.setNotExistingPassenger(true);
 
             return passengerService.createNewPassenger(parsePassengerData(bookingEnterData)
             );
