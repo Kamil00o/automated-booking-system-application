@@ -21,7 +21,7 @@ public class ReservationStorageAdapter implements ReservationRepository {
 
     @Override
     public Reservation save(Reservation reservation) {
-        ReservationEntity savedReservationEntity = repository.save(mapper.toEntityy(reservation));
+        ReservationEntity savedReservationEntity = repository.save(mapper.toEntity(reservation));
         return mapper.toDomain(savedReservationEntity);
     }
 

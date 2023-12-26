@@ -1,16 +1,25 @@
 package pl.flywithbookedseats.external.storage.reservation;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import pl.flywithbookedseats.domain.reservation.Reservation;
+import pl.flywithbookedseats.external.storage.passenger.JpaPassengerRepositoryMapper;
 
-@Mapper(componentModel = "spring")
+@Named("JpaReservationRepositoryMapper")
+@Mapper(
+        componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {JpaPassengerRepositoryMapper.class}
+        )
 public interface JpaReservationRepositoryMapper {
 
     @Mapping(source = "passenger", target = "passengerEntity")
-    ReservationEntity toEntityy(Reservation domain);
+    ReservationEntity toEntity(Reservation domain);
 
-    @Mapping(source = "passengerEntity", target = "passenger")
+    @Mappings({
+            @Mapping(source = "passengerEntity", target = "passenger", qualifiedByName = {
+                    "JpaPassengerRepositoryMapper", "toDomainWithoutReservation"
+            })
+    })
     Reservation toDomain(ReservationEntity entity);
 
 }
