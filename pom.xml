@@ -22,6 +22,7 @@
 		<module>spring-config-cloud</module>
 		<module>passenger-account-service</module>
         <module>seats-booking-system-service</module>
+        <module>auth-service</module>
     </modules>
 
     <properties>
