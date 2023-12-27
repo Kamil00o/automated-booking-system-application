@@ -24,6 +24,7 @@ public record CreatePassengerCommand(
         @NotNull(message = NOT_NULL_MESSAGE)
         @Size(min = 7, message = EMAIL_MIN_FIELD_SIZE_MSG)
         String email,
+        String password,
         @Past(message = PAST_MESSAGE)
         @NotNull(message = NOT_NULL_MESSAGE)
         LocalDate birthDate,
