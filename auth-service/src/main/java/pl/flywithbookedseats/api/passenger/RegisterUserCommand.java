@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.api;
+package pl.flywithbookedseats.api.passenger;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import static pl.flywithbookedseats.common.Consts.*;
 
-public record CreatePassengerCommand(
+public record RegisterUserCommand(
 
         @NotBlank(message = NOT_BLANK_MESSAGE)
         @NotNull(message = NOT_NULL_MESSAGE)

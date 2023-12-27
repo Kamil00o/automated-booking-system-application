@@ -1,4 +1,4 @@
-package pl.flywithbookedseats.domain;
+package pl.flywithbookedseats.domain.auth;
 
 public interface PassengerAccountService {
 }
