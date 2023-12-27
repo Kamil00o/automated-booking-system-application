@@ -19,7 +19,7 @@ public class User {
     private String surname;
     private String email;
     private String password;
-    private String role;
+    private UserRole role;
     private LocalDate birthDate;
     private boolean disability;
     private List<Long> reservationsIdList;

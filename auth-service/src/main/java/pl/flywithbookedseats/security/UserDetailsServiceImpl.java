@@ -1,24 +1,21 @@
 package pl.flywithbookedseats.security;
 
-import com.amigoscode.domain.user.User;
-import com.amigoscode.domain.user.UserNotFoundException;
-import com.amigoscode.domain.user.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.flywithbookedseats.domain.auth.PassengerAccountService;
+import pl.flywithbookedseats.domain.user.User;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private UserRepository userRepository;
+
+    private final PassengerAccountService service;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException());
-//                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
+    public UserDetails loadUserByUsername(String email) {
+        User user = service.getPassengerByEmail(email);
 
         return new UserDetailsImpl(user);
     }
