@@ -1,13 +1,11 @@
 package pl.flywithbookedseats.api.auth;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.flywithbookedseats.AuthServiceApplication;
 import pl.flywithbookedseats.api.passenger.RegisterUserCommand;
 import pl.flywithbookedseats.api.passenger.RegisterUserCommandMapper;
 import pl.flywithbookedseats.api.passenger.UserDto;

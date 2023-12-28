@@ -1,7 +1,5 @@
 package pl.flywithbookedseats.external.service.passenger;
 
-import pl.flywithbookedseats.domain.user.UserRole;
-
 import java.time.LocalDate;
 import java.util.List;
 

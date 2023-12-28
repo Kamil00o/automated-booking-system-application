@@ -7,6 +7,7 @@ import pl.flywithbookedseats.api.passenger.UserDtoMapper;
 import pl.flywithbookedseats.domain.auth.AuthService;
 import pl.flywithbookedseats.domain.auth.PassengerAccountService;
 import pl.flywithbookedseats.domain.user.EncodingService;
+import pl.flywithbookedseats.external.service.passenger.FeignCreatePassengerCommandMapper;
 import pl.flywithbookedseats.external.service.passenger.FeignPassengerDtoMapper;
 import pl.flywithbookedseats.external.service.passenger.FeignPassengerService;
 import pl.flywithbookedseats.external.service.passenger.PassengerAccountServiceAdapter;
@@ -29,8 +30,13 @@ public class AuthServiceDomainConfig {
     @Bean
     public PassengerAccountService passengerAccountService(
             FeignPassengerDtoMapper feignPassengerDtoMapper,
+            FeignCreatePassengerCommandMapper feignCreatePassengerCommandMapper,
             FeignPassengerService feignPassengerService
     ) {
-        return new PassengerAccountServiceAdapter(feignPassengerDtoMapper, feignPassengerService);
+        return new PassengerAccountServiceAdapter(
+                feignPassengerDtoMapper,
+                feignCreatePassengerCommandMapper,
+                feignPassengerService
+        );
     }
 }

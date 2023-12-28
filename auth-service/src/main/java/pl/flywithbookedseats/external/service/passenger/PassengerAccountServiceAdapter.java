@@ -12,12 +12,13 @@ import pl.flywithbookedseats.domain.user.UserNotFoundException;
 public class PassengerAccountServiceAdapter implements PassengerAccountService {
 
     private final FeignPassengerDtoMapper mapper;
+    private final FeignCreatePassengerCommandMapper createMapper;
     private final FeignPassengerService service;
 
     @Override
     public User registerNewPassenger(User user) {
         try {
-            FeignPassengerDto signedPassengerAccount = service.createNewPassengerAccount(mapper.toDto(user));
+            FeignPassengerDto signedPassengerAccount = service.createNewPassengerAccount(createMapper.toCommand(user));
 
             return mapper.toDomain(signedPassengerAccount);
         } catch (Exception ex) {

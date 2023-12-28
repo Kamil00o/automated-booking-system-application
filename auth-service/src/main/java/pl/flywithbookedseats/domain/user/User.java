@@ -24,6 +24,8 @@ public class User {
     private LocalDate birthDate;
     private boolean disability;
     private List<Long> reservationsIdList;
+    private String nationality;
+    private String gender;
 
     public User withPassword(String newPassword) {
         return new User(
@@ -35,7 +37,9 @@ public class User {
                 role,
                 birthDate,
                 disability,
-                reservationsIdList
+                reservationsIdList,
+                nationality,
+                gender
                 );
     }
 
@@ -51,11 +55,13 @@ public class User {
                 && Objects.equals(password, user.password)
                 && role == user.role
                 && Objects.equals(birthDate, user.birthDate)
-                && Objects.equals(reservationsIdList, user.reservationsIdList);
+                && Objects.equals(reservationsIdList, user.reservationsIdList)
+                && Objects.equals(nationality, user.nationality)
+                && Objects.equals(gender, user.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(passengerServiceId, name, surname, email, password, role, birthDate, disability, reservationsIdList);
+        return Objects.hash(passengerServiceId, name, surname, email, password, role, birthDate, disability, reservationsIdList, nationality, gender);
     }
 }

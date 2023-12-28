@@ -12,7 +12,7 @@ import pl.flywithbookedseats.api.passenger.RegisterUserCommand;
 public interface FeignPassengerService {
 
     @PostMapping(path = "/passengers")
-    FeignPassengerDto createNewPassengerAccount(@Valid @RequestBody FeignPassengerDto feignPassengerDto);
+    FeignPassengerDto createNewPassengerAccount(@Valid @RequestBody FeignCreatePassengerCommand feignCreatePassengerCommand);
 
     @GetMapping(path = "/passengers/email/{email}")
     FeignPassengerDto retrievePassengerAccountByEmail(@PathVariable String email);
