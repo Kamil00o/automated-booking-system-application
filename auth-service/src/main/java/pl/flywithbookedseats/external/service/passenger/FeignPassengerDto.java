@@ -12,7 +12,7 @@ public record FeignPassengerDto(
         String surname,
         String email,
         String password,
-        UserRole role,
+        String role,
         LocalDate birthDate,
         boolean disability,
         List<Long> reservationsIdList

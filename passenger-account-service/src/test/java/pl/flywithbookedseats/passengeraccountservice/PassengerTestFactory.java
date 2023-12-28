@@ -2,6 +2,7 @@ package pl.flywithbookedseats.passengeraccountservice;
 
 import pl.flywithbookedseats.api.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.domain.passenger.Passenger;
+import pl.flywithbookedseats.domain.passenger.UserRole;
 
 import java.time.LocalDate;
 
@@ -23,6 +24,8 @@ public class PassengerTestFactory {
                 "testPassengerName",
                 "testPassengerSurname",
                 "testPassenger%s@gmail.com".formatted(passengerSequence++),
+                "testPassword",
+                UserRole.USER,
                 LocalDate.now().minusDays(1),
                 false,
                 null,
@@ -34,6 +37,8 @@ public class PassengerTestFactory {
         return new CreatePassengerCommand("testPassengerName",
                 "testPassengerSurname",
                 "testPassenger%s@gmail.com".formatted(passengerSequence++),
+                "testPassword",
+                "USER",
                 LocalDate.now().minusDays(1),
                 false,
                 null,

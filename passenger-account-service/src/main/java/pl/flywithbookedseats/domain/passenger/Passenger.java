@@ -19,6 +19,8 @@ public class Passenger {
     String name;
     String surname;
     String email;
+    String password;
+    UserRole role;
     LocalDate birthDate;
     boolean disability;
     List<Long> reservationsIdList;
@@ -26,49 +28,25 @@ public class Passenger {
     String gender;
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Passenger passenger)) return false;
+        return disability == passenger.disability
+                && Objects.equals(id, passenger.id)
+                && Objects.equals(name, passenger.name)
+                && Objects.equals(surname, passenger.surname)
+                && Objects.equals(email, passenger.email)
+                && Objects.equals(password, passenger.password)
+                && Objects.equals(role, passenger.role)
+                && Objects.equals(birthDate, passenger.birthDate)
+                && Objects.equals(reservationsIdList, passenger.reservationsIdList)
+                && Objects.equals(nationality, passenger.nationality)
+                && Objects.equals(gender, passenger.gender);
+    }
 
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        final Passenger passenger = (Passenger) o;
-
-        if (Objects.equals(id, passenger.id)) {
-            return false;
-        }
-
-        if (Objects.equals(name, passenger.name)) {
-            return false;
-        }
-
-        if (Objects.equals(surname, passenger.surname)) {
-            return false;
-        }
-
-        if (Objects.equals(email, passenger.email)) {
-            return false;
-        }
-
-        if (Objects.equals(disability, passenger.disability)) {
-            return false;
-        }
-
-        if (Objects.equals(reservationsIdList, passenger.reservationsIdList)) {
-            return false;
-        }
-
-        if (Objects.equals(nationality, passenger.nationality)) {
-            return false;
-        }
-
-        if (Objects.equals(gender, passenger.gender)) {
-            return false;
-        }
-
-        return true;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, email, password, role, birthDate,
+                disability, reservationsIdList, nationality, gender);
     }
 }

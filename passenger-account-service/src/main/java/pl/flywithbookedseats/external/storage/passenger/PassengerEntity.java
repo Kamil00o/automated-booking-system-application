@@ -57,6 +57,8 @@ public class PassengerEntity {
             unique = true
     )
     private String email;
+    private String password;
+    private String role;
     @Past(message = PAST_MESSAGE)
     @NotNull(message = NOT_NULL_MESSAGE)
     @Column(name = "birth_date")
