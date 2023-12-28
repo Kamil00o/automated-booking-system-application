@@ -52,7 +52,7 @@ public class SecurityConfig {
         corsConfiguration.addAllowedMethod(HttpMethod.PUT);
         corsConfiguration.addAllowedMethod(HttpMethod.DELETE);
         corsConfiguration.addAllowedMethod(HttpMethod.PATCH);
-        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+        corsConfiguration.addAllowedOrigin("http://localhost:8888");
 
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
