@@ -5,6 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import pl.flywithbookedseats.api.passenger.UserDtoMapper;
 import pl.flywithbookedseats.domain.auth.AuthService;
+import pl.flywithbookedseats.domain.auth.PassengerAccountService;
+import pl.flywithbookedseats.domain.user.EncodingService;
+import pl.flywithbookedseats.external.service.passenger.FeignPassengerDtoMapper;
+import pl.flywithbookedseats.external.service.passenger.FeignPassengerService;
+import pl.flywithbookedseats.external.service.passenger.PassengerAccountServiceAdapter;
 import pl.flywithbookedseats.security.JWTUtil;
 
 @Configuration
@@ -14,8 +19,18 @@ public class AuthServiceDomainConfig {
     public AuthService authService(
             AuthenticationManager authenticationManager,
             UserDtoMapper userDtoMapper,
-            JWTUtil jwtUtil
+            JWTUtil jwtUtil,
+            PassengerAccountService passengerAccountService,
+            EncodingService encodingService
     ) {
-        return new AuthService(authenticationManager, userDtoMapper, jwtUtil);
+        return new AuthService(authenticationManager, userDtoMapper, jwtUtil, passengerAccountService, encodingService);
+    }
+
+    @Bean
+    public PassengerAccountService passengerAccountService(
+            FeignPassengerDtoMapper feignPassengerDtoMapper,
+            FeignPassengerService feignPassengerService
+    ) {
+        return new PassengerAccountServiceAdapter(feignPassengerDtoMapper, feignPassengerService);
     }
 }

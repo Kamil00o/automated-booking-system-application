@@ -1,12 +1,19 @@
 package pl.flywithbookedseats.api.auth;
 
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.AuthServiceApplication;
+import pl.flywithbookedseats.api.passenger.RegisterUserCommand;
+import pl.flywithbookedseats.api.passenger.RegisterUserCommandMapper;
+import pl.flywithbookedseats.api.passenger.UserDto;
+import pl.flywithbookedseats.api.passenger.UserDtoMapper;
 import pl.flywithbookedseats.appservices.AuthServiceApplicationService;
+import pl.flywithbookedseats.domain.user.User;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -15,6 +22,8 @@ import pl.flywithbookedseats.appservices.AuthServiceApplicationService;
 public class AuthServiceController {
 
     private final AuthServiceApplicationService service;
+    private final RegisterUserCommandMapper registerMapper;
+    private final UserDtoMapper mapper;
 
     @GetMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
@@ -23,5 +32,12 @@ public class AuthServiceController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, response.token())
                 .body(response);
+    }
+
+    @PostMapping(path = "/register")
+    public ResponseEntity<UserDto> register(@Valid @RequestBody RegisterUserCommand registerUserCommand) {
+        User signedUser = service.register(registerMapper.toDomain(registerUserCommand));
+
+        return ResponseEntity.ok(mapper.toDto(signedUser));
     }
 }

@@ -9,6 +9,8 @@ import pl.flywithbookedseats.api.auth.AuthenticationRequest;
 import pl.flywithbookedseats.api.auth.AuthenticationResponse;
 import pl.flywithbookedseats.api.passenger.UserDto;
 import pl.flywithbookedseats.api.passenger.UserDtoMapper;
+import pl.flywithbookedseats.domain.user.EncodingService;
+import pl.flywithbookedseats.domain.user.User;
 import pl.flywithbookedseats.security.JWTUtil;
 import pl.flywithbookedseats.security.UserDetailsImpl;
 
@@ -19,6 +21,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDtoMapper userDtoMapper;
     private final JWTUtil jwtUtil;
+    private final PassengerAccountService passengerAccountService;
+    private final EncodingService encodingService;
 
     public AuthenticationResponse login(AuthenticationRequest request) {
         Authentication authentication = authenticationManager.authenticate(
@@ -34,5 +38,9 @@ public class AuthService {
         return new AuthenticationResponse(token, userDto);
     }
 
+    public User register(User user) {
+        User userWithEncodedPassword = user.withPassword(encodingService.encode(user.getPassword()));
 
+        return passengerAccountService.registerNewPassenger(userWithEncodedPassword);
+    }
 }

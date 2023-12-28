@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @ToString
@@ -23,4 +24,38 @@ public class User {
     private LocalDate birthDate;
     private boolean disability;
     private List<Long> reservationsIdList;
+
+    public User withPassword(String newPassword) {
+        return new User(
+                passengerServiceId,
+                name,
+                surname,
+                email,
+                newPassword,
+                role,
+                birthDate,
+                disability,
+                reservationsIdList
+                );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return disability == user.disability
+                && Objects.equals(passengerServiceId, user.passengerServiceId)
+                && Objects.equals(name, user.name)
+                && Objects.equals(surname, user.surname)
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password)
+                && role == user.role
+                && Objects.equals(birthDate, user.birthDate)
+                && Objects.equals(reservationsIdList, user.reservationsIdList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(passengerServiceId, name, surname, email, password, role, birthDate, disability, reservationsIdList);
+    }
 }
