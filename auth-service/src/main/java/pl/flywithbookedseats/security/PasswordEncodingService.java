@@ -1,9 +1,9 @@
 package pl.flywithbookedseats.security;
 
-import com.amigoscode.domain.user.EncodingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.domain.user.EncodingService;
 
 @Component
 @RequiredArgsConstructor

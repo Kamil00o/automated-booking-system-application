@@ -1,5 +1,7 @@
 package pl.flywithbookedseats.external.service.passenger;
 
+import pl.flywithbookedseats.domain.user.UserRole;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,7 +12,7 @@ public record FeignPassengerDto(
         String surname,
         String email,
         String password,
-        String role,
+        UserRole role,
         LocalDate birthDate,
         boolean disability,
         List<Long> reservationsIdList

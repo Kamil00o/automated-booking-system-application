@@ -1,21 +1,21 @@
 package pl.flywithbookedseats.security;
 
-import com.amigoscode.domain.user.User;
-import com.amigoscode.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import pl.flywithbookedseats.domain.auth.PassengerAccountService;
+import pl.flywithbookedseats.domain.user.User;
 
 
 @Component
 @RequiredArgsConstructor
 public class Security {
 
-    private final UserService userService;
+    private final PassengerAccountService service;
 
     public User getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userService.findByEmail(((UserDetailsImpl) authentication.getPrincipal()).getUsername());
+        return service.getPassengerByEmail(((UserDetailsImpl) authentication.getPrincipal()).getUsername());
     }
 }
