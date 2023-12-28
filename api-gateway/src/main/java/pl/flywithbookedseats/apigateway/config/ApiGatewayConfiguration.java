@@ -21,6 +21,9 @@ public class ApiGatewayConfiguration {
                 .route(predicateSpec -> predicateSpec
                         .path("/seats-scheme/**")
                         .uri("lb://seats-booking-system-service"))
+                .route(predicateSpec -> predicateSpec
+                        .path("/auth/**")
+                        .uri("lb://auth-service"))
                 .build();
     }
 

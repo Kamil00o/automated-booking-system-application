@@ -25,7 +25,7 @@ public class AuthServiceController {
     private final RegisterUserCommandMapper registerMapper;
     private final UserDtoMapper mapper;
 
-    @GetMapping(path = "/login")
+    @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
         AuthenticationResponse response = service.login(request);
 
