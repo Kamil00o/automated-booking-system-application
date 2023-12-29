@@ -3,7 +3,6 @@ package pl.flywithbookedseats.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.passenger.BookingService;
 import pl.flywithbookedseats.domain.passenger.PassengerRepository;
 import pl.flywithbookedseats.domain.passenger.ProducerService;
