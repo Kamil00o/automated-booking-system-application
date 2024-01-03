@@ -1,23 +1,45 @@
 version: '3'
 services:
-  postgres:
+  postgres-booking-service:
     image: postgres:15-alpine
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=booking_system_db
+      - POSTGRES_DB=booking_service_db
       - POSTGRES_USER=laganowskikamil
       - POSTGRES_PASSWORD=pracamagisterska
       - PGDATA=var/lib/postgresql/data
     command: ["postgres", "-c", "log_statement=all"]
     volumes:
-      - ./volumes/postgresql:/var/lib/postgresql/data
-  postgres-it:
+      - ./volumes/postgresql-1:/var/lib/postgresql/data
+  postgres-passenger-service:
+    image: postgres:15-alpine
+    ports:
+      - "5532:5432"
+    environment:
+      - POSTGRES_DB=passenger_service_db
+      - POSTGRES_USER=laganowskikamil
+      - POSTGRES_PASSWORD=pracamagisterska
+      - PGDATA=var/lib/postgresql/data
+    command: [ "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - ./volumes/postgresql-2:/var/lib/postgresql/data
+  postgres-passenger-service-it:
     image: postgres:15-alpine
     ports:
       - "5332:5432"
     environment:
-      - POSTGRES_DB=booking_system_db
+      - POSTGRES_DB=passenger_service_test_db
+      - POSTGRES_USER=laganowskikamil
+      - POSTGRES_PASSWORD=pracamagisterska
+      - PGDATA=var/lib/postgresql/data
+    command: [ "postgres", "-c", "log_statement=all" ]
+  postgres-booking-service-it:
+    image: postgres:15-alpine
+    ports:
+      - "5232:5432"
+    environment:
+      - POSTGRES_DB=booking_service_test_db
       - POSTGRES_USER=laganowskikamil
       - POSTGRES_PASSWORD=pracamagisterska
       - PGDATA=var/lib/postgresql/data

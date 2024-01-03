@@ -18,7 +18,7 @@ spring:
         import: optional:configserver:http://localhost:8595
     datasource:
         password: pracamagisterska
-        url: jdbc:postgresql://localhost:5432/booking_system_db
+        url: jdbc:postgresql://localhost:5432/booking_service_db
         username: laganowskikamil
     h2:
         console:

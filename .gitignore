@@ -32,5 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-###docker
+###docker###
 passengerEntity-account-service/volumes/
+volumes/
