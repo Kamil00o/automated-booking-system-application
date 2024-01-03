@@ -35,7 +35,7 @@ public class SecurityFilterChainConfig {
                         //.requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/passengers/email/**").permitAll()
                         .requestMatchers("/passengers/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        //.anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //.authenticationProvider(authenticationProvider)
