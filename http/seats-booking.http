@@ -1,0 +1,64 @@
+### login admin
+POST http://localhost:8080/api/v1/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "john@gmail.com",
+  "password": "password"
+}
+
+> {%
+    client.global.set("auth_token", "Bearer " + response.body.token);
+%}
+
+### login user
+POST http://localhost:8080/api/v1/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "mary@gmail.com",
+  "password": "password"
+}
+
+> {%
+    client.global.set("auth_token", "Bearer " + response.body.token);
+%}
+
+### create reservation
+POST http://localhost:8555/seats-booking/passenger
+Accept: application/json
+Content-Type: application/json
+
+{
+  "flightNumber": "FR1233",
+  "seatNumber": "23B",
+  "seatTypeClass": "Economy Plus Premium",
+  "passangerEmail": "fake@email.pl"
+}
+
+### create passanger
+POST http://localhost:8555/seats-booking/passenger
+Accept: application/json
+Content-Type: application/json
+
+{
+  "passengerServiceId": null,
+  "email": "708@gmail.com",
+  "name": "Kamil",
+  "surname": "Stefanowski",
+  "birthDate": "2023-05-11",
+  "disability": false,
+  "reservationsIdList": [2]
+}
+
+### get all reservations
+GET http://localhost:8555/seats-booking/reservation
+Accept: application/json
+Content-Type: application/json
+
+### get all passangers
+GET http://localhost:8555/seats-booking/passenger
+Accept: application/json
+Content-Type: application/json
