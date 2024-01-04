@@ -30,7 +30,7 @@ public class PassengerApplicationService {
     }
 
     @Transactional
-    public Passenger createNewPassengerAndAssignHimReservations(Passenger passenger, List<Long> reservationIdList) {
+    public Long createNewPassengerAndAssignHimReservations(Passenger passenger, List<Long> reservationIdList) {
 
         passenger.setReservationsList(null); //TODO
 
@@ -41,10 +41,8 @@ public class PassengerApplicationService {
             reservation.setPassenger(createdPassenger);
             reservationService.updateReservationById(reservation, reservation.getId());
         }
-        passengerService.sendAppropriatePassengerEvent(passenger);
-        Passenger updatedPassenger = passengerService.retrievePassengerById(createdPassenger.getId());
-
-        return updatedPassenger;
+        passengerService.sendAppropriatePassengerEvent(createdPassenger);
+        return createdPassenger.getId();
     }
 
     @Transactional

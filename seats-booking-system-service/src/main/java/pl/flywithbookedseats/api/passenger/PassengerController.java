@@ -29,13 +29,16 @@ public class PassengerController {
     private final PagePassengerDtoMapper pageMapper;
 
     @PostMapping
-    public ResponseEntity<PassengerDto> createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
+    public ResponseEntity<Long> createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
         log.info("Creating new passenger for email: {}:", createPassengerCommand.email());
 //        Passenger createdPassenger = service.createNewPassenger(createMapper.toDomain(createPassengerCommand));
         List<Long> reservationsIdList =createPassengerCommand.reservationsIdList();
-        Passenger createdPassenger = service.createNewPassengerAndAssignHimReservations(createMapper.toDomain(createPassengerCommand), reservationsIdList);
+        Long createdPassengerId = service.createNewPassengerAndAssignHimReservations(
+                createMapper.toDomain(createPassengerCommand),
+                reservationsIdList
+        );
 
-        return ResponseEntity.ok(mapper.toDto(createdPassenger));
+        return ResponseEntity.ok(createdPassengerId);
     }
 
     @PutMapping(path = "/email/{email}")
