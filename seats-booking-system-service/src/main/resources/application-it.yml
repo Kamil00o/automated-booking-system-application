@@ -25,3 +25,31 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: localhost:9092
+      group-id: bookingServiceGroup
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        key-deserializer: org.apache.kafka.common.serialization.ErrorHandlingDeserializer
+        spring:
+          deserializer:
+            value:
+              delegate:
+                class: org.springframework.kafka.support.serializer.JsonDeserializer
+          json:
+            trusted:
+              packages: '*'
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    topic-bookingServiceEventsTopic:
+      name: bookingServiceEventsTopic
+    topic-passengerServiceEventsTopic:
+      name: passengerServiceEventsTopic
