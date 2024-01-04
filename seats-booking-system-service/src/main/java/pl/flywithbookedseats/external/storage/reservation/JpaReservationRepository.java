@@ -15,6 +15,8 @@ public interface JpaReservationRepository extends JpaRepository<ReservationEntit
 
     Optional<ReservationEntity> findBySeatNumber(String seatNumber);
 
+    List<ReservationEntity> findAllByFlightNumber(String flightNumber);
+
     void deleteById(Long id);
 
 }

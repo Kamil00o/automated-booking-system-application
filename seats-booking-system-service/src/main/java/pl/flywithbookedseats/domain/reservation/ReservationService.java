@@ -9,6 +9,7 @@ import pl.flywithbookedseats.domain.passenger.PassengerService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.*;
 import static pl.flywithbookedseats.domain.reservation.ReservationConstsImpl.RESERVATION_ADDED_NO_PASSENGER;
@@ -97,7 +98,13 @@ public class ReservationService {
             return !repository
                     .findBySeatNumber(seatNumber)
                     .getPassengerEmail()
-                    .equals(reservationToUpdate.getPassengerEmail());
+                    .equals(reservationToUpdate
+                            .getPassengerEmail()) &&
+                    repository
+                            .findBySeatNumber(seatNumber)
+                            .getFlightNumber()
+                            .equals(reservationToUpdate
+                                    .getFlightNumber());
         }
 
         return false;
@@ -118,7 +125,23 @@ public class ReservationService {
     }
 
     private boolean exists(Reservation reservation) {
-        return repository.existsBySeatNumber(reservation.getSeatNumber());
+        String seatNumber = reservation.getSeatNumber();
+        if (repository.existsBySeatNumber(seatNumber)) {
+            List<Reservation> retrievedReservationsList = repository.findByFlightNumber(reservation.getFlightNumber());
+            if (!retrievedReservationsList.isEmpty()) {
+                return !retrievedReservationsList
+                        .stream()
+                        .filter(reservationElement -> reservationElement
+                                .getSeatNumber()
+                                .equals(seatNumber))
+                        .collect(Collectors.toList()).isEmpty();
+            } else {
+                return !retrievedReservationsList.isEmpty();
+            }
+
+        }
+
+        return false;
     }
 
     private void setPassengerDataToReservation(String passengerEmail, Reservation reservation) {

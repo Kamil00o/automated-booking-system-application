@@ -16,6 +16,8 @@ public interface ReservationRepository {
 
     Reservation findBySeatNumber(String seatNumber);
 
+    List<Reservation> findByFlightNumber(String flightNumber);
+
     void deleteById(Long id);
 
     void deleteAll();

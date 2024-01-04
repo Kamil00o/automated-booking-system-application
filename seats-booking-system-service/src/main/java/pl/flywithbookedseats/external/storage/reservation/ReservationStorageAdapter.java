@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import pl.flywithbookedseats.domain.reservation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,7 @@ public class ReservationStorageAdapter implements ReservationRepository {
             return convertIntoListReservationDto(savedReservationEntityList);
         } else {
             log.warn(RESERVATIONS_NOT_RETRIEVED);
+
             throw new ReservationNotFoundException(RESERVATION_NOT_FOUND_EMAIL.formatted(passengerEmail));
         }
     }
@@ -55,6 +57,19 @@ public class ReservationStorageAdapter implements ReservationRepository {
                         new ReservationNotFoundException(RESERVATION_NOT_FOUND_SEAT_NUMBER.formatted(seatNumber)));
 
         return mapper.toDomain(foundReservationEntity);
+    }
+
+    @Override
+    public List<Reservation> findByFlightNumber(String flightNumber) {
+        List<ReservationEntity> savedReservationEntityList = repository.findAllByFlightNumber(flightNumber);
+        if (!savedReservationEntityList.isEmpty()) {
+            return convertIntoListReservationDto(savedReservationEntityList);
+        } else {
+            log.warn(RESERVATIONS_NOT_RETRIEVED);
+            log.warn(RESERVATION_NOT_FOUND_FLIGHT_NUMBER.formatted(flightNumber));
+
+            return Collections.emptyList();
+        }
     }
 
     @Override
