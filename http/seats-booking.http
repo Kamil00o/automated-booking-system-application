@@ -45,7 +45,7 @@ Content-Type: application/json
 
 {
   "passengerServiceId": null,
-  "email": "708@gmail.com",
+  "email": "712@gmail.com",
   "name": "Kamil",
   "surname": "Stefanowski",
   "birthDate": "2023-05-11",
@@ -59,6 +59,6 @@ Accept: application/json
 Content-Type: application/json
 
 ### get all passangers
-GET http://localhost:8555/seats-booking/passenger
+GET http://localhost:8555/seats-booking/passenger?page=0&size=20
 Accept: application/json
 Content-Type: application/json

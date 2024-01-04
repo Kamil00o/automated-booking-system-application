@@ -14,6 +14,8 @@ import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.external.message.passenger.BookingServiceProducer;
 import pl.flywithbookedseats.external.message.passenger.EventsFactory;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +31,9 @@ public class PassengerController {
     @PostMapping
     public ResponseEntity<PassengerDto> createNewPassenger(@Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
         log.info("Creating new passenger for email: {}:", createPassengerCommand.email());
-        Passenger createdPassenger = service.createNewPassenger(createMapper.toDomain(createPassengerCommand));
+//        Passenger createdPassenger = service.createNewPassenger(createMapper.toDomain(createPassengerCommand));
+        List<Long> reservationsIdList =createPassengerCommand.reservationsIdList();
+        Passenger createdPassenger = service.createNewPassengerAndAssignHimReservations(createMapper.toDomain(createPassengerCommand), reservationsIdList);
 
         return ResponseEntity.ok(mapper.toDto(createdPassenger));
     }
