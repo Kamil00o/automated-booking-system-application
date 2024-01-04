@@ -2,7 +2,6 @@ package pl.flywithbookedseats.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.flywithbookedseats.api.passenger.PassengerDtoMapper;
 import pl.flywithbookedseats.domain.flight.FlightRepository;
 import pl.flywithbookedseats.domain.flight.FlightService;
 import pl.flywithbookedseats.domain.passenger.*;
@@ -29,7 +28,6 @@ import pl.flywithbookedseats.external.storage.reservation.ReservationStorageAdap
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepository;
 import pl.flywithbookedseats.external.storage.seatsscheme.JpaSeatsSchemeRepositoryMapper;
 import pl.flywithbookedseats.external.storage.seatsscheme.SeatsSchemeStorageAdapter;
-import pl.flywithbookedseats.api.passenger.PassengerDtoMapper1;
 
 @Configuration
 public class BookingServiceDomainConfiguration {
