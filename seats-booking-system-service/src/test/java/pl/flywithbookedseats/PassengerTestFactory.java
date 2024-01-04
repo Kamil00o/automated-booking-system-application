@@ -2,7 +2,6 @@ package pl.flywithbookedseats;
 
 import pl.flywithbookedseats.api.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.domain.passenger.Passenger;
-import pl.flywithbookedseats.domain.passenger.UserRole;
 
 import java.time.LocalDate;
 
@@ -12,37 +11,35 @@ public class PassengerTestFactory {
     private static Long idSequence = 0L;
 
     public static Passenger createPassenger() {
-        return generatePassengerAccount();
+        return generatePassenger();
     }
 
     public static CreatePassengerCommand createCreateCommand() {
         return generateCreatePassengerAccountCommand();
     }
 
-    private static Passenger generatePassengerAccount() {
-        return new Passenger(idSequence++,
+    private static Passenger generatePassenger() {
+        return new Passenger(
+                idSequence++,
+                idSequence++ + 10,
                 "testPassengerName",
                 "testPassengerSurname",
                 "testPassenger%s@gmail.com".formatted(passengerSequence++),
-                "testPassword",
-                UserRole.USER,
                 LocalDate.now().minusDays(1),
                 false,
-                null,
-                "european",
-                "male");
+                null
+        );
     }
 
     private static CreatePassengerCommand generateCreatePassengerAccountCommand() {
-        return new CreatePassengerCommand("testPassengerName",
-                "testPassengerSurname",
+        return new CreatePassengerCommand(
+                idSequence++ + 10,
                 "testPassenger%s@gmail.com".formatted(passengerSequence++),
-                "testPassword",
-                "USER",
+                "testPassengerName",
+                "testPassengerSurname",
                 LocalDate.now().minusDays(1),
                 false,
-                null,
-                "european",
-                "male");
+                null
+        );
     }
 }

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import pl.flywithbookedseats.BaseIT;
+import pl.flywithbookedseats.PassengerTestFactory;
 import pl.flywithbookedseats.api.passenger.CreatePassengerCommand;
+import pl.flywithbookedseats.api.passenger.PagePassengerDto;
 import pl.flywithbookedseats.api.passenger.PassengerDto;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 import pl.flywithbookedseats.domain.passenger.PassengerService;
@@ -25,7 +27,7 @@ class PassengerControllerIT extends BaseIT {
         CreatePassengerCommand createCommand = PassengerTestFactory.createCreateCommand();
 
         var response = callHttpMethod(HttpMethod.POST,
-                "/passengers",
+                "/seats-booking/passenger",
                 null,
                 createCommand,
                 PassengerDto.class);
@@ -62,14 +64,14 @@ class PassengerControllerIT extends BaseIT {
         service.createNewPassenger(testPassenger);
 
         var response = callHttpMethod(HttpMethod.GET,
-                "/passengers",
+                "/seats-booking/passenger",
                 null,
                 null,
-                PagePassengerAccountDto.class);
+                PagePassengerDto.class);
 
         assertEquals(response.getStatusCode(), HttpStatus.OK);
 
-        PagePassengerAccountDto body = response.getBody();
+        PagePassengerDto body = response.getBody();
         assertNotNull(body);
         Assertions.assertEquals(1, body.passengers().size());
         Assertions.assertEquals(1, body.totalElements());

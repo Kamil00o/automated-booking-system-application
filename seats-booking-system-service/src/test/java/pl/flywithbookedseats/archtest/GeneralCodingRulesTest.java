@@ -6,8 +6,10 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.GeneralCodingRules;
 
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+
 @AnalyzeClasses(
-        packages = "pl.flywithbookedseats.passengeraccountservice",
+        packages = "pl.flywithbookedseats",
         importOptions = {ImportOption.DoNotIncludeTests.class}
 )
 public class GeneralCodingRulesTest {
@@ -20,8 +22,8 @@ public class GeneralCodingRulesTest {
     static final ArchRule beans_should_not_be_injected_by_field =
             GeneralCodingRules.NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
 
-    /*@ArchTest
+    @ArchTest
     static final ArchRule deprecated_classes_should_not_be_used = noClasses().that()
             .areAnnotatedWith(Deprecated.class).should()
-            .resideInAnyPackage("pl.flywithbookedseats.passengeraccountservice");*/
+            .resideInAnyPackage("pl.flywithbookedseats");
 }
