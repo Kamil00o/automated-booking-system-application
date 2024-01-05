@@ -4,6 +4,7 @@ import pl.flywithbookedseats.api.passenger.CreatePassengerCommand;
 import pl.flywithbookedseats.domain.passenger.Passenger;
 
 import java.time.LocalDate;
+import java.util.Collections;
 
 public class PassengerTestFactory {
 
@@ -27,7 +28,7 @@ public class PassengerTestFactory {
                 "testPassenger%s@gmail.com".formatted(passengerSequence++),
                 LocalDate.now().minusDays(1),
                 false,
-                null
+                Collections.emptyList()
         );
     }
 

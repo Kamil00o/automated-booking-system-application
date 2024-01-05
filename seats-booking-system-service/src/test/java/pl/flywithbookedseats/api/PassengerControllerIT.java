@@ -23,7 +23,7 @@ class PassengerControllerIT extends BaseIT {
     PassengerService service;
 
     @Test
-    void testCreateNewPassengerAccountOkStatus() {
+    void testCreateNewPassengerOkStatus() {
         CreatePassengerCommand createCommand = PassengerTestFactory.createCreateCommand();
 
         var response = callHttpMethod(HttpMethod.POST,
@@ -40,26 +40,45 @@ class PassengerControllerIT extends BaseIT {
     }
 
     @Test
-    void testRetrievePassengerAccountByIdOkStatus() {
+    void testRetrievePassengerByIdOkStatus() {
         Passenger testPassenger = PassengerTestFactory.createPassenger();
         service.createNewPassenger(testPassenger);
         String id = service.retrievePassengerByEmail(testPassenger.getEmail()).getId().toString();
 
         var response = callHttpMethod(HttpMethod.GET,
-                "/passengers/" + id,
+                "/seats-booking/passenger/id/" + id,
                 null,
                 testPassenger,
                 PassengerDto.class);
 
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
 
         PassengerDto body = response.getBody();
         assertNotNull(body);
-        assertEqualsBodyAndPassengerAccount(testPassenger, body);
+        assertEqualsBodyAndPassenger(testPassenger, body);
     }
 
     @Test
-    void testRetrieveAllPassengerAccountsFromDbOkStatus() {
+    void testRetrievePassengerByEmailOkStatus() {
+        Passenger testPassenger = PassengerTestFactory.createPassenger();
+        service.createNewPassenger(testPassenger);
+        String email = service.retrievePassengerByEmail(testPassenger.getEmail()).getEmail();
+
+        var response = callHttpMethod(HttpMethod.GET,
+                "/seats-booking/passenger/email/" + email,
+                null,
+                testPassenger,
+                PassengerDto.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        PassengerDto body = response.getBody();
+        assertNotNull(body);
+        assertEqualsBodyAndPassenger(testPassenger, body);
+    }
+
+    @Test
+    void testRetrieveAllPassengerFromDbOkStatus() {
         Passenger testPassenger = PassengerTestFactory.createPassenger();
         service.createNewPassenger(testPassenger);
 
@@ -79,8 +98,8 @@ class PassengerControllerIT extends BaseIT {
         Assertions.assertEquals(1, body.currentPage());
     }
 
-    private void assertEqualsBodyAndPassengerAccount(Passenger passedPassenger,
-                                                     PassengerDto passedBody) {
+    private void assertEqualsBodyAndPassenger(Passenger passedPassenger,
+                                              PassengerDto passedBody) {
         assertEquals(passedBody.email(), passedPassenger.getEmail());
         assertEquals(passedBody.name(), passedPassenger.getName());
         assertEquals(passedBody.birthDate(), passedPassenger.getBirthDate());
