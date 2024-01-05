@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  seats-booking-system-service:
+    image: kamil00o/ver001-seats-booking-system-service:0.0.1-SNAPSHOT
+    ports:
+      - "9200:9200"
+    environment:
+      SPRING.DATASOURCE.URL: jdbc:postgresql://host.docker.internal:5432/booking_service_db
+    networks:
+      - booking-network
+    depends_on:
+      - postgres-test-db
+  postgres-test-db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=booking_service_db
+      - POSTGRES_USER=laganowskikamil
+      - POSTGRES_PASSWORD=pracamagisterska
+      - PGDATA=var/lib/postgresql/data
+    command: [ "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - ./volumes/postgresql-0:/var/lib/postgresql/data
+    networks:
+      - booking-network
+
+networks:
+  booking-network:
