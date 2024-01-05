@@ -9,7 +9,7 @@ import com.tngtech.archunit.library.GeneralCodingRules;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @AnalyzeClasses(
-        packages = "pl.flywithbookedseats.passengeraccountservice",
+        packages = "pl.flywithbookedseats",
         importOptions = {ImportOption.DoNotIncludeTests.class}
 )
 public class GeneralCodingRulesTest {

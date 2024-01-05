@@ -58,6 +58,25 @@ class PassengerControllerIT extends BaseIT {
     }
 
     @Test
+    void testRetrievePassengerAccountByEmailOkStatus() {
+        Passenger testPassenger = PassengerTestFactory.createPassenger();
+        service.createNewPassenger(testPassenger);
+        String email = service.retrievePassengerByEmail(testPassenger.getEmail()).getEmail();
+
+        var response = callHttpMethod(HttpMethod.GET,
+                "/passengers/email/" + email,
+                null,
+                testPassenger,
+                PassengerDto.class);
+
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+        PassengerDto body = response.getBody();
+        assertNotNull(body);
+        assertEqualsBodyAndPassengerAccount(testPassenger, body);
+    }
+
+    @Test
     void testRetrieveAllPassengerAccountsFromDbOkStatus() {
         Passenger testPassenger = PassengerTestFactory.createPassenger();
         service.createNewPassenger(testPassenger);
