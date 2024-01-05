@@ -92,6 +92,9 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9093
       - KAFKA_CLUSTERS_0_ZOOKEEPER=localhost:2181
 
+networks:
+  automated-booking-system-application-network:
+
 volumes:
   zookeeper_data:
     driver: local
