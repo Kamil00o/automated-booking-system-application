@@ -12,6 +12,7 @@ import pl.flywithbookedseats.api.passenger.UserDto;
 import pl.flywithbookedseats.api.passenger.UserDtoMapper;
 import pl.flywithbookedseats.appservices.AuthServiceApplicationService;
 import pl.flywithbookedseats.domain.user.User;
+import pl.flywithbookedseats.security.Security;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class AuthServiceController {
     private final AuthServiceApplicationService service;
     private final RegisterUserCommandMapper registerMapper;
     private final UserDtoMapper mapper;
+    private final Security security;
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
@@ -37,5 +39,18 @@ public class AuthServiceController {
         User signedUser = service.register(registerMapper.toDomain(registerUserCommand));
 
         return ResponseEntity.ok(mapper.toDto(signedUser));
+    }
+
+    @GetMapping(path = "/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("test");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> aboutMe() {
+        User user = security.getPrincipal();
+
+        return ResponseEntity
+                .ok(mapper.toDto(user));
     }
 }
