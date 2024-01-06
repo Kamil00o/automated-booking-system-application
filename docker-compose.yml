@@ -1,5 +1,14 @@
 version: '3'
 services:
+  api-gateway:
+    container_name: api-gateway
+    image: kamil00o/ver001-api-gateway:0.0.1-SNAPSHOT
+    ports:
+      - "8555:8555"
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-server-lb:8575/eureka
+    depends_on:
+      - eureka-server-lb
   eureka-server-lb:
     container_name: eureka-server-lb
     image: kamil00o/ver001-eureka-server-lb:0.0.1-SNAPSHOT
@@ -20,6 +29,7 @@ services:
 #      - automated-booking-system-application-network
     depends_on:
       - kafka
+      - eureka-server-lb
   postgres-booking-service:
     image: postgres:15-alpine
     ports:
