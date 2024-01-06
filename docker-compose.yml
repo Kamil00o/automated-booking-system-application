@@ -14,6 +14,20 @@ services:
     image: kamil00o/ver001-eureka-server-lb:0.0.1-SNAPSHOT
     ports:
       - "8575:8575"
+  passenger-account-service:
+    container_name: passenger-account-service
+    image: kamil00o/ver001-passenger-account-service:0.0.1-SNAPSHOT
+    ports:
+      - "9000:9000"
+    environment:
+      SPRING.DATASOURCE.URL: jdbc:postgresql://host.docker.internal:5532/passenger_service_db
+      SPRING.KAFKA.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
+      SPRING.KAFKA.CONSUMER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
+      SPRING.KAFKA.PRODUCER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-server-lb:8575/eureka
+    depends_on:
+      - kafka
+      - eureka-server-lb
   seats-booking-system-service:
     container_name: seats-booking-system-service
     image: kamil00o/ver001-seats-booking-system-service:0.0.1-SNAPSHOT
