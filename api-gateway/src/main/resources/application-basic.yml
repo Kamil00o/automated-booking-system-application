@@ -1,0 +1,19 @@
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:8575/eureka
+server:
+    port: 8555
+spring:
+    application:
+        name: api-gateway
+    cloud:
+        gateway:
+            discovery:
+                locator:
+                    enabled: false
+                    lowerCaseServiceId: false
+    config:
+        import: optional:configserver:http://localhost:8595
+    main:
+        web-application-type: reactive
