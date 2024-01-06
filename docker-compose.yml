@@ -1,5 +1,18 @@
 version: '3'
 services:
+  seats-booking-system-service:
+    image: kamil00o/ver001-seats-booking-system-service:0.0.1-SNAPSHOT
+    ports:
+      - "9200:9200"
+    environment:
+      SPRING.DATASOURCE.URL: jdbc:postgresql://host.docker.internal:5432/booking_service_db
+      SPRING.KAFKA.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
+      SPRING.KAFKA.CONSUMER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
+      SPRING.KAFKA.PRODUCER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
+#    networks:
+#      - automated-booking-system-application-network
+    depends_on:
+      - kafka
   postgres-booking-service:
     image: postgres:15-alpine
     ports:
@@ -54,6 +67,8 @@ services:
   zookeeper:
     container_name: zookeeper
     image: "docker.io/bitnami/zookeeper:3"
+#    networks:
+#      - automated-booking-system-application-network
     ports:
       - "2181:2181"
     volumes:
@@ -64,6 +79,8 @@ services:
   kafka:
     container_name: kafka
     image: "docker.io/bitnami/kafka:2-debian-10"
+#    networks:
+#      - automated-booking-system-application-network
     ports:
       - "9092:9092"
     expose:
@@ -78,12 +95,15 @@ services:
       - KAFKA_LISTENERS=INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
       - KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=kafka:9092
     depends_on:
       - zookeeper
 
   kafka-ui:
     container_name: kafka-ui
     image: provectuslabs/kafka-ui
+#    networks:
+#      - automated-booking-system-application-network
     ports:
       - "9090:8080"
     restart: always
@@ -94,6 +114,7 @@ services:
 
 networks:
   automated-booking-system-application-network:
+    driver: bridge
 
 volumes:
   zookeeper_data:

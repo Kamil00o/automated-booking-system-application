@@ -7,6 +7,8 @@ services:
       - "9200:9200"
     environment:
       SPRING.DATASOURCE.URL: jdbc:postgresql://host.docker.internal:5432/booking_service_db
+      SPRING.KAFKA.BOOTSTRAP-SERVERS: localhost:9092
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://localhost:8575/eureka
     networks:
       - booking-network
     depends_on:
