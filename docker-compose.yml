@@ -14,6 +14,15 @@ services:
     image: kamil00o/ver001-eureka-server-lb:0.0.1-SNAPSHOT
     ports:
       - "8575:8575"
+  auth-service:
+    container_name: auth-service
+    image: kamil00o/ver001-auth-service:0.0.1-SNAPSHOT
+    ports:
+      - "8888:8888"
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-server-lb:8575/eureka
+    depends_on:
+      - eureka-server-lb
   passenger-account-service:
     container_name: passenger-account-service
     image: kamil00o/ver001-passenger-account-service:0.0.1-SNAPSHOT
