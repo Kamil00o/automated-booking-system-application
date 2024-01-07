@@ -76,7 +76,7 @@ public class PassengerService {
     public Passenger generateNewPassengerAccount(Passenger passenger) {
         if (!exists(passenger)) {
             Passenger obtainedPassenger = getPassengerDataFromBookingService(passenger.getEmail());
-            if (obtainedPassenger != null) {
+            if (obtainedPassenger.getReservationsIdList() != null) {
                 passenger.setReservationsIdList(obtainedPassenger.getReservationsIdList());
             }
 
