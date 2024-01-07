@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.flywithbookedseats.appservices.PassengerApplicationService;
 import pl.flywithbookedseats.domain.passenger.Passenger;
@@ -49,15 +50,8 @@ public class PassengerController {
         return ResponseEntity.ok(passengerDtoMapper.toDto(savedPassenger));
     }
 
-    /*@PutMapping(path = "/edit/email/{email}")
-    public PassengerDtoMapper updatePassengerAccountByEmail(
-            @Valid @RequestBody UpdatePassengerCommand updatePassengerAccount,
-            @PathVariable String email) {
-        logger.info("Editing passenger account for email: {}:", email);
-        return passengerAccountService.updatePassengerAccountByEmail(updatePassengerAccount, email);
-    }*/
-
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN'")
     public ResponseEntity<PagePassengerAccountDto> retrieveAllPassengerAccountsFromDb(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "7") int size) {
@@ -85,6 +79,7 @@ public class PassengerController {
     }
 
     @DeleteMapping
+    @PreAuthorize("hasRole('ADMIN'")
     public ResponseEntity<Void> deleteAllPassengerAccounts() {
         service.deleteAllPassengerAccounts();
 
@@ -98,12 +93,8 @@ public class PassengerController {
         return ResponseEntity.ok().build();
     }
 
-    /*@DeleteMapping(path = "/delete/email/{email}")
-    public void deletePassengerAccountByEmail(@PathVariable String email) {
-        passengerAccountService.deletePassengerAccountByEmail(email);
-    }*/
-
     @GetMapping(path = "/seats-booking/{email}")
+    @PreAuthorize("hasRole('ADMIN'")
     public ResponseEntity<PassengerDto> getPassengerDataFromBookingSystem(@PathVariable String email) {
         PassengerDto obtainedPassenger = passengerDtoMapper.toDto(service.getPassengerDataFromBookingSystem(email));
 
@@ -111,6 +102,7 @@ public class PassengerController {
     }
 
     @PostMapping(path = "/send-update-msg")
+    @PreAuthorize("hasRole('ADMIN'")
     public ResponseEntity<PassengerDto> sendPassnegerMessageToBookingService(
             @Valid @RequestBody CreatePassengerCommand createPassengerCommand) {
         service.sendRequestedPassengerEvent(createPassengerCommandMapper.toDomain(createPassengerCommand));
