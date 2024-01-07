@@ -75,6 +75,7 @@ services:
       - "9411:9411"
     restart: always #Restart if there is a problem starting up
   postgres-booking-service:
+    container_name: postgres-booking-service
     image: postgres:15-alpine
     ports:
       - "5432:5432"
@@ -87,6 +88,7 @@ services:
     volumes:
       - ./volumes/postgresql-1:/var/lib/postgresql/data
   postgres-passenger-service:
+    container_name: postgres-passenger-service
     image: postgres:15-alpine
     ports:
       - "5532:5432"
@@ -99,6 +101,7 @@ services:
     volumes:
       - ./volumes/postgresql-2:/var/lib/postgresql/data
   postgres-passenger-service-it:
+    container_name: postgres-passenger-service-it
     image: postgres:15-alpine
     ports:
       - "5332:5432"
@@ -109,6 +112,7 @@ services:
       - PGDATA=var/lib/postgresql/data
     command: [ "postgres", "-c", "log_statement=all" ]
   postgres-booking-service-it:
+    container_name: postgres-booking-service-it
     image: postgres:15-alpine
     ports:
       - "5232:5432"
