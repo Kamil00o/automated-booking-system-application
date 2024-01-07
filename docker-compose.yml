@@ -7,6 +7,7 @@ services:
       - "8555:8555"
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-server-lb:8575/eureka
+      MANAGEMENT.ZIPKIN.TRACING.ENDPOINT: http://zipkin-server:9411/api/v2/spans
     depends_on:
       - eureka-server-lb
   eureka-server-lb:
@@ -21,6 +22,7 @@ services:
       - "8888:8888"
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-server-lb:8575/eureka
+      MANAGEMENT.ZIPKIN.TRACING.ENDPOINT: http://zipkin-server:9411/api/v2/spans
     depends_on:
       - eureka-server-lb
   passenger-account-service:
@@ -34,6 +36,7 @@ services:
       SPRING.KAFKA.CONSUMER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
       SPRING.KAFKA.PRODUCER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-server-lb:8575/eureka
+      MANAGEMENT.ZIPKIN.TRACING.ENDPOINT: http://zipkin-server:9411/api/v2/spans
     depends_on:
       - kafka
       - eureka-server-lb
@@ -48,11 +51,18 @@ services:
       SPRING.KAFKA.CONSUMER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
       SPRING.KAFKA.PRODUCER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-server-lb:8575/eureka
+      MANAGEMENT.ZIPKIN.TRACING.ENDPOINT: http://zipkin-server:9411/api/v2/spans
 #    networks:
 #      - automated-booking-system-application-network
     depends_on:
       - kafka
       - eureka-server-lb
+  zipkin-server:
+    container_name: zipkin-server
+    image: openzipkin/zipkin:2.23
+    ports:
+      - "9411:9411"
+    restart: always #Restart if there is a problem starting up
   postgres-booking-service:
     image: postgres:15-alpine
     ports:

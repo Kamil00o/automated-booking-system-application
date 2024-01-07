@@ -5,13 +5,16 @@ eureka:
 hibernate:
     id:
         new_generator_mappings: true
-kafka:
-    consumer:
-        value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+management:
+    tracing:
+        sampling:
+            probability: 1.0
 logging:
     level:
         org:
             springframework: info
+    pattern:
+        level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
 server:
     port: 9000
 spring:
