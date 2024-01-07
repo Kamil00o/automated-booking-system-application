@@ -40,7 +40,7 @@ public class JWTUtil {
                 .builder()
                 .setClaims(claims)
                 .setSubject(subject)
-                .setIssuer("https://amigoscode.com")
+                .setIssuer("https://github.com/Kamil00o")
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(
                         Date.from(
