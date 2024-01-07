@@ -1,0 +1,14 @@
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:8575/eureka
+server:
+    port: 8595
+spring:
+    application:
+        name: spring-config-cloud
+    cloud:
+        config:
+            profile: info
+    config:
+        import: optional:configserver:http://localhost:8595

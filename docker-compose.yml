@@ -32,6 +32,7 @@ services:
       - "9000:9000"
     environment:
       SPRING.DATASOURCE.URL: jdbc:postgresql://host.docker.internal:5532/passenger_service_db
+      SPRING.CONFIG.IMPORT: optional:configserver:http://spring-cloud-config-server:8595
       SPRING.KAFKA.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
       SPRING.KAFKA.CONSUMER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
       SPRING.KAFKA.PRODUCER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
@@ -47,6 +48,7 @@ services:
       - "9200:9200"
     environment:
       SPRING.DATASOURCE.URL: jdbc:postgresql://host.docker.internal:5432/booking_service_db
+      SPRING.CONFIG.IMPORT: optional:configserver:http://spring-cloud-config-server:8595
       SPRING.KAFKA.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
       SPRING.KAFKA.CONSUMER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
       SPRING.KAFKA.PRODUCER.BOOTSTRAP-SERVERS: "INSIDE://kafka:9093"
@@ -57,6 +59,15 @@ services:
     depends_on:
       - kafka
       - eureka-server-lb
+#  spring-cloud-config-server:
+#    container_name: spring-cloud-config-server
+#    image: kamil00o/ver001-spring-config-cloud:0.0.1-SNAPSHOT
+#    ports:
+#      - "8595:8595"
+#    environment:
+#      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka-server-lb:8575/eureka
+#    depends_on:
+#      - eureka-server-lb
   zipkin-server:
     container_name: zipkin-server
     image: openzipkin/zipkin:2.23
